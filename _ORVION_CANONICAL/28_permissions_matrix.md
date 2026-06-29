@@ -1,0 +1,330 @@
+# Permissions Matrix
+
+Version: 0.1
+Status: Draft
+Canonical: Yes
+
+---
+
+# Purpose
+
+This document defines ORVION's first permission model before database schema design.
+
+Permissions must support all company departments while keeping tenant, branch, department, assignment, and subscription boundaries clear.
+
+---
+
+# Permission Principles
+
+- Tenant isolation is mandatory.
+- Role alone is not enough.
+- Permission checks must consider scope.
+- Subscription plan can disable features even if a user has role permission.
+- Sensitive operations require explicit permission.
+- Every permission change creates a security event.
+- Every sensitive permission use creates an event.
+
+---
+
+# Scope Types
+
+## tenant
+
+Applies across the whole company tenant.
+
+## branch
+
+Applies only inside one branch.
+
+## department
+
+Applies only inside one department in one branch.
+
+## assigned
+
+Applies only to records assigned to the user.
+
+## platform
+
+Applies to ORVION platform administration, not tenant operations.
+
+---
+
+# Role Model
+
+## owner
+
+Tenant-level owner.
+
+Can manage company-level settings and high-authority actions.
+
+## ceo
+
+Tenant-level executive user.
+
+Can view and manage company operations across branches according to permissions.
+
+## branch_manager
+
+Branch-level manager.
+
+Can view and manage their branch operations.
+
+## department_manager
+
+Department-level manager inside one branch.
+
+Can manage employees and work inside their department and branch only.
+
+## finance_manager
+
+Finance authority.
+
+Can approve finance actions, set exchange rates, and manage finance-sensitive operations.
+
+## senior_employee
+
+Operational senior user.
+
+Can handle assigned work and may receive limited supervisory permissions.
+
+## employee
+
+Standard operational user.
+
+Can handle assigned work.
+
+## trainee
+
+Restricted user.
+
+Can view or perform limited actions only.
+
+## system_administrator
+
+Platform-level or tenant technical administrator depending on scope.
+
+High-risk authentication required.
+
+---
+
+# Feature Access By Plan
+
+| Feature | Starter | Professional | Enterprise |
+| --- | --- | --- | --- |
+| CRM | Yes | Yes | Yes |
+| Customers | Yes | Yes | Yes |
+| Booking | No | Yes | Yes |
+| Documents | No | Yes | Yes |
+| Suppliers | No | Yes | Yes |
+| Finance Lite | No | Yes | Yes |
+| Full Finance | No | No | Yes |
+| Basic Reporting | Limited | Yes | Yes |
+| Advanced Dashboards | No | No | Yes |
+| API Read Only | No | Yes | Yes |
+| API Full | No | No | Yes |
+| Automation | No | Limited | Yes |
+| Integrations | No | Limited | Yes |
+| Offline Conversion | No | Limited | Yes |
+| AI Dashboard | No | No | Yes |
+| Multi Branch | No | Limited | Yes |
+
+Plan denial overrides user role permission.
+
+---
+
+# CRM Permissions
+
+| Permission | Owner | CEO | Branch Manager | Department Manager | Senior Employee | Employee | Trainee | Scope |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CREATE_LEAD | Yes | Yes | Yes | Yes | Yes | Yes | Limited | branch/department |
+| ASSIGN_LEAD | Yes | Yes | Yes | Yes | Optional | No | No | branch/department |
+| REASSIGN_LEAD | Yes | Yes | Yes | Yes | Optional | No | No | branch/department |
+| CLOSE_LEAD | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned/department |
+| VIEW_ASSIGNED_LEADS | Yes | Yes | Yes | Yes | Yes | Yes | Limited | assigned |
+| VIEW_DEPARTMENT_QUEUE | Yes | Yes | Yes | Yes | Optional | No | No | department |
+| CREATE_CUSTOMER | Yes | Yes | Yes | Yes | Yes | Yes | No | branch/department |
+| MERGE_CUSTOMER_IDENTITY | Yes | Yes | Optional | No | No | No | No | tenant |
+
+Notes:
+
+- Sales employee sees assigned leads only by default.
+- Department queue visibility requires explicit permission.
+- Customer merge is sensitive and must create event.
+
+---
+
+# Booking Permissions
+
+| Permission | Owner | CEO | Branch Manager | Department Manager | Finance Manager | Senior Employee | Employee | Trainee | Scope |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CREATE_BOOKING | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | branch/department |
+| CREATE_BOOKING_ITEM | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | branch/department |
+| UPDATE_BOOKING_ITEM_STATUS | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | assigned/department |
+| ASSIGN_SUPPLIER | Yes | Yes | Yes | Yes | Optional | Yes | Optional | No | branch/department |
+| ENTER_SELLING_PRICE | Yes | Yes | Yes | Yes | Optional | Yes | Assigned only | No | assigned |
+| ENTER_COST | Yes | Yes | Yes | Yes | Optional | Yes | Assigned only | No | assigned |
+| ALLOW_ISSUE_WITH_NEGATIVE_BALANCE | Yes | Yes | Yes | No | Yes | No | No | No | branch/tenant |
+
+Notes:
+
+- Issuing before full collection requires explicit permission and creates risk flag event.
+- Department Manager does not receive negative balance issuance permission by default.
+
+---
+
+# Finance Permissions
+
+| Permission | Owner | CEO | Finance Manager | Branch Manager | Department Manager | Senior Employee | Employee | Scope |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| APPROVE_FINANCE | Yes | Yes | Yes | Optional | No | No | No | tenant/branch |
+| EDIT_LOCKED_COST | Yes | Yes | Yes | No | No | No | No | tenant |
+| SET_EXCHANGE_RATE | Yes | Yes | Yes | No | No | No | No | tenant |
+| CREATE_EXCHANGE_RATE_ADJUSTMENT | Yes | Yes | Yes | No | No | No | No | tenant |
+| VIEW_FINANCIAL_DOCUMENTS | Yes | Yes | Yes | Optional | No | Assigned related only | Assigned related only | tenant/branch/assigned |
+| CREATE_INVOICE | Yes | Yes | Yes | Optional | No | No | No | tenant |
+| CREATE_RECEIPT | Yes | Yes | Yes | Optional | No | No | No | tenant |
+| RECORD_PAYMENT | Yes | Yes | Yes | Optional | No | No | No | tenant |
+| RECORD_REFUND | Yes | Yes | Yes | Optional | No | No | No | tenant |
+| CREATE_JOURNAL_ENTRY | Yes | Yes | Yes | No | No | No | No | tenant |
+
+Notes:
+
+- Assigned employee may view financial documents directly related to their lead/booking.
+- Finance approval is required before controlled execution gate.
+- Operations cannot edit locked cost.
+
+---
+
+# Document Permissions
+
+| Permission | Owner | CEO | Branch Manager | Department Manager | Finance Manager | Senior Employee | Employee | Trainee | Scope |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UPLOAD_DOCUMENT | Yes | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned/department |
+| VIEW_TRAVEL_DOCUMENTS | Yes | Yes | Yes | Yes | Optional | Yes | Assigned only | Limited | assigned/department |
+| VIEW_FINANCIAL_DOCUMENTS | Yes | Yes | Optional | No | Yes | Assigned related only | Assigned related only | No | tenant/assigned |
+| ARCHIVE_DOCUMENT | Yes | Yes | Yes | Yes | Yes | Optional | No | No | branch/department |
+| CREATE_DOCUMENT_VERSION | Yes | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned/department |
+
+Notes:
+
+- Incorrect files are archived, not deleted.
+- Financial documents require stricter visibility.
+
+---
+
+# Organization Permissions
+
+| Permission | Owner | CEO | Branch Manager | Department Manager | Finance Manager | System Administrator | Scope |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| MANAGE_TENANT_SETTINGS | Yes | Yes | No | No | No | Optional | tenant |
+| MANAGE_BRANCHES | Yes | Yes | No | No | No | Optional | tenant |
+| MANAGE_DEPARTMENTS | Yes | Yes | Branch only | No | No | Optional | tenant/branch |
+| MANAGE_USERS | Yes | Yes | Branch only | Department only | No | Optional | tenant/branch/department |
+| MANAGE_ROLES | Yes | Yes | No | No | No | Optional | tenant |
+| MANAGE_PERMISSIONS | Yes | Yes | No | No | No | Optional | tenant |
+| VIEW_ALL_BRANCHES | Yes | Yes | No | No | Finance related | Optional | tenant |
+| VIEW_BRANCH_DATA | Yes | Yes | Own branch | Own department | Finance related | Optional | branch |
+
+Notes:
+
+- Department Manager manages only their department inside their branch.
+- Branch Manager sees all departments inside their branch.
+- CEO sees all branches.
+
+---
+
+# Subscription Permissions
+
+| Permission | Platform Owner | Owner | CEO | System Administrator | Finance Manager |
+| --- | --- | --- | --- | --- | --- |
+| MANAGE_SUBSCRIPTION | Yes | Limited | Limited | Optional | No |
+| REVIEW_SUBSCRIPTION_PAYMENT | Yes | No | No | No | No |
+| VIEW_SUBSCRIPTION_STATUS | Yes | Yes | Yes | Optional | Optional |
+
+Notes:
+
+- Subscription proof review is platform owner action.
+- Tenant users may upload proof but cannot approve their own subscription renewal.
+
+---
+
+# API Permissions
+
+| Permission | Starter | Professional | Enterprise |
+| --- | --- | --- | --- |
+| ACCESS_API_READ_ONLY | No | Yes | Yes |
+| ACCESS_API_FULL | No | No | Yes |
+
+API access also requires user-level permission and tenant subscription status.
+
+---
+
+# Authentication Requirements By Role
+
+| Role | Required Additional Verification |
+| --- | --- |
+| owner | TOTP |
+| ceo | TOTP |
+| finance_manager | TOTP |
+| system_administrator | TOTP |
+| branch_manager | Email OTP for new device |
+| department_manager | Email OTP for new device |
+| senior_employee | Email OTP for new device |
+| employee | Email OTP for new device |
+| trainee | Email OTP for new device |
+
+---
+
+# Read-Only Subscription Mode
+
+When tenant is in read_only mode:
+
+Allowed:
+
+- Login
+- View permitted existing data
+- Export/download where permission allows
+- Upload subscription renewal proof
+
+Blocked:
+
+- Create lead
+- Edit lead
+- Create customer
+- Create booking
+- Create booking item
+- Upload business document
+- Record payment
+- Approve finance
+- Create journal entry
+- Change operational statuses
+
+Platform owner subscription actions remain allowed.
+
+---
+
+# Event Requirements
+
+The following permission actions always create events:
+
+- Role assigned
+- Role removed
+- Permission granted
+- Permission revoked
+- Finance approval
+- Locked cost edit
+- Exchange rate set
+- Exchange rate adjustment
+- Negative balance issuance
+- Customer identity merge
+- Subscription approval
+- Document archive
+- Lead reassignment
+
+---
+
+# Next Step
+
+Create `29_relationship_map.md`.
+

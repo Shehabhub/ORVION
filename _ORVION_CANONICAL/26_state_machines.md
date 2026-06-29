@@ -1,0 +1,489 @@
+# State Machines
+
+Version: 0.1
+Status: Draft
+Canonical: Yes
+
+---
+
+# Purpose
+
+This document defines allowed state transitions for ORVION core workflows.
+
+No operational status should move freely without an allowed transition.
+
+Every meaningful state transition must create an event.
+
+---
+
+# State Machine Rules
+
+- Status values must come from `25_catalog_registry.md`.
+- State transitions must be validated by application logic and, where practical, database constraints.
+- Terminal records are not physically deleted.
+- Reopening is allowed only through explicit workflow rules.
+- Every state transition must record actor, timestamp, previous state, new state, and reason where applicable.
+
+---
+
+# Lead State Machine
+
+## States
+
+- new
+- assigned
+- contacted
+- qualified
+- quotation_sent
+- negotiation
+- won
+- converted
+- lost
+- spam
+- duplicate
+
+## Normal Flow
+
+```text
+new
+  -> assigned
+  -> contacted
+  -> qualified
+  -> quotation_sent
+  -> negotiation
+  -> won
+  -> converted
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| new | assigned | Lead assigned by routing or authorized user |
+| new | spam | Invalid or spam intake |
+| new | duplicate | Existing active lead/customer detected |
+| assigned | contacted | Phone/WhatsApp/contact interaction recorded |
+| assigned | assigned | Reassignment event only; lead remains assigned |
+| assigned | lost | Allowed with closure reason |
+| assigned | duplicate | Existing lead/customer confirmed |
+| contacted | qualified | Customer need confirmed |
+| contacted | lost | Allowed with closure reason |
+| contacted | spam | Contact proves spam |
+| qualified | quotation_sent | Quotation sent to customer |
+| qualified | won | Customer agrees without formal quotation |
+| qualified | lost | Allowed with closure reason |
+| quotation_sent | negotiation | Customer negotiates price/details |
+| quotation_sent | won | Customer accepts quotation |
+| quotation_sent | lost | Allowed with closure reason |
+| negotiation | won | Customer accepts |
+| negotiation | lost | Allowed with closure reason |
+| won | converted | Customer and/or booking created |
+| duplicate | assigned | Only if duplicate classification was wrong and reopened by authorized user |
+| lost | assigned | New attempt or reopening with reason |
+| spam | assigned | Only if spam classification was wrong and reopened by authorized user |
+```
+
+Note:
+
+`reassigned` is not a lead status. It is an assignment event.
+
+## Terminal States
+
+Terminal unless reopened by authorized action:
+
+- converted
+- lost
+- spam
+- duplicate
+
+## Required Events
+
+- lead_created
+- lead_assigned
+- lead_reassigned
+- lead_contacted
+- lead_qualified
+- lead_quotation_sent
+- lead_negotiation_started
+- lead_won
+- lead_converted
+- lead_lost
+- lead_marked_spam
+- lead_marked_duplicate
+- lead_reopened
+
+---
+
+# Lead SLA State Logic
+
+Lead SLA is not a status field. It is derived from assignment and interaction events.
+
+## SLA Rule
+
+If assigned lead has no qualifying interaction within 15 minutes:
+
+- Create lead_sla_warning event.
+- Notify assigned employee.
+- Notify manager.
+
+If another 15 minutes pass without qualifying interaction:
+
+- Reassign lead to another eligible employee.
+- Create lead_reassigned event.
+
+## Qualifying Interaction
+
+Any of the following counts as response:
+
+- phone_call
+- whatsapp_message
+- chat_opened
+- customer_reply
+- lead status changed by authorized user for a valid reason
+
+---
+
+# Booking State Machine
+
+## States
+
+- draft
+- pending_approval
+- confirmed
+- in_progress
+- issued
+- void
+- refunded
+- reissue
+- completed
+- cancelled
+
+## Principle
+
+Booking status summarizes the whole booking.
+
+Execution detail lives on booking items.
+
+## Normal Flow
+
+```text
+draft
+  -> pending_approval
+  -> confirmed
+  -> in_progress
+  -> issued
+  -> completed
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| draft | pending_approval | Booking submitted for finance/management approval |
+| draft | cancelled | Booking cancelled before approval |
+| pending_approval | confirmed | Required approval granted |
+| pending_approval | cancelled | Approval rejected or customer cancelled |
+| confirmed | in_progress | Operations started |
+| confirmed | cancelled | Customer or company cancels before service execution |
+| in_progress | issued | One or more issuable items issued |
+| in_progress | completed | Non-ticket booking completed without issued state |
+| in_progress | cancelled | Allowed with cancellation workflow |
+| issued | completed | All required services completed |
+| issued | void | Void workflow applies |
+| issued | reissue | Reissue workflow applies |
+| issued | refunded | Refund workflow applies |
+| void | completed | Void finalized with finance impact resolved |
+| reissue | issued | Reissued service issued |
+| refunded | completed | Refund finalized |
+```
+
+## Terminal States
+
+- completed
+- cancelled
+
+Terminal states may not be edited directly. Corrections require adjustment events or authorized reopening in a future policy.
+
+## Required Events
+
+- booking_created
+- booking_submitted_for_approval
+- booking_confirmed
+- booking_in_progress
+- booking_issued
+- booking_voided
+- booking_reissue_started
+- booking_refunded
+- booking_completed
+- booking_cancelled
+
+---
+
+# Booking Item Base State Machine
+
+## States
+
+- draft
+- pending
+- confirmed
+- in_progress
+- completed
+
+## Normal Flow
+
+```text
+draft
+  -> pending
+  -> confirmed
+  -> in_progress
+  -> completed
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| draft | pending | Item submitted for approval or supplier action |
+| draft | completed | Allowed only for simple already-completed manual item with authorized permission |
+| pending | confirmed | Supplier/finance/operations confirms item |
+| pending | draft | Returned for correction |
+| confirmed | in_progress | Work starts or service execution begins |
+| confirmed | completed | Allowed when service does not require in-progress step |
+| in_progress | completed | Service completed |
+```
+
+## Sub-Status Rule
+
+Service-specific sub-status may change inside the base lifecycle.
+
+Examples:
+
+- Ticket: reserved, ticketed, reissued, void
+- Visa: documents_pending, embassy_submitted, approved, rejected
+- Hotel: reserved, confirmed, checked_in, checked_out
+
+Sub-status transitions must create events but do not require separate tables.
+
+## Required Events
+
+- booking_item_created
+- booking_item_pending
+- booking_item_confirmed
+- booking_item_in_progress
+- booking_item_completed
+- booking_item_sub_status_changed
+
+---
+
+# Finance Approval State Machine
+
+## States
+
+- pending
+- approved
+- rejected
+- cancelled
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| pending | approved | Finance approves receipt or direct approval |
+| pending | rejected | Finance rejects proof or request |
+| pending | cancelled | Request cancelled before review |
+| rejected | pending | Resubmission with new proof or correction |
+```
+
+## Effects
+
+When approved:
+
+- Booking item execution gate opens.
+- Cost may be locked.
+- Finance approval event is created.
+
+When rejected:
+
+- Booking item execution remains blocked.
+- Responsible employee is notified.
+
+## Required Events
+
+- finance_approval_requested
+- finance_approval_approved
+- finance_approval_rejected
+- finance_approval_cancelled
+- finance_approval_resubmitted
+
+---
+
+# Document Lifecycle State Machine
+
+## States
+
+- active
+- archived
+- superseded
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| active | archived | Incorrect or no longer valid document archived with reason |
+| active | superseded | New document version uploaded |
+| superseded | archived | Old version archived from active use |
+```
+
+## Rules
+
+- Documents are not physically deleted as a normal business action.
+- Each new version creates document_version_created event.
+- Archive requires reason.
+
+## Required Events
+
+- document_uploaded
+- document_linked
+- document_version_created
+- document_archived
+- document_superseded
+
+---
+
+# Subscription State Machine
+
+## States
+
+- trial
+- active
+- grace_period
+- read_only
+- suspended
+- cancelled
+- expired
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| trial | active | Subscription activated |
+| trial | expired | Trial ends without activation |
+| active | grace_period | Payment period ends without renewal |
+| grace_period | active | Renewal approved within grace period |
+| grace_period | read_only | Two-day grace period ends |
+| read_only | active | Renewal approved |
+| read_only | suspended | Platform owner suspends tenant |
+| suspended | active | Platform owner restores subscription |
+| active | cancelled | Subscription cancelled |
+| cancelled | active | Manual reactivation by platform owner |
+| expired | active | Manual reactivation by platform owner |
+```
+
+## Required Events
+
+- subscription_created
+- subscription_activated
+- subscription_entered_grace_period
+- subscription_entered_read_only
+- subscription_suspended
+- subscription_cancelled
+- subscription_expired
+- subscription_reactivated
+- subscription_payment_proof_uploaded
+- subscription_payment_approved
+- subscription_payment_rejected
+
+---
+
+# Offline Conversion Delivery State Machine
+
+## States
+
+- pending
+- sent
+- failed
+- retried
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| pending | sent | External platform accepts conversion |
+| pending | failed | Send attempt fails |
+| failed | retried | Retry scheduled or attempted |
+| retried | sent | Retry succeeds |
+| retried | failed | Retry fails |
+```
+
+## Rules
+
+- CRM state does not depend on delivery success.
+- Every delivery attempt is recorded.
+
+## Required Events
+
+- offline_conversion_created
+- offline_conversion_send_attempted
+- offline_conversion_sent
+- offline_conversion_failed
+- offline_conversion_retried
+
+---
+
+# Trusted Device State Machine
+
+## States
+
+- trusted
+- revoked
+- expired
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| trusted | revoked | User or admin revokes device |
+| trusted | expired | Device trust expires by policy |
+| revoked | trusted | Device verified again |
+| expired | trusted | Device verified again |
+```
+
+## Required Events
+
+- trusted_device_created
+- trusted_device_revoked
+- trusted_device_expired
+- trusted_device_reverified
+
+---
+
+# OTP Challenge State Machine
+
+## States
+
+- pending
+- verified
+- failed
+- expired
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| pending | verified | Correct OTP entered before expiry |
+| pending | failed | Incorrect OTP or max attempts reached |
+| pending | expired | OTP expires |
+```
+
+## Required Events
+
+- otp_requested
+- otp_verified
+- otp_failed
+- otp_expired
+
+---
+
+# Next Step
+
+Create `27_event_catalog.md`.

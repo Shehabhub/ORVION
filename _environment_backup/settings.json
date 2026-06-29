@@ -1,0 +1,13 @@
+{
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4o-mini",
+    "security.workspace.trust.untrustedFiles": "open",
+    "yaml.schemas": {
+        "file:///c%3A/Users/My%20Lab/.vscode/extensions/continue.continue-2.0.0-win32-x64/config-yaml-schema.json": [
+            ".continue/**/*.yaml"
+        ]
+    },
+    "claudeCode.preferredLocation": "panel",
+    "geminicodeassist.project": "gen-lang-client-0732162153",
+    "workbench.secondarySideBar.showLabels": false
+}
