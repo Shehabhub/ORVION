@@ -1,6 +1,7 @@
-$src='c:\Projects\ORVION\Orvion'
-$ts=Get-Date -Format 'yyyyMMdd_HHmm'
-$dest='c:\Projects\ORVION\_BACKUP_'+$ts
+$ProjectRoot = Split-Path -Parent $PSScriptRoot
+$src = $ProjectRoot
+$ts = Get-Date -Format 'yyyyMMdd_HHmm'
+$dest = Join-Path $ProjectRoot ("_BACKUP_" + $ts)
 New-Item -ItemType Directory -Path $dest -Force | Out-Null
 Copy-Item -Path "$src\*" -Destination $dest -Recurse -Force
 $filesSrc=(Get-ChildItem -Path $src -Recurse -File | Measure-Object).Count
