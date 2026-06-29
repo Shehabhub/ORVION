@@ -75,7 +75,7 @@ For every task:
 2. Read only the required project context.
 3. Modify only the files required by the task.
 4. Verify consistency.
-5. Update the project state if required.
+5. Verify the completed changes.
 6. Stop after completing the requested task.
 
 Never continue automatically to the next task.
