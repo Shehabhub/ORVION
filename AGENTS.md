@@ -55,24 +55,39 @@ Constraints:
 
 ## Project Context
 
-Always treat the following files as the primary project context:
+Read only the required project context.
+
+Project documentation:
 
 * README.md
 * docs/PROJECT_CONTEXT.md
+
+Project rules:
+
 * .ai/rules/global-rules.md
-* .ai/packs/current-pack.md
+
+Current state:
+
+* .ai/context/current-state.md
+
+Current task:
+
+* .ai/tasks/active-task.md
+
 
 ## Workflow
 
 For every task:
 
-1. Read the current task pack.
-2. Understand the required scope.
-3. Modify only the necessary files.
+1. Read `.ai/tasks/active-task.md`.
+2. Read only the required project context.
+3. Modify only the files required by the task.
 4. Verify consistency.
-5. Stop after completing the requested task.
+5. Update the project state if required.
+6. Stop after completing the requested task.
 
-Never continue to the next task automatically.
+Never continue automatically to the next task.
+.
 
 ## Git
 
@@ -81,3 +96,10 @@ The repository history is the source of truth.
 Never rewrite git history.
 
 Always leave the repository in a clean state.
+
+## Multi-Agent Rules
+
+* AGENTS.md is the single source of truth for agent behavior.
+* Do not duplicate these instructions in agent-specific files.
+* Read only the files required for the current task.
+* If instructions conflict, stop and ask before proceeding.
