@@ -66,20 +66,12 @@ Project rules:
 
 * .ai/rules/global-rules.md
 
-Current state:
-
-* .ai/context/current-state.md
-
-Current task:
-
-* .ai/tasks/active-task.md
-
 
 ## Workflow
 
 For every task:
 
-1. Read `.ai/tasks/active-task.md`.
+1. Read the task description provided by the user.
 2. Read only the required project context.
 3. Modify only the files required by the task.
 4. Verify consistency.
