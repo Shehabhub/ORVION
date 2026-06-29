@@ -33,6 +33,17 @@ Never modify them unless they are explicitly listed in the current task.
 - Never continue automatically to the next task.
 - If the request is ambiguous, stop and ask.
 
+## Planning First
+
+Before modifying any file:
+
+- Understand the requested task completely.
+- Inspect only the files required for the task.
+- Identify risks, blockers, and affected files.
+- If the user requested analysis or review, do not modify any file.
+- Do not implement changes until explicitly instructed.
+- Prefer reporting findings before proposing implementation.
+
 ## Change Philosophy
 - Every task must solve one business problem only.
 - Prefer multiple small changes over one large change.
@@ -79,7 +90,6 @@ For every task:
 6. Stop after completing the requested task.
 
 Never continue automatically to the next task.
-.
 
 ## Git
 
