@@ -49,3 +49,35 @@ Constraints:
 - Do not add project-specific business rules.
 - Do not create new files.
 
+---
+
+# ORVION Agent Workflow
+
+## Project Context
+
+Always treat the following files as the primary project context:
+
+* README.md
+* docs/PROJECT_CONTEXT.md
+* .ai/rules/global-rules.md
+* .ai/packs/current-pack.md
+
+## Workflow
+
+For every task:
+
+1. Read the current task pack.
+2. Understand the required scope.
+3. Modify only the necessary files.
+4. Verify consistency.
+5. Stop after completing the requested task.
+
+Never continue to the next task automatically.
+
+## Git
+
+The repository history is the source of truth.
+
+Never rewrite git history.
+
+Always leave the repository in a clean state.
