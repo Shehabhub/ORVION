@@ -1,0 +1,4 @@
+model: ollama_chat/qwen3:8b
+edit-format: whole
+auto-commits: false
+dirty-commits: false
