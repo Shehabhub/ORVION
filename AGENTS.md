@@ -1,4 +1,5 @@
 # Purpose
+AGENTS.md is the operational authority for agent execution in this repository. When AGENTS.md and PROTOCOL.md conflict, AGENTS.md takes precedence.
 Define the operating rules for AI agents in this repository. Keep this file focused on agent behavior only.
 
 # Operating Modes
@@ -53,11 +54,13 @@ Before modifying any file:
 - Avoid TODO comments unless explicitly requested.
 - If a requested change cannot be completed safely, stop and explain the blocker instead of implementing a partial solution.
 
-Constraints:
+## Rules for Maintaining This File
+
+When editing AGENTS.md itself, follow these constraints:
 - English only.
 - Markdown only.
 - Keep the document concise.
-- Do not add project-specific business rules.
+- Do not add project-specific business rules to the general sections above this heading.
 - Do not create new files.
 
 ---
