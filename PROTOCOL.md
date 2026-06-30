@@ -20,12 +20,21 @@ Any compliant agent may participate.
 * Never continue automatically.
 * Never redesign the workflow without approval.
 
+## Authority
+
+AGENTS.md is the operational authority for agent execution.
+This document defines collaboration principles only.
+When these principles conflict with AGENTS.md execution rules, AGENTS.md takes precedence.
+
 ## Layers
 
-1. Repository
-2. Project Context
-3. Tasks
-4. Reviews
-5. Skills
-6. Hooks
-7. Agents
+The repository is organized into the following layers.
+Layers marked [Active] have corresponding files. Layers marked [Planned] are defined in principle but not yet implemented.
+
+1. Repository [Active]
+2. Project Context [Active]
+3. Tasks [Active — see changes/]
+4. Reviews [Active — see changes/]
+5. Skills [Planned — not yet implemented]
+6. Hooks [Planned — not yet implemented]
+7. Agents [Active — see AGENTS.md]
