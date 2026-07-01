@@ -37,16 +37,6 @@ Extend it carefully.
 
 ---
 
-## Task Discipline
-
-Work on one task only.
-
-Never mix multiple objectives.
-
-Never continue to the next task until the current one is complete.
-
----
-
 ## No Guessing
 
 Never invent:
@@ -62,30 +52,6 @@ When information is missing:
 Stop.
 
 Report the missing information.
-
----
-
-## Minimal Changes
-
-Prefer the smallest safe change.
-
-Avoid unnecessary refactoring.
-
-Avoid unrelated improvements.
-
----
-
-## Code Quality
-
-Generate production-grade code.
-
-No placeholders.
-
-No TODOs.
-
-No fake implementations.
-
-No demo code.
 
 ---
 
