@@ -48,7 +48,7 @@ changes/TEMPLATE.md
 git-tree.txt
 global-rules.md
 project-tree.txt
-scripts/create_backup.ps1
+scripts/repository-all.ps1
 scripts/repository-publish.ps1
 scripts/repository-sync.ps1
 scripts/start-aider.ps1

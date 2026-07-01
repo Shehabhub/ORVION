@@ -1,4 +1,5 @@
-﻿* 0dbe678 (HEAD -> main, origin/main, origin/HEAD) governance: remove duplicated execution rules from global rules
+﻿* c2bec74 (HEAD -> main, origin/main, origin/HEAD) y
+* 0dbe678 governance: remove duplicated execution rules from global rules
 * 656726e governance: finalize root governance consistency
 * 62da9e0 governance: reorganize repository structure
 * f6841b4 governance: move repository governance files to root
