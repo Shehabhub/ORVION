@@ -30,7 +30,7 @@ Decisions must be grounded in the canonical documentation, repository standards,
 ## 10. Project Vocabulary
 Key terms include customer, lead, booking, revenue, identity, event, document, permission, and SaaS. These terms should be used consistently and with their intended business meaning.
 
-## 11. Non Goals
+## 11. Platform Boundaries
 
 ORVION is not:
 

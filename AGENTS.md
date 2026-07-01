@@ -74,11 +74,11 @@ Read only the required project context.
 Project documentation:
 
 * README.md
-* docs/PROJECT_CONTEXT.md
+* PROJECT_CONTEXT.md
 
 Project rules:
 
-* .ai/rules/global-rules.md
+* global-rules.md
 
 
 ## Workflow

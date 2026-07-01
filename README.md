@@ -7,7 +7,10 @@ ORVION is the project identity and working repository for the travel CRM and ope
 ## Repository Structure
 
 * `AGENTS.md` - AI agent operating rules for this repository.
-* `docs/` - Reference documentation and project guidance.
+* `PROTOCOL.md` - Repository collaboration protocol.
+* `PROJECT_CONTEXT.md` - Project context for AI agents.
+* `CODING_STANDARDS.md` - Repository coding standards.
+* `global-rules.md` - Global AI collaboration rules.
 * `_ORVION_CANONICAL/` - Canonical project documents and source of truth.
 * `scripts/` - Development and maintenance scripts.
 * `changes/` - Active change requests.
