@@ -10,7 +10,20 @@ Organize code by domain or responsibility rather than by technical layer alone. 
 Write code that is explicit, readable, and easy to review. Prefer small, focused units over large abstractions. Avoid duplicated logic. Avoid magic values and unexplained shortcuts. Keep behavior predictable and make intent clear in the code.
 
 ## 4. SQL Standards
+
 Use PostgreSQL-compatible SQL and keep statements clear and deterministic. Prefer explicit constraints, sensible defaults, and consistent naming. Avoid implicit behavior and ensure schema changes preserve data integrity. Keep queries readable and maintainable.
+
+### PostgreSQL Requirements
+
+- Primary keys: UUID on every table
+- Timestamps: TIMESTAMPTZ for all timestamp columns
+- Money: NUMERIC for all monetary values
+- Naming: snake_case for all database objects
+- Queries: No SELECT *
+- Foreign keys: explicit constraint names on every FK
+- Indexes: explicit names on every index
+- Constraints: CHECK constraints where appropriate
+- Documentation: comments on all tables and all columns
 
 ## 5. API Standards
 Design APIs to be consistent, predictable, and explicit. Use clear request and response shapes, stable naming, and consistent error behavior. Avoid unnecessary parameters and ensure the contract is understandable without hidden assumptions.
@@ -35,25 +48,3 @@ Review every change for correctness, clarity, maintainability, security, and con
 All implementation must remain consistent with the canonical architecture.
 
 Never bypass or contradict canonical design decisions without explicit approval.
-
-## 12. PostgreSQL Standards
-
-UUID everywhere
-
-TIMESTAMPTZ
-
-NUMERIC for money
-
-snake_case
-
-No SELECT *
-
-Explicit FK names
-
-Explicit Index names
-
-CHECK constraints
-
-Comments on tables
-
-Comments on columns
