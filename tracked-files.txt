@@ -49,8 +49,6 @@ git-tree.txt
 global-rules.md
 project-tree.txt
 scripts/repository-all.ps1
-scripts/repository-publish.ps1
-scripts/repository-sync.ps1
 scripts/start-aider.ps1
 supabase/.branches/_current_branch
 supabase/.temp/cli-latest
