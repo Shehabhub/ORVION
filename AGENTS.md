@@ -117,4 +117,4 @@ Always leave the repository in a clean state.
 * Handoff between agents happens through `changes/*.md` Change Request files and the `Active Change Request` field in `_ORVION_CANONICAL/manifest.md` — not through chat.
 * A Change Request's `## Execution Log` and `## Verification Notes` sections are append-only. Never edit or delete a prior entry.
 * Only a human may change a Change Request's Status to `Complete` or `Cancelled`. Codex may change `Approved` to `In Progress` as the first action of its own execution run.
-* Full protocol: `reports/repository-communication-protocol.md`.
+* Full protocol: `CR_LIFECYCLE.md` (the authoritative Change Request state-machine reference); design rationale: `reports/repository-communication-protocol.md`.
