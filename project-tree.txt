@@ -1,5 +1,5 @@
 Folder PATH listing
-Volume serial number is 0000009E BC1B:451F
+Volume serial number is 0000001F BC1B:451F
 C:.
 |   .aider.chat.history.md
 |   .aider.conf.yml
@@ -7,6 +7,7 @@ C:.
 |   .gitignore
 |   AGENTS.md
 |   CODING_STANDARDS.md
+|   CR_LIFECYCLE.md
 |   git-tree.txt
 |   global-rules.md
 |   project-tree.txt
@@ -35,6 +36,9 @@ C:.
 |       SPEC-005-agent-handoff-protocol.md
 |       SPEC-007-sql-migration-plan.md
 |       SPEC-008-migration-plan-blocked-items-fix.md
+|       SPEC-009-identity-auth-rls-decision.md
+|       SPEC-010-cr-living-artifact-protocol.md
+|       SPEC-011-cr-lifecycle-document.md
 |       TEMPLATE.md
 |       
 +---reports

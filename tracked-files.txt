@@ -4,6 +4,7 @@
 .vscode/tasks.json
 AGENTS.md
 CODING_STANDARDS.md
+CR_LIFECYCLE.md
 PROJECT_CONTEXT.md
 PROTOCOL.md
 README.md
@@ -51,6 +52,9 @@ changes/SPEC-004-phase2-catalog-lifecycle.md
 changes/SPEC-005-agent-handoff-protocol.md
 changes/SPEC-007-sql-migration-plan.md
 changes/SPEC-008-migration-plan-blocked-items-fix.md
+changes/SPEC-009-identity-auth-rls-decision.md
+changes/SPEC-010-cr-living-artifact-protocol.md
+changes/SPEC-011-cr-lifecycle-document.md
 changes/TEMPLATE.md
 git-tree.txt
 global-rules.md
