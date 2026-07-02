@@ -1,7 +1,7 @@
 # Change Request — SPEC-020
 
 ## Status
-[x] In Progress
+[x] Complete
 
 ## Assigned Model Tier
 [x] Tier 2 — Local execution agent (Qwen3.8B)
@@ -51,6 +51,10 @@ Step results:
 Commits: pending — recorded at commit time in the same commit as this entry.
 
 Verification performed before this entry: `git status --porcelain` confirmed exactly the one Scope file changed; `repository-index.md` correctly not created by this Change Request itself, since it is generated output produced only when the script is run.
+
+### 2026-07-02 — Complete (human command)
+
+Phase-freeze check: not scoped to any roadmap phase — Repository Engineering work. Not applicable.
 
 ## Verification Notes
 
