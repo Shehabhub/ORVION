@@ -1,4 +1,4 @@
-.aider.conf.yml
+﻿.aider.conf.yml
 .cursor/rules/orvion.mdc
 .github/copilot-instructions.md
 .gitignore
@@ -82,6 +82,7 @@ reports/repository-communication-protocol-v0.2-command-vocabulary.md
 reports/repository-communication-protocol.md
 reports/repository-engineering-program.md
 reports/workflow-architecture-report.md
+repository-index.md
 scripts/repository-all.ps1
 scripts/start-aider.ps1
 supabase/.branches/_current_branch

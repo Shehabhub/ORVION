@@ -1,4 +1,6 @@
-* 39b0ac8 (HEAD -> main) SPEC-021: Complete (human command)
+﻿* 2824800 (HEAD -> main) Regenerate stale artifacts and generate the Repository Index for the first time
+* 018703c Reconcile Program Plan report against final repository state (Workflow Administration, human-directed)
+* 39b0ac8 SPEC-021: Complete (human command)
 * d14e86f SPEC-021: Review -- Confirmed Complete
 * 5c53d0a SPEC-021: Implement -- reconcile manifest.md to its single, actual responsibility
 * 7bb4597 SPEC-021: Approve (human command)
