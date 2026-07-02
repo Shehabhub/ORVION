@@ -45,11 +45,11 @@ Verify: search `AGENTS.md`'s `# Protected Resources` section for the exact strin
 Verify: search for the exact string "`30_database_conventions.md`) is a safe default". If found: Already Applied, skip. If not found: replace "(see `database_conventions.md`)" with "(see `30_database_conventions.md`)" at the Money Standard cross-reference.
 
 ## Acceptance Criteria
-- [ ] `scripts/start-aider.ps1`'s `--read` flags reference `PROJECT_CONTEXT.md` and `global-rules.md` at their actual root-level paths.
-- [ ] `AGENTS.md`'s Protected Resources list no longer includes `docs/**`; `AGENTS.md`, `README.md`, `_ORVION_CANONICAL/**` remain.
-- [ ] `31_schema_draft.md`'s Money Standard cross-reference reads `30_database_conventions.md`.
-- [ ] No file outside Scope was modified, including `changes/SPEC-002-phase1-database-foundation.md`.
-- [ ] No table, schema, or business-domain decision was altered.
+- [x] `scripts/start-aider.ps1`'s `--read` flags reference `PROJECT_CONTEXT.md` and `global-rules.md` at their actual root-level paths.
+- [x] `AGENTS.md`'s Protected Resources list no longer includes `docs/**`; `AGENTS.md`, `README.md`, `_ORVION_CANONICAL/**` remain.
+- [x] `31_schema_draft.md`'s Money Standard cross-reference reads `30_database_conventions.md`.
+- [x] No file outside Scope was modified, including `changes/SPEC-002-phase1-database-foundation.md`.
+- [x] No table, schema, or business-domain decision was altered.
 
 ## Execution Log
 
@@ -68,16 +68,21 @@ Verification performed before this entry: `git status --porcelain` confirmed exa
 
 ## Verification Notes
 
-[Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
-against the live repository state. Append-only — never edit or delete a prior entry.]
+### 2026-07-02 20:03 — Claude (Sonnet 5)
+
+Verdict: Confirmed Complete
+
+Findings: `git diff b5a0223 HEAD` on the three Scope files matches every Implementation Step exactly. `changes/SPEC-002-phase1-database-foundation.md` confirmed untouched — the historical CR text was deliberately left alone, as specified.
+
+Recommendation to human: Set Status to Complete
 
 ## Review Gate
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied.
-- [ ] No file outside the Scope list was modified or created.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied.
+- [x] No file outside the Scope list was modified or created.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 `changes/SPEC-002-phase1-database-foundation.md`'s identical unprefixed reference is deliberately not corrected here — it is historical CR narrative text, fixed once Approved, and the citation is minor enough not to warrant its own corrective Change Request.
