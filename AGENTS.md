@@ -111,6 +111,9 @@ Always leave the repository in a clean state.
 
 ## Agent Handoff Protocol
 
+* A Change Request is a living repository artifact, not merely an instruction document — it is the authoritative state record of the work it describes. Its declared Scope governs engineering artifacts only; a Change Request's own workflow-state sections are always implicitly in scope for whichever agent is synchronizing them, and doing so is never a Scope violation.
+* Synchronization means updating only a Change Request's own workflow-state sections — `Status` (only transitions permitted by the workflow), `Acceptance Criteria`, `Review Gate` (when applicable), `Execution Log`, and `Verification Notes`. Synchronization never authorizes modifying `Objective`, `Business Reason`, `Risks`, `Scope`, `Out of Scope`, `Minimum Reading List`, or `Implementation Steps` — those remain fixed once Approved and are corrected only by a new Change Request. Every other reference to synchronizing a Change Request in this repository means exactly this definition; it is not restated elsewhere.
+* IMPLEMENT is not considered complete until the Change Request has been synchronized with the execution state — its Status advanced and its Execution Log appended — as the final part of the same task, not a separate action. Review and Complete remain independent phases and are not merged into IMPLEMENT.
 * Handoff between agents happens through `changes/*.md` Change Request files and the `Active Change Request` field in `_ORVION_CANONICAL/manifest.md` — not through chat.
 * A Change Request's `## Execution Log` and `## Verification Notes` sections are append-only. Never edit or delete a prior entry.
 * Only a human may change a Change Request's Status to `Complete` or `Cancelled`. Codex may change `Approved` to `In Progress` as the first action of its own execution run.
