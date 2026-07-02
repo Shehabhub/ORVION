@@ -3,7 +3,7 @@
 Version: 2.0
 Status: Canonical
 Purpose: AI Entry Point
-Loaded After: codex.md
+Loaded After: AGENTS.md
 
 ---
 
@@ -56,17 +56,17 @@ The goal is to automate the daily work that happens inside a travel agency.
 
 Update this section continuously.
 
-Current Phase: Database-Ready Specification
+Current Phase: Database Foundation
 
-Current Sprint: SQL migration planning
+Current Sprint: SQL migration authoring
 
-Current Module: Database specification preparation
+Current Module: Database Foundation
 
 Current Task: Repository Engineering — next package pending draft (State Truthfulness and Dead Reference Cleanup are both ready to draft; see reports/ for the Repository Engineering program plan once it exists)
 
 Last Completed Task: SPEC-012 — authority consolidation, Command Vocabulary adoption, Execution Contract recorded in AGENTS.md
 
-Next Planned Task: Create SQL migration plan
+Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
 Active Change Request: changes/SPEC-013-state-truthfulness.md
 

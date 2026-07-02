@@ -1,6 +1,6 @@
 # ORVION Execution Roadmap
 
-Version: 0.1
+Version: 0.2
 Status: Draft
 Canonical: Yes
 
@@ -80,7 +80,7 @@ Owner review required:
 
 # Phase 2: Database Foundation
 
-Status: Pending
+Status: Active
 
 Objective:
 
@@ -95,8 +95,6 @@ Outputs:
 - Audit/event tables
 - Basic indexes
 - Database verification checklist
-
-Do not begin until Phase 1 is reviewed.
 
 ---
 
@@ -259,6 +257,4 @@ Outputs:
 
 # Immediate Next Action
 
-Create SQL migration plan.
-
-This is the first required document in the database foundation package.
+Write SQL migrations in the sequence defined in `33_sql_migration_plan.md`. The plan itself is complete; no further planning document is required before authoring begins.
