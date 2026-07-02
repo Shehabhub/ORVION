@@ -68,7 +68,7 @@ Last Completed Task: Froze logical schema baseline
 
 Next Planned Task: Create SQL migration plan
 
-Active Change Request: changes/SPEC-009-identity-auth-rls-decision.md
+Active Change Request: changes/SPEC-011-cr-lifecycle-document.md
 
 ---
 
