@@ -1,7 +1,7 @@
 # Change Request — SPEC-014
 
 ## Status
-[x] Approved
+[x] In Progress
 
 ## Assigned Model Tier
 [x] Tier 2 — Local execution agent (Qwen3.8B)
@@ -53,12 +53,18 @@ Verify: search for the exact string "`30_database_conventions.md`) is a safe def
 
 ## Execution Log
 
-[Appended by the executing agent (Tier 2) after each run against this Change Request, before
-IMPLEMENT is considered complete, per synchronization as defined in AGENTS.md's Agent Handoff
-Protocol — this file is always implicitly in scope for this section.
-Append-only — never edit or delete a prior entry, including a Blocked or Failed one.
-Leave this section's bracketed instructions in place in an unused template; remove them
-only in a CR that has at least one real entry.]
+### 2026-07-02 20:02 — Claude (Sonnet 5)
+
+Outcome: Complete
+
+Step results:
+- Step 1: Applied — start-aider.ps1's --read flags now point to PROJECT_CONTEXT.md and global-rules.md at their actual root paths.
+- Step 2: Applied — AGENTS.md's Protected Resources list no longer includes docs/**.
+- Step 3: Applied — 31_schema_draft.md's Money Standard cross-reference now reads 30_database_conventions.md.
+
+Commits: pending — recorded at commit time in the same commit as this entry.
+
+Verification performed before this entry: `git status --porcelain` confirmed exactly the three Scope files changed.
 
 ## Verification Notes
 

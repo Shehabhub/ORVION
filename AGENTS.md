@@ -20,7 +20,6 @@ The following resources are protected.
 Never modify them unless they are explicitly listed in the current task.
 - AGENTS.md
 - README.md
-- docs/**
 - _ORVION_CANONICAL/**
 
 # Execution Rules
