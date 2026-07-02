@@ -62,13 +62,13 @@ Current Sprint: SQL migration authoring
 
 Current Module: Database Foundation
 
-Current Task: Repository Engineering — next package pending draft (State Truthfulness and Dead Reference Cleanup are both ready to draft; see reports/ for the Repository Engineering program plan once it exists)
+Current Task: Repository Engineering — SPEC-015 (CR_LIFECYCLE.md Engineering Observations) and SPEC-016 (Program Plan report) drafted, awaiting Approve; Package 3 (Entry Point & Reading List) next after that
 
-Last Completed Task: SPEC-012 — authority consolidation, Command Vocabulary adoption, Execution Contract recorded in AGENTS.md
+Last Completed Task: SPEC-013 (roadmap and manifest state truthfulness) and SPEC-014 (broken references and tooling cleanup)
 
 Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
-Active Change Request: changes/SPEC-013-state-truthfulness.md
+Active Change Request: None
 
 ---
 
