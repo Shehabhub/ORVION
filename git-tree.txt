@@ -1,4 +1,7 @@
-﻿* 521f27a (HEAD -> main, origin/main, origin/HEAD) y
+﻿* bb86ad0 (HEAD -> main) SPEC-004: Approve (human command)
+* cbc8204 SPEC-005: mark Complete (human command)
+* ae33ecc (origin/main, origin/HEAD) y
+* 521f27a y
 * 4c46697 y
 * 8202e9b y
 * 310a202 y
