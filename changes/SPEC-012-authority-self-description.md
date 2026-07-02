@@ -68,16 +68,16 @@ Verify: search `AGENTS.md` for the exact string `concrete repository evidence th
 - "A package's success is measured not only by its own completion, but by whether it leaves the next package easier to execute. When multiple valid implementation choices exist, prefer the one that reduces maintenance, duplicated knowledge, duplicated authority, and required context."
 
 ## Acceptance Criteria
-- [ ] `AGENTS.md`'s Agent Handoff Protocol states all six commands and their preconditions.
-- [ ] The `Complete` bullet specifically states its extended action: manifest.md state fields updated, phase-freeze eligibility flagged (not auto-invoked), as part of the same defined action.
-- [ ] `AGENTS.md` states the architecture/methodology reconsideration threshold, the tie-updates-to-actions principle, and the simplification success criterion, each as a standing rule.
-- [ ] `SYSTEM_PROMPT.md` contains only a deprecation notice, no process or document-map content remains.
-- [ ] `codex.md` contains only a deprecation notice; no business-philosophy content is lost, only relocated.
-- [ ] `PROJECT_CONTEXT.md` contains `codex.md`'s business-philosophy content verbatim, in a new numbered section.
-- [ ] `global-rules.md` explicitly defers to `AGENTS.md`.
-- [ ] `AGENTS.md`'s Project Context list includes `manifest.md` and `CR_LIFECYCLE.md`.
-- [ ] No file outside Scope was modified. `manifest.md`, `32_execution_roadmap.md`, and `CR_LIFECYCLE.md` are unchanged by this package.
-- [ ] No table, schema, or business-domain decision was altered anywhere.
+- [x] `AGENTS.md`'s Agent Handoff Protocol states all six commands and their preconditions.
+- [x] The `Complete` bullet specifically states its extended action: manifest.md state fields updated, phase-freeze eligibility flagged (not auto-invoked), as part of the same defined action.
+- [x] `AGENTS.md` states the architecture/methodology reconsideration threshold, the tie-updates-to-actions principle, and the simplification success criterion, each as a standing rule.
+- [x] `SYSTEM_PROMPT.md` contains only a deprecation notice, no process or document-map content remains.
+- [x] `codex.md` contains only a deprecation notice; no business-philosophy content is lost, only relocated.
+- [x] `PROJECT_CONTEXT.md` contains `codex.md`'s business-philosophy content verbatim, in a new numbered section.
+- [x] `global-rules.md` explicitly defers to `AGENTS.md`.
+- [x] `AGENTS.md`'s Project Context list includes `manifest.md` and `CR_LIFECYCLE.md`.
+- [x] No file outside Scope was modified. `manifest.md`, `32_execution_roadmap.md`, and `CR_LIFECYCLE.md` are unchanged by this package.
+- [x] No table, schema, or business-domain decision was altered anywhere.
 
 ## Execution Log
 
@@ -100,17 +100,22 @@ Verification performed before this entry: `git status --porcelain` confirmed exa
 
 ## Verification Notes
 
-[Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
-against the live repository state. Append-only — never edit or delete a prior entry.]
+### 2026-07-02 19:40 — Claude (Sonnet 5)
+
+Verdict: Confirmed Complete
+
+Findings: Independently re-checked against live repository state, not the Execution Log's self-report. `git diff baf7e17 HEAD` on `manifest.md`, `32_execution_roadmap.md`, `CR_LIFECYCLE.md`, `PROTOCOL.md`, `changes/TEMPLATE.md`, and `README.md` — empty, confirming none of them were touched. `git diff --stat` confirms exactly six files changed: the five Scope files plus this Change Request's own. Grepped `AGENTS.md` directly: all six Command Vocabulary bullets present with correct preconditions; `Complete`'s bullet contains the extended action (manifest.md state fields, phase-freeze flag, no auto-invocation of `Freeze Phase N`); all three Execution Contract bullets present. Read `SYSTEM_PROMPT.md` and `codex.md` directly: both contain only clean deprecation notices, no residual process content. Grepped `PROJECT_CONTEXT.md`: all six business-content subsections present, in order, matching `codex.md`'s original structure. `git status --porcelain` — clean.
+
+Recommendation to human: Set Status to Complete
 
 ## Review Gate
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied.
-- [ ] No file outside the Scope list was modified or created.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] Confirmed SPEC-005/010/011 were already applied before this task began.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied.
+- [x] No file outside the Scope list was modified or created.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] Confirmed SPEC-005/010/011 were already applied before this task began.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 This is the first package of Repository Engineering, following an extended architectural review (Governance stabilization → Repository Recovery → Repository Normalization → Compatibility Adapter Contract → the Engineering Playbook → the Execution Contract). Key decisions this package operationalizes, recorded here so they don't exist only in conversation: `codex.md` and `SYSTEM_PROMPT.md` are deprecated rather than kept as parallel authority because two eras of this repository's governance were never reconciled, and an unqualified-authority document coexisting with `AGENTS.md` is a duplicated-authority risk, not a stylistic one. `codex.md`'s business-philosophy content is preserved, not discarded, because it is genuinely unique context found nowhere else in the repository. The Command Vocabulary is transcribed rather than left as a standing "Proposal" because ten successful executions across `SPEC-007`–`011` already constitute sufficient evidence — ratifying it here is transcription of proven practice, not new judgment. `Complete`'s extended definition (manifest state, phase-freeze flag) exists because the original problem motivating this entire project was completed work whose repository state was never synchronized. The Execution Contract's standing rules are recorded in `AGENTS.md` specifically, not as a new document, because a standalone document restating content `AGENTS.md`/`CR_LIFECYCLE.md` already own would repeat the exact defect this package exists to remove from `codex.md` and `SYSTEM_PROMPT.md`. The Engineering Observation triage rule, and its methodology-specific sequencing refinement, are deliberately excluded from this package's Scope — they belong to `CR_LIFECYCLE.md`'s own responsibility and are deferred to their own future Change Request. `32_execution_roadmap.md` and `manifest.md`'s own current staleness are explicitly not corrected here — that is a separate package (State Truthfulness), depending on this one only for the rule this package writes.
