@@ -68,7 +68,7 @@ Last Completed Task: SPEC-015 (CR_LIFECYCLE.md Engineering Observations), SPEC-0
 
 Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
-Active Change Request: None
+Active Change Request: changes/SPEC-019-compatibility-adapters.md
 
 ---
 
