@@ -68,7 +68,7 @@ Last Completed Task: SPEC-019 (four Compatibility Adapters) and SPEC-020 (Reposi
 
 Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
-Active Change Request: None
+Active Change Request: changes/SPEC-021-manifest-ownership-reconciliation.md
 
 ---
 
