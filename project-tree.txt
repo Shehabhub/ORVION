@@ -1,13 +1,15 @@
 Folder PATH listing
-Volume serial number is 0000001F BC1B:451F
+Volume serial number is 00000030 BC1B:451F
 C:.
 |   .aider.chat.history.md
 |   .aider.conf.yml
 |   .aider.input.history
 |   .gitignore
 |   AGENTS.md
+|   CLAUDE.md
 |   CODING_STANDARDS.md
 |   CR_LIFECYCLE.md
+|   GEMINI.md
 |   git-tree.txt
 |   global-rules.md
 |   project-tree.txt
@@ -24,6 +26,13 @@ C:.
 +---.claude
 |       settings.local.json
 |       
++---.cursor
+|   \---rules
+|           orvion.mdc
+|           
++---.github
+|       copilot-instructions.md
+|       
 +---.vscode
 |       settings.json
 |       tasks.json
@@ -39,6 +48,16 @@ C:.
 |       SPEC-009-identity-auth-rls-decision.md
 |       SPEC-010-cr-living-artifact-protocol.md
 |       SPEC-011-cr-lifecycle-document.md
+|       SPEC-012-authority-self-description.md
+|       SPEC-013-state-truthfulness.md
+|       SPEC-014-dead-reference-tooling-cleanup.md
+|       SPEC-015-cr-lifecycle-observations.md
+|       SPEC-016-program-plan-report.md
+|       SPEC-017-agents-md-refinements.md
+|       SPEC-018-entry-point-reading-list.md
+|       SPEC-019-compatibility-adapters.md
+|       SPEC-020-repository-index.md
+|       SPEC-021-manifest-ownership-reconciliation.md
 |       TEMPLATE.md
 |       
 +---reports
@@ -49,6 +68,7 @@ C:.
 |       phase-2-sql-migration-planning-report.md
 |       repository-communication-protocol-v0.2-command-vocabulary.md
 |       repository-communication-protocol.md
+|       repository-engineering-program.md
 |       workflow-architecture-report.md
 |       
 +---scripts

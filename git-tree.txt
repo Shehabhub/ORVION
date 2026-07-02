@@ -1,4 +1,40 @@
-﻿* 1d6d5b9 (HEAD -> main) SPEC-011: Complete (human command)
+* 39b0ac8 (HEAD -> main) SPEC-021: Complete (human command)
+* d14e86f SPEC-021: Review -- Confirmed Complete
+* 5c53d0a SPEC-021: Implement -- reconcile manifest.md to its single, actual responsibility
+* 7bb4597 SPEC-021: Approve (human command)
+* 772ef48 SPEC-019 and SPEC-020: Complete (human command)
+* d5ad988 SPEC-020: Review -- Confirmed Complete
+* d067e1e SPEC-020: Implement -- add Repository Index generation to repository-all.ps1
+* 9f5822c SPEC-019: Review -- Confirmed Complete
+* ed884ea SPEC-019: Implement -- create four Compatibility Adapters
+* 6ceb381 SPEC-020: Approve (human command)
+* 7ba5bd6 SPEC-019: Approve (human command)
+* 5e7b064 SPEC-015, SPEC-016, SPEC-017, and SPEC-018: Complete (human command)
+* 2c35ad3 SPEC-018: Review -- Confirmed Complete
+* fda8d8e SPEC-018: Implement -- complete README.md's Reading Order, fix duplicated Project Status
+* 77a5ed4 SPEC-017: Review -- Confirmed Complete
+* 6b9e127 SPEC-017: Implement -- transcribe commit-attribution format, sharpen Complete's Current Task clause
+* df9ff17 SPEC-016: Review -- Confirmed Complete
+* 6180e9c SPEC-016: Implement -- create the Repository Engineering program plan report
+* f638fe1 SPEC-015: Review -- Confirmed Complete
+* bff42b0 SPEC-015: Implement -- add Engineering Observations section to CR_LIFECYCLE.md
+* 6f61199 SPEC-018: Approve (human command)
+* 8b8bee5 SPEC-017: Approve (human command)
+* b953f74 SPEC-016: Approve (human command)
+* c06ccf9 SPEC-015: Approve (human command)
+* 13c39ee SPEC-013 and SPEC-014: Complete (human command)
+* 0c467c5 SPEC-014: Review -- Confirmed Complete
+* ed9edab SPEC-014: Implement -- fix broken paths and dead references
+* 19a684d SPEC-013: Review -- Confirmed Complete
+* 995e665 SPEC-013: Implement -- correct roadmap Phase 2 status and manifest.md's Current Development Status
+* b5a0223 SPEC-014: Approve (human command)
+* e113cfc SPEC-013: Approve (human command)
+* cf871c0 SPEC-012: Complete (human command)
+* 95ce8a2 SPEC-012: Review -- Confirmed Complete
+* 7396c72 SPEC-012: Implement -- transcribe Command Vocabulary, retire two-era authority collision, record Execution Contract
+* baf7e17 SPEC-012: Approve (human command)
+* 44a2c55 (origin/main, origin/HEAD) y
+* 1d6d5b9 SPEC-011: Complete (human command)
 * df73562 SPEC-011: Review -- Confirmed Complete
 * e564bcf SPEC-011: Implement -- create CR_LIFECYCLE.md, point AGENTS.md at it
 * 572d234 SPEC-009: Review + Complete (Verification Notes recorded, human-directed)
@@ -6,7 +42,7 @@
 * c9bd236 SPEC-011: Approve (human command)
 * a71877c SPEC-010: Implement -- Change Request as living artifact, canonical synchronization definition
 * c713230 SPEC-009: Approve (human command)
-* bab70d4 (origin/main, origin/HEAD) y
+* bab70d4 y
 * 7543ebb SPEC-007: Review (second pass) -- Confirmed Complete
 * 6c6c7a0 SPEC-008: Review -- Confirmed Complete
 * 08ff9c2 Apply SPEC-008 fix: correct "Blocked Items 1-3" to "1-2" (execution, unattributed)
