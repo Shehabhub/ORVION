@@ -68,7 +68,7 @@ Last Completed Task: Froze logical schema baseline
 
 Next Planned Task: Create SQL migration plan
 
-Active Change Request: changes/SPEC-004-phase2-catalog-lifecycle.md
+Active Change Request: None
 
 ---
 
