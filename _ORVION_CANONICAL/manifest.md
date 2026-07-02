@@ -68,7 +68,7 @@ Last Completed Task: SPEC-013 (roadmap and manifest state truthfulness) and SPEC
 
 Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
-Active Change Request: None
+Active Change Request: changes/SPEC-015-cr-lifecycle-observations.md
 
 ---
 

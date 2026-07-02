@@ -1,0 +1,74 @@
+# Change Request — SPEC-015
+
+## Status
+[x] Approved
+
+## Assigned Model Tier
+[x] Tier 1 — Strong reasoning model
+    Permitted modes: ANALYZE, PLAN, REVIEW, REFACTOR
+
+## Objective
+Add the Engineering Observation triage rule, and its methodology-specific sequencing clause, to `CR_LIFECYCLE.md` as a new §11.
+
+## Business Reason
+This rule has governed every package since it was established during the Execution Contract review, but has never been written into any canonical document — it exists only in conversation. `CR_LIFECYCLE.md` already claims to be "the single authoritative reference for the lifecycle of a Change Request," and Observation handling is a lifecycle concern its existing ten sections don't yet cover.
+
+## Risks
+None. Additive only; no existing section is altered.
+
+## Supersedes / Depends On
+Supersedes: None. Depends on: None.
+
+## Scope — Files Allowed to Modify
+- CR_LIFECYCLE.md
+
+## Out of Scope — Files Forbidden to Modify
+Scope above is exhaustive. Explicitly includes AGENTS.md, PROTOCOL.md, changes/TEMPLATE.md, and every other file.
+
+## Minimum Reading List
+- CR_LIFECYCLE.md
+
+## Implementation Steps
+
+### Step 1 — Add §11 Engineering Observations
+Verify: search for the exact heading `## 11. Engineering Observations`. If found: Already Applied, skip. If not found: append, after §10's closing code fence:
+
+```
+## 11. Engineering Observations
+
+A discovery made during IMPLEMENT or REVIEW that was not anticipated by the Change Request's own Implementation Steps is recorded as an Engineering Observation — what was discovered, why it matters, and which of two outcomes applies. It stays inside the current Change Request only if it touches a file already in that Change Request's Scope, uses a mechanism the Change Request already relies on, and requires no judgment beyond what the Change Request was already drafted to make — and only if flagged before that Change Request is Approved, never added silently afterward. Otherwise it becomes its own future Change Request. An Engineering Observation is never silently implemented and never silently discarded.
+
+An Observation concerning the engineering methodology itself — as distinct from repository content — never interrupts the Change Request that surfaced it. The current Change Request always completes its own lifecycle normally first; only afterward is a methodology refinement considered, and only through its own Change Request. The methodology does not change inside an implementation package.
+```
+
+### Step 2 — Reflect the expanded scope in §1 Purpose
+Verify: search for the exact string `and the responsibility for each transition, and how mid-execution discoveries are handled`. If found: Already Applied, skip. If not found: in §1, replace `its states, allowed transitions, and the responsibility for each transition.` with `its states, allowed transitions, and the responsibility for each transition, and how mid-execution discoveries are handled.`
+
+## Acceptance Criteria
+- [ ] §11 exists, contains both the triage rule and the methodology-sequencing clause, worded exactly as specified.
+- [ ] §1's Purpose sentence reflects the expanded scope.
+- [ ] No existing section (1–10) is otherwise altered.
+- [ ] No file outside Scope was modified.
+
+## Execution Log
+
+[Appended by the executing agent (Tier 2) after each run against this Change Request, before
+IMPLEMENT is considered complete, per synchronization as defined in AGENTS.md's Agent Handoff
+Protocol — this file is always implicitly in scope for this section.
+Append-only — never edit or delete a prior entry, including a Blocked or Failed one.
+Leave this section's bracketed instructions in place in an unused template; remove them
+only in a CR that has at least one real entry.]
+
+## Verification Notes
+
+[Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
+against the live repository state. Append-only — never edit or delete a prior entry.]
+
+## Review Gate
+- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied.
+- [ ] No file outside the Scope list was modified or created.
+- [ ] Every Acceptance Criteria item is confirmed true.
+- [ ] The repository is in a clean, releasable state.
+
+## Notes
+This formalizes a rule that has already governed SPEC-012 through SPEC-014's drafting in practice — transcription of proven behavior, matching the same justification used for adopting the Command Vocabulary in SPEC-012.
