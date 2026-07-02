@@ -62,13 +62,13 @@ Current Sprint: SQL migration authoring
 
 Current Module: Database Foundation
 
-Current Task: Repository Engineering — SPEC-015 (CR_LIFECYCLE.md Engineering Observations) and SPEC-016 (Program Plan report) drafted, awaiting Approve; Package 3 (Entry Point & Reading List) next after that
+Current Task: Repository Engineering — next dependency-ready packages: Package 5 (Compatibility Adapters, ready now that SPEC-018 is Complete) and Package 6 (Repository Index & Health, now meaningfully draftable); see reports/repository-engineering-program.md for the full program table
 
-Last Completed Task: SPEC-013 (roadmap and manifest state truthfulness) and SPEC-014 (broken references and tooling cleanup)
+Last Completed Task: SPEC-015 (CR_LIFECYCLE.md Engineering Observations), SPEC-016 (Program Plan report), SPEC-017 (AGENTS.md refinements), SPEC-018 (Entry Point & Reading List)
 
 Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
-Active Change Request: changes/SPEC-015-cr-lifecycle-observations.md
+Active Change Request: None
 
 ---
 
