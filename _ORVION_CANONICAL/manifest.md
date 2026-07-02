@@ -68,7 +68,7 @@ Last Completed Task: SPEC-012 — authority consolidation, Command Vocabulary ad
 
 Next Planned Task: Create SQL migration plan
 
-Active Change Request: None
+Active Change Request: changes/SPEC-013-state-truthfulness.md
 
 ---
 
