@@ -2,7 +2,7 @@
 
 ## Status
 
-[x] Approved
+[x] In Progress
 
 ---
 
@@ -1140,6 +1140,30 @@ This adds exactly 33 new values (12 that were already referenced by `28_permissi
 - [ ] Step 15: `25_catalog_registry.md`'s `permission_key` Initial values list contains exactly 64 values (31 pre-existing + 33 new), with no duplicates.
 - [ ] No file outside Scope was modified or created.
 - [ ] `31_schema_draft.md`, `24_entity_registry.md`, `29_relationship_map.md`, and `30_database_conventions.md` were not touched.
+
+---
+
+## Execution Log
+
+### 2026-07-02 — Unidentified agent/process (recorded retroactively by Claude — reconciliation only)
+
+Outcome: Complete
+
+Step results:
+- Steps 1-15: Applied — content matching all fifteen Implementation Steps was found already present in `_ORVION_CANONICAL/25_catalog_registry.md`, `26_state_machines.md`, `27_event_catalog.md`, and `28_permissions_matrix.md` as of Git commit `4c46697` (2026-07-02 04:24:28). Confirmed by direct inspection during reconciliation: all four Version headers correctly bumped (25 to 0.3, 26/27/28 to 0.2), all six new state machine sections present in `26_state_machines.md`, all six new event sections present in `27_event_catalog.md`, `# CRM Extension Permissions` and `# Marketing Permissions` present in `28_permissions_matrix.md` with `REVIEW_APPROVAL_REQUEST`, and the `booking_item_base_status` cancelled/no_show fix present with matching events.
+
+Commits: 4c46697
+
+Blocker: None. Process note — this entry does not reflect a live-recorded execution. This Change Request's own Status field remained `Draft` while the four Scope files were already modified to match it, in the same commit that also introduced this Change Request's text and the Phase 2 Audit reports it originated from. This occurred before the Execution Log convention (established by `SPEC-005`) existed, and before this Change Request had ever been marked `Approved` — no protocol existed yet to bypass. This entry exists solely to reconcile the workflow record with that historical fact. Which agent or process performed the original edit could not be determined from Git history alone, since all commits in this repository are authored under the same human Git identity regardless of which agent proposed the change. A full independent verification against every Acceptance Criterion (exact row counts, exact catalog value counts, etc.) has not been performed as part of this reconciliation and remains a separate, future `Review SPEC-004` action before Status may advance to `Complete`.
+
+This entry, and the Status correction accompanying it, were applied as a direct Workflow Administration action (per `reports/repository-communication-protocol-v0.2-command-vocabulary.md`'s governing rule that corrections to a Change Request's own bookkeeping are administrative, not engineering, work) rather than through a numbered Change Request. No engineering content, canonical document, or implementation file was read for modification or modified in performing this reconciliation.
+
+---
+
+## Verification Notes
+
+[Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
+against the live repository state. Append-only — never edit or delete a prior entry.]
 
 ---
 
