@@ -1,7 +1,7 @@
 # Change Request — SPEC-012
 
 ## Status
-[x] In Progress
+[x] Complete
 
 ## Assigned Model Tier
 [x] Tier 1 — Strong reasoning model
@@ -97,6 +97,10 @@ Step results:
 Commits: pending — recorded at commit time in the same commit as this entry.
 
 Verification performed before this entry: `git status --porcelain` confirmed exactly the five Scope files changed (AGENTS.md, codex.md, SYSTEM_PROMPT.md, global-rules.md, PROJECT_CONTEXT.md); `git diff` on AGENTS.md and global-rules.md confirmed the exact intended insertions with nothing else altered.
+
+### 2026-07-02 — Complete (human command)
+
+Phase-freeze check, per the `Complete` command's own extended definition (Step 1/7 of this Change Request): checked `32_execution_roadmap.md` for any active phase scoped to this Change Request. This Change Request belongs to the Repository Engineering program, which is not represented as a phase in `32_execution_roadmap.md`'s Phase 0–10 list — no roadmap phase is scoped to it. `Freeze Phase N` does not apply. `manifest.md`'s `Active Change Request` cleared to `None`; `Current Task` and `Last Completed Task` updated to reflect this Change Request.
 
 ## Verification Notes
 

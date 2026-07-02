@@ -62,13 +62,13 @@ Current Sprint: SQL migration planning
 
 Current Module: Database specification preparation
 
-Current Task: Create SQL migration plan
+Current Task: Repository Engineering — next package pending draft (State Truthfulness and Dead Reference Cleanup are both ready to draft; see reports/ for the Repository Engineering program plan once it exists)
 
-Last Completed Task: Froze logical schema baseline
+Last Completed Task: SPEC-012 — authority consolidation, Command Vocabulary adoption, Execution Contract recorded in AGENTS.md
 
 Next Planned Task: Create SQL migration plan
 
-Active Change Request: changes/SPEC-012-authority-self-description.md
+Active Change Request: None
 
 ---
 
