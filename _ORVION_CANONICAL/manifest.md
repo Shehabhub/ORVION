@@ -29,13 +29,13 @@ Current Sprint: SQL migration authoring
 
 Current Module: Database Foundation
 
-Current Task: All five SQL Readiness Criteria are now satisfied (see reports/repository-engineering-program.md) — SQL implementation may begin. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
+Current Task: Repository Engineering is formally closed. Write SQL migrations per 33_sql_migration_plan.md's sequence. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
 
-Last Completed Task: SPEC-019 (four Compatibility Adapters) and SPEC-020 (Repository Index generation) — the fifth and final SQL Readiness item
+Last Completed Task: SPEC-021 — reconciled manifest.md to its single, actual responsibility, closing Repository Engineering's final identified gap
 
 Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
-Active Change Request: changes/SPEC-021-manifest-ownership-reconciliation.md
+Active Change Request: None
 
 ---
 
