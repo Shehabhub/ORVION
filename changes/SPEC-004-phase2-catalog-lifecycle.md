@@ -2,7 +2,7 @@
 
 ## Status
 
-[x] Draft
+[x] Approved
 
 ---
 
