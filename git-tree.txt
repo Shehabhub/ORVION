@@ -1,6 +1,18 @@
-﻿* bb86ad0 (HEAD -> main) SPEC-004: Approve (human command)
+﻿* 7543ebb (HEAD -> main) SPEC-007: Review (second pass) -- Confirmed Complete
+* 6c6c7a0 SPEC-008: Review -- Confirmed Complete
+* 08ff9c2 Apply SPEC-008 fix: correct "Blocked Items 1-3" to "1-2" (execution, unattributed)
+* 2fb66aa SPEC-008: Approve (human command)
+* 415e4bd SPEC-007: Review -- Discrepancy Found, needs corrective Change Request
+* 8ea5ffb Create 33_sql_migration_plan.md (SPEC-007 execution, unattributed)
+* a303531 SPEC-007: Approve (human command)
+* 48d0e6d Phase 2 planning reports: reclassify event_type catalog as non-blocking
+* 2bdb290 Reconcile SPEC-002/SPEC-003 status and mark Phase 1 Complete (Workflow Administration, human-directed)
+* 825564d SPEC-004: Review + Complete (Verification Notes recorded, human-directed)
+* d5a79f5 SPEC-004: workflow reconciliation only (administrative, not engineering)
+* a8a27de (origin/main, origin/HEAD) y
+* bb86ad0 SPEC-004: Approve (human command)
 * cbc8204 SPEC-005: mark Complete (human command)
-* ae33ecc (origin/main, origin/HEAD) y
+* ae33ecc y
 * 521f27a y
 * 4c46697 y
 * 8202e9b y

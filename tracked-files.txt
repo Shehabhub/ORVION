@@ -40,6 +40,7 @@ _ORVION_CANONICAL/29_relationship_map.md
 _ORVION_CANONICAL/30_database_conventions.md
 _ORVION_CANONICAL/31_schema_draft.md
 _ORVION_CANONICAL/32_execution_roadmap.md
+_ORVION_CANONICAL/33_sql_migration_plan.md
 _ORVION_CANONICAL/SYSTEM_PROMPT.md
 _ORVION_CANONICAL/codex.md
 _ORVION_CANONICAL/manifest.md
@@ -48,12 +49,17 @@ changes/SPEC-002-phase1-database-foundation.md
 changes/SPEC-003-phase1-consistency-fix.md
 changes/SPEC-004-phase2-catalog-lifecycle.md
 changes/SPEC-005-agent-handoff-protocol.md
+changes/SPEC-007-sql-migration-plan.md
+changes/SPEC-008-migration-plan-blocked-items-fix.md
 changes/TEMPLATE.md
 git-tree.txt
 global-rules.md
 project-tree.txt
 reports/phase-02-catalog-lifecycle-audit.md
 reports/phase-02-prioritized-findings.md
+reports/phase-2-database-foundation-readiness-report.md
+reports/phase-2-migration-planning-prioritized-findings.md
+reports/phase-2-sql-migration-planning-report.md
 reports/repository-communication-protocol-v0.2-command-vocabulary.md
 reports/repository-communication-protocol.md
 reports/workflow-architecture-report.md
