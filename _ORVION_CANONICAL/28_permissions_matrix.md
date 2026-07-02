@@ -1,6 +1,6 @@
 # Permissions Matrix
 
-Version: 0.1
+Version: 0.2
 Status: Draft
 Canonical: Yes
 
@@ -154,6 +154,36 @@ Notes:
 
 ---
 
+# CRM Extension Permissions
+
+| Permission | Owner | CEO | Branch Manager | Department Manager | Senior Employee | Employee | Trainee | Scope |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CREATE_TASK | Yes | Yes | Yes | Yes | Yes | Yes | Limited | branch/department |
+| ASSIGN_TASK | Yes | Yes | Yes | Yes | Optional | No | No | branch/department |
+| COMPLETE_TASK | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned |
+| VIEW_ASSIGNED_TASKS | Yes | Yes | Yes | Yes | Yes | Yes | Limited | assigned |
+| VIEW_DEPARTMENT_TASK_QUEUE | Yes | Yes | Yes | Yes | Optional | No | No | department |
+| CREATE_COMPLAINT | Yes | Yes | Yes | Yes | Yes | Yes | No | branch/department |
+| RESOLVE_COMPLAINT | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned/department |
+| VIEW_COMPLAINT | Yes | Yes | Yes | Yes | Yes | Assigned only | Limited | assigned/department |
+| CREATE_SERVICE_REQUEST | Yes | Yes | Yes | Yes | Yes | Yes | No | branch/department |
+| RESOLVE_SERVICE_REQUEST | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned/department |
+| VIEW_SERVICE_REQUEST | Yes | Yes | Yes | Yes | Yes | Assigned only | Limited | assigned/department |
+| CREATE_QUOTATION | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned/department |
+| SEND_QUOTATION | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned |
+| ACCEPT_QUOTATION | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned |
+| VIEW_CONVERSATION | Yes | Yes | Yes | Yes | Yes | Assigned only | Limited | assigned/department |
+| SEND_MESSAGE | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned |
+| ESCALATE_CONVERSATION | Yes | Yes | Yes | Yes | Optional | No | No | department |
+| CLOSE_CONVERSATION | Yes | Yes | Yes | Yes | Yes | Assigned only | No | assigned |
+
+Notes:
+
+- Task, Complaint, Service Request, Quotation, and Conversation permissions follow the same assigned/department visibility pattern already established for Leads in the CRM Permissions table above.
+- Accepting a Quotation records the customer's decision and is performed by the assigned employee, consistent with the CLOSE_LEAD pattern.
+
+---
+
 # Booking Permissions
 
 | Permission | Owner | CEO | Branch Manager | Department Manager | Finance Manager | Senior Employee | Employee | Trainee | Scope |
@@ -187,12 +217,14 @@ Notes:
 | RECORD_PAYMENT | Yes | Yes | Yes | Optional | No | No | No | tenant |
 | RECORD_REFUND | Yes | Yes | Yes | Optional | No | No | No | tenant |
 | CREATE_JOURNAL_ENTRY | Yes | Yes | Yes | No | No | No | No | tenant |
+| REVIEW_APPROVAL_REQUEST | Yes | Yes | Yes | No | No | No | No | tenant |
 
 Notes:
 
 - Assigned employee may view financial documents directly related to their lead/booking.
 - Finance approval is required before controlled execution gate.
 - Operations cannot edit locked cost.
+- REVIEW_APPROVAL_REQUEST governs `approval_requests` rows whose `approval_type_code` is not `finance_execution_approval` (covered by APPROVE_FINANCE) and not `subscription_approval` (covered by REVIEW_SUBSCRIPTION_PAYMENT) — i.e. `refund_approval`, `discount_approval`, `booking_override`, `manual_price_change`, `sensitive_data_change`. This is a conservative default; per-type role refinement is an open business decision (see `reports/phase-02-prioritized-findings.md`).
 
 ---
 
@@ -210,6 +242,19 @@ Notes:
 
 - Incorrect files are archived, not deleted.
 - Financial documents require stricter visibility.
+
+---
+
+# Marketing Permissions
+
+| Permission | Owner | CEO | Branch Manager | Finance Manager | Scope |
+| --- | --- | --- | --- | --- | --- |
+| MANAGE_MARKETING_CAMPAIGN | Yes | Yes | Optional | No | tenant |
+| VIEW_MARKETING_DASHBOARD | Yes | Yes | Optional | Optional | tenant |
+
+Notes:
+
+- Marketing campaigns are tenant-scoped (no branch/department ownership fields exist on `marketing_campaigns`), consistent with `31_schema_draft.md`.
 
 ---
 
@@ -327,4 +372,3 @@ The following permission actions always create events:
 # Next Step
 
 Create `29_relationship_map.md`.
-

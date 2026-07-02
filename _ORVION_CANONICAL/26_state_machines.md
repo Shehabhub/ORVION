@@ -1,6 +1,6 @@
 # State Machines
 
-Version: 0.1
+Version: 0.2
 Status: Draft
 Canonical: Yes
 
@@ -228,6 +228,8 @@ Terminal states may not be edited directly. Corrections require adjustment event
 - confirmed
 - in_progress
 - completed
+- cancelled
+- no_show
 
 ## Normal Flow
 
@@ -245,12 +247,25 @@ draft
 | --- | --- | --- |
 | draft | pending | Item submitted for approval or supplier action |
 | draft | completed | Allowed only for simple already-completed manual item with authorized permission |
+| draft | cancelled | Booking item cancelled before confirmation |
 | pending | confirmed | Supplier/finance/operations confirms item |
 | pending | draft | Returned for correction |
+| pending | cancelled | Booking item cancelled while pending |
 | confirmed | in_progress | Work starts or service execution begins |
 | confirmed | completed | Allowed when service does not require in-progress step |
+| confirmed | cancelled | Booking item cancelled after confirmation, per cancellation workflow |
+| confirmed | no_show | Passenger/traveler did not show for a time-bound service |
 | in_progress | completed | Service completed |
+| in_progress | cancelled | Booking item cancelled during execution, per cancellation workflow |
+| in_progress | no_show | Passenger/traveler did not show during execution |
 ```
+
+## Terminal States
+
+- cancelled
+- no_show
+
+Terminal states may not be edited directly. Corrections require adjustment events or authorized reopening in a future policy, consistent with the Booking State Machine's terminal-state rule.
 
 ## Sub-Status Rule
 
@@ -272,6 +287,8 @@ Sub-status transitions must create events but do not require separate tables.
 - booking_item_in_progress
 - booking_item_completed
 - booking_item_sub_status_changed
+- booking_item_cancelled
+- booking_item_no_show_recorded
 
 ---
 
@@ -481,6 +498,316 @@ When rejected:
 - otp_verified
 - otp_failed
 - otp_expired
+
+---
+
+# Task State Machine
+
+## States
+
+- open
+- in_progress
+- completed
+- cancelled
+- overdue
+
+## Normal Flow
+
+```text
+open
+  -> in_progress
+  -> completed
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| open | in_progress | Responsible employee starts work |
+| open | completed | Allowed for tasks completed without a distinct in-progress step |
+| open | cancelled | Task cancelled before completion |
+| open | overdue | System-set when due_at passes without completion |
+| in_progress | completed | Task completed |
+| in_progress | cancelled | Task cancelled during execution |
+| in_progress | overdue | System-set when due_at passes without completion |
+| overdue | in_progress | Work resumed on an overdue task |
+| overdue | completed | Task completed after its due date |
+| overdue | cancelled | Overdue task cancelled |
+
+## Terminal States
+
+- completed
+- cancelled
+
+## Required Events
+
+- task_created
+- task_assigned
+- task_completed
+- task_cancelled
+- task_overdue
+
+---
+
+# Complaint State Machine
+
+## States
+
+- new
+- acknowledged
+- in_progress
+- awaiting_customer
+- awaiting_supplier
+- resolved
+- closed
+
+## Normal Flow
+
+```text
+new
+  -> acknowledged
+  -> in_progress
+  -> resolved
+  -> closed
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| new | acknowledged | Complaint acknowledged by responsible employee |
+| acknowledged | in_progress | Investigation or resolution work started |
+| in_progress | awaiting_customer | Waiting on customer response or documents |
+| in_progress | awaiting_supplier | Waiting on supplier response |
+| awaiting_customer | in_progress | Customer responded |
+| awaiting_supplier | in_progress | Supplier responded |
+| in_progress | resolved | Resolution provided to customer |
+| resolved | closed | Complaint closed after resolution |
+| closed | in_progress | Reopened with reason by authorized user |
+
+## Terminal States
+
+Terminal unless reopened by authorized action:
+
+- closed
+
+## Required Events
+
+- complaint_created
+- complaint_acknowledged
+- complaint_in_progress
+- complaint_awaiting_customer
+- complaint_awaiting_supplier
+- complaint_resolved
+- complaint_closed
+- complaint_reopened
+
+---
+
+# Service Request State Machine
+
+## States
+
+- requested
+- in_progress
+- awaiting_customer
+- awaiting_supplier
+- resolved
+- closed
+
+## Normal Flow
+
+```text
+requested
+  -> in_progress
+  -> resolved
+  -> closed
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| requested | in_progress | Work started on the request |
+| in_progress | awaiting_customer | Waiting on customer response or documents |
+| in_progress | awaiting_supplier | Waiting on supplier response |
+| awaiting_customer | in_progress | Customer responded |
+| awaiting_supplier | in_progress | Supplier responded |
+| in_progress | resolved | Request resolved |
+| resolved | closed | Request closed after resolution |
+| closed | in_progress | Reopened with reason by authorized user |
+
+## Terminal States
+
+Terminal unless reopened by authorized action:
+
+- closed
+
+## Required Events
+
+- service_request_created
+- service_request_in_progress
+- service_request_awaiting_customer
+- service_request_awaiting_supplier
+- service_request_resolved
+- service_request_closed
+- service_request_reopened
+
+---
+
+# Quotation State Machine
+
+## States
+
+- draft
+- sent
+- accepted
+- rejected
+- expired
+- cancelled
+
+## Normal Flow
+
+```text
+draft
+  -> sent
+  -> accepted
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| draft | sent | Quotation sent to customer |
+| draft | cancelled | Quotation cancelled before sending |
+| sent | accepted | Customer accepts the quotation |
+| sent | rejected | Customer rejects the quotation |
+| sent | expired | valid_until passes without customer response |
+| sent | cancelled | Quotation withdrawn before customer response |
+| rejected | draft | Revised and prepared for resending |
+| expired | draft | Revised and prepared for resending |
+
+## Terminal States
+
+- accepted
+- cancelled
+
+Terminal unless reopened by authorized action:
+
+- rejected
+- expired
+
+## Effects
+
+When accepted:
+
+- Quotation may produce a Booking, which references the Quotation via `bookings.quotation_id`.
+- `quotation_accepted` event is created.
+
+## Required Events
+
+- quotation_created
+- quotation_sent
+- quotation_accepted
+- quotation_rejected
+- quotation_expired
+- quotation_cancelled
+- quotation_revised
+
+---
+
+# Conversation State Machine
+
+## States
+
+- open
+- assigned
+- pending_customer
+- pending_internal
+- escalated
+- closed
+
+## Normal Flow
+
+```text
+open
+  -> assigned
+  -> closed
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| open | assigned | Conversation assigned to a user or department |
+| assigned | pending_customer | Waiting on customer reply |
+| assigned | pending_internal | Waiting on internal department or supplier |
+| pending_customer | assigned | Customer replied |
+| pending_internal | assigned | Internal response received |
+| assigned | escalated | Escalated to a manager or another department |
+| escalated | assigned | De-escalated back to normal handling |
+| assigned | closed | Conversation closed |
+| pending_customer | closed | Conversation closed without further customer response |
+| escalated | closed | Conversation closed after escalation resolved |
+| closed | open | Reopened with reason by authorized user |
+
+## Terminal States
+
+Terminal unless reopened by authorized action:
+
+- closed
+
+## Required Events
+
+- conversation_started
+- conversation_assigned
+- conversation_escalated
+- conversation_closed
+- conversation_reopened
+
+---
+
+# Marketing Campaign State Machine
+
+## States
+
+- draft
+- active
+- paused
+- ended
+- archived
+
+## Normal Flow
+
+```text
+draft
+  -> active
+  -> ended
+  -> archived
+```
+
+## Allowed Transitions
+
+| From | To | Rule |
+| --- | --- | --- |
+| draft | active | Campaign launched |
+| active | paused | Campaign paused |
+| paused | active | Campaign resumed |
+| active | ended | Campaign ended |
+| paused | ended | Campaign ended while paused |
+| ended | archived | Campaign archived after ending |
+
+## Terminal States
+
+- archived
+
+## Required Events
+
+- marketing_campaign_created
+- marketing_campaign_activated
+- marketing_campaign_paused
+- marketing_campaign_ended
+- marketing_campaign_archived
 
 ---
 

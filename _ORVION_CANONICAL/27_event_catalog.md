@@ -1,6 +1,6 @@
 # Event Catalog
 
-Version: 0.1
+Version: 0.2
 Status: Draft
 Canonical: Yes
 
@@ -393,6 +393,18 @@ Requires:
 - Customer balance snapshot
 - Reason
 
+## booking_item_cancelled
+
+Severity: warning
+
+Requires:
+
+- Cancellation reason
+
+## booking_item_no_show_recorded
+
+Severity: warning
+
 ---
 
 # Passenger Events
@@ -454,9 +466,43 @@ Severity: warning
 
 Severity: info
 
+## approval_requested
+
+Severity: info
+
+Triggers:
+
+- Any `approval_requests` row created for an `approval_type_code` other than `finance_execution_approval`, which continues to use `finance_approval_requested`
+
+## approval_approved
+
+Severity: critical
+
+## approval_rejected
+
+Severity: warning
+
+## approval_cancelled
+
+Severity: warning
+
+## approval_resubmitted
+
+Severity: info
+
 ## payment_recorded
 
 Severity: info
+
+## payment_allocation_created
+
+Severity: info
+
+Requires:
+
+- Invoice
+- Payment
+- Allocated amount
 
 ## receipt_created
 
@@ -703,6 +749,205 @@ Severity: warning
 
 ---
 
+# Task Events
+
+## task_created
+
+Severity: info
+
+## task_assigned
+
+Severity: info
+
+## task_completed
+
+Severity: info
+
+## task_cancelled
+
+Severity: warning
+
+## task_overdue
+
+Severity: warning
+
+---
+
+# Complaint Events
+
+## complaint_created
+
+Severity: warning
+
+## complaint_acknowledged
+
+Severity: info
+
+## complaint_in_progress
+
+Severity: info
+
+## complaint_awaiting_customer
+
+Severity: info
+
+## complaint_awaiting_supplier
+
+Severity: info
+
+## complaint_resolved
+
+Severity: info
+
+## complaint_closed
+
+Severity: info
+
+## complaint_reopened
+
+Severity: warning
+
+Requires:
+
+- Reopen reason
+- Authorized actor
+
+---
+
+# Service Request Events
+
+## service_request_created
+
+Severity: info
+
+## service_request_in_progress
+
+Severity: info
+
+## service_request_awaiting_customer
+
+Severity: info
+
+## service_request_awaiting_supplier
+
+Severity: info
+
+## service_request_resolved
+
+Severity: info
+
+## service_request_closed
+
+Severity: info
+
+## service_request_reopened
+
+Severity: warning
+
+Requires:
+
+- Reopen reason
+- Authorized actor
+
+---
+
+# Quotation Events
+
+## quotation_created
+
+Severity: info
+
+## quotation_sent
+
+Severity: info
+
+## quotation_accepted
+
+Severity: info
+
+Effects:
+
+- May produce a Booking referencing the Quotation via `bookings.quotation_id`
+
+## quotation_rejected
+
+Severity: info
+
+## quotation_expired
+
+Severity: warning
+
+## quotation_cancelled
+
+Severity: warning
+
+## quotation_revised
+
+Severity: info
+
+---
+
+# Conversation Events
+
+## conversation_started
+
+Severity: info
+
+## conversation_assigned
+
+Severity: info
+
+## conversation_escalated
+
+Severity: warning
+
+## conversation_closed
+
+Severity: info
+
+## conversation_reopened
+
+Severity: warning
+
+Requires:
+
+- Reopen reason
+- Authorized actor
+
+## conversation_message_received
+
+Severity: info
+
+## conversation_message_sent
+
+Severity: info
+
+---
+
+# Marketing Campaign Events
+
+## marketing_campaign_created
+
+Severity: info
+
+## marketing_campaign_activated
+
+Severity: info
+
+## marketing_campaign_paused
+
+Severity: info
+
+## marketing_campaign_ended
+
+Severity: info
+
+## marketing_campaign_archived
+
+Severity: info
+
+---
+
 # Events Not Required
 
 The following do not require events unless they cause a business state change:
@@ -718,4 +963,3 @@ The following do not require events unless they cause a business state change:
 # Next Step
 
 Create `28_permissions_matrix.md`.
-
