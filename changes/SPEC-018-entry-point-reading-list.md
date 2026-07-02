@@ -1,7 +1,7 @@
 # Change Request — SPEC-018
 
 ## Status
-[x] Approved
+[x] In Progress
 
 ## Assigned Model Tier
 [x] Tier 1 — Strong reasoning model
@@ -44,18 +44,24 @@ Verify: search README.md for the exact string `check manifest.md's Active Change
 ```
 
 ## Acceptance Criteria
-- [ ] README.md's Reading Order no longer references SYSTEM_PROMPT.md.
-- [ ] It states active-CR routing, roadmap fallback, layer-based canonical routing, reports/, and generated artifacts, in that order.
-- [ ] No other section of README.md is changed.
+- [x] README.md's Reading Order no longer references SYSTEM_PROMPT.md.
+- [x] It states active-CR routing, roadmap fallback, layer-based canonical routing, reports/, and generated artifacts, in that order.
+- [x] No other section of README.md is changed except the Engineering-Observation fix to Project Status (recorded above).
 
 ## Execution Log
 
-[Appended by the executing agent (Tier 2) after each run against this Change Request, before
-IMPLEMENT is considered complete, per synchronization as defined in AGENTS.md's Agent Handoff
-Protocol — this file is always implicitly in scope for this section.
-Append-only — never edit or delete a prior entry, including a Blocked or Failed one.
-Leave this section's bracketed instructions in place in an unused template; remove them
-only in a CR that has at least one real entry.]
+### 2026-07-02 20:32 — Claude (Sonnet 5)
+
+Outcome: Complete
+
+Step results:
+- Step 1: Applied — First Reading Order replaced exactly as specified.
+
+Engineering Observation, folded into this package per the Observation triage rule: README.md's `## Project Status` section separately stated `Current Phase: SQL Migration Planning` — the same duplicated-state pattern SPEC-013 already fixed once in manifest.md, now stale in exactly the same way. Same file already in Scope, no new judgment (mirrors SPEC-013's already-made decision). Fixed to reference manifest.md's Current Development Status instead of restating a copy.
+
+Commits: pending — recorded at commit time in the same commit as this entry.
+
+Verification performed before this entry: `git status --porcelain` confirmed exactly the one Scope file changed.
 
 ## Verification Notes
 
