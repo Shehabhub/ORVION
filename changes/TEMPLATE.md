@@ -116,6 +116,44 @@ broad criteria — this makes partial completion and partial failure both indivi
 
 ---
 
+## Execution Log
+
+[Appended by the executing agent (Tier 2) after each run against this Change Request.
+Append-only — never edit or delete a prior entry, including a Blocked or Failed one.
+Leave this section's bracketed instructions in place in an unused template; remove them
+only in a CR that has at least one real entry.]
+
+### <YYYY-MM-DD HH:MM> — <agent identifier>
+
+Outcome: Complete | Blocked | Failed
+
+Step results:
+- Step 1: Already Applied | Applied | Failed — <one-line reason>
+
+Commits: <commit hash(es) for this run>
+
+Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
+exactly which verification check produced an unanticipated result and where. Do not propose
+or apply a guessed resolution.>
+
+---
+
+## Verification Notes
+
+[Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
+against the live repository state. Append-only — never edit or delete a prior entry.]
+
+### <YYYY-MM-DD HH:MM> — <agent identifier>
+
+Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+
+Findings: <what was independently re-checked, and what was found>
+
+Recommendation to human: Set Status to Complete | Set Status to Cancelled | Approve corrective
+Change Request `changes/SPEC-00N-*.md`
+
+---
+
 ## Review Gate
 
 [Human-completed. Do not mark Status as Complete until every item below is checked.]

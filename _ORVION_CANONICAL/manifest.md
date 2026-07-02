@@ -68,6 +68,8 @@ Last Completed Task: Froze logical schema baseline
 
 Next Planned Task: Create SQL migration plan
 
+Active Change Request: None
+
 ---
 
 # Development Roadmap

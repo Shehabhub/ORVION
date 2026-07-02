@@ -46,10 +46,13 @@ _ORVION_CANONICAL/manifest.md
 changes/CHANGE_REQUEST.md
 changes/SPEC-002-phase1-database-foundation.md
 changes/SPEC-003-phase1-consistency-fix.md
+changes/SPEC-004-phase2-catalog-lifecycle.md
 changes/TEMPLATE.md
 git-tree.txt
 global-rules.md
 project-tree.txt
+reports/phase-02-catalog-lifecycle-audit.md
+reports/phase-02-prioritized-findings.md
 scripts/repository-all.ps1
 scripts/start-aider.ps1
 supabase/.branches/_current_branch
