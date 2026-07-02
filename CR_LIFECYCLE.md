@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document is the single authoritative reference for the lifecycle of a Change Request in this repository — its states, allowed transitions, and the responsibility for each transition. It consolidates behavior already established across `AGENTS.md`, `PROTOCOL.md`, `changes/TEMPLATE.md`, and `changes/SPEC-010-cr-living-artifact-protocol.md`. It introduces no new state, transition, responsibility, or governance beyond what those documents already establish.
+This document is the single authoritative reference for the lifecycle of a Change Request in this repository — its states, allowed transitions, and the responsibility for each transition, and how mid-execution discoveries are handled. It consolidates behavior already established across `AGENTS.md`, `PROTOCOL.md`, `changes/TEMPLATE.md`, and `changes/SPEC-010-cr-living-artifact-protocol.md`. It introduces no new state, transition, responsibility, or governance beyond what those documents already establish.
 
 ## 2. Lifecycle Overview
 
@@ -88,3 +88,9 @@ In Progress
 Complete    (terminal)
 Cancelled   (terminal)
 ```
+
+## 11. Engineering Observations
+
+A discovery made during IMPLEMENT or REVIEW that was not anticipated by the Change Request's own Implementation Steps is recorded as an Engineering Observation — what was discovered, why it matters, and which of two outcomes applies. It stays inside the current Change Request only if it touches a file already in that Change Request's Scope, uses a mechanism the Change Request already relies on, and requires no judgment beyond what the Change Request was already drafted to make — and only if flagged before that Change Request is Approved, never added silently afterward. Otherwise it becomes its own future Change Request. An Engineering Observation is never silently implemented and never silently discarded.
+
+An Observation concerning the engineering methodology itself — as distinct from repository content — never interrupts the Change Request that surfaced it. The current Change Request always completes its own lifecycle normally first; only afterward is a methodology refinement considered, and only through its own Change Request. The methodology does not change inside an implementation package.
