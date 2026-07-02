@@ -41,3 +41,103 @@ ORVION is not:
 - Airline Reservation System
 
 It integrates with such systems when necessary.
+
+## 12. Business Context (from codex.md)
+
+### About ORVION
+
+ORVION is a practical CRM and Operations System for Egyptian Travel Agencies.
+
+It manages the complete customer journey from the first contact until revenue is generated.
+
+The system focuses on real daily work inside travel companies.
+
+Examples include:
+
+- Flight Tickets
+- Umrah
+- Hajj
+- Visa Services
+- Tour Packages
+- Hotel Reservations
+- Customer Follow-up
+- Sales Pipeline
+- Call Tracking
+- WhatsApp Conversations
+- Offline Conversion for Google Ads
+
+Do not attempt to transform ORVION into a generic ERP.
+
+### Business First
+
+Every feature should support an actual travel agency workflow.
+
+Ask:
+
+- Who uses this?
+- Why?
+- When?
+- What business value does it provide?
+
+If no business value exists, do not implement it.
+
+### Travel Agency Mindset
+
+Always think from the perspective of:
+
+- Sales Employee
+- Customer Service
+- Ticketing Staff
+- Operations
+- Manager
+- Owner
+
+The software exists to make their work easier.
+
+### Event Philosophy
+
+Record important business events.
+
+Do not create events for every tiny action.
+
+Focus on meaningful business milestones.
+
+Examples:
+
+- Lead Created
+- Lead Assigned
+- Conversation Started
+- Conversation Closed
+- Booking Created
+- Booking Confirmed
+- Ticket Issued
+- Payment Received
+- Refund Completed
+
+### API Philosophy
+
+Keep APIs predictable.
+
+Keep naming consistent.
+
+Validate inputs.
+
+Return useful errors.
+
+Do not expose internal implementation.
+
+### UI Philosophy
+
+The UI exists to help employees finish work quickly.
+
+Prefer:
+
+- Less clicks
+- Clear forms
+- Consistent layouts
+- Simple navigation
+- Readable tables
+
+Avoid unnecessary animations.
+
+Avoid decorative complexity.

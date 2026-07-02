@@ -75,6 +75,8 @@ Project documentation:
 
 * README.md
 * PROJECT_CONTEXT.md
+* _ORVION_CANONICAL/manifest.md
+* CR_LIFECYCLE.md
 
 Project rules:
 
@@ -117,4 +119,13 @@ Always leave the repository in a clean state.
 * Handoff between agents happens through `changes/*.md` Change Request files and the `Active Change Request` field in `_ORVION_CANONICAL/manifest.md` — not through chat.
 * A Change Request's `## Execution Log` and `## Verification Notes` sections are append-only. Never edit or delete a prior entry.
 * Only a human may change a Change Request's Status to `Complete` or `Cancelled`. Codex may change `Approved` to `In Progress` as the first action of its own execution run.
+* `Approve SPEC-NNN`: requires Status `Draft`; flips Status to `Approved`, sets `manifest.md`'s `Active Change Request` to this Change Request's path, commits. If Status is already `Approved` or further along, report that instead of re-applying.
+* `Execute SPEC-NNN`: requires Status `Approved`; flips Status to `In Progress`, performs the Change Request's Implementation Steps exactly as written, appends an `## Execution Log` entry, commits. If Status is still `Draft`, refuse — never treat `Execute` as an implicit `Approve`.
+* `Review SPEC-NNN`: requires Status `In Progress` with at least one `## Execution Log` entry; independently re-verifies every Acceptance Criterion and Review Gate item against the live repository state, not the Execution Log's self-report, appends a `## Verification Notes` entry, commits. If no Execution Log entry exists, report that there is nothing to review.
+* `Complete SPEC-NNN`: requires a `## Verification Notes` entry with `Verdict: Confirmed Complete`; flips Status to `Complete`; clears `manifest.md`'s `Active Change Request`; updates `manifest.md`'s `Current Task` and `Last Completed Task` fields to reflect this Change Request; if this Change Request is the last one scoped to an active phase in `32_execution_roadmap.md`, notes that `Freeze Phase N` may now apply as part of this Change Request's own Execution Log entry — this never auto-invokes `Freeze Phase N`, which remains a separate human-gated command; commits. If no Verification Notes entry exists yet, perform `Review` first, surface the result, and stop. If the existing Verification Notes entry says `Discrepancy Found`, refuse and point to it.
+* `Start Phase N`: requires the prior phase's status in `32_execution_roadmap.md` to be `Complete`; updates the roadmap's phase table and `manifest.md`'s Current Phase/Module/Task. If the prior phase is not `Complete`, flag this explicitly and wait rather than proceeding silently.
+* `Freeze Phase N`: requires every Change Request scoped to that phase to be `Complete` or `Cancelled`; updates that phase's status to `Complete` in the roadmap. If any scoped Change Request is still `Draft`/`Approved`/`In Progress`, list them and refuse until addressed or explicitly overridden.
+* Architecture and engineering methodology are reconsidered only when implementation produces concrete repository evidence that they cannot satisfy their own stated objective — never on preference or discussion alone.
+* Whenever an update is always expected after another action, that update is defined as part of the action itself, not left as a separately remembered responsibility.
+* A Change Request's success is measured not only by its own completion, but by whether it leaves the next Change Request easier to execute. When multiple valid implementation choices exist, prefer the one that reduces maintenance, duplicated knowledge, duplicated authority, and required context.
 * Full protocol: `CR_LIFECYCLE.md` (the authoritative Change Request state-machine reference); design rationale: `reports/repository-communication-protocol.md`.

@@ -1,7 +1,7 @@
 # Change Request — SPEC-012
 
 ## Status
-[x] Approved
+[x] In Progress
 
 ## Assigned Model Tier
 [x] Tier 1 — Strong reasoning model
@@ -81,12 +81,22 @@ Verify: search `AGENTS.md` for the exact string `concrete repository evidence th
 
 ## Execution Log
 
-[Appended by the executing agent (Tier 2) after each run against this Change Request, before
-IMPLEMENT is considered complete, per synchronization as defined in AGENTS.md's Agent Handoff
-Protocol — this file is always implicitly in scope for this section.
-Append-only — never edit or delete a prior entry, including a Blocked or Failed one.
-Leave this section's bracketed instructions in place in an unused template; remove them
-only in a CR that has at least one real entry.]
+### 2026-07-02 19:38 — Claude (Sonnet 5)
+
+Outcome: Complete
+
+Step results:
+- Step 1: Applied — six Command Vocabulary bullets added to AGENTS.md's Agent Handoff Protocol; the Complete bullet includes the extended action (manifest.md state fields, phase-freeze flag).
+- Step 2: Applied — SYSTEM_PROMPT.md replaced with a deprecation notice matching CHANGE_REQUEST.md's format.
+- Step 3: Applied — codex.md replaced with a deprecation notice, after Step 4 relocated its business content.
+- Step 4: Applied — PROJECT_CONTEXT.md gained a new §12 "Business Context (from codex.md)" containing the About ORVION, Business First, Travel Agency Mindset, Event Philosophy, API Philosophy, and UI Philosophy sections verbatim.
+- Step 5: Applied — global-rules.md gained the AGENTS.md deferral line.
+- Step 6: Applied — AGENTS.md's Project Context list now includes manifest.md and CR_LIFECYCLE.md.
+- Step 7: Applied — three Execution Contract bullets added to AGENTS.md's Agent Handoff Protocol, in the same edit as Step 1.
+
+Commits: pending — recorded at commit time in the same commit as this entry.
+
+Verification performed before this entry: `git status --porcelain` confirmed exactly the five Scope files changed (AGENTS.md, codex.md, SYSTEM_PROMPT.md, global-rules.md, PROJECT_CONTEXT.md); `git diff` on AGENTS.md and global-rules.md confirmed the exact intended insertions with nothing else altered.
 
 ## Verification Notes
 

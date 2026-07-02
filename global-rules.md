@@ -3,6 +3,8 @@
 Version: 1.0
 Status: Active
 
+AGENTS.md is the operational authority for agent execution. This document supplements it and does not override it.
+
 ## Mission
 
 All AI agents collaborate to build ORVION as a production-grade software platform.
