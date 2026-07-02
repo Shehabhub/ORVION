@@ -79,4 +79,4 @@ No `event_type` catalog exists in `25_catalog_registry.md` for the roughly 150 e
 
 # Next Step
 
-Resolve Blocked Items 1–3, then write SQL migrations in the sequence defined above.
+Resolve Blocked Items 1–2, then write SQL migrations in the sequence defined above.
