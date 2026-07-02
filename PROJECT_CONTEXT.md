@@ -91,6 +91,7 @@ Always think from the perspective of:
 - Operations
 - Manager
 - Owner
+- Finance
 
 The software exists to make their work easier.
 
