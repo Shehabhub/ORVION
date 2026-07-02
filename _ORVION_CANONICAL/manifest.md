@@ -68,7 +68,7 @@ Last Completed Task: Froze logical schema baseline
 
 Next Planned Task: Create SQL migration plan
 
-Active Change Request: changes/SPEC-007-sql-migration-plan.md
+Active Change Request: changes/SPEC-008-migration-plan-blocked-items-fix.md
 
 ---
 
