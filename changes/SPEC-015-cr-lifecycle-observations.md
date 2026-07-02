@@ -45,10 +45,10 @@ An Observation concerning the engineering methodology itself — as distinct fro
 Verify: search for the exact string `and the responsibility for each transition, and how mid-execution discoveries are handled`. If found: Already Applied, skip. If not found: in §1, replace `its states, allowed transitions, and the responsibility for each transition.` with `its states, allowed transitions, and the responsibility for each transition, and how mid-execution discoveries are handled.`
 
 ## Acceptance Criteria
-- [ ] §11 exists, contains both the triage rule and the methodology-sequencing clause, worded exactly as specified.
-- [ ] §1's Purpose sentence reflects the expanded scope.
-- [ ] No existing section (1–10) is otherwise altered.
-- [ ] No file outside Scope was modified.
+- [x] §11 exists, contains both the triage rule and the methodology-sequencing clause, worded exactly as specified.
+- [x] §1's Purpose sentence reflects the expanded scope.
+- [x] No existing section (1–10) is otherwise altered.
+- [x] No file outside Scope was modified.
 
 ## Execution Log
 
@@ -66,14 +66,19 @@ Verification performed before this entry: `git status --porcelain` confirmed exa
 
 ## Verification Notes
 
-[Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
-against the live repository state. Append-only — never edit or delete a prior entry.]
+### 2026-07-02 20:21 — Claude (Sonnet 5)
+
+Verdict: Confirmed Complete
+
+Findings: `git diff c06ccf9 HEAD` on CR_LIFECYCLE.md matches both Implementation Steps exactly. No file outside Scope touched.
+
+Recommendation to human: Set Status to Complete
 
 ## Review Gate
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied.
-- [ ] No file outside the Scope list was modified or created.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied.
+- [x] No file outside the Scope list was modified or created.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 This formalizes a rule that has already governed SPEC-012 through SPEC-014's drafting in practice — transcription of proven behavior, matching the same justification used for adopting the Command Vocabulary in SPEC-012.
