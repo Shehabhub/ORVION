@@ -44,6 +44,7 @@ _ORVION_CANONICAL/SYSTEM_PROMPT.md
 _ORVION_CANONICAL/codex.md
 _ORVION_CANONICAL/manifest.md
 changes/CHANGE_REQUEST.md
+changes/SPEC-002-phase1-database-foundation.md
 changes/TEMPLATE.md
 git-tree.txt
 global-rules.md

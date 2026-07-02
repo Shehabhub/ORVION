@@ -1,5 +1,5 @@
 Folder PATH listing
-Volume serial number is 00000036 BC1B:451F
+Volume serial number is 00000096 BC1B:451F
 C:.
 |   .aider.chat.history.md
 |   .aider.conf.yml
@@ -27,6 +27,7 @@ C:.
 +---changes
 |       CHANGE_REQUEST.md
 |       SPEC-002-phase1-database-foundation.md
+|       SPEC-003-phase1-consistency-fix.md
 |       TEMPLATE.md
 |       
 +---scripts

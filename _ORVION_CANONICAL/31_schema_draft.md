@@ -1,6 +1,6 @@
 # Schema Draft
 
-Version: 0.3
+Version: 0.4
 Status: Frozen Baseline
 Canonical: Yes
 
@@ -330,6 +330,35 @@ Core fields:
 
 ---
 
+# 2a. Reference Tables
+
+## currencies
+
+Purpose:
+
+Canonical, validated currency list used by every `currency_code` column in this schema.
+
+Core fields:
+
+- code
+- name
+- symbol nullable
+- decimal_places
+- is_active
+- created_at
+- updated_at
+
+Unique:
+
+- code
+
+Notes:
+
+- Every `currency_code` column elsewhere in this document is a reference to `currencies.code`.
+- `decimal_places` exists because the Money Standard's `numeric(14, 2)` convention (see `database_conventions.md`) is a safe default for EGP/SAR/USD but is not universal; this column allows a future currency to be onboarded without a silent rounding defect.
+
+---
+
 # 3. CRM Tables
 
 ## leads
@@ -481,6 +510,26 @@ Core fields:
 - source_entity_type
 - source_entity_id
 - created_at
+
+## customer_identity_merges
+
+Purpose:
+
+Records customer identity merge actions as first-class, queryable data.
+
+Core fields:
+
+- id
+- tenant_id
+- source_customer_id
+- target_customer_id
+- merged_by
+- reason nullable
+- created_at
+
+Notes:
+
+- This table supplements, and does not replace, the customer_identity_merged event already defined in event_catalog.md. The event remains the audit-trail record of the action; this table is the queryable relational record.
 
 ## customer_notes
 
@@ -694,6 +743,8 @@ Core fields:
 - tenant_id
 - customer_id nullable
 - lead_id nullable
+- booking_id nullable
+- booking_item_id nullable
 - owner_user_id nullable
 - owner_department_id nullable
 - owner_branch_id nullable
@@ -781,6 +832,10 @@ Notes:
 - Passenger relationship improves customer history and future booking context.
 - Add indexes on `passport_expiry_date` and `visa_expiry_date` for operational expiry searches.
 
+Rules:
+
+- passport_issue_date, when both fields are populated, must be earlier than passport_expiry_date.
+
 ## bookings
 
 Purpose:
@@ -797,6 +852,7 @@ Core fields:
 - owner_department_id nullable
 - owner_branch_id nullable
 - lead_id nullable
+- quotation_id nullable
 - customer_id
 - booking_status_code
 - title
@@ -866,6 +922,10 @@ Notes:
 - Operational ownership changes should be recorded as events; a separate ownership history table is not required in this draft.
 - `commission_rate` reserves a lightweight path for future sales commission calculation without creating a payroll model.
 
+Rules:
+
+- cost_amount and selling_amount must not be negative.
+
 ## booking_item_passengers
 
 Purpose:
@@ -878,11 +938,18 @@ Core fields:
 - tenant_id
 - booking_item_id
 - passenger_id
+- selling_amount_override numeric nullable
+- cost_amount_override numeric nullable
 - created_at
 
 Unique:
 
 - booking_item_id + passenger_id
+
+Rules:
+
+- selling_amount_override and cost_amount_override, when populated, represent this passenger's individual price/cost within the shared booking_item. When null, the passenger's share is treated as an even split of the parent booking_item's selling_amount/cost_amount.
+- Where populated, these fields must not be negative, consistent with the equivalent rule on booking_items.
 
 ## suppliers
 
@@ -1005,6 +1072,11 @@ Core fields:
 - credit_amount numeric
 - currency_code
 - description
+- created_at
+
+Rules:
+
+- Exactly one of debit_amount or credit_amount must be populated per row (the other must be null or zero). A row with both populated, or neither, is invalid.
 
 ## invoices
 
@@ -1025,6 +1097,9 @@ Core fields:
 - currency_code
 - total_amount numeric
 - status_code
+- voided_at nullable
+- voided_by nullable
+- void_reason nullable
 - external_submission_id nullable
 - external_submission_status_code nullable
 - external_submitted_at nullable
@@ -1064,6 +1139,33 @@ Core fields:
 - created_by
 - created_at
 - updated_at
+
+## payment_allocations
+
+Purpose:
+
+Links a payment to the specific invoice(s) it settles, supporting partial and installment payments against a single invoice, including cross-currency settlement.
+
+Core fields:
+
+- id
+- tenant_id
+- payment_id
+- invoice_id
+- allocated_amount numeric
+- currency_code
+- exchange_rate_id nullable
+- allocated_amount_invoice_currency numeric nullable
+- created_by
+- created_at
+
+Notes:
+
+- One payment may be allocated across multiple invoices; one invoice may receive allocations from multiple payments.
+- sum(allocated_amount_invoice_currency) (or allocated_amount when no currency conversion applies) across all allocations for one invoice must not exceed that invoice's total_amount. This is an application/SQL-level rule, not a new table constraint description.
+- invoice_status_code values partially_paid and paid are derived from the sum of this table's allocated amounts for the invoice, compared against invoices.total_amount.
+- currency_code records the currency the payment was actually made in (matching payments.currency_code).
+- exchange_rate_id (referencing exchange_rates) and allocated_amount_invoice_currency are populated only when the payment's currency differs from the invoice's currency, following the same pattern already established by booking_items.exchange_rate_id. When the payment and invoice share the same currency, both fields remain null and allocated_amount alone is authoritative.
 
 ## receipts
 
@@ -1254,6 +1356,10 @@ Core fields:
 - uploaded_at
 - is_current
 
+Rules:
+
+- At most one document_versions row per document_id may have is_current = true.
+
 ## document_links
 
 Purpose:
@@ -1269,6 +1375,7 @@ Core fields:
 - booking_id nullable
 - booking_item_id nullable
 - invoice_id nullable
+- quotation_id nullable
 - receipt_id nullable
 - supplier_id nullable
 - subscription_payment_proof_id nullable
@@ -1279,6 +1386,7 @@ Rules:
 
 - Exactly one target FK should be set per row.
 - This avoids weak polymorphic document links for MVP.
+- This rule must be enforced as a database-level constraint at SQL migration time, not only as an application-layer check.
 
 ---
 
@@ -1586,6 +1694,7 @@ Core fields:
 - tenant_id
 - lead_id nullable
 - attribution_source_code
+- marketing_campaign_id nullable
 - gclid nullable
 - session_id nullable
 - click_id nullable
@@ -1613,6 +1722,7 @@ Core fields:
 - booking_item_id nullable
 - payment_id nullable
 - attribution_click_id nullable
+- marketing_campaign_id nullable
 - conversion_event_type_code
 - conversion_value numeric nullable
 - currency_code nullable
@@ -1647,6 +1757,7 @@ Core fields:
 
 - catalog_types
 - catalog_values
+- currencies
 - roles
 - permissions
 - role_permissions
@@ -1667,8 +1778,11 @@ Core fields:
 - customers
 - customer_contact_methods
 - customer_identity_signals
+- customer_identity_merges
 - customer_notes
 - tasks
+- complaints
+- service_requests
 - quotations
 - quotation_items
 - conversations
@@ -1679,6 +1793,8 @@ Core fields:
 - booking_item_passengers
 - suppliers
 - internal_supplier_links
+- branch_business_hours
+- holidays
 
 ## Financial
 
@@ -1688,6 +1804,7 @@ Core fields:
 - journal_entry_lines
 - invoices
 - payments
+- payment_allocations
 - receipts
 - refunds
 - approval_requests
@@ -1759,6 +1876,7 @@ The following decisions are acceptable for MVP but should be reviewed before SQL
 5. `approval_requests` is now generic. Finance execution approval should use this table instead of a separate physical finance approvals table.
 6. `document_links` now uses explicit nullable target FKs instead of polymorphic target fields. SQL migration should enforce exactly one target per row.
 7. Logical schema is frozen as the working baseline after this review. No additional schema redesign should happen unless implementation reveals a real problem.
+8. Version 0.4 closed the Phase 1 Domain & Schema Audit findings via SPEC-002 and SPEC-003 (see changes/): added `currencies`, `payment_allocations`, and `customer_identity_merges`; added missing columns to `journal_entry_lines`, `invoices`, `booking_item_passengers`, `bookings`, `conversations`, `attribution_clicks`, `offline_conversions`, and `document_links`; documented five previously-unenforced constraints as table-level Rules (journal debit/credit exclusivity, booking_items and booking_item_passengers non-negative amounts, document_links single-target, document_versions single-current-version); and corrected the Table Classification Summary. State machines, events, and permissions for the CRM-extension entities (Task, Quotation, Conversation, Complaint, Service Request, Marketing Campaign) remain open and are explicitly deferred to the Phase 2 Catalog & Lifecycle Audit — no changes to `26_state_machines.md`, `27_event_catalog.md`, or `28_permissions_matrix.md` have been made as of this entry.
 
 ---
 

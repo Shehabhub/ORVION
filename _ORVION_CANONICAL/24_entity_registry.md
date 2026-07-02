@@ -79,6 +79,28 @@ Responsibilities:
 - Scopes department manager authority.
 - Supports routing and permissions.
 
+## Branch Business Hours
+
+Represents weekly operating hours for a branch.
+
+Responsibilities:
+
+- Supports SLA calculation windows.
+- Supports operational planning and scheduling displays.
+
+## Holiday
+
+Represents a lightweight holiday calendar entry.
+
+Responsibilities:
+
+- Supports SLA calculation exceptions.
+- Supports operational planning around non-working days.
+
+Notes:
+
+- May be tenant-wide or branch-specific.
+
 ## User
 
 Represents an employee or authorized platform user.
@@ -154,6 +176,27 @@ Responsibilities:
 
 - Supports scoped permissions.
 - Allows different authority in different branches or departments.
+
+## Role Permission
+
+Represents the assignment of a Permission to a Role.
+
+Responsibilities:
+
+- Defines which Permissions each Role grants.
+
+---
+
+# Reference Entities
+
+## Currency
+
+Represents a canonical, validated currency used across the platform.
+
+Responsibilities:
+
+- Provides the single source of truth for every `currency_code` reference in the system.
+- Carries decimal precision so multi-currency amounts round correctly.
 
 ---
 
@@ -236,6 +279,33 @@ Responsibilities:
 - Supports duplicate detection.
 - Supports communication history.
 
+## Customer Identity Merge
+
+Represents merging one customer identity into another.
+
+Responsibilities:
+
+- Records source and target customer, the merging user, and the reason, as queryable relational data.
+- Supplements (does not replace) the `customer_identity_merged` audit event.
+
+## Customer Identity Signal
+
+Represents a data point used for duplicate-customer detection.
+
+Responsibilities:
+
+- Supports duplicate detection across phone, email, passport, or other identity signals.
+- Records which source entity contributed the signal.
+
+## Customer Note
+
+Represents a searchable, editable business note about a customer.
+
+Responsibilities:
+
+- Stores customer-relevant business memory, distinct from immutable events.
+- May be pinned or marked confidential.
+
 ## Customer Branch Activity Summary
 
 Represents limited cross-branch awareness for a customer.
@@ -249,6 +319,78 @@ Responsibilities:
 Notes:
 
 - Does not expose detailed event content from another branch by default.
+
+## Task
+
+Represents operational work assigned to an employee.
+
+Examples:
+
+- Call customer
+- Send quotation
+- Issue ticket
+- Verify passport
+- Collect payment
+- Approve refund
+
+Responsibilities:
+
+- Tracks responsible employee, due date, and completion.
+- Distinct from notifications, which communicate information rather than represent work.
+
+## Complaint
+
+Represents a first-class customer complaint and its resolution workflow.
+
+Responsibilities:
+
+- Links to the customer and, where applicable, the booking or booking item concerned.
+- Integrates with tasks, conversations, and events for full timeline history.
+
+## Service Request
+
+Represents operational work requested by a customer after the initial booking.
+
+Responsibilities:
+
+- Links to the customer and, where applicable, the booking or booking item concerned.
+- Links naturally to tasks, events, and conversations rather than requiring a separate table per request type.
+
+## Quotation
+
+Represents a price/service offer sent to a customer before booking.
+
+Responsibilities:
+
+- Links to a lead or customer.
+- May be accepted to create a booking.
+
+## Quotation Item
+
+Represents a service line inside a quotation.
+
+Responsibilities:
+
+- Records service type, quantity, unit price, and currency for one quoted line item.
+
+## Conversation
+
+Represents an ongoing or historical customer conversation.
+
+Responsibilities:
+
+- Supports WhatsApp, phone, and future channels.
+- Links to customer, lead, and — once linked post-booking — booking or booking item.
+- Distinct from events: conversations store communication context, events record milestones.
+
+## Conversation Message
+
+Represents an individual conversation message or call log entry.
+
+Responsibilities:
+
+- Stores message direction, sender, and content or metadata.
+- Business-critical outcomes are recorded separately in lead interactions and events, not only in message content.
 
 ---
 
@@ -404,6 +546,16 @@ Responsibilities:
 - Tracks amount, currency, account, and related business entity.
 - Supports installments.
 
+## Payment Allocation
+
+Represents a payment settling a specific invoice, in whole or in part.
+
+Responsibilities:
+
+- Links a Payment to the Invoice(s) it settles.
+- Supports partial and installment payments against a single invoice.
+- Records the exchange rate used when the payment's currency differs from the invoice's currency.
+
 ## Refund
 
 Represents money returned or expected to be returned.
@@ -422,6 +574,11 @@ Responsibilities:
 - Gates service execution or issuance.
 - Records approval source.
 - Locks cost where required.
+
+Notes:
+
+- Implemented via the generic `approval_requests` table (`approval_type_code = finance_execution_approval`), not a separate physical table — see `31_schema_draft.md`, Review Required item 5.
+- `approval_requests` also carries the other approval types (refund, discount, booking override, manual price change, sensitive data change, subscription) under the same generic mechanism.
 
 ## Exchange Rate
 
@@ -634,7 +791,25 @@ Responsibilities:
 
 ---
 
-# Offline Conversion Entities
+# Marketing And Offline Conversion Entities
+
+## Marketing Campaign
+
+Represents an advertising campaign tracked by ORVION.
+
+Responsibilities:
+
+- Represents the campaign a click, conversion, or metric belongs to.
+- Supports the Marketing Dashboard without implementing full ad platform management.
+
+## Campaign Daily Metric
+
+Represents daily marketing performance values for a campaign.
+
+Responsibilities:
+
+- Stores spend, impressions, clicks, leads, bookings, and revenue per day.
+- May be imported from integrations or calculated internally.
 
 ## Attribution Click
 
@@ -643,6 +818,7 @@ Represents captured ad click/session data.
 Responsibilities:
 
 - Stores GCLID, session ID, click ID, UTM fields, landing page, and timestamp.
+- Links to the Marketing Campaign it belongs to, where identifiable.
 
 ## Offline Conversion
 
@@ -660,6 +836,7 @@ Responsibilities:
 
 - Links CRM outcome to ad click data.
 - Prepares delivery to Google Ads.
+- Links to the Marketing Campaign it belongs to, where identifiable.
 
 ## Offline Conversion Delivery
 
@@ -690,4 +867,3 @@ The following entities are intentionally deferred from first schema unless neede
 # Next Step
 
 Create `25_catalog_registry.md`.
-

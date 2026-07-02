@@ -308,6 +308,8 @@ Recommended:
 currency_code text not null
 ```
 
+`currency_code` values must reference `currencies.code` (see `31_schema_draft.md`, Reference Tables). The `numeric(14, 2)` default above is correct for every currency currently in ORVION's documented scope (EGP, SAR, USD); `currencies.decimal_places` exists to prevent a silent rounding defect if a non-2-decimal currency is added in the future.
+
 Exchange rates should be numeric with sufficient precision.
 
 Recommended:
@@ -470,4 +472,3 @@ Tenant-specific data should not be hardcoded except default setup templates.
 # Next Step
 
 Create `31_schema_draft.md`.
-

@@ -67,6 +67,11 @@ Used for:
 - Nationalities
 - Airports where needed later
 
+Status:
+
+- Currencies: Implemented — see `31_schema_draft.md`, Reference Tables (`currencies`).
+- Countries, Cities, Languages, Nationalities, Airports: Not yet implemented as dedicated reference tables; current fields (e.g. `nationality_code`, `destination_country_code`, `preferred_language_code`) remain free-standing codes pending a documented business requirement for validated lookups at that granularity.
+
 Rule:
 
 Do not store reference datasets inside generic `catalog_values` unless there is a strong business reason.

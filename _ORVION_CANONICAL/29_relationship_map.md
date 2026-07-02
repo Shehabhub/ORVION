@@ -191,6 +191,87 @@ Cardinality:
 - lead 1 -> many lead_interactions
 - user 1 -> many lead_interactions
 
+## Customer To Customer (Identity Merge)
+
+Relationship:
+
+- Customer (source) may be merged into exactly one Customer (target) via Customer Identity Merge.
+- Customer (target) may have many source merges recorded against it.
+
+Cardinality:
+
+- customer (target) 1 -> many customer_identity_merges
+
+Purpose:
+
+- Supports customer-identity merges as a queryable, reconstructable action, not only an event-log entry.
+
+---
+
+# CRM Extension Relationships
+
+## Customer/Lead To Task
+
+Relationship:
+
+- Task may relate to any business entity via `related_entity_type`/`related_entity_id`.
+- Task is owned by exactly one User, Department, and Branch.
+
+## Customer To Complaint
+
+Relationship:
+
+- Customer has many Complaints.
+- Complaint may optionally link to the Booking or Booking Item it concerns.
+
+Cardinality:
+
+- customer 1 -> many complaints
+- booking 1 -> many complaints
+- booking_item 1 -> many complaints
+
+## Customer To Service Request
+
+Relationship:
+
+- Customer has many Service Requests.
+- Service Request may optionally link to the Booking or Booking Item it concerns.
+
+Cardinality:
+
+- customer 1 -> many service_requests
+- booking 1 -> many service_requests
+- booking_item 1 -> many service_requests
+
+## Lead/Customer To Quotation
+
+Relationship:
+
+- Quotation may originate from a Lead or belong directly to a Customer.
+- Quotation has many Quotation Items.
+
+Cardinality:
+
+- lead 1 -> many quotations
+- customer 1 -> many quotations
+- quotation 1 -> many quotation_items
+
+## Customer/Lead To Conversation
+
+Relationship:
+
+- Conversation may link to a Customer or a Lead.
+- Conversation may optionally link to a Booking or Booking Item once one exists.
+- Conversation has many Conversation Messages.
+
+Cardinality:
+
+- customer 1 -> many conversations
+- lead 1 -> many conversations
+- booking 1 -> many conversations
+- booking_item 1 -> many conversations
+- conversation 1 -> many conversation_messages
+
 ---
 
 # Booking Relationships
@@ -206,6 +287,17 @@ Cardinality:
 
 - lead 1 -> many bookings
 - booking many -> 0/1 lead
+
+## Quotation To Booking
+
+Relationship:
+
+- Quotation may produce zero or one Booking upon acceptance.
+- Booking may optionally reference the Quotation it originated from.
+
+Cardinality:
+
+- quotation 1 -> 0..1 booking
 
 ## Customer To Booking
 
@@ -310,6 +402,23 @@ Cardinality:
 - customer 1 -> many invoices
 - booking 1 -> many invoices
 - booking_item 1 -> many invoices
+
+## Invoice To Payment
+
+Relationship:
+
+- Invoice may have many Payment Allocations.
+- Payment may have many Payment Allocations.
+- Payment Allocation belongs to exactly one Invoice and exactly one Payment.
+
+Cardinality:
+
+- invoice 1 -> many payment_allocations
+- payment 1 -> many payment_allocations
+
+Purpose:
+
+- Supports partial and installment payments against a single invoice with a deterministic, queryable paid/outstanding balance, including cross-currency settlement via an optional exchange rate reference.
 
 ## Customer/Supplier To Payment
 
@@ -497,6 +606,31 @@ Relationship:
 
 # Offline Conversion Relationships
 
+## Marketing Campaign To Daily Metric
+
+Relationship:
+
+- Marketing Campaign has many Campaign Daily Metrics.
+
+Cardinality:
+
+- marketing_campaign 1 -> many campaign_daily_metrics
+
+## Marketing Campaign To Attribution Click / Offline Conversion
+
+Relationship:
+
+- Marketing Campaign may have many Attribution Clicks and many Offline Conversions, where identifiable.
+
+Cardinality:
+
+- marketing_campaign 1 -> many attribution_clicks
+- marketing_campaign 1 -> many offline_conversions
+
+Notes:
+
+- This is a referential (foreign key) link in addition to the existing `utm_campaign` free-text field; the two are not mutually exclusive.
+
 ## Attribution Click To Lead
 
 Relationship:
@@ -528,4 +662,3 @@ Relationship:
 # Next Step
 
 Create `30_database_conventions.md`.
-
