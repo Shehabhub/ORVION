@@ -1,6 +1,6 @@
 # Database Conventions
 
-Version: 0.1
+Version: 0.2
 Status: Draft
 Canonical: Yes
 
@@ -88,6 +88,24 @@ id uuid primary key default gen_random_uuid()
 ```
 
 UUID strategy: UUIDs must be generated server-side using `gen_random_uuid()` (pgcrypto). Ensure the database enables the `pgcrypto` extension in migrations before creating tables.
+
+---
+
+# Identity Key Standard
+
+`users` has a mandatory one-to-one relationship with `auth.users` (see `31_schema_draft.md`, `# 13. Review Required` item 3). The physical key strategy implementing that relationship is fixed here, once, because it is read by multiple independently-authored artifacts — the `users` table migration, the RLS identity-lookup function, and any future application code resolving `auth.uid()` to a business user — that must all agree on the same pattern.
+
+Decision: `users` uses its own independently-generated `id` (per the Primary Key Standard above), plus a separate column:
+
+```sql
+auth_user_id uuid not null unique references auth.users(id)
+```
+
+Do not set `users.id = auth.users.id` as a shared primary key. `auth_user_id` is the sole link between ORVION's business identity and the Supabase Auth identity backing it.
+
+Rationale: a separate column keeps `users.id` stable and provider-independent, since every other table's foreign key already points at `users.id`. It also allows a `users` row to exist before its corresponding `auth.users` row does (for example, an invited-but-not-yet-activated employee), and leaves room for a future second identity provider (for example, enterprise SSO) without a breaking migration to the primary key every other table already references.
+
+The RLS identity lookup function SHALL resolve `auth.uid()` to the corresponding ORVION business user through `auth_user_id`, not through a shared primary key. The function's exact implementation — its full body, return shape, and any additional identity or role context it resolves in the same call — belongs to RLS/migration planning (migration 19), not to this convention.
 
 ---
 

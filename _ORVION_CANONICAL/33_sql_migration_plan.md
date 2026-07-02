@@ -1,6 +1,6 @@
 # SQL Migration Plan
 
-Version: 0.1
+Version: 0.2
 Status: Draft
 Canonical: Yes
 
@@ -30,7 +30,7 @@ Filenames follow `30_database_conventions.md`'s Migration Rule (`YYYYMMDDHHMM_de
 | 2 | `NN_create_system_catalog_tables.sql` | `catalog_types`, `catalog_values` | 1 | No dependencies on business tables. |
 | 3 | `NN_create_reference_tables.sql` | `currencies` | 1 | No dependencies. |
 | 4 | `NN_create_organization_tables.sql` | `tenants`, `branches`, `departments`, `branch_business_hours`, `holidays` | 1 | `tenants` is the isolation root. |
-| 5 | `NN_create_identity_and_access_tables.sql` | `users` (see Blocked Items), `roles`, `permissions`, `role_permissions`, `user_branch_assignments`, `user_role_assignments` | 4 | `users` migration content is blocked — see Blocked Items 1. |
+| 5 | `NN_create_identity_and_access_tables.sql` | `users`, `roles`, `permissions`, `role_permissions`, `user_branch_assignments`, `user_role_assignments` | 4 | `users` migration content is unblocked — relationship in `31_schema_draft.md` `# 13. Review Required` item 3; physical column pattern (`auth_user_id`, not a shared `id`) in `30_database_conventions.md`'s Identity Key Standard. |
 | 6 | `NN_create_finance_foundation_tables.sql` | `exchange_rates`, `chart_of_accounts`, `financial_accounts` | 4 | Moved earlier than the main Finance group because `booking_items.exchange_rate_id` (migration 10) requires `exchange_rates` first. |
 | 7 | `NN_create_document_core_tables.sql` | `documents` (FK to `document_versions` deferred), `document_versions`, then `ALTER TABLE documents ADD CONSTRAINT` for `current_version_id` | 4 | Resolves the mutual reference between `documents` and `document_versions`: neither can be created first with its FK intact, so `documents.current_version_id`'s constraint is deferred until after `document_versions` exists. |
 | 8 | `NN_create_crm_core_tables.sql` | `customers`, `customer_contact_methods`, `customer_identity_signals`, `customer_identity_merges`, `customer_notes`, `leads`, `lead_assignments`, `lead_interactions` | 4, 5 | `customers` before `leads` within this migration (`leads.customer_id` is nullable; `customers` has no dependency on `leads`). |
@@ -44,26 +44,14 @@ Filenames follow `30_database_conventions.md`'s Migration Rule (`YYYYMMDDHHMM_de
 | 16 | `NN_create_authentication_support_tables.sql` | `trusted_devices`, `otp_challenges`, `totp_enrollments` | 5 | All reference `users` only. |
 | 17 | `NN_create_marketing_and_offline_conversion_tables.sql` | `marketing_campaigns`, `campaign_daily_metrics`, `attribution_clicks`, `offline_conversions`, `offline_conversion_deliveries` | 8, 10, 12 | `offline_conversions` carries nullable FKs to `leads`, `bookings`/`booking_items`, and `payments`. |
 | 18 | `NN_seed_system_catalogs.sql` | seed data only, no DDL | 2 | Populates `catalog_values` from `25_catalog_registry.md`. Not blocked — see `# Recommended (Non-Blocking)` regarding `event_type_code`, which requires no catalog and is simply not seeded from one. |
-| 19 | `NN_create_rls_policies.sql` | RLS policies on every tenant-owned table | all preceding | Fully blocked — see Blocked Items 1 and 2. |
+| 19 | `NN_create_rls_policies.sql` | RLS policies on every tenant-owned table | all preceding | Unblocked — resolved via `31_schema_draft.md` `# 13. Review Required` item 3 (`auth.uid()` plus a `SECURITY DEFINER` lookup function against ORVION RBAC tables; no JWT claims) and `30_database_conventions.md`'s Identity Key Standard (lookup function must use `auth_user_id`, not `id`). |
 | 20 | Database verification checklist | — | all preceding | Roadmap Phase 2 explicitly lists this as a distinct Output from the migrations themselves; format (SQL smoke-test script vs. documentation checklist) is not decided by this plan. |
 
 ---
 
 # Blocked Items
 
-The following are not resolved by this plan and must be decided, by a human, before the migration(s) they block can be written correctly. This plan does not invent an answer for any of them.
-
-## 1. `users` / Supabase Auth integration strategy
-
-Blocks: migration 5's `users` table content.
-
-`31_schema_draft.md` `# 13. Review Required` item 3: "`users` table may extend Supabase auth users. Final implementation depends on chosen auth structure." No further design exists anywhere in `_ORVION_CANONICAL/`.
-
-## 2. RLS enforcement mechanism
-
-Blocks: migration 19 in full.
-
-`30_database_conventions.md`'s RLS Standard states the rule (tenant → branch → department isolation) but not the mechanism (helper functions, JWT custom claims, or another approach). Directly downstream of Blocked Item 1.
+None currently. Both items originally listed here — the `users`/Supabase Auth integration strategy and the RLS enforcement mechanism — were resolved by approved architectural decision; see `31_schema_draft.md` `# 13. Review Required` item 3 for the relationship and authorization architecture, and `30_database_conventions.md`'s Identity Key Standard for the physical key pattern the RLS lookup function must use.
 
 ---
 
@@ -79,4 +67,4 @@ No `event_type` catalog exists in `25_catalog_registry.md` for the roughly 150 e
 
 # Next Step
 
-Resolve Blocked Items 1–2, then write SQL migrations in the sequence defined above.
+Write SQL migrations in the sequence defined above. All Blocked Items resolved; see `31_schema_draft.md` `# 13. Review Required` item 3 and `30_database_conventions.md`'s Identity Key Standard.
