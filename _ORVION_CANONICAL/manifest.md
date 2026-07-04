@@ -35,7 +35,7 @@ Last Completed Task: SPEC-041 — migration 11 (CRM extension tables): created t
 
 Next Planned Task: Migration 12 — finance transaction tables per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting (note the journal debit/credit exclusivity CHECK from 31 Rules). Executing migrations 10-15 as one approved continuous phase; the next owner gate is migration 16 (auth-support tables re-homing per ADR-0011).
 
-Active Change Request: None
+Active Change Request: SPEC-042 — migration 12 (finance transaction tables)
 
 ---
 
