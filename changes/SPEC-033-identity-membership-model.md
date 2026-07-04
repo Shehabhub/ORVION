@@ -120,13 +120,18 @@ Commits: this Implement commit.
 
 ## Verification Notes
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 00:11 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked, and what was found>
+Findings: Re-checked independently against live documents.
+- `30` Identity Key Standard: `auth_user_id uuid references auth.users(id)` (no inline `unique`); states `unique (tenant_id, auth_user_id)`; membership framing; authentication-vs-business layer split; RLS resolves `auth.uid()` + active tenant → membership.
+- `31`: `users` Notes and `# 13` item 3 both describe the membership model; no residual "optional one-to-one" identity framing.
+- No `auth_user_id uuid unique` remains anywhere in `_ORVION_CANONICAL/` or `reports/`.
+- ADR-0004 revised to per-tenant uniqueness; ADR-0011 records the membership philosophy, layer split, active-tenant RLS, and the migration-16 auth-support-table note.
+- Scope: `git show --stat fd6fb46` — only `30`, `31`, ADR, and this Change Request changed. No SQL.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled
+Recommendation to human: Set Status to Complete.
 
 ---
 
