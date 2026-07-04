@@ -29,11 +29,11 @@ Current Sprint: SQL migration authoring
 
 Current Module: Database Foundation
 
-Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migration 1 (enable_extensions) is complete; the next dependency-ready unit is migration 2 (system catalog tables: catalog_types, catalog_values). Two known items are recorded for later, neither blocking migration 2: a 30_database_conventions.md amendment (default referential actions and updated_at maintenance mechanism) is required before migration 4, and the npm dependency-manifest decision (package.json/package-lock.json) is deferred to its own Change Request. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
+Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migrations 1 (enable_extensions) and 2 (system catalog tables) are complete; the next dependency-ready unit is migration 3 (reference tables: currencies). Three known items are recorded for later, none blocking migration 3: a 30_database_conventions.md amendment (default referential actions and updated_at maintenance mechanism) is required before migration 4; a small Change Request should add catalog_values' deferred foreign keys (tenant_id -> tenants, created_by -> users) after migration 5 (SPEC-024 Finding F2); and the npm dependency-manifest decision (package.json/package-lock.json) is deferred to its own Change Request. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
 
-Last Completed Task: SPEC-023 — repository hygiene: ignored and untracked transient Supabase CLI artifacts (node_modules/, supabase/.temp/, supabase/.branches/)
+Last Completed Task: SPEC-024 — migration 2 (system catalog tables): created catalog_types and catalog_values with the composite unique (catalog_type_code, code), verified on a clean local database
 
-Next Planned Task: Migration 2 — system catalog tables (catalog_types, catalog_values) per 33_sql_migration_plan.md
+Next Planned Task: Migration 3 — reference tables (currencies) per 33_sql_migration_plan.md
 
 Active Change Request: changes/SPEC-024-migration-2-system-catalog-tables.md
 
