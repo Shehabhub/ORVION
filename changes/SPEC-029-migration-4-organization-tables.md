@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -213,18 +213,24 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 19:59 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — no file matched `supabase/migrations/*_create_organization_tables.sql`; created `supabase/migrations/202607041600_create_organization_tables.sql` with exactly the specified content.
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria + post-migration Database Audit (local Supabase stack, Postgres 17):
+- `npx supabase db reset` applied migrations 1, 2, 3, the SPEC-028 retrofit, and this one on a clean database with no error — confirmed.
+- All five tables exist: `tenants`, `branches`, `departments`, `branch_business_hours`, `holidays` — confirmed.
+- Foreign keys: 8 total, all `del=r` (restrict) `upd=a` (no action) — `branches.tenant_id`, `departments.tenant_id`, `departments.branch_id`, `branch_business_hours.tenant_id`, `branch_business_hours.branch_id`, `holidays.tenant_id`, `holidays.branch_id`, `tenants.default_currency_code` → `currencies(code)` — confirmed.
+- No foreign key on any status/type-code column (`tenants.status`, `branches.branch_type`, `departments.department_type_code`) — query returned empty — confirmed (SPEC-030 compliant).
+- Unique constraints: `tenants_slug_key`, `branches_tenant_slug_key` — confirmed.
+- Indexes: the five specified (`departments_tenant_id_idx`, `departments_branch_id_idx`, `branch_business_hours_branch_id_idx`, `holidays_tenant_id_holiday_date_idx`, `holidays_branch_id_idx`) plus PKs/uniques — confirmed.
+- Triggers: five `..._set_updated_at` before-update triggers on the five tables — confirmed.
+- Behavioral checks (rolled back): updating a `tenants` row advanced `updated_at` (trigger fires); deleting a tenant referenced by a branch raised a foreign-key violation (`on delete restrict` enforced). No rows persisted.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit, which adds `supabase/migrations/202607041600_create_organization_tables.sql` and synchronizes this Change Request. No other migration and no canonical document was changed.
 
 ---
 
