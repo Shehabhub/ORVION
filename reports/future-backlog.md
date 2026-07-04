@@ -32,6 +32,12 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | Auth-support tables belong to the human, not the membership (SPEC-033 / ADR-0011) | Under the membership model, `trusted_devices`, `otp_challenges`, `totp_enrollments` are authentication-layer concerns (device trust, MFA, OTP) that belong to the human identity (`auth.users`), but the current schema keys them to `(tenant_id, user_id=membership)`. Keeping them per-membership would force a person to re-trust devices / re-enrol MFA per company. | **Migration 16** (authentication support tables) design | Yes — re-home to the human identity, or an explicit decision to keep per-membership |
 | Active-tenant RLS context (SPEC-033 / ADR-0011) | RLS must resolve `auth.uid()` + active-tenant → membership; degrades to the single membership when a human has one. The active-tenant claim/plumbing is only wired up when multi-membership UX ships. | **Migration 19** (RLS) design | Part of the RLS migration |
 
+## Business-Key Uniqueness (from Migration 10, SPEC-040)
+
+| Item | Why it matters | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| `bookings.booking_reference` / `quotations.quotation_number` per-tenant unique | These are human-facing business keys; duplicates cause operational confusion and break lookups. `31` does not state a unique constraint. Cheap to add now (empty tables); painful dedup later on populated data. | Soon — a small `31`/migration decision before real booking data accrues | Yes — small canonical + ALTER CR (add `unique (tenant_id, booking_reference)` / `unique (tenant_id, quotation_number)`) |
+
 ## Recommended (evidence-backed, medium-term)
 
 | Item | Why it matters | Trigger / when | CR? |

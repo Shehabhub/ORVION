@@ -274,13 +274,13 @@ Commits: this Implement commit.
 
 ## Verification Notes
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 02:07 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked>
+Findings: Re-verified against a fresh `db reset` and live schema. All seven booking tables exist; `booking_items.exchange_rate_id`→`exchange_rates`, `bookings.destination_country_code`→`countries`, currency FKs→`currencies`; both non-negative CHECKs + the `(booking_item_id, passenger_id)` unique present (behavioral pass: negative cost rejected); 0 non-restrict FKs; 3 `updated_at` triggers. Scope: only the migration file and this Change Request changed. The booking_reference/quotation_number uniqueness Finding is recorded in the Future Backlog for a small follow-up decision.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled
+Recommendation to human: Set Status to Complete.
 
 ---
 
