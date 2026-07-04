@@ -35,7 +35,7 @@ Last Completed Task: SPEC-036 — migration 7 (document core): created documents
 
 Next Planned Task: Reference Data Layer decision (architectural — surfaced for owner approval): add countries/languages/nationalities reference tables with FKs, or keep those codes plain text — required before migration 8 (CRM core). Then migration 8 (customers, contact methods, identity signals/merges, notes, leads, lead_assignments, lead_interactions).
 
-Active Change Request: None
+Active Change Request: changes/SPEC-037-reference-data-layer.md
 
 ---
 
