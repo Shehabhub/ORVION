@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -145,18 +145,23 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 11:56 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — no file matched `supabase/migrations/*_create_system_catalog_tables.sql`; created `supabase/migrations/202607041300_create_system_catalog_tables.sql` with exactly the specified content.
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria (local Supabase stack, Postgres 17):
+- File exists at the scoped path with the specified content — confirmed.
+- `npx supabase db reset` applied migrations 1 and 2 on a clean database with no error (`Applying migration 202607041200_enable_extensions.sql...`, `Applying migration 202607041300_create_system_catalog_tables.sql...`, `Finished`) — confirmed.
+- `select to_regclass('public.catalog_types'), to_regclass('public.catalog_values');` returned both non-null — confirmed.
+- `catalog_types.code` UNIQUE: `catalog_types_code_key UNIQUE (code)` — confirmed.
+- `catalog_values` composite UNIQUE: `catalog_values_type_code_key UNIQUE (catalog_type_code, code)` — confirmed.
+- No foreign key constraints on `catalog_values` (`pg_constraint contype='f'` returned empty) — confirmed; consistent with F1 (no `catalog_type_code` FK) and F2 (`tenant_id`/`created_by` deferred).
+- Index `catalog_values_tenant_id_idx` on `catalog_values(tenant_id)` — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit, which adds `supabase/migrations/202607041300_create_system_catalog_tables.sql` and synchronizes this Change Request. No other migration and no canonical document was changed.
 
 ---
 
