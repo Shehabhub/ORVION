@@ -35,7 +35,7 @@ Last Completed Task: SPEC-027 — amended 30_database_conventions.md with the Re
 
 Next Planned Task: Retrofit migration — enable the updated_at trigger mechanism and add before-update triggers to catalog_values and currencies (SPEC-027 Finding F1), before Migration 4
 
-Active Change Request: changes/SPEC-027-referential-actions-updated-at.md
+Active Change Request: None
 
 ---
 
