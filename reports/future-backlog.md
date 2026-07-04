@@ -38,6 +38,18 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | --- | --- | --- | --- |
 | `bookings.booking_reference` / `quotations.quotation_number` per-tenant unique | These are human-facing business keys; duplicates cause operational confusion and break lookups. `31` does not state a unique constraint. Cheap to add now (empty tables); painful dedup later on populated data. | Soon — a small `31`/migration decision before real booking data accrues | Yes — small canonical + ALTER CR (add `unique (tenant_id, booking_reference)` / `unique (tenant_id, quotation_number)`) |
 
+## Business-Key Uniqueness (from Migration 14, SPEC-044)
+
+| Item | Why it matters | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| `subscription_plans.plan_code`, `feature_entitlements(subscription_plan_id, feature_code)`, `usage_counters(tenant_id, usage_metric_code, period_start, period_end)` uniqueness | These are natural business keys; duplicates cause plan/feature/usage ambiguity. `31` models them as fields (not PKs) and states no unique constraint. Cheap to add now (empty tables); painful dedup later. Same class as the booking_reference/quotation_number finding. | Soon — a small `31`/migration decision before real subscription data accrues | Yes — small canonical + ALTER CR |
+
+## Finance Value Non-Negativity (from Migration 12, SPEC-042)
+
+| Item | Why it matters | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| Non-negative CHECKs on finance money columns (`invoices.total_amount`, `payments.amount`, `refunds.amount`, `payment_allocations.allocated_amount`/`allocated_amount_invoice_currency`) | `31` mandates the journal debit/credit CHECK (implemented) but is silent on non-negativity elsewhere; `booking_items` already got non-negative CHECKs because `31` Rules required them there. Consistency suggests the same guard on finance amounts, but it was not invented without canonical basis. | A small canonical decision, or the finance-hardening/RLS pass | Yes — small canonical + ALTER CR |
+
 ## Recommended (evidence-backed, medium-term)
 
 | Item | Why it matters | Trigger / when | CR? |
