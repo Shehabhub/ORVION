@@ -35,7 +35,7 @@ Last Completed Task: SPEC-042 — migration 12 (finance transaction tables): cre
 
 Next Planned Task: Migration 13 — events & notifications tables per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting (note DB-enforced event immutability is a Recommended backlog item, decidable at 13 or RLS 19). Executing migrations 10-15 as one approved continuous phase; the next owner gate is migration 16 (auth-support tables re-homing per ADR-0011).
 
-Active Change Request: None
+Active Change Request: SPEC-043 — migration 13 (event and notification tables)
 
 ---
 
