@@ -35,7 +35,7 @@ Last Completed Task: SPEC-035 — migration 6 (finance foundation): created exch
 
 Next Planned Task: Migration 7 — document core tables (documents, document_versions) per 33_sql_migration_plan.md, resolving the documents <-> document_versions mutual reference via a deferred ALTER for documents.current_version_id; run its Migration Design Review Gate before drafting
 
-Active Change Request: None
+Active Change Request: changes/SPEC-036-migration-7-document-core-tables.md
 
 ---
 
