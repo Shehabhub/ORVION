@@ -35,7 +35,7 @@ Last Completed Task: SPEC-024 — migration 2 (system catalog tables): created c
 
 Next Planned Task: Migration 3 — reference tables (currencies) per 33_sql_migration_plan.md
 
-Active Change Request: changes/SPEC-024-migration-2-system-catalog-tables.md
+Active Change Request: changes/SPEC-026-publish-on-complete.md
 
 ---
 
