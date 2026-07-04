@@ -35,7 +35,7 @@ Last Completed Task: SPEC-022 — enable_extensions migration (migration 1 of 33
 
 Next Planned Task: Migration 2 — system catalog tables (catalog_types, catalog_values) per 33_sql_migration_plan.md
 
-Active Change Request: None
+Active Change Request: changes/SPEC-023-repository-hygiene-gitignore.md
 
 ---
 
