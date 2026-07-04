@@ -35,7 +35,7 @@ Last Completed Task: SPEC-021 — reconciled manifest.md to its single, actual r
 
 Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
 
-Active Change Request: None
+Active Change Request: changes/SPEC-022-enable-extensions-migration.md
 
 ---
 
