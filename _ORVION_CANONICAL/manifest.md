@@ -35,7 +35,7 @@ Last Completed Task: SPEC-026 — side task: added a branch-agnostic publish-on-
 
 Next Planned Task: Migration 3 — reference tables (currencies) per 33_sql_migration_plan.md (resume at Approve SPEC-025)
 
-Active Change Request: None
+Active Change Request: changes/SPEC-025-migration-3-reference-tables.md
 
 ---
 
