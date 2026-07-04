@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -121,18 +121,22 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 14:47 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — no file matched `supabase/migrations/*_add_updated_at_triggers.sql`; created `supabase/migrations/202607041500_add_updated_at_triggers.sql` with exactly the specified content.
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria (local Supabase stack, Postgres 17):
+- File exists at the scoped path with the specified content — confirmed.
+- `npx supabase db reset` applied migrations 1, 2, 3, and 4 (this retrofit) on a clean database with no error — confirmed.
+- `moddatetime` extension enabled (`pg_extension` returned `moddatetime`) — confirmed.
+- Triggers present: `catalog_values_set_updated_at` on `catalog_values`, `currencies_set_updated_at` on `currencies` — confirmed.
+- `catalog_types` has no trigger (count 0) — confirmed.
+- Functional check (rolled-back transactions): for both tables, inserting a row with `updated_at = 2000-01-01` then updating it produced `updated_at` ADVANCED (trigger fired); post-check confirmed 0 rows persisted in each table — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit, which adds `supabase/migrations/202607041500_add_updated_at_triggers.sql` and synchronizes this Change Request. No other migration and no canonical document was changed; `catalog_types` was not touched.
 
 ---
 
