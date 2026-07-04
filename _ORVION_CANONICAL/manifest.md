@@ -35,7 +35,7 @@ Last Completed Task: SPEC-033 — adopted the identity membership model canonica
 
 Next Planned Task: SPEC-032 — Migration 5 identity and access tables (revise its users DDL to per-tenant auth_user_id per SPEC-033, then Approve/Execute/Review/Complete)
 
-Active Change Request: None
+Active Change Request: changes/SPEC-032-migration-5-identity-and-access-tables.md
 
 ---
 
