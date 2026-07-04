@@ -35,7 +35,7 @@ Last Completed Task: SPEC-032 — migration 5 (identity and access tables): crea
 
 Next Planned Task: Migration CI (supabase db reset GitHub Action + pre-push check), before migration 6; then migration 6 (finance foundation: exchange_rates, chart_of_accounts, financial_accounts)
 
-Active Change Request: None
+Active Change Request: changes/SPEC-034-migration-ci.md
 
 ---
 
