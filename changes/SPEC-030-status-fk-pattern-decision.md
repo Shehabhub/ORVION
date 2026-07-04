@@ -154,14 +154,18 @@ Commits: this Implement commit (modifies `30_database_conventions.md` and synchr
 [Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
 against the live repository state. Append-only — never edit or delete a prior entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 15:27 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked, and what was found>
+Findings: Re-checked independently against live `30_database_conventions.md`.
+- The `# Status Standard` section now contains the resolved decision: status/type columns are plain `text` with no required FK; each column belongs to one family registered in `25_catalog_registry.md` (cited as authoritative); code stability (never renamed / never physically deleted / deprecated → inactive) is cited from the Catalog Standard as the audit-safety basis; enforcement is domain-dependent with the two optional per-column techniques; composite UNIQUE retained.
+- The former standalone claim that the single-column composite reference is "the canonical strategy" is gone; "canonical strategy" now appears only inside the sentence that corrects it.
+- `25_catalog_registry.md` and `26_state_machines.md` are untouched — no duplicated authority introduced; the amendment cites them.
+- Scope: `git show --stat 92470f5` confirms only `30_database_conventions.md` and this Change Request changed. No SQL. Working tree releasable.
+- Consistency: the resolution matches `26`'s "where practical" clause, `25`'s ownership of families, `31`'s plain-text status columns, and protects `27_event_catalog.md` state history via the stability clause.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled | Approve corrective
-Change Request `changes/SPEC-00N-*.md`
+Recommendation to human: Set Status to Complete.
 
 ---
 
