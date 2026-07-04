@@ -1,0 +1,35 @@
+name: Migration CI
+
+on:
+  push:
+    paths:
+      - "supabase/migrations/**"
+      - "supabase/config.toml"
+      - ".github/workflows/migration-ci.yml"
+  pull_request:
+    paths:
+      - "supabase/migrations/**"
+      - "supabase/config.toml"
+
+jobs:
+  db-reset:
+    name: supabase db reset (migrations apply cleanly)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start local Supabase stack
+        run: supabase start
+
+      - name: Apply all migrations on a clean database
+        run: supabase db reset
+
+      - name: Stop local Supabase stack
+        if: always()
+        run: supabase stop

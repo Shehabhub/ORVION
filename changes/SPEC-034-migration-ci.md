@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -130,16 +130,16 @@ jobs:
 is considered complete, per synchronization as defined in AGENTS.md's Agent Handoff Protocol.
 Append-only.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 00:33 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — created `.github/workflows/migration-ci.yml` with exactly the specified content (push/PR triggers on `supabase/migrations/**`, `config.toml`, and the workflow file; job runs `supabase start` then `supabase db reset`).
 
-Commits: <commit hash(es) for this run>
+The workflow content is verified locally; because a GitHub Action only runs on the provider, the workflow's actual green run is observed and recorded in Verification Notes after this Implement commit is pushed.
 
-Blocker: <only if Blocked/Failed.>
+Commits: this Implement commit (adds the workflow). No migration, canonical document, or other workflow was changed.
 
 ---
 
