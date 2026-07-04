@@ -129,14 +129,18 @@ Note: the new publish clause first takes effect when a Change Request is Complet
 [Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
 against the live repository state. Append-only — never edit or delete a prior entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 12:33 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked, and what was found>
+Findings: Every Acceptance Criterion and Review Gate item was re-checked independently against live `AGENTS.md`, not against the Execution Log.
+- The `Complete` bullet now contains the added clause verbatim: ``commits; then publishes by running `git push` and confirming the current branch's configured upstream contains the new Complete commit … no separate remote commit hash is recorded, since git history is already the authoritative record.`` — confirmed.
+- Failed-push non-fatal wording present ("Complete transition remains valid locally"); no-hash wording present — confirmed.
+- Branch-agnostic: `grep` finds no `origin/main` (or any hardcoded branch) in `AGENTS.md` — confirmed; the clause uses "the current branch's configured upstream" and `@{u}`.
+- The `Complete` command remains defined only in `AGENTS.md`; the clause is absent from `PROTOCOL.md` and `CR_LIFECYCLE.md` — confirmed (no duplicated authority).
+- Review Gate — scope: `git show --stat 416d286` confirms the Implement commit touched only `AGENTS.md` and this Change Request file; no other file. Supersedes/Depends On is None. Working tree is releasable.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled | Approve corrective
-Change Request `changes/SPEC-00N-*.md`
+Recommendation to human: Set Status to Complete. Note that this Complete will be the first to exercise the new clause and will push the accumulated local commits plus this Change Request's own to the current branch's upstream.
 
 ---
 
