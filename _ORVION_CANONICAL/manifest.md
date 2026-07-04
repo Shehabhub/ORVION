@@ -35,7 +35,7 @@ Last Completed Task: SPEC-044 — migration 14 (subscription tables): created su
 
 Next Planned Task: Migration 15 — document_links table per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting (the single latest-dependent table: needs quotations/bookings/booking_items, suppliers, invoices/receipts, subscription_payment_proofs; enforce the single-target-FK rule as a DB CHECK per 31). This is the final migration of the approved 10-15 continuous phase; the next owner gate is migration 16 (auth-support tables re-homing per ADR-0011).
 
-Active Change Request: None
+Active Change Request: SPEC-045 — migration 15 (document_links table)
 
 ---
 
