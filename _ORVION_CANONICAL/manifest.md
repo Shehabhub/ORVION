@@ -35,7 +35,7 @@ Last Completed Task: SPEC-038 — migration 8 (CRM core): created customers (wit
 
 Next Planned Task: Migration 9 — suppliers and passengers tables per 33_sql_migration_plan.md (passengers use nationality_code -> nationalities and passport_issuing_country_code -> countries reference FKs); run its Migration Design Review Gate before drafting
 
-Active Change Request: None
+Active Change Request: changes/SPEC-039-migration-9-suppliers-passengers-tables.md
 
 ---
 
