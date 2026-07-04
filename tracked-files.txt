@@ -1,6 +1,8 @@
 ﻿.aider.conf.yml
 .cursor/rules/orvion.mdc
 .github/copilot-instructions.md
+.github/workflows/claude-code-review.yml
+.github/workflows/claude.yml
 .gitignore
 .vscode/settings.json
 .vscode/tasks.json

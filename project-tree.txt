@@ -1,9 +1,7 @@
 Folder PATH listing
-Volume serial number is 00000039 BC1B:451F
+Volume serial number is 0000009B BC1B:451F
 C:.
-|   .aider.chat.history.md
 |   .aider.conf.yml
-|   .aider.input.history
 |   .gitignore
 |   AGENTS.md
 |   CLAUDE.md
@@ -19,11 +17,6 @@ C:.
 |   repository-index.md
 |   tracked-files.txt
 |   
-+---.aider.tags.cache.v4
-|       cache.db
-|       cache.db-shm
-|       cache.db-wal
-|       
 +---.claude
 |       settings.local.json
 |       
@@ -32,8 +25,12 @@ C:.
 |           orvion.mdc
 |           
 +---.github
-|       copilot-instructions.md
-|       
+|   |   copilot-instructions.md
+|   |   
+|   \---workflows
+|           claude-code-review.yml
+|           claude.yml
+|           
 +---.vscode
 |       settings.json
 |       tasks.json
@@ -82,13 +79,12 @@ C:.
 |   +---.branches
 |   |       _current_branch
 |   |       
-|   +---.temp
-|   |   |   cli-latest
-|   |   |   
-|   |   \---pgdelta
-|   |           catalog-local-migrations-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855-1782419221382.json
-|   |           
-|   \---snippets
+|   \---.temp
+|       |   cli-latest
+|       |   
+|       \---pgdelta
+|               catalog-local-migrations-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855-1782419221382.json
+|               
 \---_ORVION_CANONICAL
         00_project_charter.md
         01_mvp_scope.md

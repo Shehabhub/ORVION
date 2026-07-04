@@ -1,4 +1,10 @@
-﻿* 2824800 (HEAD -> main) Regenerate stale artifacts and generate the Repository Index for the first time
+﻿*   2cddcda (HEAD -> main, tag: repository-engineering-complete, origin/main, origin/HEAD) Merge pull request #1 from Shehabhub/add-claude-github-actions-1783137934682
+|\  
+| * 0e27c51 "Claude Code Review workflow"
+| * 5907dc2 "Claude PR Assistant workflow"
+|/  
+* 23c48f4 y
+* 2824800 Regenerate stale artifacts and generate the Repository Index for the first time
 * 018703c Reconcile Program Plan report against final repository state (Workflow Administration, human-directed)
 * 39b0ac8 SPEC-021: Complete (human command)
 * d14e86f SPEC-021: Review -- Confirmed Complete
@@ -35,7 +41,7 @@
 * 95ce8a2 SPEC-012: Review -- Confirmed Complete
 * 7396c72 SPEC-012: Implement -- transcribe Command Vocabulary, retire two-era authority collision, record Execution Contract
 * baf7e17 SPEC-012: Approve (human command)
-* 44a2c55 (origin/main, origin/HEAD) y
+* 44a2c55 y
 * 1d6d5b9 SPEC-011: Complete (human command)
 * df73562 SPEC-011: Review -- Confirmed Complete
 * e564bcf SPEC-011: Implement -- create CR_LIFECYCLE.md, point AGENTS.md at it
