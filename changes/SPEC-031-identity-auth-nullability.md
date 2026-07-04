@@ -166,14 +166,20 @@ Commits: this Implement commit (modifies the three scoped documentation files an
 [Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
 against the live repository state. Append-only — never edit or delete a prior entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 21:09 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked, and what was found>
+Findings: Re-checked independently against live repository state.
+- `30_database_conventions.md` line 101: `auth_user_id uuid unique references auth.users(id)` — no `not null` — confirmed.
+- No `auth_user_id uuid not null` remains anywhere in `_ORVION_CANONICAL/` or `reports/` — confirmed.
+- `31_schema_draft.md` both locations (`users` Notes line 244, `# 13` item 3 line 1874) now read "optional one-to-one … `auth_user_id` … null until activation" — confirmed.
+- ADR-0004 shows nullable `auth_user_id` — confirmed.
+- Scope: `git show --stat ba28b24` shows only `30`, `31`, ADR-0004, and this Change Request changed. No SQL.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled | Approve corrective
-Change Request `changes/SPEC-00N-*.md`
+Clarification on the "no longer appears anywhere" Acceptance Criterion: the phrase "mandatory one-to-one relationship with `auth.users`" no longer appears in any authoritative document (`30`, `31`, ADR) — the substantive requirement is met. It does still appear inside this Change Request's own file (`changes/SPEC-031-*.md`), where it is quoted as the wording being removed (Objective, Business Reason, Implementation Steps). That is documentation of the change, not an assertion of the contradiction, and is expected for a corrective Change Request; it is not a residual contradiction.
+
+Recommendation to human: Set Status to Complete.
 
 ---
 
