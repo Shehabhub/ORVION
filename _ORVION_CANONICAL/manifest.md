@@ -35,7 +35,7 @@ Last Completed Task: SPEC-025 — migration 3 (reference tables): created the cu
 
 Next Planned Task: 30_database_conventions.md amendment (referential actions + updated_at mechanism), then Migration 4 — organization tables per 33_sql_migration_plan.md
 
-Active Change Request: None
+Active Change Request: changes/SPEC-027-referential-actions-updated-at.md
 
 ---
 
