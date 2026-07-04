@@ -35,7 +35,7 @@ Last Completed Task: SPEC-040 — migration 10 (booking core): created quotation
 
 Next Planned Task: Migration 11 — CRM extension tables (tasks, complaints, service_requests, conversations, conversation_messages) per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting. Executing migrations 10-15 as one approved continuous phase; the next owner gate is migration 16 (auth-support tables re-homing per ADR-0011).
 
-Active Change Request: None
+Active Change Request: SPEC-041 — migration 11 (CRM extension tables)
 
 ---
 
