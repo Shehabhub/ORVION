@@ -1,5 +1,5 @@
 Folder PATH listing
-Volume serial number is 0000009B BC1B:451F
+Volume serial number is 0000001D BC1B:451F
 C:.
 |   .aider.conf.yml
 |   .gitignore
@@ -10,6 +10,8 @@ C:.
 |   GEMINI.md
 |   git-tree.txt
 |   global-rules.md
+|   package-lock.json
+|   package.json
 |   project-tree.txt
 |   PROJECT_CONTEXT.md
 |   PROTOCOL.md
@@ -56,8 +58,1717 @@ C:.
 |       SPEC-019-compatibility-adapters.md
 |       SPEC-020-repository-index.md
 |       SPEC-021-manifest-ownership-reconciliation.md
+|       SPEC-022-enable-extensions-migration.md
+|       SPEC-023-repository-hygiene-gitignore.md
+|       SPEC-024-migration-2-system-catalog-tables.md
+|       SPEC-025-migration-3-reference-tables.md
+|       SPEC-026-publish-on-complete.md
 |       TEMPLATE.md
 |       
++---node_modules
+|   |   .package-lock.json
+|   |   
+|   +---.bin
+|   |       supabase
+|   |       supabase.cmd
+|   |       supabase.ps1
+|   |       
+|   +---@ecies
+|   |   \---ciphers
+|   |       |   LICENSE
+|   |       |   package.json
+|   |       |   README.md
+|   |       |   
+|   |       \---dist
+|   |           |   index.d.ts
+|   |           |   index.js
+|   |           |   
+|   |           +---aes
+|   |           |       noble.d.ts
+|   |           |       noble.js
+|   |           |       node.d.ts
+|   |           |       node.js
+|   |           |       
+|   |           +---chacha
+|   |           |       noble.d.ts
+|   |           |       noble.js
+|   |           |       node.d.ts
+|   |           |       node.js
+|   |           |       
+|   |           \---_node
+|   |                   compat.d.ts
+|   |                   compat.js
+|   |                   hchacha.d.ts
+|   |                   hchacha.js
+|   |                   
+|   +---@noble
+|   |   +---ciphers
+|   |   |   |   aes.d.ts
+|   |   |   |   aes.d.ts.map
+|   |   |   |   aes.js
+|   |   |   |   aes.js.map
+|   |   |   |   chacha.d.ts
+|   |   |   |   chacha.d.ts.map
+|   |   |   |   chacha.js
+|   |   |   |   chacha.js.map
+|   |   |   |   crypto.d.ts
+|   |   |   |   crypto.d.ts.map
+|   |   |   |   crypto.js
+|   |   |   |   crypto.js.map
+|   |   |   |   cryptoNode.d.ts
+|   |   |   |   cryptoNode.d.ts.map
+|   |   |   |   cryptoNode.js
+|   |   |   |   cryptoNode.js.map
+|   |   |   |   ff1.d.ts
+|   |   |   |   ff1.d.ts.map
+|   |   |   |   ff1.js
+|   |   |   |   ff1.js.map
+|   |   |   |   index.d.ts
+|   |   |   |   index.d.ts.map
+|   |   |   |   index.js
+|   |   |   |   index.js.map
+|   |   |   |   LICENSE
+|   |   |   |   package.json
+|   |   |   |   README.md
+|   |   |   |   salsa.d.ts
+|   |   |   |   salsa.d.ts.map
+|   |   |   |   salsa.js
+|   |   |   |   salsa.js.map
+|   |   |   |   utils.d.ts
+|   |   |   |   utils.d.ts.map
+|   |   |   |   utils.js
+|   |   |   |   utils.js.map
+|   |   |   |   webcrypto.d.ts
+|   |   |   |   webcrypto.d.ts.map
+|   |   |   |   webcrypto.js
+|   |   |   |   webcrypto.js.map
+|   |   |   |   _arx.d.ts
+|   |   |   |   _arx.d.ts.map
+|   |   |   |   _arx.js
+|   |   |   |   _arx.js.map
+|   |   |   |   _assert.d.ts
+|   |   |   |   _assert.d.ts.map
+|   |   |   |   _assert.js
+|   |   |   |   _assert.js.map
+|   |   |   |   _micro.d.ts
+|   |   |   |   _micro.d.ts.map
+|   |   |   |   _micro.js
+|   |   |   |   _micro.js.map
+|   |   |   |   _poly1305.d.ts
+|   |   |   |   _poly1305.d.ts.map
+|   |   |   |   _poly1305.js
+|   |   |   |   _poly1305.js.map
+|   |   |   |   _polyval.d.ts
+|   |   |   |   _polyval.d.ts.map
+|   |   |   |   _polyval.js
+|   |   |   |   _polyval.js.map
+|   |   |   |   
+|   |   |   +---esm
+|   |   |   |       aes.d.ts
+|   |   |   |       aes.d.ts.map
+|   |   |   |       aes.js
+|   |   |   |       aes.js.map
+|   |   |   |       chacha.d.ts
+|   |   |   |       chacha.d.ts.map
+|   |   |   |       chacha.js
+|   |   |   |       chacha.js.map
+|   |   |   |       crypto.d.ts
+|   |   |   |       crypto.d.ts.map
+|   |   |   |       crypto.js
+|   |   |   |       crypto.js.map
+|   |   |   |       cryptoNode.d.ts
+|   |   |   |       cryptoNode.d.ts.map
+|   |   |   |       cryptoNode.js
+|   |   |   |       cryptoNode.js.map
+|   |   |   |       ff1.d.ts
+|   |   |   |       ff1.d.ts.map
+|   |   |   |       ff1.js
+|   |   |   |       ff1.js.map
+|   |   |   |       index.d.ts
+|   |   |   |       index.d.ts.map
+|   |   |   |       index.js
+|   |   |   |       index.js.map
+|   |   |   |       package.json
+|   |   |   |       salsa.d.ts
+|   |   |   |       salsa.d.ts.map
+|   |   |   |       salsa.js
+|   |   |   |       salsa.js.map
+|   |   |   |       utils.d.ts
+|   |   |   |       utils.d.ts.map
+|   |   |   |       utils.js
+|   |   |   |       utils.js.map
+|   |   |   |       webcrypto.d.ts
+|   |   |   |       webcrypto.d.ts.map
+|   |   |   |       webcrypto.js
+|   |   |   |       webcrypto.js.map
+|   |   |   |       _arx.d.ts
+|   |   |   |       _arx.d.ts.map
+|   |   |   |       _arx.js
+|   |   |   |       _arx.js.map
+|   |   |   |       _assert.d.ts
+|   |   |   |       _assert.d.ts.map
+|   |   |   |       _assert.js
+|   |   |   |       _assert.js.map
+|   |   |   |       _micro.d.ts
+|   |   |   |       _micro.d.ts.map
+|   |   |   |       _micro.js
+|   |   |   |       _micro.js.map
+|   |   |   |       _poly1305.d.ts
+|   |   |   |       _poly1305.d.ts.map
+|   |   |   |       _poly1305.js
+|   |   |   |       _poly1305.js.map
+|   |   |   |       _polyval.d.ts
+|   |   |   |       _polyval.d.ts.map
+|   |   |   |       _polyval.js
+|   |   |   |       _polyval.js.map
+|   |   |   |       
+|   |   |   \---src
+|   |   |           aes.ts
+|   |   |           chacha.ts
+|   |   |           crypto.ts
+|   |   |           cryptoNode.ts
+|   |   |           ff1.ts
+|   |   |           index.ts
+|   |   |           package.json
+|   |   |           salsa.ts
+|   |   |           utils.ts
+|   |   |           webcrypto.ts
+|   |   |           _arx.ts
+|   |   |           _assert.ts
+|   |   |           _micro.ts
+|   |   |           _poly1305.ts
+|   |   |           _polyval.ts
+|   |   |           
+|   |   +---curves
+|   |   |   |   bls12-381.d.ts
+|   |   |   |   bls12-381.d.ts.map
+|   |   |   |   bls12-381.js
+|   |   |   |   bls12-381.js.map
+|   |   |   |   bn254.d.ts
+|   |   |   |   bn254.d.ts.map
+|   |   |   |   bn254.js
+|   |   |   |   bn254.js.map
+|   |   |   |   ed25519.d.ts
+|   |   |   |   ed25519.d.ts.map
+|   |   |   |   ed25519.js
+|   |   |   |   ed25519.js.map
+|   |   |   |   ed448.d.ts
+|   |   |   |   ed448.d.ts.map
+|   |   |   |   ed448.js
+|   |   |   |   ed448.js.map
+|   |   |   |   index.d.ts
+|   |   |   |   index.d.ts.map
+|   |   |   |   index.js
+|   |   |   |   index.js.map
+|   |   |   |   jubjub.d.ts
+|   |   |   |   jubjub.d.ts.map
+|   |   |   |   jubjub.js
+|   |   |   |   jubjub.js.map
+|   |   |   |   LICENSE
+|   |   |   |   misc.d.ts
+|   |   |   |   misc.d.ts.map
+|   |   |   |   misc.js
+|   |   |   |   misc.js.map
+|   |   |   |   nist.d.ts
+|   |   |   |   nist.d.ts.map
+|   |   |   |   nist.js
+|   |   |   |   nist.js.map
+|   |   |   |   p256.d.ts
+|   |   |   |   p256.d.ts.map
+|   |   |   |   p256.js
+|   |   |   |   p256.js.map
+|   |   |   |   p384.d.ts
+|   |   |   |   p384.d.ts.map
+|   |   |   |   p384.js
+|   |   |   |   p384.js.map
+|   |   |   |   p521.d.ts
+|   |   |   |   p521.d.ts.map
+|   |   |   |   p521.js
+|   |   |   |   p521.js.map
+|   |   |   |   package.json
+|   |   |   |   pasta.d.ts
+|   |   |   |   pasta.d.ts.map
+|   |   |   |   pasta.js
+|   |   |   |   pasta.js.map
+|   |   |   |   README.md
+|   |   |   |   secp256k1.d.ts
+|   |   |   |   secp256k1.d.ts.map
+|   |   |   |   secp256k1.js
+|   |   |   |   secp256k1.js.map
+|   |   |   |   utils.d.ts
+|   |   |   |   utils.d.ts.map
+|   |   |   |   utils.js
+|   |   |   |   utils.js.map
+|   |   |   |   _shortw_utils.d.ts
+|   |   |   |   _shortw_utils.d.ts.map
+|   |   |   |   _shortw_utils.js
+|   |   |   |   _shortw_utils.js.map
+|   |   |   |   
+|   |   |   +---abstract
+|   |   |   |       bls.d.ts
+|   |   |   |       bls.d.ts.map
+|   |   |   |       bls.js
+|   |   |   |       bls.js.map
+|   |   |   |       curve.d.ts
+|   |   |   |       curve.d.ts.map
+|   |   |   |       curve.js
+|   |   |   |       curve.js.map
+|   |   |   |       edwards.d.ts
+|   |   |   |       edwards.d.ts.map
+|   |   |   |       edwards.js
+|   |   |   |       edwards.js.map
+|   |   |   |       fft.d.ts
+|   |   |   |       fft.d.ts.map
+|   |   |   |       fft.js
+|   |   |   |       fft.js.map
+|   |   |   |       hash-to-curve.d.ts
+|   |   |   |       hash-to-curve.d.ts.map
+|   |   |   |       hash-to-curve.js
+|   |   |   |       hash-to-curve.js.map
+|   |   |   |       modular.d.ts
+|   |   |   |       modular.d.ts.map
+|   |   |   |       modular.js
+|   |   |   |       modular.js.map
+|   |   |   |       montgomery.d.ts
+|   |   |   |       montgomery.d.ts.map
+|   |   |   |       montgomery.js
+|   |   |   |       montgomery.js.map
+|   |   |   |       poseidon.d.ts
+|   |   |   |       poseidon.d.ts.map
+|   |   |   |       poseidon.js
+|   |   |   |       poseidon.js.map
+|   |   |   |       tower.d.ts
+|   |   |   |       tower.d.ts.map
+|   |   |   |       tower.js
+|   |   |   |       tower.js.map
+|   |   |   |       utils.d.ts
+|   |   |   |       utils.d.ts.map
+|   |   |   |       utils.js
+|   |   |   |       utils.js.map
+|   |   |   |       weierstrass.d.ts
+|   |   |   |       weierstrass.d.ts.map
+|   |   |   |       weierstrass.js
+|   |   |   |       weierstrass.js.map
+|   |   |   |       
+|   |   |   +---esm
+|   |   |   |   |   bls12-381.d.ts
+|   |   |   |   |   bls12-381.d.ts.map
+|   |   |   |   |   bls12-381.js
+|   |   |   |   |   bls12-381.js.map
+|   |   |   |   |   bn254.d.ts
+|   |   |   |   |   bn254.d.ts.map
+|   |   |   |   |   bn254.js
+|   |   |   |   |   bn254.js.map
+|   |   |   |   |   ed25519.d.ts
+|   |   |   |   |   ed25519.d.ts.map
+|   |   |   |   |   ed25519.js
+|   |   |   |   |   ed25519.js.map
+|   |   |   |   |   ed448.d.ts
+|   |   |   |   |   ed448.d.ts.map
+|   |   |   |   |   ed448.js
+|   |   |   |   |   ed448.js.map
+|   |   |   |   |   index.d.ts
+|   |   |   |   |   index.d.ts.map
+|   |   |   |   |   index.js
+|   |   |   |   |   index.js.map
+|   |   |   |   |   jubjub.d.ts
+|   |   |   |   |   jubjub.d.ts.map
+|   |   |   |   |   jubjub.js
+|   |   |   |   |   jubjub.js.map
+|   |   |   |   |   misc.d.ts
+|   |   |   |   |   misc.d.ts.map
+|   |   |   |   |   misc.js
+|   |   |   |   |   misc.js.map
+|   |   |   |   |   nist.d.ts
+|   |   |   |   |   nist.d.ts.map
+|   |   |   |   |   nist.js
+|   |   |   |   |   nist.js.map
+|   |   |   |   |   p256.d.ts
+|   |   |   |   |   p256.d.ts.map
+|   |   |   |   |   p256.js
+|   |   |   |   |   p256.js.map
+|   |   |   |   |   p384.d.ts
+|   |   |   |   |   p384.d.ts.map
+|   |   |   |   |   p384.js
+|   |   |   |   |   p384.js.map
+|   |   |   |   |   p521.d.ts
+|   |   |   |   |   p521.d.ts.map
+|   |   |   |   |   p521.js
+|   |   |   |   |   p521.js.map
+|   |   |   |   |   package.json
+|   |   |   |   |   pasta.d.ts
+|   |   |   |   |   pasta.d.ts.map
+|   |   |   |   |   pasta.js
+|   |   |   |   |   pasta.js.map
+|   |   |   |   |   secp256k1.d.ts
+|   |   |   |   |   secp256k1.d.ts.map
+|   |   |   |   |   secp256k1.js
+|   |   |   |   |   secp256k1.js.map
+|   |   |   |   |   utils.d.ts
+|   |   |   |   |   utils.d.ts.map
+|   |   |   |   |   utils.js
+|   |   |   |   |   utils.js.map
+|   |   |   |   |   _shortw_utils.d.ts
+|   |   |   |   |   _shortw_utils.d.ts.map
+|   |   |   |   |   _shortw_utils.js
+|   |   |   |   |   _shortw_utils.js.map
+|   |   |   |   |   
+|   |   |   |   \---abstract
+|   |   |   |           bls.d.ts
+|   |   |   |           bls.d.ts.map
+|   |   |   |           bls.js
+|   |   |   |           bls.js.map
+|   |   |   |           curve.d.ts
+|   |   |   |           curve.d.ts.map
+|   |   |   |           curve.js
+|   |   |   |           curve.js.map
+|   |   |   |           edwards.d.ts
+|   |   |   |           edwards.d.ts.map
+|   |   |   |           edwards.js
+|   |   |   |           edwards.js.map
+|   |   |   |           fft.d.ts
+|   |   |   |           fft.d.ts.map
+|   |   |   |           fft.js
+|   |   |   |           fft.js.map
+|   |   |   |           hash-to-curve.d.ts
+|   |   |   |           hash-to-curve.d.ts.map
+|   |   |   |           hash-to-curve.js
+|   |   |   |           hash-to-curve.js.map
+|   |   |   |           modular.d.ts
+|   |   |   |           modular.d.ts.map
+|   |   |   |           modular.js
+|   |   |   |           modular.js.map
+|   |   |   |           montgomery.d.ts
+|   |   |   |           montgomery.d.ts.map
+|   |   |   |           montgomery.js
+|   |   |   |           montgomery.js.map
+|   |   |   |           poseidon.d.ts
+|   |   |   |           poseidon.d.ts.map
+|   |   |   |           poseidon.js
+|   |   |   |           poseidon.js.map
+|   |   |   |           tower.d.ts
+|   |   |   |           tower.d.ts.map
+|   |   |   |           tower.js
+|   |   |   |           tower.js.map
+|   |   |   |           utils.d.ts
+|   |   |   |           utils.d.ts.map
+|   |   |   |           utils.js
+|   |   |   |           utils.js.map
+|   |   |   |           weierstrass.d.ts
+|   |   |   |           weierstrass.d.ts.map
+|   |   |   |           weierstrass.js
+|   |   |   |           weierstrass.js.map
+|   |   |   |           
+|   |   |   \---src
+|   |   |       |   bls12-381.ts
+|   |   |       |   bn254.ts
+|   |   |       |   ed25519.ts
+|   |   |       |   ed448.ts
+|   |   |       |   index.ts
+|   |   |       |   jubjub.ts
+|   |   |       |   misc.ts
+|   |   |       |   nist.ts
+|   |   |       |   p256.ts
+|   |   |       |   p384.ts
+|   |   |       |   p521.ts
+|   |   |       |   package.json
+|   |   |       |   pasta.ts
+|   |   |       |   secp256k1.ts
+|   |   |       |   utils.ts
+|   |   |       |   _shortw_utils.ts
+|   |   |       |   
+|   |   |       \---abstract
+|   |   |               bls.ts
+|   |   |               curve.ts
+|   |   |               edwards.ts
+|   |   |               fft.ts
+|   |   |               hash-to-curve.ts
+|   |   |               modular.ts
+|   |   |               montgomery.ts
+|   |   |               poseidon.ts
+|   |   |               tower.ts
+|   |   |               utils.ts
+|   |   |               weierstrass.ts
+|   |   |               
+|   |   \---hashes
+|   |       |   argon2.d.ts
+|   |       |   argon2.d.ts.map
+|   |       |   argon2.js
+|   |       |   argon2.js.map
+|   |       |   blake1.d.ts
+|   |       |   blake1.d.ts.map
+|   |       |   blake1.js
+|   |       |   blake1.js.map
+|   |       |   blake2.d.ts
+|   |       |   blake2.d.ts.map
+|   |       |   blake2.js
+|   |       |   blake2.js.map
+|   |       |   blake2b.d.ts
+|   |       |   blake2b.d.ts.map
+|   |       |   blake2b.js
+|   |       |   blake2b.js.map
+|   |       |   blake2s.d.ts
+|   |       |   blake2s.d.ts.map
+|   |       |   blake2s.js
+|   |       |   blake2s.js.map
+|   |       |   blake3.d.ts
+|   |       |   blake3.d.ts.map
+|   |       |   blake3.js
+|   |       |   blake3.js.map
+|   |       |   crypto.d.ts
+|   |       |   crypto.d.ts.map
+|   |       |   crypto.js
+|   |       |   crypto.js.map
+|   |       |   cryptoNode.d.ts
+|   |       |   cryptoNode.d.ts.map
+|   |       |   cryptoNode.js
+|   |       |   cryptoNode.js.map
+|   |       |   eskdf.d.ts
+|   |       |   eskdf.d.ts.map
+|   |       |   eskdf.js
+|   |       |   eskdf.js.map
+|   |       |   hkdf.d.ts
+|   |       |   hkdf.d.ts.map
+|   |       |   hkdf.js
+|   |       |   hkdf.js.map
+|   |       |   hmac.d.ts
+|   |       |   hmac.d.ts.map
+|   |       |   hmac.js
+|   |       |   hmac.js.map
+|   |       |   index.d.ts
+|   |       |   index.d.ts.map
+|   |       |   index.js
+|   |       |   index.js.map
+|   |       |   legacy.d.ts
+|   |       |   legacy.d.ts.map
+|   |       |   legacy.js
+|   |       |   legacy.js.map
+|   |       |   LICENSE
+|   |       |   package.json
+|   |       |   pbkdf2.d.ts
+|   |       |   pbkdf2.d.ts.map
+|   |       |   pbkdf2.js
+|   |       |   pbkdf2.js.map
+|   |       |   README.md
+|   |       |   ripemd160.d.ts
+|   |       |   ripemd160.d.ts.map
+|   |       |   ripemd160.js
+|   |       |   ripemd160.js.map
+|   |       |   scrypt.d.ts
+|   |       |   scrypt.d.ts.map
+|   |       |   scrypt.js
+|   |       |   scrypt.js.map
+|   |       |   sha1.d.ts
+|   |       |   sha1.d.ts.map
+|   |       |   sha1.js
+|   |       |   sha1.js.map
+|   |       |   sha2.d.ts
+|   |       |   sha2.d.ts.map
+|   |       |   sha2.js
+|   |       |   sha2.js.map
+|   |       |   sha256.d.ts
+|   |       |   sha256.d.ts.map
+|   |       |   sha256.js
+|   |       |   sha256.js.map
+|   |       |   sha3-addons.d.ts
+|   |       |   sha3-addons.d.ts.map
+|   |       |   sha3-addons.js
+|   |       |   sha3-addons.js.map
+|   |       |   sha3.d.ts
+|   |       |   sha3.d.ts.map
+|   |       |   sha3.js
+|   |       |   sha3.js.map
+|   |       |   sha512.d.ts
+|   |       |   sha512.d.ts.map
+|   |       |   sha512.js
+|   |       |   sha512.js.map
+|   |       |   utils.d.ts
+|   |       |   utils.d.ts.map
+|   |       |   utils.js
+|   |       |   utils.js.map
+|   |       |   _assert.d.ts
+|   |       |   _assert.d.ts.map
+|   |       |   _assert.js
+|   |       |   _assert.js.map
+|   |       |   _blake.d.ts
+|   |       |   _blake.d.ts.map
+|   |       |   _blake.js
+|   |       |   _blake.js.map
+|   |       |   _md.d.ts
+|   |       |   _md.d.ts.map
+|   |       |   _md.js
+|   |       |   _md.js.map
+|   |       |   _u64.d.ts
+|   |       |   _u64.d.ts.map
+|   |       |   _u64.js
+|   |       |   _u64.js.map
+|   |       |   
+|   |       +---esm
+|   |       |       argon2.d.ts
+|   |       |       argon2.d.ts.map
+|   |       |       argon2.js
+|   |       |       argon2.js.map
+|   |       |       blake1.d.ts
+|   |       |       blake1.d.ts.map
+|   |       |       blake1.js
+|   |       |       blake1.js.map
+|   |       |       blake2.d.ts
+|   |       |       blake2.d.ts.map
+|   |       |       blake2.js
+|   |       |       blake2.js.map
+|   |       |       blake2b.d.ts
+|   |       |       blake2b.d.ts.map
+|   |       |       blake2b.js
+|   |       |       blake2b.js.map
+|   |       |       blake2s.d.ts
+|   |       |       blake2s.d.ts.map
+|   |       |       blake2s.js
+|   |       |       blake2s.js.map
+|   |       |       blake3.d.ts
+|   |       |       blake3.d.ts.map
+|   |       |       blake3.js
+|   |       |       blake3.js.map
+|   |       |       crypto.d.ts
+|   |       |       crypto.d.ts.map
+|   |       |       crypto.js
+|   |       |       crypto.js.map
+|   |       |       cryptoNode.d.ts
+|   |       |       cryptoNode.d.ts.map
+|   |       |       cryptoNode.js
+|   |       |       cryptoNode.js.map
+|   |       |       eskdf.d.ts
+|   |       |       eskdf.d.ts.map
+|   |       |       eskdf.js
+|   |       |       eskdf.js.map
+|   |       |       hkdf.d.ts
+|   |       |       hkdf.d.ts.map
+|   |       |       hkdf.js
+|   |       |       hkdf.js.map
+|   |       |       hmac.d.ts
+|   |       |       hmac.d.ts.map
+|   |       |       hmac.js
+|   |       |       hmac.js.map
+|   |       |       index.d.ts
+|   |       |       index.d.ts.map
+|   |       |       index.js
+|   |       |       index.js.map
+|   |       |       legacy.d.ts
+|   |       |       legacy.d.ts.map
+|   |       |       legacy.js
+|   |       |       legacy.js.map
+|   |       |       package.json
+|   |       |       pbkdf2.d.ts
+|   |       |       pbkdf2.d.ts.map
+|   |       |       pbkdf2.js
+|   |       |       pbkdf2.js.map
+|   |       |       ripemd160.d.ts
+|   |       |       ripemd160.d.ts.map
+|   |       |       ripemd160.js
+|   |       |       ripemd160.js.map
+|   |       |       scrypt.d.ts
+|   |       |       scrypt.d.ts.map
+|   |       |       scrypt.js
+|   |       |       scrypt.js.map
+|   |       |       sha1.d.ts
+|   |       |       sha1.d.ts.map
+|   |       |       sha1.js
+|   |       |       sha1.js.map
+|   |       |       sha2.d.ts
+|   |       |       sha2.d.ts.map
+|   |       |       sha2.js
+|   |       |       sha2.js.map
+|   |       |       sha256.d.ts
+|   |       |       sha256.d.ts.map
+|   |       |       sha256.js
+|   |       |       sha256.js.map
+|   |       |       sha3-addons.d.ts
+|   |       |       sha3-addons.d.ts.map
+|   |       |       sha3-addons.js
+|   |       |       sha3-addons.js.map
+|   |       |       sha3.d.ts
+|   |       |       sha3.d.ts.map
+|   |       |       sha3.js
+|   |       |       sha3.js.map
+|   |       |       sha512.d.ts
+|   |       |       sha512.d.ts.map
+|   |       |       sha512.js
+|   |       |       sha512.js.map
+|   |       |       utils.d.ts
+|   |       |       utils.d.ts.map
+|   |       |       utils.js
+|   |       |       utils.js.map
+|   |       |       _assert.d.ts
+|   |       |       _assert.d.ts.map
+|   |       |       _assert.js
+|   |       |       _assert.js.map
+|   |       |       _blake.d.ts
+|   |       |       _blake.d.ts.map
+|   |       |       _blake.js
+|   |       |       _blake.js.map
+|   |       |       _md.d.ts
+|   |       |       _md.d.ts.map
+|   |       |       _md.js
+|   |       |       _md.js.map
+|   |       |       _u64.d.ts
+|   |       |       _u64.d.ts.map
+|   |       |       _u64.js
+|   |       |       _u64.js.map
+|   |       |       
+|   |       \---src
+|   |               argon2.ts
+|   |               blake1.ts
+|   |               blake2.ts
+|   |               blake2b.ts
+|   |               blake2s.ts
+|   |               blake3.ts
+|   |               crypto.ts
+|   |               cryptoNode.ts
+|   |               eskdf.ts
+|   |               hkdf.ts
+|   |               hmac.ts
+|   |               index.ts
+|   |               legacy.ts
+|   |               pbkdf2.ts
+|   |               ripemd160.ts
+|   |               scrypt.ts
+|   |               sha1.ts
+|   |               sha2.ts
+|   |               sha256.ts
+|   |               sha3-addons.ts
+|   |               sha3.ts
+|   |               sha512.ts
+|   |               utils.ts
+|   |               _assert.ts
+|   |               _blake.ts
+|   |               _md.ts
+|   |               _u64.ts
+|   |               
+|   +---@supabase
+|   |   +---auth-js
+|   |   |   |   AGENTS.md
+|   |   |   |   LICENSE
+|   |   |   |   package.json
+|   |   |   |   README.md
+|   |   |   |   
+|   |   |   +---dist
+|   |   |   |   |   tsconfig.module.tsbuildinfo
+|   |   |   |   |   tsconfig.tsbuildinfo
+|   |   |   |   |   
+|   |   |   |   +---main
+|   |   |   |   |   |   AuthAdminApi.d.ts
+|   |   |   |   |   |   AuthAdminApi.d.ts.map
+|   |   |   |   |   |   AuthAdminApi.js
+|   |   |   |   |   |   AuthAdminApi.js.map
+|   |   |   |   |   |   AuthClient.d.ts
+|   |   |   |   |   |   AuthClient.d.ts.map
+|   |   |   |   |   |   AuthClient.js
+|   |   |   |   |   |   AuthClient.js.map
+|   |   |   |   |   |   GoTrueAdminApi.d.ts
+|   |   |   |   |   |   GoTrueAdminApi.d.ts.map
+|   |   |   |   |   |   GoTrueAdminApi.js
+|   |   |   |   |   |   GoTrueAdminApi.js.map
+|   |   |   |   |   |   GoTrueClient.d.ts
+|   |   |   |   |   |   GoTrueClient.d.ts.map
+|   |   |   |   |   |   GoTrueClient.js
+|   |   |   |   |   |   GoTrueClient.js.map
+|   |   |   |   |   |   index.d.ts
+|   |   |   |   |   |   index.d.ts.map
+|   |   |   |   |   |   index.js
+|   |   |   |   |   |   index.js.map
+|   |   |   |   |   |   
+|   |   |   |   |   \---lib
+|   |   |   |   |       |   base64url.d.ts
+|   |   |   |   |       |   base64url.d.ts.map
+|   |   |   |   |       |   base64url.js
+|   |   |   |   |       |   base64url.js.map
+|   |   |   |   |       |   constants.d.ts
+|   |   |   |   |       |   constants.d.ts.map
+|   |   |   |   |       |   constants.js
+|   |   |   |   |       |   constants.js.map
+|   |   |   |   |       |   error-codes.d.ts
+|   |   |   |   |       |   error-codes.d.ts.map
+|   |   |   |   |       |   error-codes.js
+|   |   |   |   |       |   error-codes.js.map
+|   |   |   |   |       |   errors.d.ts
+|   |   |   |   |       |   errors.d.ts.map
+|   |   |   |   |       |   errors.js
+|   |   |   |   |       |   errors.js.map
+|   |   |   |   |       |   fetch.d.ts
+|   |   |   |   |       |   fetch.d.ts.map
+|   |   |   |   |       |   fetch.js
+|   |   |   |   |       |   fetch.js.map
+|   |   |   |   |       |   helpers.d.ts
+|   |   |   |   |       |   helpers.d.ts.map
+|   |   |   |   |       |   helpers.js
+|   |   |   |   |       |   helpers.js.map
+|   |   |   |   |       |   local-storage.d.ts
+|   |   |   |   |       |   local-storage.d.ts.map
+|   |   |   |   |       |   local-storage.js
+|   |   |   |   |       |   local-storage.js.map
+|   |   |   |   |       |   locks.d.ts
+|   |   |   |   |       |   locks.d.ts.map
+|   |   |   |   |       |   locks.js
+|   |   |   |   |       |   locks.js.map
+|   |   |   |   |       |   polyfills.d.ts
+|   |   |   |   |       |   polyfills.d.ts.map
+|   |   |   |   |       |   polyfills.js
+|   |   |   |   |       |   polyfills.js.map
+|   |   |   |   |       |   types.d.ts
+|   |   |   |   |       |   types.d.ts.map
+|   |   |   |   |       |   types.js
+|   |   |   |   |       |   types.js.map
+|   |   |   |   |       |   version.d.ts
+|   |   |   |   |       |   version.d.ts.map
+|   |   |   |   |       |   version.js
+|   |   |   |   |       |   version.js.map
+|   |   |   |   |       |   webauthn.d.ts
+|   |   |   |   |       |   webauthn.d.ts.map
+|   |   |   |   |       |   webauthn.dom.d.ts
+|   |   |   |   |       |   webauthn.dom.d.ts.map
+|   |   |   |   |       |   webauthn.dom.js
+|   |   |   |   |       |   webauthn.dom.js.map
+|   |   |   |   |       |   webauthn.errors.d.ts
+|   |   |   |   |       |   webauthn.errors.d.ts.map
+|   |   |   |   |       |   webauthn.errors.js
+|   |   |   |   |       |   webauthn.errors.js.map
+|   |   |   |   |       |   webauthn.js
+|   |   |   |   |       |   webauthn.js.map
+|   |   |   |   |       |   
+|   |   |   |   |       \---web3
+|   |   |   |   |               ethereum.d.ts
+|   |   |   |   |               ethereum.d.ts.map
+|   |   |   |   |               ethereum.js
+|   |   |   |   |               ethereum.js.map
+|   |   |   |   |               solana.d.ts
+|   |   |   |   |               solana.d.ts.map
+|   |   |   |   |               solana.js
+|   |   |   |   |               solana.js.map
+|   |   |   |   |               
+|   |   |   |   \---module
+|   |   |   |       |   AuthAdminApi.d.ts
+|   |   |   |       |   AuthAdminApi.d.ts.map
+|   |   |   |       |   AuthAdminApi.js
+|   |   |   |       |   AuthAdminApi.js.map
+|   |   |   |       |   AuthClient.d.ts
+|   |   |   |       |   AuthClient.d.ts.map
+|   |   |   |       |   AuthClient.js
+|   |   |   |       |   AuthClient.js.map
+|   |   |   |       |   GoTrueAdminApi.d.ts
+|   |   |   |       |   GoTrueAdminApi.d.ts.map
+|   |   |   |       |   GoTrueAdminApi.js
+|   |   |   |       |   GoTrueAdminApi.js.map
+|   |   |   |       |   GoTrueClient.d.ts
+|   |   |   |       |   GoTrueClient.d.ts.map
+|   |   |   |       |   GoTrueClient.js
+|   |   |   |       |   GoTrueClient.js.map
+|   |   |   |       |   index.d.ts
+|   |   |   |       |   index.d.ts.map
+|   |   |   |       |   index.js
+|   |   |   |       |   index.js.map
+|   |   |   |       |   
+|   |   |   |       \---lib
+|   |   |   |           |   base64url.d.ts
+|   |   |   |           |   base64url.d.ts.map
+|   |   |   |           |   base64url.js
+|   |   |   |           |   base64url.js.map
+|   |   |   |           |   constants.d.ts
+|   |   |   |           |   constants.d.ts.map
+|   |   |   |           |   constants.js
+|   |   |   |           |   constants.js.map
+|   |   |   |           |   error-codes.d.ts
+|   |   |   |           |   error-codes.d.ts.map
+|   |   |   |           |   error-codes.js
+|   |   |   |           |   error-codes.js.map
+|   |   |   |           |   errors.d.ts
+|   |   |   |           |   errors.d.ts.map
+|   |   |   |           |   errors.js
+|   |   |   |           |   errors.js.map
+|   |   |   |           |   fetch.d.ts
+|   |   |   |           |   fetch.d.ts.map
+|   |   |   |           |   fetch.js
+|   |   |   |           |   fetch.js.map
+|   |   |   |           |   helpers.d.ts
+|   |   |   |           |   helpers.d.ts.map
+|   |   |   |           |   helpers.js
+|   |   |   |           |   helpers.js.map
+|   |   |   |           |   local-storage.d.ts
+|   |   |   |           |   local-storage.d.ts.map
+|   |   |   |           |   local-storage.js
+|   |   |   |           |   local-storage.js.map
+|   |   |   |           |   locks.d.ts
+|   |   |   |           |   locks.d.ts.map
+|   |   |   |           |   locks.js
+|   |   |   |           |   locks.js.map
+|   |   |   |           |   polyfills.d.ts
+|   |   |   |           |   polyfills.d.ts.map
+|   |   |   |           |   polyfills.js
+|   |   |   |           |   polyfills.js.map
+|   |   |   |           |   types.d.ts
+|   |   |   |           |   types.d.ts.map
+|   |   |   |           |   types.js
+|   |   |   |           |   types.js.map
+|   |   |   |           |   version.d.ts
+|   |   |   |           |   version.d.ts.map
+|   |   |   |           |   version.js
+|   |   |   |           |   version.js.map
+|   |   |   |           |   webauthn.d.ts
+|   |   |   |           |   webauthn.d.ts.map
+|   |   |   |           |   webauthn.dom.d.ts
+|   |   |   |           |   webauthn.dom.d.ts.map
+|   |   |   |           |   webauthn.dom.js
+|   |   |   |           |   webauthn.dom.js.map
+|   |   |   |           |   webauthn.errors.d.ts
+|   |   |   |           |   webauthn.errors.d.ts.map
+|   |   |   |           |   webauthn.errors.js
+|   |   |   |           |   webauthn.errors.js.map
+|   |   |   |           |   webauthn.js
+|   |   |   |           |   webauthn.js.map
+|   |   |   |           |   
+|   |   |   |           \---web3
+|   |   |   |                   ethereum.d.ts
+|   |   |   |                   ethereum.d.ts.map
+|   |   |   |                   ethereum.js
+|   |   |   |                   ethereum.js.map
+|   |   |   |                   solana.d.ts
+|   |   |   |                   solana.d.ts.map
+|   |   |   |                   solana.js
+|   |   |   |                   solana.js.map
+|   |   |   |                   
+|   |   |   +---migrations
+|   |   |   |       lockless-coordination.md
+|   |   |   |       README.md
+|   |   |   |       
+|   |   |   \---src
+|   |   |       |   AuthAdminApi.ts
+|   |   |       |   AuthClient.ts
+|   |   |       |   GoTrueAdminApi.ts
+|   |   |       |   GoTrueClient.ts
+|   |   |       |   index.ts
+|   |   |       |   
+|   |   |       \---lib
+|   |   |           |   base64url.ts
+|   |   |           |   constants.ts
+|   |   |           |   error-codes.ts
+|   |   |           |   errors.ts
+|   |   |           |   fetch.ts
+|   |   |           |   helpers.ts
+|   |   |           |   local-storage.ts
+|   |   |           |   locks.ts
+|   |   |           |   polyfills.ts
+|   |   |           |   types.ts
+|   |   |           |   version.ts
+|   |   |           |   webauthn.dom.ts
+|   |   |           |   webauthn.errors.ts
+|   |   |           |   webauthn.ts
+|   |   |           |   
+|   |   |           \---web3
+|   |   |                   ethereum.ts
+|   |   |                   solana.ts
+|   |   |                   
+|   |   +---cli-windows-x64
+|   |   |   |   package.json
+|   |   |   |   
+|   |   |   \---bin
+|   |   |           supabase-go.exe
+|   |   |           supabase.exe
+|   |   |           
+|   |   +---functions-js
+|   |   |   |   AGENTS.md
+|   |   |   |   LICENSE
+|   |   |   |   package.json
+|   |   |   |   README.md
+|   |   |   |   
+|   |   |   +---dist
+|   |   |   |   |   tsconfig.module.tsbuildinfo
+|   |   |   |   |   tsconfig.tsbuildinfo
+|   |   |   |   |   
+|   |   |   |   +---main
+|   |   |   |   |       FunctionsClient.d.ts
+|   |   |   |   |       FunctionsClient.d.ts.map
+|   |   |   |   |       FunctionsClient.js
+|   |   |   |   |       FunctionsClient.js.map
+|   |   |   |   |       helper.d.ts
+|   |   |   |   |       helper.d.ts.map
+|   |   |   |   |       helper.js
+|   |   |   |   |       helper.js.map
+|   |   |   |   |       index.d.ts
+|   |   |   |   |       index.d.ts.map
+|   |   |   |   |       index.js
+|   |   |   |   |       index.js.map
+|   |   |   |   |       types.d.ts
+|   |   |   |   |       types.d.ts.map
+|   |   |   |   |       types.js
+|   |   |   |   |       types.js.map
+|   |   |   |   |       version.d.ts
+|   |   |   |   |       version.d.ts.map
+|   |   |   |   |       version.js
+|   |   |   |   |       version.js.map
+|   |   |   |   |       
+|   |   |   |   \---module
+|   |   |   |           FunctionsClient.d.ts
+|   |   |   |           FunctionsClient.d.ts.map
+|   |   |   |           FunctionsClient.js
+|   |   |   |           FunctionsClient.js.map
+|   |   |   |           helper.d.ts
+|   |   |   |           helper.d.ts.map
+|   |   |   |           helper.js
+|   |   |   |           helper.js.map
+|   |   |   |           index.d.ts
+|   |   |   |           index.d.ts.map
+|   |   |   |           index.js
+|   |   |   |           index.js.map
+|   |   |   |           types.d.ts
+|   |   |   |           types.d.ts.map
+|   |   |   |           types.js
+|   |   |   |           types.js.map
+|   |   |   |           version.d.ts
+|   |   |   |           version.d.ts.map
+|   |   |   |           version.js
+|   |   |   |           version.js.map
+|   |   |   |           
+|   |   |   +---migrations
+|   |   |   |       README.md
+|   |   |   |       
+|   |   |   \---src
+|   |   |           edge-runtime.d.ts
+|   |   |           FunctionsClient.ts
+|   |   |           helper.ts
+|   |   |           index.ts
+|   |   |           types.ts
+|   |   |           version.ts
+|   |   |           
+|   |   +---phoenix
+|   |   |   |   LICENSE.md
+|   |   |   |   package.json
+|   |   |   |   README.md
+|   |   |   |   tsconfig.json
+|   |   |   |   
+|   |   |   +---assets
+|   |   |   |   \---js
+|   |   |   |       \---phoenix
+|   |   |   |               ajax.js
+|   |   |   |               channel.js
+|   |   |   |               constants.js
+|   |   |   |               index.js
+|   |   |   |               longpoll.js
+|   |   |   |               presence.js
+|   |   |   |               push.js
+|   |   |   |               serializer.js
+|   |   |   |               socket.js
+|   |   |   |               timer.js
+|   |   |   |               types.js
+|   |   |   |               utils.js
+|   |   |   |               
+|   |   |   \---priv
+|   |   |       \---static
+|   |   |           |   favicon.ico
+|   |   |           |   phoenix-orange.png
+|   |   |           |   phoenix.cjs.js
+|   |   |           |   phoenix.cjs.js.map
+|   |   |           |   phoenix.js
+|   |   |           |   phoenix.min.js
+|   |   |           |   phoenix.mjs
+|   |   |           |   phoenix.mjs.map
+|   |   |           |   phoenix.png
+|   |   |           |   
+|   |   |           \---types
+|   |   |                   ajax.d.ts
+|   |   |                   ajax.d.ts.map
+|   |   |                   channel.d.ts
+|   |   |                   channel.d.ts.map
+|   |   |                   constants.d.ts
+|   |   |                   constants.d.ts.map
+|   |   |                   index.d.ts
+|   |   |                   index.d.ts.map
+|   |   |                   longpoll.d.ts
+|   |   |                   longpoll.d.ts.map
+|   |   |                   presence.d.ts
+|   |   |                   presence.d.ts.map
+|   |   |                   push.d.ts
+|   |   |                   push.d.ts.map
+|   |   |                   serializer.d.ts
+|   |   |                   serializer.d.ts.map
+|   |   |                   socket.d.ts
+|   |   |                   socket.d.ts.map
+|   |   |                   timer.d.ts
+|   |   |                   timer.d.ts.map
+|   |   |                   types.d.ts
+|   |   |                   types.d.ts.map
+|   |   |                   utils.d.ts
+|   |   |                   utils.d.ts.map
+|   |   |                   
+|   |   +---postgrest-js
+|   |   |   |   AGENTS.md
+|   |   |   |   LICENSE
+|   |   |   |   package.json
+|   |   |   |   README.md
+|   |   |   |   
+|   |   |   +---dist
+|   |   |   |       index.cjs
+|   |   |   |       index.cjs.map
+|   |   |   |       index.d.cts
+|   |   |   |       index.d.cts.map
+|   |   |   |       index.d.mts
+|   |   |   |       index.d.mts.map
+|   |   |   |       index.mjs
+|   |   |   |       index.mjs.map
+|   |   |   |       
+|   |   |   +---migrations
+|   |   |   |       README.md
+|   |   |   |       
+|   |   |   \---src
+|   |   |       |   constants.ts
+|   |   |       |   index.ts
+|   |   |       |   PostgrestBuilder.ts
+|   |   |       |   PostgrestClient.ts
+|   |   |       |   PostgrestError.ts
+|   |   |       |   PostgrestFilterBuilder.ts
+|   |   |       |   PostgrestQueryBuilder.ts
+|   |   |       |   PostgrestTransformBuilder.ts
+|   |   |       |   version.ts
+|   |   |       |   
+|   |   |       +---select-query-parser
+|   |   |       |       parser.ts
+|   |   |       |       result.ts
+|   |   |       |       types.ts
+|   |   |       |       utils.ts
+|   |   |       |       
+|   |   |       \---types
+|   |   |           |   feature-flags.ts
+|   |   |           |   types.ts
+|   |   |           |   
+|   |   |           \---common
+|   |   |                   common.ts
+|   |   |                   rpc.ts
+|   |   |                   
+|   |   +---realtime-js
+|   |   |   |   AGENTS.md
+|   |   |   |   LICENSE
+|   |   |   |   package.json
+|   |   |   |   README.md
+|   |   |   |   
+|   |   |   +---dist
+|   |   |   |   |   tsconfig.module.tsbuildinfo
+|   |   |   |   |   tsconfig.tsbuildinfo
+|   |   |   |   |   
+|   |   |   |   +---main
+|   |   |   |   |   |   index.d.ts
+|   |   |   |   |   |   index.d.ts.map
+|   |   |   |   |   |   index.js
+|   |   |   |   |   |   index.js.map
+|   |   |   |   |   |   RealtimeChannel.d.ts
+|   |   |   |   |   |   RealtimeChannel.d.ts.map
+|   |   |   |   |   |   RealtimeChannel.js
+|   |   |   |   |   |   RealtimeChannel.js.map
+|   |   |   |   |   |   RealtimeClient.d.ts
+|   |   |   |   |   |   RealtimeClient.d.ts.map
+|   |   |   |   |   |   RealtimeClient.js
+|   |   |   |   |   |   RealtimeClient.js.map
+|   |   |   |   |   |   RealtimePostgresFilterBuilder.d.ts
+|   |   |   |   |   |   RealtimePostgresFilterBuilder.d.ts.map
+|   |   |   |   |   |   RealtimePostgresFilterBuilder.js
+|   |   |   |   |   |   RealtimePostgresFilterBuilder.js.map
+|   |   |   |   |   |   RealtimePresence.d.ts
+|   |   |   |   |   |   RealtimePresence.d.ts.map
+|   |   |   |   |   |   RealtimePresence.js
+|   |   |   |   |   |   RealtimePresence.js.map
+|   |   |   |   |   |   
+|   |   |   |   |   +---lib
+|   |   |   |   |   |       constants.d.ts
+|   |   |   |   |   |       constants.d.ts.map
+|   |   |   |   |   |       constants.js
+|   |   |   |   |   |       constants.js.map
+|   |   |   |   |   |       normalizeChannelError.d.ts
+|   |   |   |   |   |       normalizeChannelError.d.ts.map
+|   |   |   |   |   |       normalizeChannelError.js
+|   |   |   |   |   |       normalizeChannelError.js.map
+|   |   |   |   |   |       serializer.d.ts
+|   |   |   |   |   |       serializer.d.ts.map
+|   |   |   |   |   |       serializer.js
+|   |   |   |   |   |       serializer.js.map
+|   |   |   |   |   |       transformers.d.ts
+|   |   |   |   |   |       transformers.d.ts.map
+|   |   |   |   |   |       transformers.js
+|   |   |   |   |   |       transformers.js.map
+|   |   |   |   |   |       version.d.ts
+|   |   |   |   |   |       version.d.ts.map
+|   |   |   |   |   |       version.js
+|   |   |   |   |   |       version.js.map
+|   |   |   |   |   |       websocket-factory.d.ts
+|   |   |   |   |   |       websocket-factory.d.ts.map
+|   |   |   |   |   |       websocket-factory.js
+|   |   |   |   |   |       websocket-factory.js.map
+|   |   |   |   |   |       
+|   |   |   |   |   \---phoenix
+|   |   |   |   |           channelAdapter.d.ts
+|   |   |   |   |           channelAdapter.d.ts.map
+|   |   |   |   |           channelAdapter.js
+|   |   |   |   |           channelAdapter.js.map
+|   |   |   |   |           presenceAdapter.d.ts
+|   |   |   |   |           presenceAdapter.d.ts.map
+|   |   |   |   |           presenceAdapter.js
+|   |   |   |   |           presenceAdapter.js.map
+|   |   |   |   |           socketAdapter.d.ts
+|   |   |   |   |           socketAdapter.d.ts.map
+|   |   |   |   |           socketAdapter.js
+|   |   |   |   |           socketAdapter.js.map
+|   |   |   |   |           types.d.ts
+|   |   |   |   |           types.d.ts.map
+|   |   |   |   |           types.js
+|   |   |   |   |           types.js.map
+|   |   |   |   |           
+|   |   |   |   \---module
+|   |   |   |       |   index.d.ts
+|   |   |   |       |   index.d.ts.map
+|   |   |   |       |   index.js
+|   |   |   |       |   index.js.map
+|   |   |   |       |   RealtimeChannel.d.ts
+|   |   |   |       |   RealtimeChannel.d.ts.map
+|   |   |   |       |   RealtimeChannel.js
+|   |   |   |       |   RealtimeChannel.js.map
+|   |   |   |       |   RealtimeClient.d.ts
+|   |   |   |       |   RealtimeClient.d.ts.map
+|   |   |   |       |   RealtimeClient.js
+|   |   |   |       |   RealtimeClient.js.map
+|   |   |   |       |   RealtimePostgresFilterBuilder.d.ts
+|   |   |   |       |   RealtimePostgresFilterBuilder.d.ts.map
+|   |   |   |       |   RealtimePostgresFilterBuilder.js
+|   |   |   |       |   RealtimePostgresFilterBuilder.js.map
+|   |   |   |       |   RealtimePresence.d.ts
+|   |   |   |       |   RealtimePresence.d.ts.map
+|   |   |   |       |   RealtimePresence.js
+|   |   |   |       |   RealtimePresence.js.map
+|   |   |   |       |   
+|   |   |   |       +---lib
+|   |   |   |       |       constants.d.ts
+|   |   |   |       |       constants.d.ts.map
+|   |   |   |       |       constants.js
+|   |   |   |       |       constants.js.map
+|   |   |   |       |       normalizeChannelError.d.ts
+|   |   |   |       |       normalizeChannelError.d.ts.map
+|   |   |   |       |       normalizeChannelError.js
+|   |   |   |       |       normalizeChannelError.js.map
+|   |   |   |       |       serializer.d.ts
+|   |   |   |       |       serializer.d.ts.map
+|   |   |   |       |       serializer.js
+|   |   |   |       |       serializer.js.map
+|   |   |   |       |       transformers.d.ts
+|   |   |   |       |       transformers.d.ts.map
+|   |   |   |       |       transformers.js
+|   |   |   |       |       transformers.js.map
+|   |   |   |       |       version.d.ts
+|   |   |   |       |       version.d.ts.map
+|   |   |   |       |       version.js
+|   |   |   |       |       version.js.map
+|   |   |   |       |       websocket-factory.d.ts
+|   |   |   |       |       websocket-factory.d.ts.map
+|   |   |   |       |       websocket-factory.js
+|   |   |   |       |       websocket-factory.js.map
+|   |   |   |       |       
+|   |   |   |       \---phoenix
+|   |   |   |               channelAdapter.d.ts
+|   |   |   |               channelAdapter.d.ts.map
+|   |   |   |               channelAdapter.js
+|   |   |   |               channelAdapter.js.map
+|   |   |   |               presenceAdapter.d.ts
+|   |   |   |               presenceAdapter.d.ts.map
+|   |   |   |               presenceAdapter.js
+|   |   |   |               presenceAdapter.js.map
+|   |   |   |               socketAdapter.d.ts
+|   |   |   |               socketAdapter.d.ts.map
+|   |   |   |               socketAdapter.js
+|   |   |   |               socketAdapter.js.map
+|   |   |   |               types.d.ts
+|   |   |   |               types.d.ts.map
+|   |   |   |               types.js
+|   |   |   |               types.js.map
+|   |   |   |               
+|   |   |   +---migrations
+|   |   |   |       httpsend-server-version.md
+|   |   |   |       README.md
+|   |   |   |       
+|   |   |   \---src
+|   |   |       |   index.ts
+|   |   |       |   RealtimeChannel.ts
+|   |   |       |   RealtimeClient.ts
+|   |   |       |   RealtimePostgresFilterBuilder.ts
+|   |   |       |   RealtimePresence.ts
+|   |   |       |   
+|   |   |       +---lib
+|   |   |       |       constants.ts
+|   |   |       |       normalizeChannelError.ts
+|   |   |       |       serializer.ts
+|   |   |       |       transformers.ts
+|   |   |       |       version.ts
+|   |   |       |       websocket-factory.ts
+|   |   |       |       
+|   |   |       \---phoenix
+|   |   |               channelAdapter.ts
+|   |   |               presenceAdapter.ts
+|   |   |               socketAdapter.ts
+|   |   |               types.ts
+|   |   |               
+|   |   +---ssr
+|   |   |   |   CHANGELOG.md
+|   |   |   |   LICENSE
+|   |   |   |   package.json
+|   |   |   |   pnpm-workspace.yaml
+|   |   |   |   README.md
+|   |   |   |   release-please-config.json
+|   |   |   |   tsconfig.json
+|   |   |   |   tsconfig.main.json
+|   |   |   |   vitest.config.ts
+|   |   |   |   
+|   |   |   +---dist
+|   |   |   |   +---main
+|   |   |   |   |   |   clearAuthCookiesAtScopes.d.ts
+|   |   |   |   |   |   clearAuthCookiesAtScopes.js
+|   |   |   |   |   |   clearAuthCookiesAtScopes.js.map
+|   |   |   |   |   |   clearAuthCookiesAtScopes.spec.d.ts
+|   |   |   |   |   |   cookies.d.ts
+|   |   |   |   |   |   cookies.js
+|   |   |   |   |   |   cookies.js.map
+|   |   |   |   |   |   cookies.spec.d.ts
+|   |   |   |   |   |   createBrowserClient.d.ts
+|   |   |   |   |   |   createBrowserClient.js
+|   |   |   |   |   |   createBrowserClient.js.map
+|   |   |   |   |   |   createBrowserClient.spec.d.ts
+|   |   |   |   |   |   createServerClient.d.ts
+|   |   |   |   |   |   createServerClient.js
+|   |   |   |   |   |   createServerClient.js.map
+|   |   |   |   |   |   createServerClient.spec.d.ts
+|   |   |   |   |   |   index.d.ts
+|   |   |   |   |   |   index.js
+|   |   |   |   |   |   index.js.map
+|   |   |   |   |   |   types.d.ts
+|   |   |   |   |   |   types.js
+|   |   |   |   |   |   types.js.map
+|   |   |   |   |   |   version.d.ts
+|   |   |   |   |   |   version.js
+|   |   |   |   |   |   version.js.map
+|   |   |   |   |   |   warnDeprecatedPackage.d.ts
+|   |   |   |   |   |   warnDeprecatedPackage.js
+|   |   |   |   |   |   warnDeprecatedPackage.js.map
+|   |   |   |   |   |   
+|   |   |   |   |   \---utils
+|   |   |   |   |           base64url.d.ts
+|   |   |   |   |           base64url.js
+|   |   |   |   |           base64url.js.map
+|   |   |   |   |           base64url.test.d.ts
+|   |   |   |   |           base64url.test.js
+|   |   |   |   |           base64url.test.js.map
+|   |   |   |   |           chunker.d.ts
+|   |   |   |   |           chunker.js
+|   |   |   |   |           chunker.js.map
+|   |   |   |   |           chunker.spec.d.ts
+|   |   |   |   |           constants.d.ts
+|   |   |   |   |           constants.js
+|   |   |   |   |           constants.js.map
+|   |   |   |   |           helpers.d.ts
+|   |   |   |   |           helpers.js
+|   |   |   |   |           helpers.js.map
+|   |   |   |   |           helpers.spec.d.ts
+|   |   |   |   |           index.d.ts
+|   |   |   |   |           index.js
+|   |   |   |   |           index.js.map
+|   |   |   |   |           
+|   |   |   |   \---module
+|   |   |   |       |   clearAuthCookiesAtScopes.d.ts
+|   |   |   |       |   clearAuthCookiesAtScopes.js
+|   |   |   |       |   clearAuthCookiesAtScopes.js.map
+|   |   |   |       |   clearAuthCookiesAtScopes.spec.d.ts
+|   |   |   |       |   cookies.d.ts
+|   |   |   |       |   cookies.js
+|   |   |   |       |   cookies.js.map
+|   |   |   |       |   cookies.spec.d.ts
+|   |   |   |       |   createBrowserClient.d.ts
+|   |   |   |       |   createBrowserClient.js
+|   |   |   |       |   createBrowserClient.js.map
+|   |   |   |       |   createBrowserClient.spec.d.ts
+|   |   |   |       |   createServerClient.d.ts
+|   |   |   |       |   createServerClient.js
+|   |   |   |       |   createServerClient.js.map
+|   |   |   |       |   createServerClient.spec.d.ts
+|   |   |   |       |   index.d.ts
+|   |   |   |       |   index.js
+|   |   |   |       |   index.js.map
+|   |   |   |       |   types.d.ts
+|   |   |   |       |   types.js
+|   |   |   |       |   types.js.map
+|   |   |   |       |   version.d.ts
+|   |   |   |       |   version.js
+|   |   |   |       |   version.js.map
+|   |   |   |       |   warnDeprecatedPackage.d.ts
+|   |   |   |       |   warnDeprecatedPackage.js
+|   |   |   |       |   warnDeprecatedPackage.js.map
+|   |   |   |       |   
+|   |   |   |       \---utils
+|   |   |   |               base64url.d.ts
+|   |   |   |               base64url.js
+|   |   |   |               base64url.js.map
+|   |   |   |               base64url.test.d.ts
+|   |   |   |               base64url.test.js
+|   |   |   |               base64url.test.js.map
+|   |   |   |               chunker.d.ts
+|   |   |   |               chunker.js
+|   |   |   |               chunker.js.map
+|   |   |   |               chunker.spec.d.ts
+|   |   |   |               constants.d.ts
+|   |   |   |               constants.js
+|   |   |   |               constants.js.map
+|   |   |   |               helpers.d.ts
+|   |   |   |               helpers.js
+|   |   |   |               helpers.js.map
+|   |   |   |               helpers.spec.d.ts
+|   |   |   |               index.d.ts
+|   |   |   |               index.js
+|   |   |   |               index.js.map
+|   |   |   |               
+|   |   |   +---docs
+|   |   |   |       design.md
+|   |   |   |       
+|   |   |   \---src
+|   |   |       |   clearAuthCookiesAtScopes.ts
+|   |   |       |   cookies.ts
+|   |   |       |   createBrowserClient.ts
+|   |   |       |   createServerClient.ts
+|   |   |       |   index.ts
+|   |   |       |   types.ts
+|   |   |       |   version.ts
+|   |   |       |   warnDeprecatedPackage.ts
+|   |   |       |   
+|   |   |       \---utils
+|   |   |               base64url.test.ts
+|   |   |               base64url.ts
+|   |   |               chunker.ts
+|   |   |               constants.ts
+|   |   |               helpers.ts
+|   |   |               index.ts
+|   |   |               
+|   |   +---storage-js
+|   |   |   |   AGENTS.md
+|   |   |   |   LICENSE
+|   |   |   |   package.json
+|   |   |   |   README.md
+|   |   |   |   
+|   |   |   +---dist
+|   |   |   |   |   index.cjs
+|   |   |   |   |   index.cjs.map
+|   |   |   |   |   index.d.cts
+|   |   |   |   |   index.d.cts.map
+|   |   |   |   |   index.d.mts
+|   |   |   |   |   index.d.mts.map
+|   |   |   |   |   index.mjs
+|   |   |   |   |   index.mjs.map
+|   |   |   |   |   
+|   |   |   |   \---umd
+|   |   |   |           supabase.js
+|   |   |   |           
+|   |   |   +---migrations
+|   |   |   |       README.md
+|   |   |   |       
+|   |   |   \---src
+|   |   |       |   index.ts
+|   |   |       |   StorageClient.ts
+|   |   |       |   
+|   |   |       +---lib
+|   |   |       |   |   constants.ts
+|   |   |       |   |   types.ts
+|   |   |       |   |   version.ts
+|   |   |       |   |   
+|   |   |       |   \---common
+|   |   |       |           BaseApiClient.ts
+|   |   |       |           errors.ts
+|   |   |       |           fetch.ts
+|   |   |       |           headers.ts
+|   |   |       |           helpers.ts
+|   |   |       |           
+|   |   |       \---packages
+|   |   |               BlobDownloadBuilder.ts
+|   |   |               StorageAnalyticsClient.ts
+|   |   |               StorageBucketApi.ts
+|   |   |               StorageFileApi.ts
+|   |   |               StorageVectorsClient.ts
+|   |   |               StreamDownloadBuilder.ts
+|   |   |               VectorBucketApi.ts
+|   |   |               VectorDataApi.ts
+|   |   |               VectorIndexApi.ts
+|   |   |               
+|   |   \---supabase-js
+|   |       |   AGENTS.md
+|   |       |   LICENSE
+|   |       |   package.json
+|   |       |   README.md
+|   |       |   
+|   |       +---dist
+|   |       |   |   cors.cjs
+|   |       |   |   cors.cjs.map
+|   |       |   |   cors.d.cts
+|   |       |   |   cors.d.cts.map
+|   |       |   |   cors.d.mts
+|   |       |   |   cors.d.mts.map
+|   |       |   |   cors.mjs
+|   |       |   |   cors.mjs.map
+|   |       |   |   index.cjs
+|   |       |   |   index.cjs.map
+|   |       |   |   index.d.cts
+|   |       |   |   index.d.cts.map
+|   |       |   |   index.d.mts
+|   |       |   |   index.d.mts.map
+|   |       |   |   index.mjs
+|   |       |   |   index.mjs.map
+|   |       |   |   
+|   |       |   \---umd
+|   |       |           supabase.js
+|   |       |           
+|   |       +---migrations
+|   |       |       README.md
+|   |       |       
+|   |       \---src
+|   |           |   cors.ts
+|   |           |   index.ts
+|   |           |   SupabaseClient.ts
+|   |           |   
+|   |           \---lib
+|   |               |   constants.ts
+|   |               |   fetch.ts
+|   |               |   helpers.ts
+|   |               |   SupabaseAuthClient.ts
+|   |               |   types.ts
+|   |               |   version.ts
+|   |               |   
+|   |               \---rest
+|   |                   \---types
+|   |                       \---common
+|   |                               common.ts
+|   |                               rpc.ts
+|   |                               
+|   +---cookie
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |           index.d.ts
+|   |           index.js
+|   |           index.js.map
+|   |           
+|   +---eciesjs
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |       |   config.d.ts
+|   |       |   config.js
+|   |       |   consts.d.ts
+|   |       |   consts.js
+|   |       |   index.d.ts
+|   |       |   index.js
+|   |       |   
+|   |       +---keys
+|   |       |       index.d.ts
+|   |       |       index.js
+|   |       |       PrivateKey.d.ts
+|   |       |       PrivateKey.js
+|   |       |       PublicKey.d.ts
+|   |       |       PublicKey.js
+|   |       |       
+|   |       \---utils
+|   |               elliptic.d.ts
+|   |               elliptic.js
+|   |               hash.d.ts
+|   |               hash.js
+|   |               hex.d.ts
+|   |               hex.js
+|   |               index.d.ts
+|   |               index.js
+|   |               symmetric.d.ts
+|   |               symmetric.js
+|   |               
+|   +---iceberg-js
+|   |   |   LICENSE
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |           index.cjs
+|   |           index.cjs.map
+|   |           index.d.cts
+|   |           index.d.ts
+|   |           index.mjs
+|   |           index.mjs.map
+|   |           
+|   +---jose
+|   |   |   LICENSE.md
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |       +---types
+|   |       |   |   index.d.ts
+|   |       |   |   types.d.ts
+|   |       |   |   
+|   |       |   +---jwe
+|   |       |   |   +---compact
+|   |       |   |   |       decrypt.d.ts
+|   |       |   |   |       encrypt.d.ts
+|   |       |   |   |       
+|   |       |   |   +---flattened
+|   |       |   |   |       decrypt.d.ts
+|   |       |   |   |       encrypt.d.ts
+|   |       |   |   |       
+|   |       |   |   \---general
+|   |       |   |           decrypt.d.ts
+|   |       |   |           encrypt.d.ts
+|   |       |   |           
+|   |       |   +---jwk
+|   |       |   |       embedded.d.ts
+|   |       |   |       thumbprint.d.ts
+|   |       |   |       
+|   |       |   +---jwks
+|   |       |   |       local.d.ts
+|   |       |   |       remote.d.ts
+|   |       |   |       
+|   |       |   +---jws
+|   |       |   |   +---compact
+|   |       |   |   |       sign.d.ts
+|   |       |   |   |       verify.d.ts
+|   |       |   |   |       
+|   |       |   |   +---flattened
+|   |       |   |   |       sign.d.ts
+|   |       |   |   |       verify.d.ts
+|   |       |   |   |       
+|   |       |   |   \---general
+|   |       |   |           sign.d.ts
+|   |       |   |           verify.d.ts
+|   |       |   |           
+|   |       |   +---jwt
+|   |       |   |       decrypt.d.ts
+|   |       |   |       encrypt.d.ts
+|   |       |   |       sign.d.ts
+|   |       |   |       unsecured.d.ts
+|   |       |   |       verify.d.ts
+|   |       |   |       
+|   |       |   +---key
+|   |       |   |       export.d.ts
+|   |       |   |       generate_key_pair.d.ts
+|   |       |   |       generate_secret.d.ts
+|   |       |   |       import.d.ts
+|   |       |   |       
+|   |       |   \---util
+|   |       |           base64url.d.ts
+|   |       |           decode_jwt.d.ts
+|   |       |           decode_protected_header.d.ts
+|   |       |           errors.d.ts
+|   |       |           
+|   |       \---webapi
+|   |           |   index.js
+|   |           |   
+|   |           +---jwe
+|   |           |   +---compact
+|   |           |   |       decrypt.js
+|   |           |   |       encrypt.js
+|   |           |   |       
+|   |           |   +---flattened
+|   |           |   |       decrypt.js
+|   |           |   |       encrypt.js
+|   |           |   |       
+|   |           |   \---general
+|   |           |           decrypt.js
+|   |           |           encrypt.js
+|   |           |           
+|   |           +---jwk
+|   |           |       embedded.js
+|   |           |       thumbprint.js
+|   |           |       
+|   |           +---jwks
+|   |           |       local.js
+|   |           |       remote.js
+|   |           |       
+|   |           +---jws
+|   |           |   +---compact
+|   |           |   |       sign.js
+|   |           |   |       verify.js
+|   |           |   |       
+|   |           |   +---flattened
+|   |           |   |       sign.js
+|   |           |   |       verify.js
+|   |           |   |       
+|   |           |   \---general
+|   |           |           sign.js
+|   |           |           verify.js
+|   |           |           
+|   |           +---jwt
+|   |           |       decrypt.js
+|   |           |       encrypt.js
+|   |           |       sign.js
+|   |           |       unsecured.js
+|   |           |       verify.js
+|   |           |       
+|   |           +---key
+|   |           |       export.js
+|   |           |       generate_key_pair.js
+|   |           |       generate_secret.js
+|   |           |       import.js
+|   |           |       
+|   |           +---lib
+|   |           |       aesgcmkw.js
+|   |           |       aeskw.js
+|   |           |       asn1.js
+|   |           |       base64.js
+|   |           |       buffer_utils.js
+|   |           |       check_key_type.js
+|   |           |       content_encryption.js
+|   |           |       crypto_key.js
+|   |           |       deflate.js
+|   |           |       ecdhes.js
+|   |           |       helpers.js
+|   |           |       invalid_key_input.js
+|   |           |       is_key_like.js
+|   |           |       jwk_to_key.js
+|   |           |       jwt_claims_set.js
+|   |           |       key_management.js
+|   |           |       key_to_jwk.js
+|   |           |       normalize_key.js
+|   |           |       pbes2kw.js
+|   |           |       rsaes.js
+|   |           |       signing.js
+|   |           |       type_checks.js
+|   |           |       validate_algorithms.js
+|   |           |       validate_crit.js
+|   |           |       
+|   |           \---util
+|   |                   base64url.js
+|   |                   decode_jwt.js
+|   |                   decode_protected_header.js
+|   |                   errors.js
+|   |                   
+|   +---supabase
+|   |   |   package.json
+|   |   |   README.md
+|   |   |   
+|   |   \---dist
+|   |           supabase.js
+|   |           
+|   \---tslib
+|       |   CopyrightNotice.txt
+|       |   LICENSE.txt
+|       |   package.json
+|       |   README.md
+|       |   SECURITY.md
+|       |   tslib.d.ts
+|       |   tslib.es6.html
+|       |   tslib.es6.js
+|       |   tslib.es6.mjs
+|       |   tslib.html
+|       |   tslib.js
+|       |   
+|       \---modules
+|               index.d.ts
+|               index.js
+|               package.json
+|               
 +---reports
 |       phase-02-catalog-lifecycle-audit.md
 |       phase-02-prioritized-findings.md
@@ -79,12 +1790,18 @@ C:.
 |   +---.branches
 |   |       _current_branch
 |   |       
-|   \---.temp
-|       |   cli-latest
-|       |   
-|       \---pgdelta
-|               catalog-local-migrations-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855-1782419221382.json
-|               
+|   +---.temp
+|   |   |   cli-latest
+|   |   |   
+|   |   \---pgdelta
+|   |           catalog-local-migrations-1ea002159091c132b9fb58c41d30450ba2f8ed0256d8d733dfaefd886a8ae409-1783155515823.json
+|   |           catalog-local-migrations-ac46772a93b76f0d401e165596848004c6b201e865bf6162e8584088730fdf64-1783157729336.json
+|   |           
+|   \---migrations
+|           202607041200_enable_extensions.sql
+|           202607041300_create_system_catalog_tables.sql
+|           202607041400_create_reference_tables.sql
+|           
 \---_ORVION_CANONICAL
         00_project_charter.md
         01_mvp_scope.md

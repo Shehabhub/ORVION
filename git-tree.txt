@@ -1,4 +1,23 @@
-﻿*   2cddcda (HEAD -> main, tag: repository-engineering-complete, origin/main, origin/HEAD) Merge pull request #1 from Shehabhub/add-claude-github-actions-1783137934682
+﻿* a9c094c (HEAD -> main) SPEC-025: Implement -- create currencies reference table
+* e1a9181 SPEC-025: Approve (human command)
+* a7a17dc (origin/main, origin/HEAD) SPEC-026: Complete (human command)
+* 3317ed8 SPEC-026: Review -- Confirmed Complete
+* 416d286 SPEC-026: Implement -- add publish-on-Complete clause to AGENTS.md Complete command
+* 929c2e0 SPEC-026: Approve (human command)
+* dc57507 SPEC-024: Complete (human command)
+* 3808695 SPEC-024: Review -- Confirmed Complete
+* cad9db3 SPEC-024: Implement -- create system catalog tables (catalog_types, catalog_values)
+* 1de0e68 SPEC-024: Approve (human command)
+* 365a65c SPEC-023: Complete (human command)
+* 97b6493 SPEC-023: Review -- Confirmed Complete
+* a2b058f SPEC-023: Implement -- ignore and untrack transient Supabase CLI artifacts
+* 2d586c5 SPEC-023: Approve (human command)
+* 69a81b0 SPEC-022: Complete (human command)
+* 3934f80 SPEC-022: Review -- Confirmed Complete
+* 67ce571 SPEC-022: Implement -- create enable_extensions migration (enable pgcrypto)
+* 9a3264a SPEC-022: Approve (human command)
+* a59244c y
+*   2cddcda (tag: repository-engineering-complete) Merge pull request #1 from Shehabhub/add-claude-github-actions-1783137934682
 |\  
 | * 0e27c51 "Claude Code Review workflow"
 | * 5907dc2 "Claude PR Assistant workflow"
