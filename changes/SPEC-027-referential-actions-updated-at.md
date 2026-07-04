@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -159,19 +159,23 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 13:12 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
-- Step 2: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — `# Referential Action Standard` was absent; inserted the new section (default `on delete restrict on update no action`, `cascade`/`set null` deviations, rationale) immediately before `# Deletion Rule`.
+- Step 2: Applied — `Maintaining `updated_at`` was absent; inserted the subsection into `# Timestamp Standard` (database-managed via `before update` trigger; `moddatetime` recommended; hand-written `plpgsql` function noted as equivalent).
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria:
+- `# Referential Action Standard` present with `on delete restrict on update no action` and both `cascade`/`set null` deviations — confirmed.
+- `# Deletion Rule` still present, unchanged, immediately after the new section (lines 455 then 477) — confirmed.
+- `# Timestamp Standard` now contains the `Maintaining `updated_at`` subsection with `moddatetime` as recommended and a hand-written trigger function as an acceptable equivalent — confirmed.
+- `git diff --stat` shows only `_ORVION_CANONICAL/30_database_conventions.md` changed (+38 lines); no other file — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit (modifies `30_database_conventions.md` and synchronizes this Change Request). No SQL, no other document.
+
+Observation (Finding F3 below): markdownlint reports pre-existing MD025 (multiple top-level `#` headings) across the whole document; the new section conforms to that existing repository style and introduces no new style deviation. Not actioned — outside this Change Request's approved scope.
 
 ---
 
@@ -221,3 +225,4 @@ Design decisions, for the reviewer:
 
 - **F1 — Existing `updated_at` tables need the trigger retrofitted, and the chosen mechanism enabled — before migration 4.** `catalog_values` (SPEC-024) and `currencies` (SPEC-025) already have `updated_at` columns but no trigger, and no trigger mechanism (e.g. `moddatetime`) is yet enabled. A small future Change Request should enable the chosen mechanism and add the `before update` trigger to those two tables. This must land **before migration 4**, not merely alongside it: migration 4's tables (`tenants`, `branches`, `departments`, `branch_business_hours`, `holidays`) all carry `updated_at` and, per this convention, add their own triggers — which requires the mechanism already enabled. Verified: no existing migration (1–3) creates a trigger or depends on the mechanism, so nothing already applied is affected; the dependency is only forward. **Classification: Required Soon.** (Smallest future CR: one migration file — enable the mechanism plus two `create trigger` statements for the existing tables.)
 - **F2 — Referential actions need no retrofit.** Migrations 2 and 3 created no enforced foreign keys (`catalog_values`' backward FKs are deferred per SPEC-024 F2; `currencies` has none), so the new default first applies at migration 4 and when the deferred `catalog_values` foreign keys are added. **Classification: Informational** (no action).
+- **F3 — Pre-existing markdownlint MD025 across canonical documents.** The editor reports MD025 (multiple top-level `#` headings) on `30_database_conventions.md`; this is the established heading style of every ORVION canonical document, not a defect introduced here — the new `# Referential Action Standard` deliberately matches it. Normalizing heading levels would be a repository-wide documentation-style change touching many protected canonical files, well outside this Change Request's scope. **Classification: Nice to Have** (a possible future documentation-style Change Request, if ever desired; no action now).

@@ -159,6 +159,22 @@ Examples:
 - expires_at
 - sent_at
 
+Maintaining `updated_at`:
+
+`updated_at` is maintained by the database, not by application code, so that every update — including direct SQL and service-role writes that bypass the application — advances it. The convention is the guarantee: every table that has an `updated_at` column has a `before update` trigger that sets it to the current time. The recommended implementation is the `moddatetime` extension (a standard PostgreSQL contrib module supported by Supabase); an equivalent hand-written `plpgsql` trigger function that produces the same result is acceptable. Example using the recommended `moddatetime`:
+
+```sql
+-- enabled once, in a migration, before the first trigger that uses it:
+create extension if not exists moddatetime;
+
+-- per table that has an updated_at column:
+create trigger <table>_set_updated_at
+    before update on <table>
+    for each row execute function moddatetime(updated_at);
+```
+
+Whichever mechanism is used, it is enabled or created in a migration before the first trigger that depends on it. `created_at` remains a plain `default now()` and is never modified after insert. Application code does not set `updated_at` directly.
+
 ---
 
 # Actor Standard
@@ -433,6 +449,28 @@ Rule:
 Use polymorphic links for timelines and flexible attachments.
 
 Use explicit foreign keys for core workflow dependencies.
+
+---
+
+# Referential Action Standard
+
+Every foreign key declares its `on delete` and `on update` behaviour explicitly. The default, used unless a migration documents otherwise for a specific foreign key, is:
+
+```sql
+references <parent> (<column>) on delete restrict on update no action
+```
+
+Rationale:
+
+- `on delete restrict` matches this repository's archive-not-delete philosophy (see Archive Standard and Deletion Rule): important parent records are archived, never physically deleted, so a referenced parent must not be removable while children still reference it.
+- `on update no action` is safe because every primary key in this schema is immutable: surrogate keys are UUIDs (Primary Key Standard) and natural keys are stable codes that are never renamed (Catalog Standard; `currencies.code`). A parent key value never changes, so cascading updates never occur.
+
+Permitted deviations, each stated explicitly on the specific foreign key in its own migration (never applied silently or as a blanket default):
+
+- `on delete cascade` — only for a dependent child/detail row that has no independent existence and is physically deleted together with its parent (for example a pure junction or line-item table whose rows are meaningless without the parent).
+- `on delete set null` — only for a nullable, optional reference where clearing the link is the correct behaviour when the referenced row is removed; never on a `not null` foreign key.
+
+A migration that uses `cascade` or `set null` for a foreign key states, in that migration, why the default `restrict` does not apply.
 
 ---
 
