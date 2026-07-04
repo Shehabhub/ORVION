@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -212,18 +212,22 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 00:40 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — created `supabase/migrations/202607041700_create_identity_and_access_tables.sql` with the specified content (membership model: `auth_user_id` per-tenant unique, `ON DELETE SET NULL`).
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria + Database Audit (clean `db reset`, migrations 1–6, Postgres 17):
+- All six tables exist.
+- `users` FKs: `auth_user_id` → `auth.users` `ON DELETE SET NULL`; `tenant_id` → `tenants` `restrict`. All other FKs `restrict`/`no action`.
+- `users` uniques: `UNIQUE (tenant_id, email)` and `UNIQUE (tenant_id, auth_user_id)` (composite — the membership model, not global). `roles.code`/`permissions.key` UNIQUE; `role_permissions(role_id, permission_id)` UNIQUE.
+- Partial index `user_branch_assignments_one_primary_idx` on `(tenant_id, user_id) WHERE is_primary AND ends_at IS NULL`.
+- Zero FKs on status/type columns; only `users` has an `updated_at` trigger.
+- Behavioral (rolled back): (a) `updated_at` advanced on update; (b) same email allowed in two tenants but rejected as duplicate within one tenant — the membership model proven; (c) second current primary assignment rejected by the partial index; (d) deleting a referenced role blocked by `restrict`. No rows persisted.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit. No other migration or canonical document changed.
 
 ---
 
