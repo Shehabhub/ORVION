@@ -35,7 +35,7 @@ Last Completed Task: SPEC-034 — Migration CI: added a GitHub Actions workflow 
 
 Next Planned Task: Migration 6 — finance foundation tables (exchange_rates, chart_of_accounts, financial_accounts) per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting
 
-Active Change Request: None
+Active Change Request: changes/SPEC-035-migration-6-finance-foundation-tables.md
 
 ---
 
