@@ -26,7 +26,7 @@ Convention: append-only. Each ADR is numbered and dated. A superseded ADR is mar
 
 ## ADR-0004 — `users` links to `auth.users` via a separate `auth_user_id`
 - Date: 2026-07 · Status: Accepted · Source: 30 Identity Key Standard; 31 §13 item 3; SPEC-009
-- Decision: `users` keeps its own `id`; a separate `auth_user_id uuid not null unique references auth.users(id)` is the sole link to Supabase Auth. `users.id` is NOT set equal to `auth.users.id`.
+- Decision: `users` keeps its own `id`; a separate `auth_user_id uuid unique references auth.users(id)` (nullable) is the sole link to Supabase Auth. `users.id` is NOT set equal to `auth.users.id`. `auth_user_id` is null while an employee is invited but not yet activated, and set uniquely on activation.
 - Why: keeps `users.id` stable and provider-independent (every other table FKs to it); allows a business user to exist before its auth row; leaves room for a second identity provider without a breaking PK migration.
 - Consequences: RLS resolves `auth.uid()` → business user through `auth_user_id`; authorization stays in ORVION RBAC, not JWT claims.
 

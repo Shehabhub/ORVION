@@ -93,12 +93,12 @@ UUID strategy: UUIDs must be generated server-side using `gen_random_uuid()` (pg
 
 # Identity Key Standard
 
-`users` has a mandatory one-to-one relationship with `auth.users` (see `31_schema_draft.md`, `# 13. Review Required` item 3). The physical key strategy implementing that relationship is fixed here, once, because it is read by multiple independently-authored artifacts — the `users` table migration, the RLS identity-lookup function, and any future application code resolving `auth.uid()` to a business user — that must all agree on the same pattern.
+`users` has an optional one-to-one relationship with `auth.users` — exactly one once activated, and none while an employee is invited but not yet activated, so `auth_user_id` is nullable and is set (uniquely) on activation (see `31_schema_draft.md`, `# 13. Review Required` item 3). The physical key strategy implementing that relationship is fixed here, once, because it is read by multiple independently-authored artifacts — the `users` table migration, the RLS identity-lookup function, and any future application code resolving `auth.uid()` to a business user — that must all agree on the same pattern.
 
 Decision: `users` uses its own independently-generated `id` (per the Primary Key Standard above), plus a separate column:
 
 ```sql
-auth_user_id uuid not null unique references auth.users(id)
+auth_user_id uuid unique references auth.users(id)
 ```
 
 Do not set `users.id = auth.users.id` as a shared primary key. `auth_user_id` is the sole link between ORVION's business identity and the Supabase Auth identity backing it.

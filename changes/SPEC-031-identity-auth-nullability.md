@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -139,22 +139,25 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 21:06 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
-- Step 2: Already Applied | Applied | Failed — <one-line reason>
-- Step 3: Already Applied | Applied | Failed — <one-line reason>
-- Step 4: Already Applied | Applied | Failed — <one-line reason>
-- Step 5: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — `30` Identity Key Standard DDL changed `auth_user_id uuid not null unique references auth.users(id)` → `auth_user_id uuid unique references auth.users(id)`.
+- Step 2: Applied — `30` "mandatory one-to-one" → "optional one-to-one … `auth_user_id` is nullable and is set (uniquely) on activation".
+- Step 3: Applied — `31` `users` Notes "mandatory one-to-one" → optional one-to-one with nullable `auth_user_id`.
+- Step 4: Applied — `31` `# 13` item 3 "RESOLVED: … mandatory one-to-one" → optional one-to-one, nullable `auth_user_id`.
+- Step 5: Applied — ADR-0004 updated to nullable `auth_user_id`, consistent with the above.
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria:
+- No `auth_user_id uuid not null` remains anywhere (grep 0) — confirmed.
+- The phrase "mandatory one-to-one relationship with `auth.users`" no longer appears in the repository (grep 0) — confirmed.
+- "optional one-to-one relationship with `auth.users`" now present in `30` (×1) and `31` (×2) — confirmed.
+- ADR-0004 shows nullable `auth_user_id` — confirmed.
+- `git diff --stat` shows only the three scoped files changed (`30`, `31`, ADR) — confirmed. No SQL.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit (modifies the three scoped documentation files and synchronizes this Change Request).
 
 ---
 
