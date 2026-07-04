@@ -35,7 +35,7 @@ Last Completed Task: SPEC-029 — migration 4 (organization tables): created ten
 
 Next Planned Task: Migration 5 — identity and access tables (users, roles, permissions, role_permissions, user_branch_assignments, user_role_assignments) per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting
 
-Active Change Request: None
+Active Change Request: changes/SPEC-031-identity-auth-nullability.md
 
 ---
 
