@@ -29,13 +29,13 @@ Current Sprint: SQL migration authoring
 
 Current Module: Database Foundation
 
-Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migrations 1 (enable_extensions) and 2 (system catalog tables) are complete; the next dependency-ready unit is migration 3 (reference tables: currencies). Three known items are recorded for later, none blocking migration 3: a 30_database_conventions.md amendment (default referential actions and updated_at maintenance mechanism) is required before migration 4; a small Change Request should add catalog_values' deferred foreign keys (tenant_id -> tenants, created_by -> users) after migration 5 (SPEC-024 Finding F2); and the npm dependency-manifest decision (package.json/package-lock.json) is deferred to its own Change Request. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
+Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migrations 1 (enable_extensions), 2 (system catalog tables), and 3 (reference tables: currencies) are complete. The next unit is migration 4 (organization tables: tenants, branches, departments, branch_business_hours, holidays) — the first migration with real foreign keys — which is gated on a required 30_database_conventions.md amendment (default referential actions and updated_at maintenance mechanism) that must land before migration 4 is drafted. Two further items are recorded for later: a small Change Request should add catalog_values' deferred foreign keys (tenant_id -> tenants, created_by -> users) after migration 5 (SPEC-024 Finding F2); and the npm dependency-manifest decision (package.json/package-lock.json) is deferred to its own Change Request. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
 
-Last Completed Task: SPEC-026 — side task: added a branch-agnostic publish-on-Complete clause to AGENTS.md's Complete command (git push to the current branch's upstream after completing a Change Request)
+Last Completed Task: SPEC-025 — migration 3 (reference tables): created the currencies table (natural-key primary key on code, no foreign keys), verified on a clean local database
 
-Next Planned Task: Migration 3 — reference tables (currencies) per 33_sql_migration_plan.md (resume at Approve SPEC-025)
+Next Planned Task: 30_database_conventions.md amendment (referential actions + updated_at mechanism), then Migration 4 — organization tables per 33_sql_migration_plan.md
 
-Active Change Request: changes/SPEC-025-migration-3-reference-tables.md
+Active Change Request: None
 
 ---
 
