@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -97,25 +97,22 @@ create extension if not exists pgcrypto;
 
 ## Execution Log
 
-[Appended by the executing agent (Tier 2) after each run against this Change Request, before
-IMPLEMENT is considered complete, per synchronization as defined in AGENTS.md's Agent Handoff
-Protocol — this file is always implicitly in scope for this section.
-Append-only — never edit or delete a prior entry, including a Blocked or Failed one.
-Leave this section's bracketed instructions in place in an unused template; remove them
-only in a CR that has at least one real entry.]
+### 2026-07-04 10:08 — Claude Code (Opus 4.8), IMPLEMENT
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
-
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — no file matched `supabase/migrations/*_enable_extensions.sql`; created `supabase/migrations/202607041200_enable_extensions.sql` with exactly the specified content (header comment + `create extension if not exists pgcrypto;`).
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria (local Supabase stack, Postgres 17):
+- File exists at the scoped path — confirmed.
+- Content matches Step 1 exactly, single statement — confirmed.
+- `npx supabase db reset` applied all migrations on a clean database with no error; log showed `Applying migration 202607041200_enable_extensions.sql...` and `NOTICE (42710): extension "pgcrypto" already exists, skipping` (expected idempotent no-op on the Supabase-preseeded image) — confirmed.
+- `select extname from pg_extension where extname = 'pgcrypto';` returned one row (`pgcrypto`) — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit, which adds `supabase/migrations/202607041200_enable_extensions.sql` and synchronizes this Change Request.
+
+Note: the local database required Docker Desktop to be started during this run; the stack was brought up and `db reset` completed successfully. No Scope deviation.
 
 ---
 
