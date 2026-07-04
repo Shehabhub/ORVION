@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -210,18 +210,18 @@ create trigger nationalities_set_updated_at
 
 ## Execution Log
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 01:29 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
-- Step 2: Already Applied | Applied | Failed — <one-line reason>
-- Step 3: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — `31_schema_draft.md` section 2a now defines `countries`, `languages`, `nationalities` (natural-key, minimal columns) before `# 3. CRM Tables`.
+- Step 2: Applied — `33_sql_migration_plan.md` records the `create_geo_reference_tables` migration (row 3b).
+- Step 3: Applied — created `supabase/migrations/202607042000_create_geo_reference_tables.sql` with the three tables + `updated_at` triggers.
 
-Commits: <commit hash(es) for this run>
+Verification (clean `db reset`, Postgres 17): the three tables exist, each `PRIMARY KEY (code)` on `text`; three `updated_at` triggers; zero foreign keys reference them yet (added in migrations 8+); `31` has the three definitions and `33` has row 3b.
 
-Blocker: <only if Blocked/Failed.>
+Commits: this Implement commit (amends `31` + `33`, adds the migration). No other document or migration changed.
 
 ---
 

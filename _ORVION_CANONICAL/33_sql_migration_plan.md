@@ -29,6 +29,7 @@ Filenames follow `30_database_conventions.md`'s Migration Rule (`YYYYMMDDHHMM_de
 | 1 | `NN_enable_extensions.sql` | — (enables `pgcrypto`) | — | Required before any `gen_random_uuid()` default. |
 | 2 | `NN_create_system_catalog_tables.sql` | `catalog_types`, `catalog_values` | 1 | No dependencies on business tables. |
 | 3 | `NN_create_reference_tables.sql` | `currencies` | 1 | No dependencies. |
+| 3b | `NN_create_geo_reference_tables.sql` | `countries`, `languages`, `nationalities` | 1 | Reference data layer (SPEC-037), inserted before migration 8 (CRM core); natural-key tables like `currencies`, seeded later. |
 | 4 | `NN_create_organization_tables.sql` | `tenants`, `branches`, `departments`, `branch_business_hours`, `holidays` | 1 | `tenants` is the isolation root. |
 | 5 | `NN_create_identity_and_access_tables.sql` | `users`, `roles`, `permissions`, `role_permissions`, `user_branch_assignments`, `user_role_assignments` | 4 | `users` migration content is unblocked — relationship in `31_schema_draft.md` `# 13. Review Required` item 3; physical column pattern (`auth_user_id`, not a shared `id`) in `30_database_conventions.md`'s Identity Key Standard. |
 | 6 | `NN_create_finance_foundation_tables.sql` | `exchange_rates`, `chart_of_accounts`, `financial_accounts` | 4 | Moved earlier than the main Finance group because `booking_items.exchange_rate_id` (migration 10) requires `exchange_rates` first. |

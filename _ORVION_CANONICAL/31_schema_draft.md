@@ -359,6 +359,62 @@ Notes:
 
 ---
 
+## countries
+
+Purpose:
+
+Canonical country reference used by every country code column (for example `destination_country_code`, `passport_issuing_country_code`).
+
+Core fields:
+
+- code
+- name
+- is_active
+- created_at
+- updated_at
+
+Unique:
+
+- code
+
+## languages
+
+Purpose:
+
+Canonical language reference used by every language code column (for example `preferred_language_code`).
+
+Core fields:
+
+- code
+- name
+- is_active
+- created_at
+- updated_at
+
+Unique:
+
+- code
+
+## nationalities
+
+Purpose:
+
+Canonical nationality reference used by every nationality code column (for example `nationality_code`).
+
+Core fields:
+
+- code
+- name
+- is_active
+- created_at
+- updated_at
+
+Unique:
+
+- code
+
+---
+
 # 3. CRM Tables
 
 ## leads
