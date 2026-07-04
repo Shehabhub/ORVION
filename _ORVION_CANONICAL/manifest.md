@@ -35,7 +35,7 @@ Last Completed Task: SPEC-028 — retrofit migration: enabled the moddatetime ex
 
 Next Planned Task: Migration 4 — organization tables (tenants, branches, departments, branch_business_hours, holidays) per 33_sql_migration_plan.md
 
-Active Change Request: None
+Active Change Request: changes/SPEC-030-status-fk-pattern-decision.md
 
 ---
 
