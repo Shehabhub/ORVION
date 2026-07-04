@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -146,16 +146,21 @@ create trigger financial_accounts_set_updated_at
 
 ## Execution Log
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 01:05 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — created `supabase/migrations/202607041800_create_finance_foundation_tables.sql` with the specified content.
 
-Commits: <commit hash(es) for this run>
+Verification (clean `db reset`, migrations 1–7, Postgres 17):
+- Three tables exist; migrations apply with no error.
+- 8 foreign keys, all `del=r` (restrict): `exchange_rates` from/to `currency_code`→currencies, `set_by`→users, `tenant_id`→tenants; `chart_of_accounts` `parent_account_id`→chart_of_accounts (self-ref), `tenant_id`→tenants; `financial_accounts` `currency_code`→currencies, `tenant_id`→tenants.
+- Money types: `exchange_rates.rate numeric(18,8)`, `financial_accounts.opening_balance numeric(14,2)`.
+- `updated_at` triggers on `chart_of_accounts` and `financial_accounts` only; `exchange_rates` has none (immutable rate snapshots).
+- Zero foreign keys on `account_type` / `financial_account_type_code`.
 
-Blocker: <only if Blocked/Failed.>
+Commits: this Implement commit. No other migration or canonical document changed.
 
 ---
 
