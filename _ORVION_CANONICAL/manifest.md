@@ -29,13 +29,13 @@ Current Sprint: SQL migration authoring
 
 Current Module: Database Foundation
 
-Current Task: Repository Engineering is formally closed. Write SQL migrations per 33_sql_migration_plan.md's sequence. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
+Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migration 1 (enable_extensions) is complete; the next dependency-ready unit is migration 2 (system catalog tables: catalog_types, catalog_values). Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
 
-Last Completed Task: SPEC-021 — reconciled manifest.md to its single, actual responsibility, closing Repository Engineering's final identified gap
+Last Completed Task: SPEC-022 — enable_extensions migration (migration 1 of 33_sql_migration_plan.md): enabled pgcrypto, verified on a clean local database
 
-Next Planned Task: Write SQL migrations per 33_sql_migration_plan.md's sequence
+Next Planned Task: Migration 2 — system catalog tables (catalog_types, catalog_values) per 33_sql_migration_plan.md
 
-Active Change Request: changes/SPEC-022-enable-extensions-migration.md
+Active Change Request: None
 
 ---
 
