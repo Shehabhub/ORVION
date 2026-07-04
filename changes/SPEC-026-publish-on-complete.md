@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -104,18 +104,23 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 12:29 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — `then publishes by running` was absent from `AGENTS.md`; the anchor substring existed exactly once; performed the exact replacement adding the branch-agnostic publish clause to the `Complete SPEC-NNN` bullet.
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria:
+- `AGENTS.md`'s `Complete` bullet contains the clause beginning ``then publishes by running `git push` `` — confirmed.
+- The clause states a failed push does not invalidate the local Complete transition ("Complete transition remains valid locally") — confirmed.
+- The clause states no separate remote commit hash is recorded — confirmed.
+- `git diff --stat` shows only `AGENTS.md` changed, one line — confirmed; no other file modified.
+- The `Complete` command remains defined only in `AGENTS.md`; `then publishes by running` is not present in `PROTOCOL.md` or `CR_LIFECYCLE.md` — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit (modifies `AGENTS.md` and synchronizes this Change Request).
+
+Note: the new publish clause first takes effect when a Change Request is Completed. This Change Request's own Complete (a later, human-gated step) will be the first to exercise it.
 
 ---
 
