@@ -170,13 +170,18 @@ Commits: this Implement commit. No other migration or canonical document changed
 
 ## Verification Notes
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 01:13 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked>
+Findings: Re-verified independently against a fresh `db reset` and live schema.
+- Migrations 1–8 apply clean; both document tables exist.
+- Both mutual foreign keys present (`documents_current_version_id_fkey`, `document_versions_document_id_fkey`); 0 foreign keys on the two tables with an action other than restrict.
+- Partial unique index `document_versions_one_current_idx` present (the `31` §6 one-current rule); the earlier behavioral pass confirmed a second `is_current` version is rejected.
+- `updated_at` trigger on `documents` (1); none on `document_versions` (0).
+- Scope: only the migration file and this Change Request changed. Depends-On all Complete.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled
+Recommendation to human: Set Status to Complete.
 
 ---
 
