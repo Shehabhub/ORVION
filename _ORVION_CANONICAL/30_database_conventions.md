@@ -235,14 +235,20 @@ lead_status_code text not null
 
 Status values must match the catalog registry and state machines.
 
-Decision: Status foreign keys will use a composite reference pattern to `catalog_values` by (`catalog_type_code`, `code`) where applicable. This allows a stable mapping without introducing tight per-catalog table definitions. Example (logical):
+Decision — physical enforcement of status/type codes:
 
-```sql
--- catalog_values: (catalog_type_code, code)
--- booking: booking_status_code references catalog_values(catalog_type_code, code)
-```
+Status and type code columns (for example `lead_status_code`, `booking_status_code`, `department_type_code`) are stored as plain `text` and are not required to carry a database foreign key. A single code column cannot reference `catalog_values`' composite key `(catalog_type_code, code)`, and these codes are written by application code at fixed call sites and governed by the state machines in `26_state_machines.md` — not typed freely by users into a form.
 
-The canonical strategy is composite `(catalog_type_code, code)` referencing the seeded catalog values for stable status enforcement.
+Each such column belongs to exactly one catalog family registered in `25_catalog_registry.md` (for example `lead_status`, `booking_status`, `invoice_status`), identified by its `catalog_type_code`. That registry — not this document — is the authoritative list of families; the `(catalog_type_code, code)` scoping already guarantees that codes in different families never collide.
+
+Code validity is guaranteed by (1) the seeded catalog values in `catalog_values`, and (2) application logic and state-machine enforcement — consistent with `26_state_machines.md`: "validated by application logic and, where practical, database constraints." This is safe without a foreign key because catalog codes are stable: per the Catalog Standard they are never renamed and never physically deleted once used — a deprecated value is marked inactive (`is_active = false`) — so a status value stored in event, report, or audit data stays valid permanently.
+
+Enforcement is domain-dependent: no single mechanism is mandated for every status field. The default is application plus state-machine validation. Optional hard database enforcement may be added for a specific column where it genuinely warrants it (for example a tenant-extendable dropdown that must reject invalid values at the database), chosen and justified per column in that column's own migration, using either:
+
+- a `before insert/update` validation trigger checking the `(catalog_type_code, code)` pair against `catalog_values`; or
+- a stored constant `catalog_type_code` column on the referencing table plus a composite foreign key to `catalog_values(catalog_type_code, code)`.
+
+The composite UNIQUE `(catalog_type_code, code)` on `catalog_values` remains required — it supports the optional composite-foreign-key technique above and general catalog integrity. What is corrected here is the earlier statement that a single status column carries that composite foreign key as "the canonical strategy": it cannot; the composite foreign key is an optional per-column technique, not the mandated pattern for every status field.
 
 ---
 

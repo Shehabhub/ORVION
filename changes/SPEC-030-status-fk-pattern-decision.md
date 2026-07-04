@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -128,18 +128,24 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 15:24 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — `Decision — physical enforcement of status/type codes` was absent; replaced the un-implementable composite-FK "canonical strategy" block in the `# Status Standard` section with the resolved standard (plain text; family registered in `25`; code stability citing the Catalog Standard; domain-dependent enforcement with two optional per-column techniques; composite UNIQUE retained).
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria:
+- Heading `Decision — physical enforcement of status/type codes` present — confirmed.
+- States status/type columns are plain `text`, not required to carry a FK — confirmed.
+- States each column belongs to one family registered in `25_catalog_registry.md`, citing `25` as authoritative — confirmed.
+- States code stability (never renamed / never physically deleted / deprecated → `is_active = false`) citing the Catalog Standard — confirmed.
+- States enforcement is domain-dependent with the two optional techniques (validation trigger; constant type column + composite FK) — confirmed.
+- States the composite UNIQUE `(catalog_type_code, code)` remains required — confirmed.
+- The former "The canonical strategy is composite … stable status enforcement" sentence is no longer present (grep count 0) — confirmed.
+- `git diff --stat` shows only `_ORVION_CANONICAL/30_database_conventions.md` changed; no other file — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit (modifies `30_database_conventions.md` and synchronizes this Change Request). No SQL, no other document.
 
 ---
 
