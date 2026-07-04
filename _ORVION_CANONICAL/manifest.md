@@ -29,13 +29,13 @@ Current Sprint: SQL migration authoring
 
 Current Module: Database Foundation
 
-Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migrations 1 (enable_extensions), 2 (system catalog tables), and 3 (reference tables: currencies) are complete, and the 30_database_conventions.md amendment (default referential actions + updated_at maintenance mechanism) is complete (SPEC-027). The next unit is a small retrofit migration (SPEC-027 Finding F1): enable the updated_at trigger mechanism (moddatetime recommended) and add before-update triggers to the existing updated_at tables (catalog_values, currencies) — this must land before migration 4, because migration 4's tables will add their own updated_at triggers and need the mechanism already enabled. Then migration 4 (organization tables: tenants, branches, departments, branch_business_hours, holidays), the first migration with real foreign keys, applying 30's new Referential Action Standard. Two further items are recorded for later: a small Change Request should add catalog_values' deferred foreign keys (tenant_id -> tenants, created_by -> users) after migration 5 (SPEC-024 Finding F2); and the npm dependency-manifest decision (package.json/package-lock.json) is deferred to its own Change Request. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
+Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migrations 1 (enable_extensions), 2 (system catalog tables), 3 (reference tables: currencies) are complete; the 30_database_conventions.md amendment (SPEC-027) and the updated_at trigger retrofit (SPEC-028: moddatetime enabled, triggers on catalog_values and currencies) are complete. The next unit is migration 4 (organization tables: tenants, branches, departments, branch_business_hours, holidays) — the first migration with real foreign keys — applying 30's Referential Action Standard (default on delete restrict / on update no action) and adding a before-update updated_at trigger per table. Reference Data Layer (countries/languages/nationalities per 25_catalog_registry.md) must be decided before migrations 8-10 (see reports/future-backlog.md); it does not affect migration 4. Two further items remain recorded: catalog_values' deferred foreign keys (tenant_id -> tenants, created_by -> users) after migration 5 (SPEC-024 Finding F2); and the npm dependency-manifest decision, deferred to its own Change Request. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
 
-Last Completed Task: SPEC-027 — amended 30_database_conventions.md with the Referential Action Standard (default on delete restrict / on update no action) and the updated_at maintenance convention (database trigger; moddatetime recommended)
+Last Completed Task: SPEC-028 — retrofit migration: enabled the moddatetime extension and added before-update updated_at triggers to catalog_values and currencies (SPEC-027 Finding F1), verified on a clean local database including a functional trigger test
 
-Next Planned Task: Retrofit migration — enable the updated_at trigger mechanism and add before-update triggers to catalog_values and currencies (SPEC-027 Finding F1), before Migration 4
+Next Planned Task: Migration 4 — organization tables (tenants, branches, departments, branch_business_hours, holidays) per 33_sql_migration_plan.md
 
-Active Change Request: changes/SPEC-028-updated-at-triggers-retrofit.md
+Active Change Request: None
 
 ---
 
