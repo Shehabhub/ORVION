@@ -3,9 +3,9 @@
 ## Status
 
 [ ] Draft
-[x] Approved
+[ ] Approved
 [ ] In Progress
-[ ] Complete
+[x] Complete
 [ ] Cancelled
 
 Allowed values are exactly these five. Do not use any other status word anywhere in a Change Request.
@@ -211,11 +211,11 @@ create trigger conversations_set_updated_at before update on conversations for e
 
 ## Acceptance Criteria
 
-- [ ] `supabase/migrations/202607042400_create_crm_extension_tables.sql` exists with exactly the Step 1 content.
-- [ ] `npx supabase db reset` applies every migration on a clean database with no error.
-- [ ] All five tables exist; all foreign keys `restrict`/`no action`; no FK on any type/status/channel/direction code column.
-- [ ] `updated_at` triggers exist on `tasks`, `complaints`, `service_requests`, `conversations` (4), and not on `conversation_messages`.
-- [ ] `tasks.owner_user_id`, `owner_department_id`, `owner_branch_id` are NOT NULL.
+- [x] `supabase/migrations/202607042400_create_crm_extension_tables.sql` exists with exactly the Step 1 content.
+- [x] `npx supabase db reset` applies every migration on a clean database with no error.
+- [x] All five tables exist; all foreign keys `restrict`/`no action`; no FK on any type/status/channel/direction code column.
+- [x] `updated_at` triggers exist on `tasks`, `complaints`, `service_requests`, `conversations` (4), and not on `conversation_messages`.
+- [x] `tasks.owner_user_id`, `owner_department_id`, `owner_branch_id` are NOT NULL.
 
 ---
 
@@ -250,10 +250,10 @@ Recommendation to human: Set Status to Complete
 
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps.
-- [ ] No file outside Scope was modified.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps.
+- [x] No file outside Scope was modified.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] The repository is in a clean, releasable state.
 
 ---
 
