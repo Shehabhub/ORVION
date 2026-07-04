@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -117,18 +117,21 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 11:07 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — `node_modules/` was absent from `.gitignore`; appended the two-section block (`node_modules/`, then `supabase/.temp/` and `supabase/.branches/`).
+- Step 2: Applied — `git ls-files` showed three tracked transient files (`supabase/.branches/_current_branch`, `supabase/.temp/cli-latest`, `supabase/.temp/pgdelta/…json`); ran `git rm --cached -r supabase/.temp supabase/.branches` (working copies retained).
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria:
+- `.gitignore` contains `node_modules/`, `supabase/.temp/`, `supabase/.branches/` — confirmed.
+- `git check-ignore node_modules/ supabase/.temp/ supabase/.branches/` listed all three — confirmed.
+- `git ls-files supabase/.temp supabase/.branches` returned no output — confirmed.
+- `git status --short` shows no untracked `node_modules/` or `supabase/.temp/` entries; `package.json`/`package-lock.json` remain untracked as intended (out of scope) — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit (modifies `.gitignore`, removes the three transient files from the index, and synchronizes this Change Request). No package.json/package-lock.json or SQL change was made.
 
 ---
 

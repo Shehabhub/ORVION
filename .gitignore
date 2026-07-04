@@ -11,3 +11,10 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .aider*
+
+# Node / project-local Supabase CLI
+node_modules/
+
+# Supabase local CLI state (transient)
+supabase/.temp/
+supabase/.branches/
