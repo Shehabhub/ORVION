@@ -26,7 +26,7 @@ Convention: append-only. Each ADR is numbered and dated. A superseded ADR is mar
 
 ## ADR-0004 — `users` links to `auth.users` via a separate `auth_user_id`
 - Date: 2026-07 · Status: Accepted · Source: 30 Identity Key Standard; 31 §13 item 3; SPEC-009
-- Decision: `users` keeps its own `id`; a separate `auth_user_id uuid unique references auth.users(id)` (nullable) is the sole link to Supabase Auth. `users.id` is NOT set equal to `auth.users.id`. `auth_user_id` is null while an employee is invited but not yet activated, and set uniquely on activation.
+- Decision: `users` keeps its own `id`; a separate `auth_user_id uuid references auth.users(id)` (nullable, **unique per tenant** — `unique (tenant_id, auth_user_id)`) links the membership to Supabase Auth. `users.id` is NOT set equal to `auth.users.id`. `auth_user_id` is null while invited-but-not-activated, and set on activation. See ADR-0011 for the membership model.
 - Why: keeps `users.id` stable and provider-independent (every other table FKs to it); allows a business user to exist before its auth row; leaves room for a second identity provider without a breaking PK migration.
 - Consequences: RLS resolves `auth.uid()` → business user through `auth_user_id`; authorization stays in ORVION RBAC, not JWT claims.
 
@@ -65,3 +65,9 @@ Convention: append-only. Each ADR is numbered and dated. A superseded ADR is mar
 - Decision: stable public reference datasets (e.g., `currencies`) are dedicated tables keyed by their natural code (`currencies.code`), not surrogate UUIDs, and are FK targets for `*_code` columns.
 - Why: the natural code is the stable, externally meaningful identifier every referencing column already uses.
 - Consequences: a deliberate, documented deviation from ADR-0002 for reference tables; the reference-data layer (countries/languages/nationalities) is due before migrations 8–10.
+
+## ADR-0011 — `users` is a tenant membership; `auth.users` is the human
+- Date: 2026-07 · Status: Accepted · Source: SPEC-033; Migration 5 identity review
+- Decision: a `users` row is a human's **membership/employment in one tenant**, not a global human identity. The human identity is `auth.users` (one login per person). `auth_user_id` is **unique per tenant** (`unique (tenant_id, auth_user_id)`), so one human may hold at most one membership per tenant and may hold memberships in several tenants — each a separate `users` row referencing the shared `auth.users`.
+- Why: multi-tenant SaaS must support one person across several organizations (employees changing agencies, consultants/contractors, franchises, parent/multi-entity operators). Fixing this on an empty table costs one constraint; retrofitting it after ~70 tables reference `users` and RLS is built is a foundational migration. The MVP single-membership experience is behaviourally identical.
+- Consequences: (1) authentication-layer facts (credentials, trusted devices, MFA, global suspension) belong to `auth.users`; business-layer facts (roles, activity, per-company status, audit) belong to the membership. (2) RLS resolves `auth.uid()` **plus an active-tenant context** to the membership (migration 19) — degrades to the single membership when a human has one. (3) Disabling a user (`is_active=false`) is company-scoped; global ban is an `auth.users` action. (4) `trusted_devices`/`otp_challenges`/`totp_enrollments` are authentication-layer and should attach to the human identity, not the per-tenant membership — a migration-16 concern (Future Backlog). Supersedes the global-uniqueness portion of ADR-0004.

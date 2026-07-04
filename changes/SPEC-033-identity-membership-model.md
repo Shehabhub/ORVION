@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -103,16 +103,18 @@ Supersedes the `auth_user_id` global-uniqueness portion of `31_schema_draft.md` 
 
 ## Execution Log
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 00:09 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Steps 1–3: Applied — `30` Identity Key Standard: DDL now `auth_user_id uuid references auth.users(id)`; membership framing with `unique (tenant_id, auth_user_id)`; authentication-vs-business layer split sentence; RLS resolves `auth.uid()` + active tenant → membership.
+- Steps 4–5: Applied — `31` `users` Notes and `# 13` item 3 both reframed to the membership model (no remaining "optional one-to-one" identity framing).
+- Step 6: Applied — ADR-0004 revised to per-tenant uniqueness; ADR-0011 added capturing the membership philosophy, layer split, active-tenant RLS, and the migration-16 auth-support-table note.
 
-Commits: <commit hash(es) for this run>
+Verification: `30` shows per-tenant uniqueness + membership framing + layer split + active-tenant RLS; `31` membership framing present in both locations (grep 2), "optional one-to-one" gone (grep 0); ADR-0004 per-tenant + ADR-0011 present; `git diff --stat` shows only the three scoped files changed. No SQL.
 
-Blocker: <only present if Outcome is Blocked or Failed.>
+Commits: this Implement commit.
 
 ---
 

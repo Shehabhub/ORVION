@@ -93,19 +93,19 @@ UUID strategy: UUIDs must be generated server-side using `gen_random_uuid()` (pg
 
 # Identity Key Standard
 
-`users` has an optional one-to-one relationship with `auth.users` — exactly one once activated, and none while an employee is invited but not yet activated, so `auth_user_id` is nullable and is set (uniquely) on activation (see `31_schema_draft.md`, `# 13. Review Required` item 3). The physical key strategy implementing that relationship is fixed here, once, because it is read by multiple independently-authored artifacts — the `users` table migration, the RLS identity-lookup function, and any future application code resolving `auth.uid()` to a business user — that must all agree on the same pattern.
+A `users` row is a person's membership in one tenant, not a global human identity. The shared human identity is `auth.users` (one login per person); a human may hold at most one membership per tenant, so `auth_user_id` is unique per tenant — `unique (tenant_id, auth_user_id)` — not globally, and the same human may hold memberships in several tenants, each a separate `users` row referencing the shared `auth.users` identity. `auth_user_id` is nullable and is set (uniquely within its tenant) on activation (see `31_schema_draft.md`, `# 13. Review Required` item 3). The physical key strategy implementing that relationship is fixed here, once, because it is read by multiple independently-authored artifacts — the `users` table migration, the RLS identity-lookup function, and any future application code resolving `auth.uid()` to a business user — that must all agree on the same pattern.
 
 Decision: `users` uses its own independently-generated `id` (per the Primary Key Standard above), plus a separate column:
 
 ```sql
-auth_user_id uuid unique references auth.users(id)
+auth_user_id uuid references auth.users(id)
 ```
 
-Do not set `users.id = auth.users.id` as a shared primary key. `auth_user_id` is the sole link between ORVION's business identity and the Supabase Auth identity backing it.
+Do not set `users.id = auth.users.id` as a shared primary key. `auth_user_id` is the sole link between an ORVION membership and the Supabase Auth identity backing it. Authentication-layer facts (credentials, trusted devices, MFA enrolment, global suspension) belong to the human identity (`auth.users`); business-layer facts (profile, roles, activity, per-company status, audit) belong to the membership (`users`).
 
 Rationale: a separate column keeps `users.id` stable and provider-independent, since every other table's foreign key already points at `users.id`. It also allows a `users` row to exist before its corresponding `auth.users` row does (for example, an invited-but-not-yet-activated employee), and leaves room for a future second identity provider (for example, enterprise SSO) without a breaking migration to the primary key every other table already references.
 
-The RLS identity lookup function SHALL resolve `auth.uid()` to the corresponding ORVION business user through `auth_user_id`, not through a shared primary key. The function's exact implementation — its full body, return shape, and any additional identity or role context it resolves in the same call — belongs to RLS/migration planning (migration 19), not to this convention.
+The RLS identity lookup function SHALL resolve `auth.uid()` together with the active tenant context to the corresponding membership (`auth_user_id = auth.uid()` and `tenant_id` = the active tenant), not through a shared primary key. The function's exact implementation — its full body, return shape, and any additional identity or role context it resolves in the same call — belongs to RLS/migration planning (migration 19), not to this convention.
 
 ---
 
