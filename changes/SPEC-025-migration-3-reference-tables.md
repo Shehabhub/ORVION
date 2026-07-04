@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -121,18 +121,22 @@ Append-only — never edit or delete a prior entry, including a Blocked or Faile
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-04 12:35 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — no file matched `supabase/migrations/*_create_reference_tables.sql`; created `supabase/migrations/202607041400_create_reference_tables.sql` with exactly the specified content.
 
-Commits: <commit hash(es) for this run>
+Verification against Acceptance Criteria (local Supabase stack, Postgres 17):
+- File exists at the scoped path with the specified content — confirmed.
+- `npx supabase db reset` applied migrations 1, 2, and 3 on a clean database with no error — confirmed.
+- `select to_regclass('public.currencies');` returned `currencies` — confirmed.
+- PRIMARY KEY is on `code`, type `text` (`pg_constraint`: `PRIMARY KEY (code)`) — confirmed.
+- Columns and nullability: `code text NOT NULL`, `name text NOT NULL`, `symbol text NULL`, `decimal_places smallint NOT NULL`, `is_active boolean NOT NULL`, `created_at`/`updated_at timestamptz NOT NULL` — confirmed via information_schema.
+- No foreign key constraints on `currencies` (`pg_constraint contype='f'` count = 0) — confirmed.
 
-Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph describing
-exactly which verification check produced an unanticipated result and where. Do not propose
-or apply a guessed resolution.>
+Commits: this Implement commit, which adds `supabase/migrations/202607041400_create_reference_tables.sql` and synchronizes this Change Request. No other migration and no canonical document was changed.
 
 ---
 
