@@ -35,7 +35,7 @@ Last Completed Task: SPEC-043 — migration 13 (event and notification tables): 
 
 Next Planned Task: Migration 14 — subscription tables (subscription_plans, feature_entitlements, subscriptions, subscription_payment_proofs, usage_counters) per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting (subscription_payment_proofs.document_id needs documents, migration 7). Executing migrations 10-15 as one approved continuous phase; the next owner gate is migration 16 (auth-support tables re-homing per ADR-0011).
 
-Active Change Request: None
+Active Change Request: SPEC-044 — migration 14 (subscription tables)
 
 ---
 
