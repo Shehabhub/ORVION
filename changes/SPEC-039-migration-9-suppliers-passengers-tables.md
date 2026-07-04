@@ -169,13 +169,13 @@ Commits: this Implement commit.
 
 ## Verification Notes
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 01:54 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked>
+Findings: Re-verified against a fresh `db reset` and live schema. Both tables exist; passengers' `nationality_code`→`nationalities` and `passport_issuing_country_code`→`countries` FKs present; `passengers_passport_dates_check` present (behavioral pass: issue-after-expiry rejected); 0 non-restrict FKs; 2 `updated_at` triggers; passport/visa expiry indexes present. Scope: only the migration file and this Change Request changed.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled
+Recommendation to human: Set Status to Complete.
 
 ---
 
