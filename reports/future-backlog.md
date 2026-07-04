@@ -30,6 +30,15 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | `pg_trgm` fuzzy matching | Real duplicate-detection intent (`customer_identity_signals`, name/phone). `pg_trgm` + GIN indexes materially improve fuzzy matching. | When CRM identity/dedup is built | Yes (enable-extension step) |
 | RLS sequencing confirmation | All RLS deferred to Migration 19; acceptable because `config.toml` does not auto-expose new tables. Confirm no client access to tenant tables before 19; if incremental client use is planned, enable RLS per-table instead. | Before any client integration | Decision; possibly CR |
 
+## Engineering Methodology Artifacts (approved 2026-07-04)
+
+| Item | Why it matters | Status / trigger | CR? |
+| --- | --- | --- | --- |
+| Architecture Decision Records (ADR) | Preserve reasoning behind major decisions for future contributors. | **Created** — `reports/architecture-decision-records.md` (seeded, ADR-0001..0010). Append a new ADR when a genuinely architectural decision is made. | No (living doc); new ADRs added inline |
+| Database Naming Audit | Catch table/column/index/constraint/trigger/function/view/migration naming inconsistencies before the schema grows large. | **Recommended** — run at a milestone (e.g., after the Configuration + Core-Business tables, before the schema passes ~half of 71 tables). Findings surfaced as CRs, never silent edits. | Yes, if inconsistencies found |
+| Migration Regression Checklist | Confirm each migration's tables/FKs/constraints/indexes/triggers/functions/extensions/RLS/views match both the canonical docs and the migration spec. | **Active** — already performed as the post-migration Database Audit (SPEC-024 onward). Keep applying; consider scripting it once the object count grows. | Optional (a script would be its own CR) |
+| Migration Dependency Graph | Prevent accidental ordering-dependency violations. | **Partially exists** — `33_sql_migration_plan.md`'s "Depends on (#)" column is the current graph. An explicit standalone graph is a Nice-to-Have enhancement once the sequence is deep. | Nice to Have |
+
 ## Nice to Have (future optimization)
 
 | Item | Why it matters | Trigger |
