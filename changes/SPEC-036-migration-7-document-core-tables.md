@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -150,16 +150,21 @@ create trigger documents_set_updated_at
 
 ## Execution Log
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 01:10 — Claude Code (Opus 4.8), IMPLEMENT
 
-Outcome: Complete | Blocked | Failed
+Outcome: Complete
 
 Step results:
-- Step 1: Already Applied | Applied | Failed — <one-line reason>
+- Step 1: Applied — created `supabase/migrations/202607041900_create_document_core_tables.sql` with the specified content (two tables + the deferred `ALTER` for `documents.current_version_id`).
 
-Commits: <commit hash(es) for this run>
+Verification (clean `db reset`, migrations 1–8, Postgres 17):
+- Both tables exist; migrations apply with no error.
+- Mutual reference resolved: `documents.current_version_id` → `document_versions(id)` (added by ALTER) and `document_versions.document_id` → `documents(id)`, both `restrict`.
+- Partial unique index `document_versions_one_current_idx` on `(document_id) WHERE is_current`.
+- Zero foreign keys on status/type-code columns; `updated_at` trigger on `documents` only.
+- Behavioral (rolled back): a second `is_current` version for the same document was rejected by the partial index. No rows persisted.
 
-Blocker: <only if Blocked/Failed.>
+Commits: this Implement commit. No other migration or canonical document changed.
 
 ---
 
