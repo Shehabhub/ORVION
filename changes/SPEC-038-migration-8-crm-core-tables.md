@@ -258,13 +258,16 @@ Commits: this Implement commit. No other migration or canonical document changed
 
 ## Verification Notes
 
-### <YYYY-MM-DD HH:MM> — <agent identifier>
+### 2026-07-05 01:44 — Claude Code (Opus 4.8), REVIEW
 
-Verdict: Confirmed Complete | Discrepancy Found | Needs Corrective Change Request
+Verdict: Confirmed Complete
 
-Findings: <what was independently re-checked>
+Findings: Re-verified independently against a fresh `db reset` and live schema.
+- All eight CRM tables exist; `customers.preferred_language_code` → `languages` foreign key present (reference-data layer in use).
+- 0 foreign keys on the eight tables with an action other than restrict; `updated_at` triggers on exactly `customers`, `customer_contact_methods`, `customer_notes`, `leads` (4).
+- Scope: only the migration file and this Change Request changed. Depends-On all Complete.
 
-Recommendation to human: Set Status to Complete | Set Status to Cancelled
+Recommendation to human: Set Status to Complete.
 
 ---
 
