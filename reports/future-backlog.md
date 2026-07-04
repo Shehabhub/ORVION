@@ -22,6 +22,14 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | Table-level CHECK constraints from `31` "Rules" | Documented invariants must be DB-enforced, not prose: journal debit/credit exclusivity (mig 12), `booking_items`/`booking_item_passengers` non-negative (10), `document_links` single-target (15), `document_versions` single-current (7), passenger `passport_issue < expiry` (9). | Each in its own table's migration | Within each migration's CR |
 | Process safeguard for Complete-sync | The `Active Change Request` pointer-clear was omitted twice (SPEC-024, SPEC-027). A Claude Stop/PostToolUse hook (or scripted check) verifying `Active Change Request: None` after Complete would prevent recurrence. | Any time | Yes — small `settings.json` CR |
 
+## Identity Lifecycle (from the 2026-07-04 Identity Lifecycle Review; SPEC-031 resolved the nullability contradiction)
+
+| Item | Why it matters | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| `auth_user_id` → `auth.users(id)` referential action | Determines what happens if a Supabase admin deletes an auth user. SPEC-027's default `on delete restrict` would *block* that deletion; `on delete set null` lets the ORVION user survive unlinked/re-invitable. Must be a conscious choice, not defaulted. | **Migration 5 Design Review Gate** (recommend `set null`) | Decided within the Migration 5 CR (not a separate CR) |
+| Invitation / activation lifecycle model | "Invited-but-not-activated" is currently only implicit (`is_active=false` + `auth_user_id` null). No invitation record, `invited_at`/`activated_at`, `invited_by`, user status/state machine, or activation/deactivation events (`26`/`27` have none for users). Re-invite reuse-vs-new is undefined. | After Migration 5 (users table exists); when the invitation UX is designed | Yes — its own feature CR |
+| `users` deletion/archive clarification | `users` uses `is_active` (deactivate), has no archive fields, and is not in `30`'s no-physical-delete list — so hard-delete isn't explicitly forbidden. Clarify: deactivate-only, or add `users` to the no-physical-delete rule. | Documentation checkpoint before RLS/audit hardening | Small canonical CR if a rule is added |
+
 ## Recommended (evidence-backed, medium-term)
 
 | Item | Why it matters | Trigger / when | CR? |
