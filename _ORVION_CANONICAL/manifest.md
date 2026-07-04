@@ -35,7 +35,7 @@ Last Completed Task: SPEC-030 — resolved the Status FK Pattern canonically in 
 
 Next Planned Task: SPEC-029 — Migration 4 organization tables (draft already complies with SPEC-030; update its F1 note, then Approve)
 
-Active Change Request: None
+Active Change Request: changes/SPEC-029-migration-4-organization-tables.md
 
 ---
 
