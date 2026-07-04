@@ -35,7 +35,7 @@ Last Completed Task: SPEC-037 — reference data layer (Option A): added countri
 
 Next Planned Task: Migration 8 — CRM core tables (customers, customer_contact_methods, customer_identity_signals, customer_identity_merges, customer_notes, leads, lead_assignments, lead_interactions) per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting
 
-Active Change Request: None
+Active Change Request: changes/SPEC-038-migration-8-crm-core-tables.md
 
 ---
 
