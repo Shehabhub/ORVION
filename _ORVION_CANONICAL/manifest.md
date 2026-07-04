@@ -31,11 +31,11 @@ Current Module: Database Foundation
 
 Current Task: Write SQL migrations per 33_sql_migration_plan.md's sequence. Migrations 1 (enable_extensions) and 2 (system catalog tables) are complete; the next dependency-ready unit is migration 3 (reference tables: currencies). Three known items are recorded for later, none blocking migration 3: a 30_database_conventions.md amendment (default referential actions and updated_at maintenance mechanism) is required before migration 4; a small Change Request should add catalog_values' deferred foreign keys (tenant_id -> tenants, created_by -> users) after migration 5 (SPEC-024 Finding F2); and the npm dependency-manifest decision (package.json/package-lock.json) is deferred to its own Change Request. Package 7 (Historical Audit-Trail Note) remains open, blocked on human input, and does not block SQL implementation.
 
-Last Completed Task: SPEC-024 — migration 2 (system catalog tables): created catalog_types and catalog_values with the composite unique (catalog_type_code, code), verified on a clean local database
+Last Completed Task: SPEC-026 — side task: added a branch-agnostic publish-on-Complete clause to AGENTS.md's Complete command (git push to the current branch's upstream after completing a Change Request)
 
-Next Planned Task: Migration 3 — reference tables (currencies) per 33_sql_migration_plan.md
+Next Planned Task: Migration 3 — reference tables (currencies) per 33_sql_migration_plan.md (resume at Approve SPEC-025)
 
-Active Change Request: changes/SPEC-026-publish-on-complete.md
+Active Change Request: None
 
 ---
 
