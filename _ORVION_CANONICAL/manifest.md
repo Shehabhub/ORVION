@@ -35,7 +35,7 @@ Last Completed Task: SPEC-039 — migration 9 (suppliers, passengers): created s
 
 Next Planned Task: Migration 10 — booking core tables (quotations, quotation_items, bookings, booking_items, booking_item_passengers, internal_supplier_links, exchange_rate_adjustments) per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting. Note: booking_items.exchange_rate_id -> exchange_rates (migration 6), and booking_items/booking_item_passengers carry non-negative amount CHECK rules (31).
 
-Active Change Request: None
+Active Change Request: changes/SPEC-040-migration-10-booking-core-tables.md
 
 ---
 
