@@ -21,7 +21,7 @@ ORVION is the project identity and working repository for the travel CRM and ope
 1. `AGENTS.md` — operational authority; states what governs conduct.
 2. `_ORVION_CANONICAL/manifest.md` — current phase, current task. If Active Change Request is not `None`, read that Change Request next; its own Minimum Reading List takes over from here.
 3. If Active Change Request is `None`, check `_ORVION_CANONICAL/32_execution_roadmap.md` for the current phase and next planned work.
-4. Canonical documents relevant to the current task only: `_ORVION_CANONICAL/00`-`23` for business/domain rules, `_ORVION_CANONICAL/24`-`33` for schema/database structure, and `_ORVION_CANONICAL/34_authentication_and_identity_principles.md` for the principles governing every authentication/identity/security decision.
+4. Canonical documents relevant to the current task only: `_ORVION_CANONICAL/00`-`23` for business/domain rules, `_ORVION_CANONICAL/24`-`33` for schema/database structure, and the principle documents governing cross-cutting decisions: `_ORVION_CANONICAL/34_authentication_and_identity_principles.md` (authentication/identity/security) and `_ORVION_CANONICAL/35_tenant_isolation_and_data_access_principles.md` (tenant isolation, RLS, membership resolution).
 5. `reports/` — narrative rationale and the Repository Engineering program plan; read only when the "why" behind a decision is needed.
 6. Generated artifacts (project tree, tracked files, Repository Index once available) — read only when locating something by name rather than by task.
 
