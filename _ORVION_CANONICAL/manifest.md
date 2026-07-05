@@ -35,7 +35,7 @@ Last Completed Task: SPEC-050 — Tenant Isolation & Data Access Principles: cre
 
 Next Planned Task: Migration 19 — RLS implementation, derived from 35. Recommended pre-steps (small CRs) before the policy migration: (1) the deferred F2 FK ALTER (catalog_values.tenant_id -> tenants, created_by -> users) so the tenant column RLS relies on has integrity; (2) confirm the resolution-function shape (SECURITY DEFINER in a non-API schema, active-tenant-aware degrading to single membership). Subscription-state gating is kept distinct (service layer for MVP). A Database Naming Audit remains due (71 tables) surfaced as findings/CRs, not silent edits.
 
-Active Change Request: None
+Active Change Request: SPEC-051 — add catalog_values deferred FKs (F2)
 
 ---
 
