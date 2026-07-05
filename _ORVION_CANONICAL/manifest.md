@@ -35,7 +35,7 @@ Last Completed Task: SPEC-045 — migration 15 (document_links table): created d
 
 Next Planned Task: Migration 16 — authentication support tables (31 section 9) per 33_sql_migration_plan.md. THIS IS AN OWNER ARCHITECTURAL GATE: per ADR-0011, trusted_devices/otp_challenges/totp_enrollments are human-identity (auth.users) concerns currently keyed to (tenant_id, user_id=membership); a decision is required to re-home them to the human identity or keep them per-membership before drafting. Do not proceed past this gate without owner input. The migrations 10-15 continuous-execution authorization has been fully consumed.
 
-Active Change Request: None
+Active Change Request: SPEC-046 — Authentication & Identity Principles (canonical)
 
 ---
 
