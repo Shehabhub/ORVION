@@ -31,11 +31,11 @@ Current Module: Identity And Access
 
 Current Task: Phase 2 (Database Foundation) is COMPLETE — migrations 1-20 (SPEC-022 through SPEC-053): 71 tables, 65 catalog types / 395 catalog values, 76 RLS policies, append-only audit, and an executable verification smoke-test (scripts/verify_database.sql). The Database Naming Audit ran (schema found consistent; only status-column naming deferred to backend-phase start — logged in future-backlog). The backend architecture is decided (ADR-0014, SPEC-054): Supabase-native-first — PostgREST + RLS + PostgreSQL RPC backbone, Edge Functions + pg_cron/pg_net + n8n for out-of-DB compute, SSR web + shared Supabase surface for all clients, no standalone backend service unless a capability earns it. Now executing Phase 3 (Identity And Access) capability-by-capability under the CR lifecycle on that architecture. The deferred Architecture Knowledge Layer evaluation remains owner-scheduled for the stable post-database state (do not run yet). Deferred backlog items remain in reports/future-backlog.md (business-key uniqueness; finance non-negative CHECKs; status-column naming; authenticated DML grants — now being addressed as the Phase 3 first slice; subscription-state gating).
 
-Last Completed Task: SPEC-054 — recorded the backend architecture decision (ADR-0014, Supabase-native-first) and synced 32_execution_roadmap.md (Phase 2 Complete, Phase 3 Active, architecture note). Documentation/status only, no code.
+Last Completed Task: SPEC-055 — Phase 3 first slice (identity/access data-access foundation): granted DML to the authenticated role (SELECT/INSERT/UPDATE on tenant tables, no DELETE per archive-not-delete; SELECT-only globals; SELECT/INSERT append-only audit; anon nothing) and added app.my_memberships() SECURITY DEFINER RPC. Proven E2E: an authenticated client can use the DB while RLS enforces tenant isolation. Closes the deferred authenticated-DML-grants backlog item.
 
-Next Planned Task: Phase 3 first slice — the identity/access data-access foundation on the Supabase-native architecture: grant DML to the authenticated role (RLS enforces rows; archive-not-delete keeps DELETE off the broad grant) and add membership-resolution RPCs, wiring Supabase Auth to the app.current_tenant_id() primitive from Migration 19. Its own CR.
+Next Planned Task: Continue Phase 3 (Identity & Access) capability-by-capability on the Supabase-native architecture — e.g. tenant/user/role/branch/department management RPCs, invitation/activation flow, TOTP-required enforcement for high-risk roles, device-trust baseline. Each its own CR. app.set_active_tenant() and multi-membership active-tenant persistence remain deferred (MVP degrades to single membership; ADR-0011).
 
-Active Change Request: SPEC-055 — Phase 3 identity/access data-access foundation
+Active Change Request: None
 
 ---
 
