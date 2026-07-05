@@ -35,7 +35,7 @@ Last Completed Task: SPEC-051 — added the two deferred catalog_values FKs (ten
 
 Next Planned Task: Migration 19 — RLS implementation, derived from 35_tenant_isolation_and_data_access_principles.md. Build: a SECURITY DEFINER resolution primitive in a non-API schema (active-tenant-aware, degrading to the single active membership), then policies per the four application-rule cases (global read-all; tenant-owned isolate by tenant_id; catalog_values readable when tenant_id null OR resolved tenant; append-only audit on events/security_events). Subscription-state gating kept distinct (service layer for MVP). After Migration 19: run the deferred Architecture Knowledge Layer evaluation (memory), the Database Naming Audit (71 tables), and Migration 20 (verification checklist).
 
-Active Change Request: None
+Active Change Request: SPEC-052 — migration 19 (RLS policies)
 
 ---
 

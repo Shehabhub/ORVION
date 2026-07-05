@@ -50,6 +50,12 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | --- | --- | --- | --- |
 | Non-negative CHECKs on finance money columns (`invoices.total_amount`, `payments.amount`, `refunds.amount`, `payment_allocations.allocated_amount`/`allocated_amount_invoice_currency`) | `31` mandates the journal debit/credit CHECK (implemented) but is silent on non-negativity elsewhere; `booking_items` already got non-negative CHECKs because `31` Rules required them there. Consistency suggests the same guard on finance amounts, but it was not invented without canonical basis. | A small canonical decision, or the finance-hardening/RLS pass | Yes — small canonical + ALTER CR |
 
+## Role Privileges (from Migration 19, SPEC-052)
+
+| Item | Why it matters | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| DML `GRANT`s to `authenticated` on tenant/global tables | Migration 19 delivers RLS (row-scoping), but RLS sits *on top of* table privileges. Verified: `authenticated` has only `TRUNCATE/REFERENCES/TRIGGER` (Supabase default), **not** `SELECT/INSERT/UPDATE/DELETE`, so end-user clients cannot access any table yet. Current state is safe (fully locked), not a hole. The grant model (broad-with-RLS vs granular; whether `anon` gets read on global/reference tables) is an access-layer decision that pairs with the API/backend design, and there is no client consumer yet. | **Backend/API phase** (first client integration) | Yes — grant DML to `authenticated` (RLS enforces rows); decide `anon` read scope |
+
 ## Recommended (evidence-backed, medium-term)
 
 | Item | Why it matters | Trigger / when | CR? |
