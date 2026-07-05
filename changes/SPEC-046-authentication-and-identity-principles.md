@@ -3,9 +3,9 @@
 ## Status
 
 [ ] Draft
-[x] Approved
+[ ] Approved
 [ ] In Progress
-[ ] Complete
+[x] Complete
 [ ] Cancelled
 
 Allowed values are exactly these five. Do not use any other status word anywhere in a Change Request.
