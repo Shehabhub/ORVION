@@ -80,7 +80,7 @@ Owner review required:
 
 # Phase 2: Database Foundation
 
-Status: Active
+Status: Complete
 
 Objective:
 
@@ -96,11 +96,19 @@ Outputs:
 - Basic indexes
 - Database verification checklist
 
+Delivered: migrations 1-20 (SPEC-022 through SPEC-053); 71 tables, 65 catalog types / 395 catalog values, 76 RLS policies, append-only audit, and an executable verification smoke-test (`scripts/verify_database.sql`).
+
+---
+
+# Backend Architecture (applies to Phases 3-10)
+
+Supabase-native-first, per ADR-0014: PostgREST + RLS + PostgreSQL functions (RPC) as the backbone; Edge Functions + pg_cron/pg_net + n8n for out-of-database compute; a server-rendered web app (`@supabase/ssr`) and future mobile/API clients on the same Supabase surface; no standalone backend service unless a concrete capability provably requires one. Phases 3-10 are executed capability-by-capability under the CR lifecycle ("small controlled packages"); no separate per-phase implementation-plan document is authored unless a phase's complexity earns it.
+
 ---
 
 # Phase 3: Identity And Access
 
-Status: Pending
+Status: Active
 
 Objective:
 
@@ -257,4 +265,4 @@ Outputs:
 
 # Immediate Next Action
 
-Write SQL migrations in the sequence defined in `33_sql_migration_plan.md`. The plan itself is complete; no further planning document is required before authoring begins.
+Phase 2 (Database Foundation) is complete. Execute Phase 3 (Identity And Access) capability-by-capability on the Supabase-native architecture (ADR-0014), under the CR lifecycle. Natural first slice: the identity/access data-access foundation — grant DML to the `authenticated` role (RLS enforces rows) and add the membership-resolution RPCs — wiring Supabase Auth to the `app.current_tenant_id()` primitive built in Migration 19.
