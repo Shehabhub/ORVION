@@ -35,7 +35,7 @@ Last Completed Task: SPEC-054 — recorded the backend architecture decision (AD
 
 Next Planned Task: Phase 3 first slice — the identity/access data-access foundation on the Supabase-native architecture: grant DML to the authenticated role (RLS enforces rows; archive-not-delete keeps DELETE off the broad grant) and add membership-resolution RPCs, wiring Supabase Auth to the app.current_tenant_id() primitive from Migration 19. Its own CR.
 
-Active Change Request: None
+Active Change Request: SPEC-055 — Phase 3 identity/access data-access foundation
 
 ---
 
