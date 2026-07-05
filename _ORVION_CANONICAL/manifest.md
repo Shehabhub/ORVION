@@ -35,7 +35,7 @@ Last Completed Task: SPEC-047 — migration 16 (authentication support tables): 
 
 Next Planned Task: Migration 17 — marketing & offline conversion tables (marketing_campaigns, campaign_daily_metrics, attribution_clicks, offline_conversions, offline_conversion_deliveries) per 33_sql_migration_plan.md; run its Migration Design Review Gate before drafting (offline_conversions carries nullable FKs to leads, bookings/booking_items, payments). Continuing normal execution until the next genuine owner-level architectural decision; remaining gates: migration 18 (seed data — populates catalog_values from 25), migration 19 (RLS — the active-tenant context design), migration 20 (verification checklist).
 
-Active Change Request: None
+Active Change Request: SPEC-048 — migration 17 (marketing and offline conversion tables)
 
 ---
 
