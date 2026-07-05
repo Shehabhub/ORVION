@@ -1627,6 +1627,8 @@ Core fields:
 
 # 9. Authentication Support Tables
 
+Identity ownership (amended per `34_authentication_and_identity_principles.md`, Principles 1/6/7): these tables prove *who the human is* and therefore belong to the Human Identity (`auth.users`), not to a tenant membership. Each is keyed by `auth_user_id` referencing `auth.users(id)` and carries **no** `tenant_id` and no membership `user_id`. Deletion of the human identity cascades to these rows (`on delete cascade`, an explicit opt-in to the Referential Action Standard, since a device/OTP/TOTP record has no meaning without its human). The requirement to present a factor remains role-driven through RBAC, independent of where the artifact is stored.
+
 ## trusted_devices
 
 Purpose:
@@ -1636,8 +1638,7 @@ Stores verified devices.
 Core fields:
 
 - id
-- tenant_id
-- user_id
+- auth_user_id
 - device_identifier
 - status_code
 - first_seen_at
@@ -1655,8 +1656,7 @@ Email OTP challenges.
 Core fields:
 
 - id
-- tenant_id
-- user_id
+- auth_user_id
 - status_code
 - sent_to_email
 - expires_at
@@ -1673,8 +1673,7 @@ Authenticator app enrollment.
 Core fields:
 
 - id
-- tenant_id
-- user_id
+- auth_user_id
 - is_active
 - enrolled_at
 - revoked_at nullable
