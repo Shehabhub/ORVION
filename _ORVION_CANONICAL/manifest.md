@@ -35,7 +35,7 @@ Last Completed Task: SPEC-053 — migration 20 (database verification): added sc
 
 Next Planned Task: Post-foundation activities (no owner gate unless one arises): (1) Database Naming Audit across the 71 tables (surface cosmetic/naming findings as CRs, not silent edits; known candidates: tenants.status, unprefixed status_code, catalog_type_code registry-verbatim naming); (2) the deferred Architecture Knowledge Layer evaluation (owner-scheduled for the stable post-database state — keep deferred, do not run yet). After that, the next major phase is the backend/API layer (where the deferred authenticated DML grants and subscription-state gating land).
 
-Active Change Request: SPEC-054 — backend architecture decision (Supabase-native)
+Active Change Request: None
 
 ---
 
