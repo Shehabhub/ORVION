@@ -35,7 +35,7 @@ Last Completed Task: SPEC-049 — migration 18 (seed system catalogs): idempoten
 
 Next Planned Task: Migration 19 — RLS policies on every tenant-owned table. THIS IS AN OWNER ARCHITECTURAL GATE: the active-tenant context design (how a human holding multiple memberships carries the active tenant to Membership Resolution) needs owner input; and per the earn-it trigger, a Tenant Isolation & Data Access Principles doc is the recommended precursor (mirrors auth-principles-before-mig-16). Also pending before/with RLS: the deferred F2 FKs (catalog_values.tenant_id/created_by ALTER) and the subscription_status-vs-tenants.status access authority. A Database Naming Audit is due (71 tables) surfaced as findings/CRs, not silent edits.
 
-Active Change Request: None
+Active Change Request: SPEC-050 — Tenant Isolation & Data Access Principles (canonical)
 
 ---
 
