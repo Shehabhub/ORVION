@@ -35,7 +35,7 @@ Last Completed Task: SPEC-052 — migration 19 (RLS policies): enabled RLS on al
 
 Next Planned Task: Migration 20 — database verification checklist/smoke-test (final closeout of the 20-stage plan). Before or alongside it, two owner-flagged evaluations are due now that the Supabase foundation is complete: (1) the Architecture Knowledge Layer evaluation (owner observation 2026-07-06 — evaluate with evidence whether the Principles docs became a stable layer; propose as observation only if yes); (2) the Database Naming Audit (71 tables) surfaced as findings/CRs, not silent edits.
 
-Active Change Request: None
+Active Change Request: SPEC-053 — migration 20 (database verification)
 
 ---
 
