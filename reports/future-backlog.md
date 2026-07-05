@@ -56,6 +56,12 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | --- | --- | --- | --- |
 | DML `GRANT`s to `authenticated` on tenant/global tables | Migration 19 delivers RLS (row-scoping), but RLS sits *on top of* table privileges. Verified: `authenticated` has only `TRUNCATE/REFERENCES/TRIGGER` (Supabase default), **not** `SELECT/INSERT/UPDATE/DELETE`, so end-user clients cannot access any table yet. Current state is safe (fully locked), not a hole. The grant model (broad-with-RLS vs granular; whether `anon` gets read on global/reference tables) is an access-layer decision that pairs with the API/backend design, and there is no client consumer yet. | **Backend/API phase** (first client integration) | Yes — grant DML to `authenticated` (RLS enforces rows); decide `anon` read scope |
 
+## Naming Consistency (from the Database Naming Audit, post-Migration 20)
+
+| Item | Why it matters | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| Status-column naming normalization | The audit found the schema otherwise fully consistent (constraints/indexes/table-plurals/`_at` timestamps/`_id`-vs-`_by`-vs-`_user_id` FK conventions). The one real inconsistency: `tenants.status` and `company_assets.status` use bare `status`; `invoices`/`marketing_campaigns`/`otp_challenges`/`subscription_payment_proofs`/`trusted_devices` use unprefixed `status_code` vs `<entity>_status_code` elsewhere. Cosmetic (functional today), no current consumer, but renaming post-code is a breaking change across API/frontend/queries. | **Backend/API phase start** — before any code references these columns; still cheap then, and pays off when consistency matters | Yes — small `31` amendment + `ALTER ... RENAME COLUMN` migration. Optionally include the two non-`is_`/`has_` booleans (`finance_approval_required`, `marketing_opt_in`) if a strict Boolean Standard is enforced. |
+
 ## Recommended (evidence-backed, medium-term)
 
 | Item | Why it matters | Trigger / when | CR? |
