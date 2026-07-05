@@ -35,7 +35,7 @@ Last Completed Task: SPEC-048 — migration 17 (marketing and offline conversion
 
 Next Planned Task: Migration 18 — seed system catalogs (populate catalog_values from 25_catalog_registry.md, plus reference-data seeds for currencies/countries/languages/nationalities). Data-only, no DDL; run its content-verification checkpoint. After 18, the next unit is migration 19 (RLS) which is an OWNER ARCHITECTURAL GATE (active-tenant context design; stop for owner input). Also due around now: a Database Naming Audit (66+ tables, past the ~half-of-71 trigger) surfaced as findings/CRs, not silent edits.
 
-Active Change Request: None
+Active Change Request: SPEC-049 — migration 18 (seed system catalogs)
 
 ---
 
