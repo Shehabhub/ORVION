@@ -1,131 +1,94 @@
-# Purpose
-AGENTS.md is the operational authority for agent execution in this repository. When AGENTS.md and PROTOCOL.md conflict, AGENTS.md takes precedence.
-Define the operating rules for AI agents in this repository. Keep this file focused on agent behavior only.
+# AGENTS.md — ORVION Operating Model
 
-# Operating Modes
-Supported modes:
-- ANALYZE
-- PLAN
-- IMPLEMENT
-- REVIEW
-- REFACTOR
+This file is the **execution brain** for any engineering session in this repository — human or AI, any tool. It follows the cross-tool `AGENTS.md` convention (a README for agents). Read it once at the start of a session; it tells you how work is done here and where to look next. It is written to be lean on purpose: detail lives in the files it points to and is read only when the current state calls for it.
 
-Rules:
-- Default mode is ANALYZE.
-- Never assume IMPLEMENT.
-- Never switch modes automatically.
-
-# Protected Resources
-The following resources are protected.
-Never modify them unless they are explicitly listed in the current task.
-- AGENTS.md
-- README.md
-- _ORVION_CANONICAL/**
-
-# Execution Rules
-- Modify only files explicitly listed in the task.
-- Never create files unless explicitly requested.
-- Never rename files unless explicitly requested.
-- Never delete files unless explicitly requested.
-- Never reorganize the repository unless explicitly requested.
-- Read only the documents required for the current task.
-- Stop immediately after completing the requested work.
-- Never continue automatically to the next task.
-- If the request is ambiguous, stop and ask.
-
-## Planning First
-
-Before modifying any file:
-
-- Understand the requested task completely.
-- Inspect only the files required for the task.
-- Identify risks, blockers, and affected files.
-- If the user requested analysis or review, do not modify any file.
-- Do not implement changes until explicitly instructed.
-- Prefer reporting findings before proposing implementation.
-
-## Change Philosophy
-- Every task must solve one business problem only.
-- Prefer multiple small changes over one large change.
-- Every completed task must leave the repository in a releasable state.
-- Avoid partial implementations.
-- Avoid placeholder implementations.
-- Avoid TODO comments unless explicitly requested.
-- If a requested change cannot be completed safely, stop and explain the blocker instead of implementing a partial solution.
-
-## Rules for Maintaining This File
-
-When editing AGENTS.md itself, follow these constraints:
-- English only.
-- Markdown only.
-- Keep the document concise.
-- Do not add project-specific business rules to the general sections above this heading.
-- Do not create new files.
+**Precedence.** A live instruction from the owner overrides this file. Otherwise this file is the authoritative operating model: where it and any older document (`PROTOCOL.md`, `global-rules.md`, or prose in `_ORVION_CANONICAL/`) appear to conflict, this file wins. `CR_LIFECYCLE.md` is authoritative for the Change Request state machine specifically.
 
 ---
 
-# ORVION Agent Workflow
+## 1. How execution flows
 
-## Project Context
+**Execution is the default state; interruptions are the rare exception.** A standing approval is standing authorization to keep executing the approved roadmap. Do not stop for routine confirmations ("Proceed?", "Continue?", "Go ahead?") or for routine engineering — bash, git, commits, pushes, branch ops, repo sync, verification scripts, tests, doc/manifest sync — that is simply the next step of approved work. Do them and report.
 
-Read only the required project context.
+**Stop only when one of these genuinely occurs:**
+1. an owner-level architectural decision,
+2. a canonical contradiction,
+3. a significant long-term architectural tradeoff,
+4. an unexpected blocker that materially affects the project,
+5. a potentially destructive or irreversible action outside the approved workflow.
 
-Project documentation:
+When in doubt and the action is within the approved plan and reversible: proceed and report — do not ask.
 
-* README.md
-* PROJECT_CONTEXT.md
-* _ORVION_CANONICAL/manifest.md
-* CR_LIFECYCLE.md
+**The capability is the unit of progress.** The roadmap is organized around approved business capabilities; a Change Request (SPEC) is one engineering step delivering one. When a capability is best delivered as several small SPECs, continue through them as one flow — do not treat each SPEC as a fresh decision point. Drive the capability to a coherent, verified completion.
 
-Project rules:
+---
 
-* global-rules.md
+## 2. Standing authorities (permanent)
 
+These have been exercised through real implementation and are part of the permanent operating model — not a temporary mode.
 
-## Workflow
+- **Implementation-choice autonomy.** When several reasonable implementations exist inside an already-approved architectural direction, pick the strongest practical one and continue. Do not interrupt merely because two acceptable options exist. Local, low-risk, reversible, architecture-consistent decisions are yours to make.
+- **Autonomous completion.** When a capability is fully implemented, verified, passes all required tests, satisfies its acceptance criteria, AND introduces no NEW architectural decision (the decision already lives in an approved ADR or prior owner decision), completing it is execution, not a separate gate: mark the CR `Complete`, sync manifest/docs, commit, and push without asking. A capability that introduces a *new* decision still needs owner sign-off (usually an ADR) BEFORE it is built.
+- **Boy-scout improvement.** Leave the repository a little easier to understand, navigate, and resume than you found it — opportunistically, through the work at hand, never as a separate documentation project.
 
-For every task:
+---
 
-1. Read the task description provided by the user.
-2. Read only the required project context.
-3. Modify only the files required by the task.
-4. Verify consistency.
-5. Verify the completed changes.
-6. Stop after completing the requested task.
+## 3. How decisions are made
 
-Never continue automatically to the next task.
+**Governing meta-principle — Earn-It.** Optimize for engineering *confidence*, not process. Every step (and every artifact, document, and abstraction) must justify itself by measurably increasing confidence. If the same confidence is reachable with fewer steps or fewer files, prefer the simpler path. This guards against both governance bloat and documentation bloat.
 
-## Git
+**Classify each capability at the start (this keeps reviews light):**
+- **Routine** — established pattern, no architectural impact (a guarded RPC reusing a proven pattern). Minimal ceremony: phase-fit → design review → implement → Review Gate (with inline Excellence check). No Design Challenge.
+- **Significant** — introduces or materially changes a business capability or architectural boundary (new/changed aggregate, phase/domain boundary, finance/security/identity-sensitive, hard to reverse, ADR-adjacent). Adds the Design Challenge and a fuller Excellence pass.
+- **Owner-Decision** — changes long-term architecture or governance, or introduces a meaningful irreversible tradeoff. Present options + recommendation, await owner approval, record an ADR.
 
-The repository history is the source of truth.
+**Workflow stages:**
+1. **Phase-fit + Earn-It → classify tier.** ("Does this belong to the current phase, or am I solving a future problem?")
+2. **Learn-Before-Designing** (major capabilities only — UI, AI, communications, reporting, automation, analytics, search, integrations): first study the strongest current industry implementations — why they work, why users prefer them, where they fail, recurring patterns, what to adopt vs deliberately avoid. Verify against up-to-date official sources. Goal: informed engineering, not imitation.
+3. **Design Review** — canonical fit.
+4. **Design Challenge** — *Significant only.* Objective: can we reasonably demonstrate the selected solution is the strongest practical solution among realistic alternatives? Adversarial sweep for what is MISSING or SIMPLER/BETTER (relationships, business concepts, catalog values, events, permissions, validations, integration points, hidden assumptions, simplification). Output = short findings list; a full written report only at phase/gate boundaries.
+5. **Implement + prove** — clean `db reset`, behavioral tests, smoke-test, Database Audit (for schema work).
+6. **Review Gate + Excellence Check** — the CR Review Gate PLUS five questions: (a) anything overlooked? (b) simpler equivalent? (c) unnecessary complexity introduced? (d) reusable business concept emerged? (e) negligible-cost future-debt avoidance? In-phase improvement → implement; future → record at its trigger.
+7. **Complete** — autonomous per §2 when verified and no new decision; sync manifest/ADR; commit; push.
+8. **Phase-transition checkpoint** — execute a whole roadmap phase capability-by-capability without stopping, then pause at phase end with a concise checkpoint: what was completed, findings, deferred items + triggers, architectural health, next phase, recommendation, any observation deserving owner attention. Then begin the next phase.
 
-Never rewrite git history.
+Governance is self-revising: if a step stops earning its confidence, propose simplifying it; if a missing practice would raise quality without materially slowing execution, propose adding it. Reconsider methodology only on concrete repository evidence, never on preference alone.
 
-Always leave the repository in a clean state.
+---
 
-## Multi-Agent Rules
+## 4. Where to look next (the boot sequence)
 
-* AGENTS.md is the single source of truth for agent behavior.
-* Do not duplicate these instructions in agent-specific files.
-* Read only the files required for the current task.
-* If instructions conflict, stop and ask before proceeding.
+A fresh session bootstraps itself from the repository — conversation history is optional.
 
-## Agent Handoff Protocol
+1. **This file** — how work is done (you are here).
+2. **`_ORVION_CANONICAL/manifest.md`** — current phase, module, and Active Change Request. This is the live state.
+3. **If `Active Change Request` is not `None`** — read that `changes/SPEC-*.md`; its own Minimum Reading List takes over from here.
+4. **If it is `None`** — read `_ORVION_CANONICAL/32_execution_roadmap.md` for the current phase and its next capability.
+5. **Task-specific canon only** — `_ORVION_CANONICAL/00`–`23` for business/domain rules, `24`–`33` for schema/database, `34`/`35` for the cross-cutting principle docs. Read only what the current task needs.
+6. **Rationale, on demand** — `reports/` for the "why" behind a decision; `reports/architecture-decision-records.md` for active ADRs; `reports/future-backlog.md` for deferred work and its triggers.
 
-* A Change Request is a living repository artifact, not merely an instruction document — it is the authoritative state record of the work it describes. Its declared Scope governs engineering artifacts only; a Change Request's own workflow-state sections are always implicitly in scope for whichever agent is synchronizing them, and doing so is never a Scope violation.
-* Synchronization means updating only a Change Request's own workflow-state sections — `Status` (only transitions permitted by the workflow), `Acceptance Criteria`, `Review Gate` (when applicable), `Execution Log`, and `Verification Notes`. Synchronization never authorizes modifying `Objective`, `Business Reason`, `Risks`, `Scope`, `Out of Scope`, `Minimum Reading List`, or `Implementation Steps` — those remain fixed once Approved and are corrected only by a new Change Request. Every other reference to synchronizing a Change Request in this repository means exactly this definition; it is not restated elsewhere.
-* IMPLEMENT is not considered complete until the Change Request has been synchronized with the execution state — its Status advanced and its Execution Log appended — as the final part of the same task, not a separate action. Review and Complete remain independent phases and are not merged into IMPLEMENT.
-* Handoff between agents happens through `changes/*.md` Change Request files and the `Active Change Request` field in `_ORVION_CANONICAL/manifest.md` — not through chat.
-* A Change Request's `## Execution Log` and `## Verification Notes` sections are append-only. Never edit or delete a prior entry.
-* Only a human may change a Change Request's Status to `Complete` or `Cancelled`. Codex may change `Approved` to `In Progress` as the first action of its own execution run.
-* `Approve SPEC-NNN`: requires Status `Draft`; flips Status to `Approved`, sets `manifest.md`'s `Active Change Request` to this Change Request's path, commits. If Status is already `Approved` or further along, report that instead of re-applying.
-* `Execute SPEC-NNN`: requires Status `Approved`; flips Status to `In Progress`, performs the Change Request's Implementation Steps exactly as written, appends an `## Execution Log` entry, commits. If Status is still `Draft`, refuse — never treat `Execute` as an implicit `Approve`.
-* `Review SPEC-NNN`: requires Status `In Progress` with at least one `## Execution Log` entry; independently re-verifies every Acceptance Criterion and Review Gate item against the live repository state, not the Execution Log's self-report, appends a `## Verification Notes` entry, commits. If no Execution Log entry exists, report that there is nothing to review.
-* `Complete SPEC-NNN`: requires a `## Verification Notes` entry with `Verdict: Confirmed Complete`; flips Status to `Complete`; clears `manifest.md`'s `Active Change Request`; updates `manifest.md`'s `Current Task` and `Last Completed Task` fields to reflect this Change Request, naming the next dependency-ready package(s) if any are known; if this Change Request is the last one scoped to an active phase in `32_execution_roadmap.md`, notes that `Freeze Phase N` may now apply as part of this Change Request's own Execution Log entry — this never auto-invokes `Freeze Phase N`, which remains a separate human-gated command; commits; then publishes by running `git push` and confirming the current branch's configured upstream contains the new Complete commit — equivalently, that no local commit remains ahead of the upstream (for example `git rev-list @{u}..HEAD` is empty). This sends all of the Change Request's commits — Approve, Implement, Review, Complete — to the remote at once. If the push cannot complete (for example, no network, no configured upstream, or authentication failure), the Complete transition remains valid locally — the repository history is the source of truth — and the commits are published on the next successful push; no separate remote commit hash is recorded, since git history is already the authoritative record. If no Verification Notes entry exists yet, perform `Review` first, surface the result, and stop. If the existing Verification Notes entry says `Discrepancy Found`, refuse and point to it.
-* `Start Phase N`: requires the prior phase's status in `32_execution_roadmap.md` to be `Complete`; updates the roadmap's phase table and `manifest.md`'s Current Phase/Module/Task. If the prior phase is not `Complete`, flag this explicitly and wait rather than proceeding silently.
-* `Freeze Phase N`: requires every Change Request scoped to that phase to be `Complete` or `Cancelled`; updates that phase's status to `Complete` in the roadmap. If any scoped Change Request is still `Draft`/`Approved`/`In Progress`, list them and refuse until addressed or explicitly overridden.
-* Every commit produced in response to a human command states, in its message, that it was human-directed and which command triggered it — e.g. `SPEC-NNN: Approve (human command)` — distinct from an agent's own step-execution or analytical commits.
-* Architecture and engineering methodology are reconsidered only when implementation produces concrete repository evidence that they cannot satisfy their own stated objective — never on preference or discussion alone.
-* Whenever an update is always expected after another action, that update is defined as part of the action itself, not left as a separately remembered responsibility.
-* A Change Request's success is measured not only by its own completion, but by whether it leaves the next Change Request easier to execute. When multiple valid implementation choices exist, prefer the one that reduces maintenance, duplicated knowledge, duplicated authority, and required context.
-* Full protocol: `CR_LIFECYCLE.md` (the authoritative Change Request state-machine reference); design rationale: `reports/repository-communication-protocol.md`.
+Supporting references, pulled only when relevant: **`CR_LIFECYCLE.md`** (Change Request state machine and command vocabulary), **`PROJECT_CONTEXT.md`** (project identity, vision, boundaries, business context), **`CODING_STANDARDS.md`** (naming, SQL, API, security standards).
+
+---
+
+## 5. Guardrails
+
+- **Protected resources** — do not modify `AGENTS.md`, `README.md`, or `_ORVION_CANONICAL/**` unless the current task explicitly authorizes it.
+- **One task at a time; one implementation; one reviewer.** A completed task leaves the repository in a releasable state. No partial or placeholder implementations; no TODO comments unless requested.
+- **Every task solves one business problem.** Prefer several small changes over one large change. When multiple valid choices exist, prefer the one that leaves the next Change Request easier to execute — less maintenance, less duplicated knowledge, less duplicated authority, less required context.
+- **Git is the source of truth.** Never rewrite history. Always leave a clean working tree. Handoff happens through `changes/*.md` and the manifest's `Active Change Request` field — never through chat.
+- **No guessing.** Never invent APIs, tables, files, business rules, or requirements. When information is missing, stop and report it. Never redesign existing architecture unless explicitly instructed.
+
+---
+
+## 6. Multi-agent and tool files
+
+`AGENTS.md` is the single source of truth for agent behavior; do not duplicate it into tool-specific files. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, and `.cursor/rules/` are thin pointers into the repository entry point and must stay that way. If instructions genuinely conflict and this file does not resolve them, stop and ask.
+
+---
+
+## 7. Maintaining this file
+
+- English, Markdown, concise. This file is read at the start of every session — every line spends context budget, so keep it lean and imperative.
+- It holds the operating model and the boot sequence only. Push mechanics into their owning file (Change Request mechanics → `CR_LIFECYCLE.md`; coding detail → `CODING_STANDARDS.md`; state → `manifest.md`) and point to them rather than restating them.
+- Do not add project-specific business rules here; those belong in `PROJECT_CONTEXT.md` and `_ORVION_CANONICAL/`.

@@ -12,12 +12,10 @@ Any compliant agent may participate.
 
 * Repository first.
 * Git is the execution history.
-* AGENTS.md defines agent behavior.
+* AGENTS.md defines agent behavior and execution posture (including when to continue and when to stop); this document defers to it.
 * One task at a time.
 * One reviewer at a time.
 * One implementation at a time.
-* Stop after completing the assigned task.
-* Never continue automatically.
 * Never redesign the workflow without approval.
 
 ## Authority

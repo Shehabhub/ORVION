@@ -108,7 +108,7 @@ Supabase-native-first, per ADR-0014: PostgREST + RLS + PostgreSQL functions (RPC
 
 # Phase 3: Identity And Access
 
-Status: Active
+Status: Complete
 
 Objective:
 
@@ -127,7 +127,7 @@ Outputs:
 
 # Phase 4: CRM Core
 
-Status: Pending
+Status: Complete
 
 Objective:
 
@@ -147,7 +147,7 @@ Outputs:
 
 # Phase 5: Booking Core
 
-Status: Pending
+Status: Complete
 
 Objective:
 
@@ -167,7 +167,7 @@ Outputs:
 
 # Phase 6: Finance Core
 
-Status: Pending
+Status: Active
 
 Objective:
 
@@ -265,4 +265,4 @@ Outputs:
 
 # Immediate Next Action
 
-Phase 2 (Database Foundation) is complete. Execute Phase 3 (Identity And Access) capability-by-capability on the Supabase-native architecture (ADR-0014), under the CR lifecycle. Natural first slice: the identity/access data-access foundation — grant DML to the `authenticated` role (RLS enforces rows) and add the membership-resolution RPCs — wiring Supabase Auth to the `app.current_tenant_id()` primitive built in Migration 19.
+Phases 2–5 are complete (Database Foundation, Identity & Access, CRM Core, Booking Core including the finance-approval execution gate, ADR-0020). Execute Phase 6 (Finance Core) capability-by-capability on the Supabase-native architecture (ADR-0014), under the CR lifecycle. Natural first slice: a read-only, derived `app.customer_balance(...)` primitive (computed from invoices/payments/refunds, not stored) — the keystone that unblocks outstanding-balance reporting and the deferred negative-balance risk flag. Deferred items to fold in at their triggers: finance-gated booking-level transitions (Approve/Issue/Cancel/Refund/Reissue) with their capability permissions; the negative-balance risk flag; verifying attribution capture (`gclid`/`gbraid`/`wbraid` + consent) at lead intake before Phase 8. See `reports/future-backlog.md`.

@@ -77,7 +77,7 @@ itself) — it is not required to enumerate the entire repository, but every fil
 be an exact path, never a category or a wildcard.
 
 Exception: this Change Request's own file is always implicitly in scope for synchronization, as
-defined in `AGENTS.md`'s Agent Handoff Protocol. Updating it in that sense is never a Scope
+defined in `CR_LIFECYCLE.md` §8. Updating it in that sense is never a Scope
 violation; this exception is defined once, there, and is not restated here.]
 
 -
@@ -123,9 +123,9 @@ broad criteria — this makes partial completion and partial failure both indivi
 
 ## Execution Log
 
-[Appended by the executing agent (Tier 2) after each run against this Change Request, before
-IMPLEMENT is considered complete, per synchronization as defined in AGENTS.md's Agent Handoff
-Protocol — this file is always implicitly in scope for this section.
+[Appended by the executing agent after each run against this Change Request, before
+IMPLEMENT is considered complete, per synchronization as defined in `CR_LIFECYCLE.md` §8
+— this file is always implicitly in scope for this section.
 Append-only — never edit or delete a prior entry, including a Blocked or Failed one.
 Leave this section's bracketed instructions in place in an unused template; remove them
 only in a CR that has at least one real entry.]
@@ -163,7 +163,9 @@ Change Request `changes/SPEC-00N-*.md`
 
 ## Review Gate
 
-[Human-completed. Do not mark Status as Complete until every item below is checked.]
+[Completed by whoever performs the Review — the executing agent under autonomous completion
+(`CR_LIFECYCLE.md` §5), otherwise a human. Do not mark Status as Complete until every item below
+is checked.]
 
 - [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as
       Already Applied per its verification check.

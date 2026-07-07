@@ -2,11 +2,11 @@
 
 ## 1. Purpose
 
-This document is the single authoritative reference for the lifecycle of a Change Request in this repository — its states, allowed transitions, and the responsibility for each transition, and how mid-execution discoveries are handled. It consolidates behavior already established across `AGENTS.md`, `PROTOCOL.md`, `changes/TEMPLATE.md`, and `changes/SPEC-010-cr-living-artifact-protocol.md`. It introduces no new state, transition, responsibility, or governance beyond what those documents already establish.
+This document is the single authoritative reference for the Change Request in this repository — its states, allowed transitions, the responsibility for each transition, the command vocabulary that drives them, the canonical definitions of IMPLEMENT and Synchronization, and how mid-execution discoveries are handled. `AGENTS.md` holds the operating model and the boot sequence and points here for Change Request mechanics; where the two appear to differ on execution posture, `AGENTS.md` governs.
 
 ## 2. Lifecycle Overview
 
-A Change Request begins as a proposal (`Draft`), authored against `changes/TEMPLATE.md`. A human approves it (`Approved`). An executing agent applies its Implementation Steps and synchronizes the Change Request's own state as the final part of the same task (`In Progress`). An independent agent then reviews the work against the live repository, without trusting the Execution Log's self-report, and records its findings — this activity does not change Status. A human closes the Change Request once the Review Gate is satisfied (`Complete`). A Change Request may be abandoned at any point before closure (`Cancelled`). Throughout this lifecycle, the Change Request is a living repository artifact, not merely an instruction document — its own state is part of the work, not separate from it.
+A Change Request begins as a proposal (`Draft`), authored against `changes/TEMPLATE.md`. A human approves it (`Approved`). An executing agent applies its Implementation Steps and synchronizes the Change Request's own state as the final part of the same task (`In Progress`). The work is then reviewed against the live repository, without trusting the Execution Log's self-report, and the findings are recorded — this activity does not change Status. The Change Request is closed once the Review Gate is satisfied (`Complete`). A Change Request may be abandoned at any point before closure (`Cancelled`). Throughout, the Change Request is a living repository artifact, not merely an instruction document — its own state is part of the work, not separate from it.
 
 ## 3. Official CR States
 
@@ -41,31 +41,37 @@ No other status word is used. In particular, "Review" is not a Status value — 
 | `Draft` -> `Cancelled` | Human only |
 | `Approved` -> `In Progress` | The executing agent, as the first action of its own execution run |
 | `Approved` -> `Cancelled` | Human only |
-| `In Progress` -> `Complete` | Human only, after the Review Gate is satisfied |
+| `In Progress` -> `Complete` | The executing agent when the work is verified (a Review verdict of `Confirmed Complete`) AND introduces no new architectural decision — the deciding ADR or owner decision already exists; otherwise a human, after the Review Gate is satisfied |
 | `In Progress` -> `Cancelled` | Human only |
 
-No agent may set Status to `Complete` or `Cancelled` under any circumstance.
-
-This table arranges the responsibility rule already stated in `AGENTS.md`'s Agent Handoff Protocol against each transition; that document remains authoritative if the two ever appear to differ.
+**Autonomous completion** is part of execution (see `AGENTS.md` §2): when a capability is fully implemented, verified, passes its required tests, satisfies its acceptance criteria, and introduces no NEW architectural decision, the executing agent advances Status to `Complete`, syncs the manifest and docs, commits, and pushes without a separate approval gate. A capability that introduces a *new* decision still requires owner sign-off (usually an ADR) BEFORE it is built — only the *completion* of an already-decided, fully-proven capability is autonomous. `Cancelled` is always human-only.
 
 ## 6. Meaning Of IMPLEMENT
 
-IMPLEMENT's meaning, including when it is considered complete, is defined once in `AGENTS.md`'s Agent Handoff Protocol and is not restated here.
+IMPLEMENT applies a Change Request's Implementation Steps exactly as written. IMPLEMENT is not considered complete until the Change Request has been synchronized with the execution state — its Status advanced to `In Progress` and its Execution Log appended — as the final part of the same task, not a separate action. Review and Complete remain independent phases and are not merged into IMPLEMENT.
 
 ## 7. Meaning Of REVIEW
 
-REVIEW is independent verification of a Change Request's execution against the live repository state, not against the Execution Log's self-report. REVIEW checks every Acceptance Criterion and every Review Gate item, and records its findings as a Verification Notes entry with a verdict (`Confirmed Complete`, `Discrepancy Found`, or `Needs Corrective Change Request`). REVIEW does not change Status — a human, informed by REVIEW's findings, decides whether to advance Status to `Complete` or `Cancelled`. REVIEW is an activity, performed while Status is `In Progress`; it is not itself a Status value.
+REVIEW is independent verification of a Change Request's execution against the live repository state, not against the Execution Log's self-report. REVIEW checks every Acceptance Criterion and every Review Gate item, and records its findings as a Verification Notes entry with a verdict (`Confirmed Complete`, `Discrepancy Found`, or `Needs Corrective Change Request`). REVIEW does not itself change Status — it is an activity performed while Status is `In Progress`. Completion follows REVIEW per §5.
 
 ## 8. Meaning Of Synchronization
 
-Synchronization is defined once, in `AGENTS.md`'s Agent Handoff Protocol, and is not restated here — consistent with the single-source-of-truth rule established in `changes/SPEC-010-cr-living-artifact-protocol.md`. See that section for the exact definition of which sections synchronization covers and which it never authorizes modifying.
+A Change Request is a living repository artifact and the authoritative state record of the work it describes. Its declared Scope governs engineering artifacts only; a Change Request's own workflow-state sections are always implicitly in scope for whichever agent is synchronizing them, and doing so is never a Scope violation.
 
-## 9. Relationship Between Governance Documents
+Synchronization means updating only a Change Request's own workflow-state sections — `Status` (only transitions permitted by §4), `Acceptance Criteria`, `Review Gate` (when applicable), `Execution Log`, and `Verification Notes`. Synchronization never authorizes modifying `Objective`, `Business Reason`, `Risks`, `Scope`, `Out of Scope`, `Minimum Reading List`, or `Implementation Steps` — those remain fixed once Approved and are corrected only by a new Change Request. Every other reference to "synchronizing a Change Request" in this repository means exactly this definition. A Change Request's `## Execution Log` and `## Verification Notes` sections are append-only — never edit or delete a prior entry.
 
-- **`AGENTS.md`** — the operational authority for agent execution. Takes precedence over `PROTOCOL.md` where the two would otherwise conflict. Holds the canonical definitions of IMPLEMENT and Synchronization.
-- **`PROTOCOL.md`** — collaboration principles only. Defers to `AGENTS.md` on execution rules.
-- **`changes/TEMPLATE.md`** — the per-Change-Request document format. Defines the fields every Change Request contains and the mechanical exception that makes a Change Request's own workflow-state sections always in scope for synchronization.
-- **This document** — the single authoritative reference for the Change Request state machine specifically: its states, transitions, and responsibilities. It consolidates what the three documents above already establish; it does not add to or duplicate their content.
+## 9. Command Vocabulary
+
+Handoff between agents happens through `changes/*.md` files and the `Active Change Request` field in `_ORVION_CANONICAL/manifest.md` — never through chat. The commands below drive the transitions in §4.
+
+- **`Approve SPEC-NNN`** — requires Status `Draft`; flips Status to `Approved`, sets `manifest.md`'s `Active Change Request` to this Change Request's path, commits. If already `Approved` or further along, report that instead of re-applying.
+- **`Execute SPEC-NNN`** — requires Status `Approved`; flips Status to `In Progress`, performs the Implementation Steps exactly as written, appends an `## Execution Log` entry, commits. If Status is still `Draft`, refuse — never treat `Execute` as an implicit `Approve`.
+- **`Review SPEC-NNN`** — requires Status `In Progress` with at least one Execution Log entry; independently re-verifies every Acceptance Criterion and Review Gate item against the live repository state, appends a `## Verification Notes` entry, commits. If no Execution Log entry exists, report that there is nothing to review.
+- **`Complete SPEC-NNN`** — requires a `## Verification Notes` entry with `Verdict: Confirmed Complete`; flips Status to `Complete` (by the executing agent when no new architectural decision is introduced, per §5, otherwise by a human); clears `manifest.md`'s `Active Change Request`; updates `manifest.md`'s `Current Task`/`Last Completed` fields, naming the next dependency-ready package(s) if known; if this is the last Change Request scoped to an active phase in `32_execution_roadmap.md`, notes in its Execution Log that `Freeze Phase N` may now apply (this never auto-invokes `Freeze Phase N`); commits; then publishes with `git push`, confirming no local commit remains ahead of the upstream (`git rev-list @{u}..HEAD` is empty). If the push cannot complete, the Complete transition remains valid locally — git history is the source of truth — and the commits publish on the next successful push. If no Verification Notes entry exists, perform `Review` first and stop; if it says `Discrepancy Found`, refuse and point to it.
+- **`Start Phase N`** — requires the prior phase's status in `32_execution_roadmap.md` to be `Complete`; updates the roadmap's phase table and `manifest.md`'s Current Phase/Module/Task. If the prior phase is not `Complete`, flag it and wait.
+- **`Freeze Phase N`** — requires every Change Request scoped to that phase to be `Complete` or `Cancelled`; updates that phase's status to `Complete` in the roadmap. If any scoped Change Request is still open, list them and refuse until addressed or explicitly overridden.
+
+Every commit produced in response to a human command states, in its message, that it was human-directed and which command triggered it — e.g. `SPEC-NNN: Approve (human command)` — distinct from an agent's own step-execution or analytical commits.
 
 ## 10. State Machine
 
@@ -79,7 +85,7 @@ Approved
   -> Cancelled    (human)
 
 In Progress
-  -> Complete     (human, after Review Gate satisfied)
+  -> Complete     (executing agent when verified and no new decision; else human)
   -> Cancelled    (human)
 
   Review is an activity performed here, not a transition:
@@ -93,4 +99,11 @@ Cancelled   (terminal)
 
 A discovery made during IMPLEMENT or REVIEW that was not anticipated by the Change Request's own Implementation Steps is recorded as an Engineering Observation — what was discovered, why it matters, and which of two outcomes applies. It stays inside the current Change Request only if it touches a file already in that Change Request's Scope, uses a mechanism the Change Request already relies on, and requires no judgment beyond what the Change Request was already drafted to make — and only if flagged before that Change Request is Approved, never added silently afterward. Otherwise it becomes its own future Change Request. An Engineering Observation is never silently implemented and never silently discarded.
 
-An Observation concerning the engineering methodology itself — as distinct from repository content — never interrupts the Change Request that surfaced it. The current Change Request always completes its own lifecycle normally first; only afterward is a methodology refinement considered, and only through its own Change Request. The methodology does not change inside an implementation package.
+An Observation concerning the engineering methodology itself — as distinct from repository content — never interrupts the Change Request that surfaced it. The current Change Request always completes its own lifecycle normally first; only afterward is a methodology refinement considered, and only through its own Change Request.
+
+## 12. Relationship Between Governance Documents
+
+- **`AGENTS.md`** — the operating model and boot sequence (how work is done, standing authorities, decision tiers, where to look next). Authoritative on execution posture. Points here for Change Request mechanics.
+- **`CR_LIFECYCLE.md`** (this document) — the single authoritative reference for the Change Request state machine, command vocabulary, and the canonical definitions of IMPLEMENT and Synchronization.
+- **`changes/TEMPLATE.md`** — the per-Change-Request document format; defines the fields every Change Request contains.
+- **`PROTOCOL.md`** — collaboration principles only; defers to `AGENTS.md`.

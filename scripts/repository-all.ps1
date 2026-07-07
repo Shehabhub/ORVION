@@ -6,10 +6,7 @@ Write-Host " ORVION Repository Automation"
 Write-Host "===============================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "[1/8] Refresh Project Tree..."
-cmd /c "tree /f /a > project-tree.txt"
-
-Write-Host "[2/8] Refresh Repository Index..."
+Write-Host "[1/6] Refresh Canonical Index..."
 $indexLines = @(
     "# Repository Index",
     "",
@@ -30,14 +27,10 @@ foreach ($f in $canonicalFiles) {
 }
 $indexLines | Out-File "repository-index.md" -Encoding utf8
 
-Write-Host "[3/8] Refresh Git Files..."
-git ls-files | Out-File tracked-files.txt -Encoding utf8
-git log --graph --decorate --oneline --all | Out-File git-tree.txt -Encoding utf8
-
-Write-Host "[4/8] Stage Changes..."
+Write-Host "[2/6] Stage Changes..."
 git add .
 
-Write-Host "[5/8] Repository Status..."
+Write-Host "[3/6] Repository Status..."
 git status --short
 
 $msg = Read-Host "`nCommit message"
@@ -49,21 +42,21 @@ if ([string]::IsNullOrWhiteSpace($msg)) {
 }
 
 Write-Host ""
-Write-Host "[6/8] Commit..."
+Write-Host "[4/6] Commit..."
 git commit -m "$msg"
 
 if ($LASTEXITCODE -ne 0) {
     exit
 }
 
-Write-Host "[7/8] Push..."
+Write-Host "[5/6] Push..."
 git push
 
 if ($LASTEXITCODE -ne 0) {
     exit
 }
 
-Write-Host "[8/8] Done"
+Write-Host "[6/6] Done"
 
 $commit = git rev-parse --short HEAD
 

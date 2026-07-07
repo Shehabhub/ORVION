@@ -23,17 +23,17 @@ This file holds ONLY current state. Detailed per-SPEC history is NOT restated he
 
 Update this section continuously; keep it to current state only.
 
-Current Phase: Phase 5 — Booking Core (application layer), on the Supabase-native backend (ADR-0014).
+Current Phase: Phase 6 — Finance Core (application layer), on the Supabase-native backend (ADR-0014).
 
-Current Module: Booking Core — Finance Approval Gate execution-approval control COMPLETE (ADR-0020: request → review → execute).
+Current Module: Finance Core — beginning with a read-only, derived `app.customer_balance(...)` primitive. (The operational layer now canonicalizes the active operating model into the repository; a fresh session bootstraps from `AGENTS.md` without conversational recovery — SPEC-084.)
 
 Active Change Request: None
 
-Last Completed: SPEC-083 — Finance Approval Gate execution-approval slice 3 (ADR-0020), closing the capability. `advance_booking_item`'s `confirmed → in_progress` edge now blocks execution unless the item is ungated (`finance_approval_required=false`) or has an approved finance approval — a `create or replace` leaving migration 202607045700 untouched (only a two-column select + one gate check added). The execution-approval control is complete: request (SPEC-081) → review/approve+lock (SPEC-082) → execute-gate (SPEC-083). Verified: clean `db reset` + smoke-test (71 tables) + behavioral (ungated full-path regression, gated block at in_progress, gated pass after approval).
+Last Completed: SPEC-084 — Operational-layer continuity redesign: rewrote `AGENTS.md` as the lean operating-model / execution brain; relocated the CR state machine + command vocabulary into `CR_LIFECYCLE.md`; turned README into a state-driven boot sequence; reconciled `PROTOCOL.md` and `changes/TEMPLATE.md`; corrected the roadmap phase table + Immediate Next Action to Phase 6; removed the git-duplicated tree artifacts. Verified by cold-boot simulation (README → AGENTS → manifest → roadmap, no dangling pointers, no live document teaching the superseded model). (Prior: SPEC-083 closed the Booking-Core finance-gate capability.)
 
-Next capability: finance-gated booking-level transitions (`pending_approval → confirmed` [Approve], issuance [Issue], void/refund/reissue [Cancel/Refund/Reissue]) with their capability permissions (see memory `booking-transition-authority-model`). Negative-balance risk flag remains deferred to Finance Core (`app.customer_balance()`), per ADR-0020.
+Next capability: Phase 6 Finance Core — read-only, derived `app.customer_balance(customer_id[, booking_id])` (computed from invoices/payments/refunds, not stored); the keystone for outstanding-balance reporting and the deferred negative-balance risk flag. Then finance-gated booking-level transitions (Approve/Issue/Cancel/Refund/Reissue) with their capability permissions (see memory `booking-transition-authority-model`).
 
-Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) in progress — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) done, SPEC-081–083 (finance-gate execution-approval control: request + review + execute-gate) done.
+Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
 ---
 
