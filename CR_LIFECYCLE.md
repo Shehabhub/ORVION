@@ -50,7 +50,7 @@ No other status word is used. In particular, "Review" is not a Status value — 
 
 IMPLEMENT applies a Change Request's Implementation Steps exactly as written. IMPLEMENT is not considered complete until the Change Request has been synchronized with the execution state — its Status advanced to `In Progress` and its Execution Log appended — as the final part of the same task, not a separate action. Review and Complete remain independent phases and are not merged into IMPLEMENT.
 
-The `## Execution Log` (append-only) may be extended incrementally at meaningful checkpoints during a long IMPLEMENT — not only at its end — so that a mid-capability interruption (context limit, crash, handoff) leaves the true current step recorded and recovery is a cold boot rather than a reconstruction from the diff. This is the recoverability invariant in `AGENTS.md` §5 applied to Change Request execution; the final synchronization that completes IMPLEMENT is unchanged.
+The `## Execution Log` (append-only) may be extended incrementally at meaningful checkpoints during a long IMPLEMENT — not only at its end — so that a mid-capability interruption (context limit, crash, handoff) leaves the true current step recorded and recovery is a cold boot rather than a reconstruction from the diff. This is the recoverability invariant in `AGENTS.md` §6 applied to Change Request execution; the final synchronization that completes IMPLEMENT is unchanged.
 
 ## 7. Meaning Of REVIEW
 

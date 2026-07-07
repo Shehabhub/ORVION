@@ -71,7 +71,18 @@ Supporting references, pulled only when relevant: **`CR_LIFECYCLE.md`** (Change 
 
 ---
 
-## 5. Guardrails
+## 5. Build and verify
+
+Local stack is Supabase (Postgres 17) via the CLI; the database container is `supabase_db_ORVION` (from `supabase/config.toml` `project_id`). Application logic is SQL migrations + `app`-schema RPCs in `supabase/migrations/` (filename `2026MMDDHHMM_<name>.sql`, applied in order).
+
+- **Apply migrations:** `npx supabase start` (once), then `npx supabase db reset` applies every migration on a clean database.
+- **Smoke-test (must pass):** `docker exec -i supabase_db_ORVION psql -U postgres -d postgres -f - < scripts/verify_database.sql` → prints `ALL CHECKS PASSED` (currently 71 tables); a non-zero exit is a regression.
+- **Behavioral test:** exercise the new RPC through `docker exec -i supabase_db_ORVION psql -U postgres -d postgres`, confirming both the allowed and the blocked paths.
+- **CI:** `.github/workflows/migration-ci.yml` re-runs `supabase db reset` on every push/PR.
+
+RPC conventions (match existing migrations, e.g. `202607045700_advance_booking_item.sql`): `security invoker`; `set search_path = ''`; resolve tenant via `app.current_tenant_id()`; gate with `app.authorize('<PERMISSION>')`; emit business events via `app.record_event(...)`; `grant execute ... to authenticated`.
+
+## 6. Guardrails
 
 - **Protected resources** — do not modify `AGENTS.md`, `README.md`, or `_ORVION_CANONICAL/**` unless the current task explicitly authorizes it.
 - **One task at a time; one implementation; one reviewer.** A completed task leaves the repository in a releasable state. No partial or placeholder implementations; no TODO comments unless requested.
@@ -82,13 +93,13 @@ Supporting references, pulled only when relevant: **`CR_LIFECYCLE.md`** (Change 
 
 ---
 
-## 6. Multi-agent and tool files
+## 7. Multi-agent and tool files
 
 `AGENTS.md` is the single source of truth for agent behavior; do not duplicate it into tool-specific files. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, and `.cursor/rules/` are thin pointers into the repository entry point and must stay that way. If instructions genuinely conflict and this file does not resolve them, stop and ask.
 
 ---
 
-## 7. Maintaining this file
+## 8. Maintaining this file
 
 - English, Markdown, concise. This file is read at the start of every session — every line spends context budget, so keep it lean and imperative.
 - It holds the operating model and the boot sequence only. Push mechanics into their owning file (Change Request mechanics → `CR_LIFECYCLE.md`; coding detail → `CODING_STANDARDS.md`; state → `manifest.md`) and point to them rather than restating them.
