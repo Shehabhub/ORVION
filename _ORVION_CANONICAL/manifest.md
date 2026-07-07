@@ -25,11 +25,11 @@ Update this section continuously; keep it to current state only.
 
 Current Phase: Phase 6 — Finance Core (application layer), on the Supabase-native backend (ADR-0014).
 
-Current Module: Finance Core — beginning with a read-only, derived `app.customer_balance(...)` primitive. (The operational layer now canonicalizes the active operating model into the repository; a fresh session bootstraps from `AGENTS.md` without conversational recovery — SPEC-084.)
+Current Module: Finance Core — `app.customer_balance(...)` derived read-only primitive COMPLETE (ADR-0021). Next: outstanding-balance surfacing and the negative-balance issuance risk flag (ADR-0020, now unblocked).
 
 Active Change Request: None
 
-Last Completed: SPEC-088 — Build/verify runbook: `AGENTS.md` §5 now holds the exact commands (`npx supabase db reset`; smoke-test via `docker exec … psql … < scripts/verify_database.sql` → ALL CHECKS PASSED / 71 tables; behavioral tests; CI) and the RPC conventions, so a cold session can begin the next capability immediately. Concludes the operational-model arc (SPEC-084 canonicalization → 085 recoverability → 086 checkpoint → 087 strategic direction → 088 execution runbook); the repository now supports both comprehension and immediate execution from a cold start. (Prior domain work: SPEC-083 closed the Booking-Core finance-gate capability.)
+Last Completed: SPEC-089 — `app.customer_balance(p_customer_id[, p_booking_id])`: derived, read-only, per-currency outstanding balance (`invoiced − paid + refunded`; live invoices, `customer_payment`s, completed `customer_refund`s; positive = owes). SECURITY INVOKER, RLS backstop, no new permission (read-RPC precedent). Verified: clean `db reset` + smoke-test (71 tables) + behavioral (multi-currency, all exclusions, booking filter, tenant guard). Recorded as ADR-0021; unblocks the ADR-0020 negative-balance risk flag. First Phase 6 capability. (Operational-model arc SPEC-084→088 remains closed; prior domain work SPEC-083 closed the Booking-Core finance gate.)
 
 Next capability: Phase 6 Finance Core — read-only, derived `app.customer_balance(customer_id[, booking_id])` (computed from invoices/payments/refunds, not stored); the keystone for outstanding-balance reporting and the deferred negative-balance risk flag. Then finance-gated booking-level transitions (Approve/Issue/Cancel/Refund/Reissue) with their capability permissions (see memory `booking-transition-authority-model`).
 
