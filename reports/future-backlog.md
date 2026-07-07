@@ -101,6 +101,17 @@ These are **not** approved for implementation. Each remains a candidate until a 
 
 ---
 
+## Strategic Direction & Future Domains (evidence-backed; guides later phases)
+
+Forward-looking direction validated by research (2026-07). These do not change the current roadmap; they orient the later integration phases and are recorded so the direction survives without conversation history. See `PROJECT_CONTEXT.md` §11 for the vision framing (ORVION as source of truth; external platforms are consumers).
+
+| Item | Why it matters | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| Attribution capture at lead intake (`gclid`/`gbraid`/`wbraid` + landing/UTM context + consent signals `ad_user_data`/`ad_personalization`) | Closed-loop offline conversion (Phase 8) is impossible without click IDs captured at the moment the lead is created — they are **unrecoverable retroactively**. Asymmetric cost: nullable columns now are trivial; missing them means permanent attribution blindness on every prior lead. | **Verify the CRM lead schema now**; if absent, a small additive nullable-column CR at a natural CRM intersection (does **not** block Finance Core). Delivery target is Google's **Data Manager API** (legacy Ads API offline import blocked 2026-06-15), not the legacy import. | Yes — small additive migration if columns absent |
+| Customer Communications as a first-class capability (company-owned conversations, unified inbox, assignment, transfers, internal notes, timeline, attachments) | Replaces operational dependence on employees' personal WhatsApp; the shared-inbox/collaboration layer is built on the Cloud API, not native to it. **Architectural shape deliberately UNDECIDED** — decide via a proper Design Challenge among standalone domain / CRM capability / Customer Workspace / Automation, on evidence. Design channel-agnostic (WhatsApp is one channel; email/SMS/in-app others), reusing the event backbone + Phase-7 document linkage. | **After Phase 7 (Documents)** — that provides the attachment substrate conversations reference | Yes — its own domain CR(s), preceded by Learn-Before-Designing research |
+| Full Meta-ecosystem research | Before designing the communication/marketing layer: Meta Business Platform/Portfolio, WhatsApp Business Platform, Marketing API, Messenger, Instagram Messaging, Embedded Signup, System Users, App Review, Business Verification, conversation ownership, shared-inbox architecture, multi-agent messaging. Per `AGENTS.md` §3 Learn-Before-Designing. | Communication/marketing layer (Phase 10 or the Communications domain) | Research task, then design CR(s) |
+| Revenue Intelligence delivery posture | Later integrations (Phase 8 Google Ads, Phase 10 Meta/analytics) are **outbound/push, ORVION-owns-the-truth**: ORVION emits verified events/values; platforms ingest. Do not build a home-grown attribution/measurement black box — deliver to each platform's ingestion API. | Phases 8 and 10 design | Within those phases' CRs |
+
 ## How items enter and leave this backlog
 
 1. A review or migration surfaces an improvement not justified for immediate implementation.

@@ -30,7 +30,11 @@ Decisions must be grounded in the canonical documentation, repository standards,
 ## 10. Project Vocabulary
 Key terms include customer, lead, booking, revenue, identity, event, document, permission, and SaaS. These terms should be used consistently and with their intended business meaning.
 
-## 11. Platform Boundaries
+## 11. Long-Term Direction
+
+Beyond the MVP, ORVION's trajectory is to become the company's **primary operational platform** — where employees perform daily work (CRM, sales, booking, finance, documents, customer communication, reporting) instead of scattered personal tools — and the **single source of truth for verified business outcomes**. External systems (advertising platforms such as Google Ads and Meta, analytics, BI, AI, and automation) are **consumers** of ORVION's business events, never dependencies ORVION is subordinate to — a "revenue intelligence" posture: ORVION emits verified outcomes/values; platforms ingest them. This direction orients the later integration phases (8, 10) and future domains; it does **not** change the current roadmap or license scope creep — capabilities are still earned phase by phase per `AGENTS.md`. Concrete deferred strategic items and their triggers live in `reports/future-backlog.md`.
+
+## 12. Platform Boundaries
 
 ORVION is not:
 
@@ -42,7 +46,7 @@ ORVION is not:
 
 It integrates with such systems when necessary.
 
-## 12. Business Context (from codex.md)
+## 13. Business Context (from codex.md)
 
 ### About ORVION
 
