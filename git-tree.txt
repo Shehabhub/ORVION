@@ -1,4 +1,8 @@
-﻿* 8cea64d (HEAD -> main) Phase 5 Finance Gate Readiness Report (owner checkpoint) -- ready to begin with scoping decision; no gate code written
+﻿* 1f5c016 (HEAD -> main, origin/main, origin/HEAD) SPEC-083: Complete -- Phase 5 Finance Gate: execution-edge precondition (closes execution-approval control)
+* 68e3efb SPEC-082: Complete -- Phase 5 Finance Gate: review_finance_approval (execution-approval slice 2)
+* 9cd6345 SPEC-081: Complete -- Phase 5 Finance Gate: request_finance_approval (execution-approval slice 1) + ADR-0020; manifest trimmed to lean state file (R2)
+* 847be43 y
+* 8cea64d Phase 5 Finance Gate Readiness Report (owner checkpoint) -- ready to begin with scoping decision; no gate code written
 * 9307dd9 SPEC-080: Complete (human command) -- Phase 5 Booking Core: internal supplier linkage (organizational fulfilment + history)
 * a33960f SPEC-079: Complete (human command) -- Phase 5 Booking Core: booking-level transitions (Option A pre-finance slice) + orchestration-boundary principle
 * 7ba3ed2 SPEC-078: Complete (human command) -- Phase 5 Booking Core: booking-item base-lifecycle transitions
@@ -27,7 +31,7 @@
 * b3b7a27 SPEC-057: Complete (human command) -- ADR-0015 binary permission model + seed role_permissions
 * 94dd45f SPEC-056: Complete (human command) -- seeded roles (9) + permissions (64) global RBAC catalogs
 * 1c31b17 SPEC-056: Approve (human command) -- seed roles + permissions global RBAC catalogs
-* 4f7d2e9 (origin/main, origin/HEAD) SPEC-055: Complete (human command) -- Phase 3 identity/access data-access foundation
+* 4f7d2e9 SPEC-055: Complete (human command) -- Phase 3 identity/access data-access foundation
 * d706104 SPEC-055: Execute -- grant authenticated DML (RLS-scoped) + app.my_memberships() RPC
 * 21bc7a6 SPEC-055: Approve (human command) -- Phase 3 identity/access data-access foundation
 * e774d02 manifest: sync state to Phase 3 (Identity & Access) on Supabase-native architecture

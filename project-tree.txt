@@ -1,5 +1,5 @@
 Folder PATH listing
-Volume serial number is 000000CC BC1B:451F
+Volume serial number is 000000CE BC1B:451F
 C:.
 |   .aider.conf.yml
 |   .gitignore
@@ -118,6 +118,9 @@ C:.
 |       SPEC-078-advance-booking-item.md
 |       SPEC-079-advance-booking.md
 |       SPEC-080-link-internal-supplier.md
+|       SPEC-081-request-finance-approval.md
+|       SPEC-082-review-finance-approval.md
+|       SPEC-083-gate-booking-item-execution.md
 |       TEMPLATE.md
 |       
 +---node_modules
@@ -1855,8 +1858,8 @@ C:.
 |   |   |   cli-latest
 |   |   |   
 |   |   \---pgdelta
-|   |           catalog-local-migrations-37047ef33fc29e0e10cd2581347740871c9ecf6c9cdd59ef07405fe658b370ba-1783374713820.json
-|   |           catalog-local-migrations-37047ef33fc29e0e10cd2581347740871c9ecf6c9cdd59ef07405fe658b370ba-1783374940564.json
+|   |           catalog-local-migrations-354a294b196b753ab5205266cbdad3b6cdef02d5b225796f55a7ae4719920bcf-1783449451637.json
+|   |           catalog-local-migrations-c8eefa0cc84606ea9699a7eefbc8fd7db7abd865d93d3962f138d326823b74c5-1783448947369.json
 |   |           
 |   \---migrations
 |           202607041200_enable_extensions.sql
@@ -1907,6 +1910,9 @@ C:.
 |           202607045700_advance_booking_item.sql
 |           202607045800_advance_booking.sql
 |           202607045900_link_internal_supplier.sql
+|           202607046000_request_finance_approval.sql
+|           202607046100_review_finance_approval.sql
+|           202607046200_gate_booking_item_execution.sql
 |           
 \---_ORVION_CANONICAL
         00_project_charter.md

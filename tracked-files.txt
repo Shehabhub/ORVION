@@ -133,6 +133,9 @@ changes/SPEC-077-link-passenger-to-booking-item.md
 changes/SPEC-078-advance-booking-item.md
 changes/SPEC-079-advance-booking.md
 changes/SPEC-080-link-internal-supplier.md
+changes/SPEC-081-request-finance-approval.md
+changes/SPEC-082-review-finance-approval.md
+changes/SPEC-083-gate-booking-item-execution.md
 changes/TEMPLATE.md
 git-tree.txt
 global-rules.md
@@ -206,4 +209,7 @@ supabase/migrations/202607045600_link_passenger_to_booking_item.sql
 supabase/migrations/202607045700_advance_booking_item.sql
 supabase/migrations/202607045800_advance_booking.sql
 supabase/migrations/202607045900_link_internal_supplier.sql
+supabase/migrations/202607046000_request_finance_approval.sql
+supabase/migrations/202607046100_review_finance_approval.sql
+supabase/migrations/202607046200_gate_booking_item_execution.sql
 tracked-files.txt
