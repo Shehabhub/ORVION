@@ -29,7 +29,7 @@ Current Module: Finance Core — beginning with a read-only, derived `app.custom
 
 Active Change Request: None
 
-Last Completed: SPEC-085 — Recoverability invariant: `AGENTS.md` §5 now requires the repository to stay recoverable at *every* stop (not only Complete/phase-end), git-natively (durable state = git + manifest + CR living artifact; commit often; sync before any non-trivial pause); `CR_LIFECYCLE.md` §6 permits incremental Execution Log checkpoints. (Prior: SPEC-084 canonicalized the operating model into `AGENTS.md`/`CR_LIFECYCLE.md` + boot sequence; SPEC-083 closed the Booking-Core finance-gate capability.)
+Last Completed: SPEC-086 — Checkpoint-recoverability refinement: `AGENTS.md` §5 now defines durability around *meaningful engineering checkpoints* (commit = mechanism; git the only source of truth), folds in the cold-stop self-test, and adds the memory-is-cache-never-sole-source rule. Concludes the operating-model continuity work (SPEC-084 canonicalization → 085 recoverability invariant → 086 checkpoint refinement); the repository is now the authoritative operational memory. (Prior domain work: SPEC-083 closed the Booking-Core finance-gate capability.)
 
 Next capability: Phase 6 Finance Core — read-only, derived `app.customer_balance(customer_id[, booking_id])` (computed from invoices/payments/refunds, not stored); the keystone for outstanding-balance reporting and the deferred negative-balance risk flag. Then finance-gated booking-level transitions (Approve/Issue/Cancel/Refund/Reissue) with their capability permissions (see memory `booking-transition-authority-model`).
 
