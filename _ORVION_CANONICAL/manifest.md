@@ -29,7 +29,7 @@ Current Module: Finance Core — beginning with a read-only, derived `app.custom
 
 Active Change Request: None
 
-Last Completed: SPEC-084 — Operational-layer continuity redesign: rewrote `AGENTS.md` as the lean operating-model / execution brain; relocated the CR state machine + command vocabulary into `CR_LIFECYCLE.md`; turned README into a state-driven boot sequence; reconciled `PROTOCOL.md` and `changes/TEMPLATE.md`; corrected the roadmap phase table + Immediate Next Action to Phase 6; removed the git-duplicated tree artifacts. Verified by cold-boot simulation (README → AGENTS → manifest → roadmap, no dangling pointers, no live document teaching the superseded model). (Prior: SPEC-083 closed the Booking-Core finance-gate capability.)
+Last Completed: SPEC-085 — Recoverability invariant: `AGENTS.md` §5 now requires the repository to stay recoverable at *every* stop (not only Complete/phase-end), git-natively (durable state = git + manifest + CR living artifact; commit often; sync before any non-trivial pause); `CR_LIFECYCLE.md` §6 permits incremental Execution Log checkpoints. (Prior: SPEC-084 canonicalized the operating model into `AGENTS.md`/`CR_LIFECYCLE.md` + boot sequence; SPEC-083 closed the Booking-Core finance-gate capability.)
 
 Next capability: Phase 6 Finance Core — read-only, derived `app.customer_balance(customer_id[, booking_id])` (computed from invoices/payments/refunds, not stored); the keystone for outstanding-balance reporting and the deferred negative-balance risk flag. Then finance-gated booking-level transitions (Approve/Issue/Cancel/Refund/Reissue) with their capability permissions (see memory `booking-transition-authority-model`).
 
