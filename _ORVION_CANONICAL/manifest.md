@@ -29,11 +29,11 @@ Current Module: Booking Core — Finance Approval Gate (ADR-0020).
 
 Active Change Request: None
 
-Last Completed: SPEC-081 — Finance Approval Gate execution-approval slice 1 (ADR-0020). `app.request_finance_approval(item, reason?)` opens a `pending` `finance_execution_approval`, marks the item (`finance_approval_required`, `finance_approval_status_code='pending'`), emits `finance_approval_requested`. `CREATE_BOOKING_ITEM`-guarded; mints no new permission (capability permissions recorded in ADR-0020, minted per-consumer). Verified: clean `db reset` + smoke-test (71 tables) + behavioral (create/duplicate-pending/terminal-item/terminal-booking/trainee-denial).
+Last Completed: SPEC-082 — Finance Approval Gate execution-approval slice 2 (ADR-0020). `app.review_finance_approval(request, decision, reason?)` resolves a pending `finance_execution_approval` along the `26` Finance Approval State Machine: approve/reject under `APPROVE_FINANCE` (MFA composes), cancel by the requester under `CREATE_BOOKING_ITEM`; approve locks cost (`cost_locked_at`) and sets the item approved. Emits `finance_approval_approved|_rejected|_cancelled`. Verified: clean `db reset` + smoke-test (71 tables) + behavioral (approve+lock, reject, cancel, non-pending rejected, non-finance denial 42501).
 
-Next: SPEC-082 `app.review_finance_approval` (approve/reject/cancel under `APPROVE_FINANCE`; locks cost on approve), then the `confirmed → in_progress` gate precondition in `advance_booking_item`. Negative-balance risk flag deferred to Finance Core (`app.customer_balance()`), per ADR-0020.
+Next: SPEC-083 — the `confirmed → in_progress` gate precondition in `advance_booking_item` (block execution unless an approved `finance_execution_approval` exists for an item that requires it). Negative-balance risk flag deferred to Finance Core (`app.customer_balance()`), per ADR-0020.
 
-Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) in progress — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) done, SPEC-081 (finance-gate slice 1) done.
+Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) in progress — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) done, SPEC-081–082 (finance-gate slices 1–2: request + review) done.
 
 ---
 
