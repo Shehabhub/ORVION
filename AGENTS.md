@@ -17,7 +17,7 @@ This file is the **execution brain** for any engineering session in this reposit
 4. an unexpected blocker that materially affects the project,
 5. a potentially destructive or irreversible action outside the approved workflow.
 
-When in doubt and the action is within the approved plan and reversible: proceed and report — do not ask.
+A decision that follows from an already-approved ADR, a canonical rule, or a prior owner decision is **implementation, not escalation** — choose the strongest option the canon, ADRs, repository state, and current evidence support, and continue; escalation is reserved for a genuinely *new* direction, never for applying one already approved. When in doubt and the action is within the approved plan and reversible: proceed and report — do not ask.
 
 **The capability is the unit of progress.** The roadmap is organized around approved business capabilities; a Change Request (SPEC) is one engineering step delivering one. When a capability is best delivered as several small SPECs, continue through them as one flow — do not treat each SPEC as a fresh decision point. Drive the capability to a coherent, verified completion.
 
