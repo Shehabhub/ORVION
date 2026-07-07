@@ -25,15 +25,15 @@ Update this section continuously; keep it to current state only.
 
 Current Phase: Phase 5 — Booking Core (application layer), on the Supabase-native backend (ADR-0014).
 
-Current Module: Booking Core — Finance Approval Gate (ADR-0020).
+Current Module: Booking Core — Finance Approval Gate execution-approval control COMPLETE (ADR-0020: request → review → execute).
 
 Active Change Request: None
 
-Last Completed: SPEC-082 — Finance Approval Gate execution-approval slice 2 (ADR-0020). `app.review_finance_approval(request, decision, reason?)` resolves a pending `finance_execution_approval` along the `26` Finance Approval State Machine: approve/reject under `APPROVE_FINANCE` (MFA composes), cancel by the requester under `CREATE_BOOKING_ITEM`; approve locks cost (`cost_locked_at`) and sets the item approved. Emits `finance_approval_approved|_rejected|_cancelled`. Verified: clean `db reset` + smoke-test (71 tables) + behavioral (approve+lock, reject, cancel, non-pending rejected, non-finance denial 42501).
+Last Completed: SPEC-083 — Finance Approval Gate execution-approval slice 3 (ADR-0020), closing the capability. `advance_booking_item`'s `confirmed → in_progress` edge now blocks execution unless the item is ungated (`finance_approval_required=false`) or has an approved finance approval — a `create or replace` leaving migration 202607045700 untouched (only a two-column select + one gate check added). The execution-approval control is complete: request (SPEC-081) → review/approve+lock (SPEC-082) → execute-gate (SPEC-083). Verified: clean `db reset` + smoke-test (71 tables) + behavioral (ungated full-path regression, gated block at in_progress, gated pass after approval).
 
-Next: SPEC-083 — the `confirmed → in_progress` gate precondition in `advance_booking_item` (block execution unless an approved `finance_execution_approval` exists for an item that requires it). Negative-balance risk flag deferred to Finance Core (`app.customer_balance()`), per ADR-0020.
+Next capability: finance-gated booking-level transitions (`pending_approval → confirmed` [Approve], issuance [Issue], void/refund/reissue [Cancel/Refund/Reissue]) with their capability permissions (see memory `booking-transition-authority-model`). Negative-balance risk flag remains deferred to Finance Core (`app.customer_balance()`), per ADR-0020.
 
-Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) in progress — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) done, SPEC-081–082 (finance-gate slices 1–2: request + review) done.
+Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) in progress — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) done, SPEC-081–083 (finance-gate execution-approval control: request + review + execute-gate) done.
 
 ---
 
