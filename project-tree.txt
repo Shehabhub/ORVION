@@ -1,5 +1,5 @@
 Folder PATH listing
-Volume serial number is 0000001D BC1B:451F
+Volume serial number is 000000CC BC1B:451F
 C:.
 |   .aider.conf.yml
 |   .gitignore
@@ -32,6 +32,7 @@ C:.
 |   \---workflows
 |           claude-code-review.yml
 |           claude.yml
+|           migration-ci.yml
 |           
 +---.vscode
 |       settings.json
@@ -63,6 +64,60 @@ C:.
 |       SPEC-024-migration-2-system-catalog-tables.md
 |       SPEC-025-migration-3-reference-tables.md
 |       SPEC-026-publish-on-complete.md
+|       SPEC-027-referential-actions-updated-at.md
+|       SPEC-028-updated-at-triggers-retrofit.md
+|       SPEC-029-migration-4-organization-tables.md
+|       SPEC-030-status-fk-pattern-decision.md
+|       SPEC-031-identity-auth-nullability.md
+|       SPEC-032-migration-5-identity-and-access-tables.md
+|       SPEC-033-identity-membership-model.md
+|       SPEC-034-migration-ci.md
+|       SPEC-035-migration-6-finance-foundation-tables.md
+|       SPEC-036-migration-7-document-core-tables.md
+|       SPEC-037-reference-data-layer.md
+|       SPEC-038-migration-8-crm-core-tables.md
+|       SPEC-039-migration-9-suppliers-passengers-tables.md
+|       SPEC-040-migration-10-booking-core-tables.md
+|       SPEC-041-migration-11-crm-extension-tables.md
+|       SPEC-042-migration-12-finance-transaction-tables.md
+|       SPEC-043-migration-13-event-and-notification-tables.md
+|       SPEC-044-migration-14-subscription-tables.md
+|       SPEC-045-migration-15-document-links-table.md
+|       SPEC-046-authentication-and-identity-principles.md
+|       SPEC-047-migration-16-authentication-support-tables.md
+|       SPEC-048-migration-17-marketing-and-offline-conversion-tables.md
+|       SPEC-049-migration-18-seed-system-catalogs.md
+|       SPEC-050-tenant-isolation-and-data-access-principles.md
+|       SPEC-051-add-catalog-values-deferred-fks.md
+|       SPEC-052-migration-19-rls-policies.md
+|       SPEC-053-migration-20-database-verification.md
+|       SPEC-054-backend-architecture-decision.md
+|       SPEC-055-phase3-identity-access-data-access-foundation.md
+|       SPEC-056-seed-roles-and-permissions.md
+|       SPEC-057-record-adr0015-and-seed-role-permissions.md
+|       SPEC-058-provision-tenant-and-has-permission.md
+|       SPEC-059-user-management-rpcs.md
+|       SPEC-060-organization-management-rpcs.md
+|       SPEC-061-invitation-activation.md
+|       SPEC-062-mfa-requirement-enforcement.md
+|       SPEC-063-device-trust-baseline.md
+|       SPEC-064-lead-intake.md
+|       SPEC-065-round-robin-lead-assignment.md
+|       SPEC-066-lead-interaction-recording.md
+|       SPEC-067-lead-sla-escalation.md
+|       SPEC-068-advance-lead.md
+|       SPEC-069-customer-identity.md
+|       SPEC-070-merge-customer-identity.md
+|       SPEC-071-convert-lead.md
+|       SPEC-072-lead-booking-readiness.md
+|       SPEC-073-create-booking.md
+|       SPEC-074-seed-currencies.md
+|       SPEC-075-create-booking-item.md
+|       SPEC-076-create-passenger.md
+|       SPEC-077-link-passenger-to-booking-item.md
+|       SPEC-078-advance-booking-item.md
+|       SPEC-079-advance-booking.md
+|       SPEC-080-link-internal-supplier.md
 |       TEMPLATE.md
 |       
 +---node_modules
@@ -1770,8 +1825,13 @@ C:.
 |               package.json
 |               
 +---reports
+|       architecture-decision-records.md
+|       future-backlog.md
 |       phase-02-catalog-lifecycle-audit.md
 |       phase-02-prioritized-findings.md
+|       phase-03-user-lifecycle-review.md
+|       phase-04-crm-core-retrospective.md
+|       phase-05-finance-gate-readiness.md
 |       phase-2-database-foundation-readiness-report.md
 |       phase-2-migration-planning-prioritized-findings.md
 |       phase-2-sql-migration-planning-report.md
@@ -1783,6 +1843,7 @@ C:.
 +---scripts
 |       repository-all.ps1
 |       start-aider.ps1
+|       verify_database.sql
 |       
 +---supabase
 |   |   config.toml
@@ -1794,13 +1855,58 @@ C:.
 |   |   |   cli-latest
 |   |   |   
 |   |   \---pgdelta
-|   |           catalog-local-migrations-1ea002159091c132b9fb58c41d30450ba2f8ed0256d8d733dfaefd886a8ae409-1783155515823.json
-|   |           catalog-local-migrations-ac46772a93b76f0d401e165596848004c6b201e865bf6162e8584088730fdf64-1783157729336.json
+|   |           catalog-local-migrations-37047ef33fc29e0e10cd2581347740871c9ecf6c9cdd59ef07405fe658b370ba-1783374713820.json
+|   |           catalog-local-migrations-37047ef33fc29e0e10cd2581347740871c9ecf6c9cdd59ef07405fe658b370ba-1783374940564.json
 |   |           
 |   \---migrations
 |           202607041200_enable_extensions.sql
 |           202607041300_create_system_catalog_tables.sql
 |           202607041400_create_reference_tables.sql
+|           202607041500_add_updated_at_triggers.sql
+|           202607041600_create_organization_tables.sql
+|           202607041700_create_identity_and_access_tables.sql
+|           202607041800_create_finance_foundation_tables.sql
+|           202607041900_create_document_core_tables.sql
+|           202607042000_create_geo_reference_tables.sql
+|           202607042100_create_crm_core_tables.sql
+|           202607042200_create_suppliers_and_passengers_tables.sql
+|           202607042300_create_booking_core_tables.sql
+|           202607042400_create_crm_extension_tables.sql
+|           202607042500_create_finance_transaction_tables.sql
+|           202607042600_create_event_and_notification_tables.sql
+|           202607042700_create_subscription_tables.sql
+|           202607042800_create_document_links_table.sql
+|           202607042900_create_authentication_support_tables.sql
+|           202607043000_create_marketing_and_offline_conversion_tables.sql
+|           202607043100_seed_system_catalogs.sql
+|           202607043200_add_catalog_values_deferred_fks.sql
+|           202607043300_create_rls_policies.sql
+|           202607043400_grant_authenticated_access_and_memberships.sql
+|           202607043500_seed_roles_and_permissions.sql
+|           202607043600_seed_role_permissions.sql
+|           202607043700_provision_tenant_and_has_permission.sql
+|           202607043800_user_management_rpcs.sql
+|           202607043900_organization_management_rpcs.sql
+|           202607044000_activate_membership.sql
+|           202607044100_mfa_requirement_enforcement.sql
+|           202607044200_device_trust_baseline.sql
+|           202607044300_create_lead.sql
+|           202607044400_round_robin_lead_assignment.sql
+|           202607044500_record_lead_interaction.sql
+|           202607044600_lead_sla_escalation.sql
+|           202607044700_advance_lead.sql
+|           202607044800_customer_identity.sql
+|           202607044900_merge_customer_identity.sql
+|           202607045000_convert_lead.sql
+|           202607045100_lead_booking_readiness.sql
+|           202607045200_create_booking.sql
+|           202607045300_seed_currencies.sql
+|           202607045400_create_booking_item.sql
+|           202607045500_create_passenger.sql
+|           202607045600_link_passenger_to_booking_item.sql
+|           202607045700_advance_booking_item.sql
+|           202607045800_advance_booking.sql
+|           202607045900_link_internal_supplier.sql
 |           
 \---_ORVION_CANONICAL
         00_project_charter.md
@@ -1837,6 +1943,8 @@ C:.
         31_schema_draft.md
         32_execution_roadmap.md
         33_sql_migration_plan.md
+        34_authentication_and_identity_principles.md
+        35_tenant_isolation_and_data_access_principles.md
         codex.md
         manifest.md
         SYSTEM_PROMPT.md

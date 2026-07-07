@@ -1,6 +1,163 @@
-﻿* a9c094c (HEAD -> main) SPEC-025: Implement -- create currencies reference table
+﻿* 8cea64d (HEAD -> main) Phase 5 Finance Gate Readiness Report (owner checkpoint) -- ready to begin with scoping decision; no gate code written
+* 9307dd9 SPEC-080: Complete (human command) -- Phase 5 Booking Core: internal supplier linkage (organizational fulfilment + history)
+* a33960f SPEC-079: Complete (human command) -- Phase 5 Booking Core: booking-level transitions (Option A pre-finance slice) + orchestration-boundary principle
+* 7ba3ed2 SPEC-078: Complete (human command) -- Phase 5 Booking Core: booking-item base-lifecycle transitions
+* 16151b7 SPEC-077: Complete (human command) -- Phase 5 Booking Core: passenger linkage (booking_item_passengers)
+* 767b925 SPEC-076: Complete (human command) -- Phase 5 Booking Core: passenger creation (linkage prerequisite)
+* bc7027e SPEC-075: Complete (human command) -- Phase 5 Booking Core: booking item creation (independent draft lifecycle)
+* 8688caa SPEC-074: Complete (human command) -- reference-data: seed currencies (earned by Booking Core)
+* 581f2bf SPEC-073: Complete (human command) -- Phase 5 Booking Core: booking creation consuming the handoff contract
+* 1038d88 Phase 4 (CRM Core) transition retrospective (phase-END milestone) -- all 7 outputs delivered; ready for Phase 5
+* c7cbcaa SPEC-072: Complete (human command) -- lead-to-booking readiness (Phase 4->5 handoff contract); Phase 4 CRM Core COMPLETE
+* 5fd2afd SPEC-071: Complete (human command) -- lead->customer conversion (won->converted)
+* e31d87f SPEC-070: Complete (human command) -- customer merge via dynamic FK re-pointing + ADR-0019
+* f06ab7a SPEC-069: Complete (human command) -- customer creation + duplicate detection (customer_identity)
+* 3b88567 SPEC-068: Complete (human command) -- lead pipeline progression + closure (advance_lead)
+* 3817ff2 SPEC-067: Complete (human command) -- lead SLA escalation + ADR-0018 background-processing model
+* 9a6a4aa SPEC-066: Complete (human command) -- lead interaction recording (assigned->contacted)
+* 1a1e7e2 SPEC-065: Complete (human command) -- round-robin lead assignment + event-emission seam
+* 88739bd SPEC-064: Complete (human command) -- Phase 4 CRM Core: lead intake (app.create_lead)
+* 4d9fcdf Phase 3: User Lifecycle Review (human-suggested milestone) -- all seams pass
+* 4b1a435 SPEC-063: Complete (human command) -- device-trust baseline (trusted_devices RPCs)
+* c1e3122 SPEC-062: Complete (human command) -- ADR-0017 Supabase-native auth + MFA-requirement enforcement
+* 8808e3d SPEC-061: Complete (human command) -- invitation/activation (app.activate_membership)
+* 7424622 SPEC-060: Complete (human command) -- organization management RPCs (branch/department/user-branch)
+* 76ad33c SPEC-059: Complete (human command) -- user management RPCs (create_tenant_user, assign_user_role)
+* 7035e60 SPEC-058: Complete (human command) -- ADR-0016 platform-mediated provisioning + provision_tenant/has_permission RPCs
+* b3b7a27 SPEC-057: Complete (human command) -- ADR-0015 binary permission model + seed role_permissions
+* 94dd45f SPEC-056: Complete (human command) -- seeded roles (9) + permissions (64) global RBAC catalogs
+* 1c31b17 SPEC-056: Approve (human command) -- seed roles + permissions global RBAC catalogs
+* 4f7d2e9 (origin/main, origin/HEAD) SPEC-055: Complete (human command) -- Phase 3 identity/access data-access foundation
+* d706104 SPEC-055: Execute -- grant authenticated DML (RLS-scoped) + app.my_memberships() RPC
+* 21bc7a6 SPEC-055: Approve (human command) -- Phase 3 identity/access data-access foundation
+* e774d02 manifest: sync state to Phase 3 (Identity & Access) on Supabase-native architecture
+* b41141a SPEC-054: Complete (human command) -- backend architecture recorded (ADR-0014)
+* 3aaaf72 SPEC-054: Execute -- record ADR-0014 (Supabase-native); sync roadmap Phase 2 complete / Phase 3 active
+* 8fa861e SPEC-054: Approve (human command) -- backend architecture decision (Supabase-native)
+* e239cd1 backlog: log Database Naming Audit result (status-column naming; defer to backend phase)
+* 91c4e4e SPEC-053: Complete (human command) -- migration 20 database verification
+* 9a787b7 SPEC-053: Review -- Confirmed Complete
+* 2fa8bd4 SPEC-053: Execute -- add database verification smoke-test (scripts/verify_database.sql)
+* c636335 SPEC-053: Approve (human command) -- migration 20 database verification
+* 13a1301 SPEC-052: Complete (human command) -- migration 19 RLS policies
+* ad6f390 SPEC-052: Review -- Confirmed Complete
+* 567f635 SPEC-052: Execute -- create RLS policies (all 71 tables)
+* 25d1c14 SPEC-052: Approve (human command) -- migration 19 RLS policies
+* e7f4139 SPEC-051: Complete (human command) -- catalog_values deferred FKs (F2)
+* 16323ea SPEC-051: Review -- Confirmed Complete
+* ff03bd1 SPEC-051: Execute -- add catalog_values.tenant_id/created_by FKs (closes SPEC-024 F2)
+* d340c2c SPEC-051: Approve (human command) -- add catalog_values deferred FKs (F2)
+* d829877 SPEC-050: Complete (human command) -- Tenant Isolation & Data Access Principles
+* 9467987 SPEC-050: Review -- Confirmed Complete
+* 12d1fb1 SPEC-050: Execute -- create tenant isolation principles doc (35); consolidate RLS decisions
+* 1585a49 SPEC-050: Approve (human command) -- Tenant Isolation & Data Access Principles
+* 4a3a1e4 SPEC-049: Complete (human command) -- migration 18 seed system catalogs
+* fb799fa SPEC-049: Review -- Confirmed Complete
+* 3b59598 SPEC-049: Execute -- seed system catalogs (65 types, 395 values)
+* d49e6e9 SPEC-049: Approve (human command) -- migration 18 seed system catalogs
+* 804cba0 SPEC-048: Complete (human command) -- migration 17 marketing and offline conversion tables
+* 092187e SPEC-048: Review -- Confirmed Complete
+* 8f5aa33 SPEC-048: Execute -- create marketing and offline conversion tables migration (5 tables)
+* a9e1669 SPEC-048: Approve (human command) -- migration 17 marketing and offline conversion tables
+* ed32035 SPEC-047: Complete (human command) -- migration 16 authentication support tables
+* 1fca270 SPEC-047: Review -- Confirmed Complete
+* 191e7de SPEC-047: Execute -- create authentication support tables migration (3 tables)
+* 508d6a9 SPEC-047: Approve (human command) -- migration 16 authentication support tables
+* deab5d6 SPEC-046: Complete (human command) -- Authentication & Identity Principles
+* efd2af1 SPEC-046: Review -- Confirmed Complete
+* 92fc7ed SPEC-046: Execute -- create principles doc; re-home auth-support tables in canon
+* 0726b7d SPEC-046: Approve (human command) -- Authentication & Identity Principles
+* bcdafc2 backlog: log subscription business-key uniqueness and finance non-negativity findings
+* 7d0e284 SPEC-045: Complete (human command) -- migration 15 document_links table
+* b4f542b SPEC-045: Review -- Confirmed Complete
+* 6390b17 SPEC-045: Execute -- create document_links table migration (single-target CHECK)
+* d113071 SPEC-045: Approve (human command) -- migration 15 document_links table
+* b6cec53 SPEC-044: Complete (human command) -- migration 14 subscription tables
+* b50e102 SPEC-044: Review -- Confirmed Complete
+* 54beaf8 SPEC-044: Execute -- create subscription tables migration (5 tables)
+* 9145217 SPEC-044: Approve (human command) -- migration 14 subscription tables
+* 8132636 SPEC-043: Complete (human command) -- migration 13 event and notification tables
+* 70f4cf2 SPEC-043: Review -- Confirmed Complete
+* e4ed581 SPEC-043: Execute -- create event and notification tables migration (4 tables)
+* 46efa0f SPEC-043: Approve (human command) -- migration 13 event and notification tables
+* 79cc929 SPEC-042: Complete (human command) -- migration 12 finance transaction tables
+* 0e44c07 SPEC-042: Review -- Confirmed Complete
+* c74fee5 SPEC-042: Execute -- create finance transaction tables migration (9 tables)
+* 4b07dbc SPEC-042: Approve (human command) -- migration 12 finance transaction tables
+* e1ad1f9 SPEC-041: Complete (human command) -- migration 11 CRM extension tables
+* eb3a744 SPEC-041: Review -- Confirmed Complete
+* 5510453 SPEC-041: Execute -- create crm extension tables migration (5 tables)
+* e42b4ce SPEC-041: Approve (human command) -- migration 11 CRM extension tables
+* 5cddb36 SPEC-040: Complete (human command)
+* 2429813 SPEC-040: Review -- Confirmed Complete; log booking-key uniqueness finding
+* ec77ac8 SPEC-040: Implement -- create booking core tables (quotations, bookings, booking_items, and related)
+* e98c042 SPEC-040: Approve (human command)
+* 0606f58 SPEC-039: Complete (human command)
+* 6c7c09c SPEC-039: Review -- Confirmed Complete
+* b6621d5 SPEC-039: Implement -- create suppliers and passengers tables
+* 36d67ef SPEC-039: Approve (human command)
+* cc4802b SPEC-038: Complete (human command)
+* a2d3472 SPEC-038: Review -- Confirmed Complete
+* 2d987b5 SPEC-038: Implement -- create CRM core tables (customers, leads, and detail tables)
+* d1fb3b8 SPEC-038: Approve (human command)
+* eb65419 SPEC-037: Complete (human command)
+* d09a3d8 SPEC-037: Review -- Confirmed Complete
+* 79527ea SPEC-037: Implement -- add reference data layer (countries, languages, nationalities)
+* d42968b SPEC-037: Approve (human command)
+* 45372ed SPEC-036: Complete (human command)
+* a7e3291 SPEC-036: Review -- Confirmed Complete
+* 7670166 SPEC-036: Implement -- create document core tables (documents, document_versions; deferred mutual FK)
+* 66866dc SPEC-036: Approve (human command)
+* b34c198 SPEC-035: Complete (human command)
+* 0edbf1a SPEC-035: Review -- Confirmed Complete
+* 317a633 SPEC-035: Implement -- create finance foundation tables (exchange_rates, chart_of_accounts, financial_accounts)
+* f229771 SPEC-035: Approve (human command)
+* 5c20cc5 Fix stale Active Change Request pointer after SPEC-034 Complete (state-sync correction)
+* eea5082 SPEC-034: Complete (human command)
+* 760c873 SPEC-034: Review -- Confirmed Complete (CI run green)
+* d778e5f SPEC-034: Implement -- add Migration CI workflow (supabase db reset on push)
+* 38721eb SPEC-034: Approve (human command)
+* c9dfd7c SPEC-032: Complete (human command)
+* f9bf260 SPEC-032: Review -- Confirmed Complete
+* 7ac3f34 SPEC-032: Implement -- create identity and access tables (membership model)
+* 9f89707 SPEC-032: Approve (human command)
+* 9551bfc Backlog: record SPEC-033 forward findings (auth-support tables -> human; active-tenant RLS)
+* 4b6e91b SPEC-033: Complete (human command)
+* 8643ff3 SPEC-033: Review -- Confirmed Complete
+* fd6fb46 SPEC-033: Implement -- adopt users-as-tenant-membership identity model (per-tenant auth_user_id)
+* 4681e15 SPEC-033: Approve (human command)
+* e86e61a SPEC-010: Complete (human command)
+* d5f4835 SPEC-010: Review -- Confirmed Complete (retroactive)
+* 881df77 Backlog: record Identity Lifecycle deferred items (human-directed)
+* 16d6dbd SPEC-031: Complete (human command)
+* 5f23eb2 SPEC-031: Review -- Confirmed Complete
+* ba28b24 SPEC-031: Implement -- make auth_user_id nullable, reconcile users<->auth.users to optional one-to-one
+* fd4a1c4 SPEC-031: Approve (human command)
+* b0cd1eb Add Architecture Decision Records and roadmap methodology artifacts (human-directed)
+* 2baa682 SPEC-029: Complete (human command)
+* f981a82 SPEC-029: Review -- Confirmed Complete
+* 3c33fae SPEC-029: Implement -- create organization tables (tenants, branches, departments, branch_business_hours, holidays)
+* cac694d SPEC-029: Approve (human command)
+* 48885aa SPEC-030: Complete (human command)
+* bca3a36 SPEC-030: Review -- Confirmed Complete
+* 92470f5 SPEC-030: Implement -- resolve status/type code enforcement pattern in 30_database_conventions.md
+* 9e2f100 SPEC-030: Approve (human command)
+* 61c2624 SPEC-028: Complete (human command)
+* 851ecc9 SPEC-028: Review -- Confirmed Complete
+* a44369f SPEC-028: Implement -- enable moddatetime and add updated_at triggers (catalog_values, currencies)
+* a6eea2f SPEC-028: Approve (human command)
+* bcf095d Add engineering Future Backlog (methodology, human-directed)
+* c42a8d1 Fix stale Active Change Request pointer (state-sync correction)
+* 42f4ea3 SPEC-027: Complete (human command)
+* d48fbe4 SPEC-027: Review -- Confirmed Complete
+* ac93c64 SPEC-027: Implement -- add Referential Action Standard and updated_at maintenance to 30_database_conventions.md
+* 4dc2564 SPEC-027: Approve (human command)
+* 2d492f8 SPEC-025: Complete (human command)
+* eb87451 SPEC-025: Review -- Confirmed Complete
+* 5bae0cd y
+* a9c094c SPEC-025: Implement -- create currencies reference table
 * e1a9181 SPEC-025: Approve (human command)
-* a7a17dc (origin/main, origin/HEAD) SPEC-026: Complete (human command)
+* a7a17dc SPEC-026: Complete (human command)
 * 3317ed8 SPEC-026: Review -- Confirmed Complete
 * 416d286 SPEC-026: Implement -- add publish-on-Complete clause to AGENTS.md Complete command
 * 929c2e0 SPEC-026: Approve (human command)
