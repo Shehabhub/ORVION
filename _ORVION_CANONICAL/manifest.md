@@ -25,13 +25,13 @@ Update this section continuously; keep it to current state only. `Last Completed
 
 Current Phase: Phase 7 — Documents (application layer), on the Supabase-native backend (ADR-0014). Phase 6 Finance Core COMPLETE (frozen in `32`).
 
-Current Module: Phase 7 Documents — upload + linkage COMPLETE (`app.upload_document`). Document core + versions + links tables in use; Document Lifecycle State Machine (`26`: active → superseded/archived) canonical. Remaining: lifecycle transitions, versioning, expiry, financial-document visibility. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Phase 7 Documents — upload/linkage + versioning/archival COMPLETE (`app.upload_document`, `app.add_document_version`, `app.archive_document`). Remaining: expiry surfacing, financial-document visibility. (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-109 — `app.upload_document`: creates a document (`active`) + first version + a `document_links` link to its subject (passenger/booking/booking_item/invoice/receipt/supplier) in one transaction; enforces the document-type/file-type/target catalogs, canonical placement rules (passport→passenger, ticket/visa/hotel_voucher→booking_item), and `UPLOAD_DOCUMENT`; emits `document_uploaded`+`document_linked`.
+Last Completed: SPEC-110 — `app.add_document_version` (new current version; document stays `active`, `current_version_id` advances) + `app.archive_document` (active → `archived` with reason); guarded by `CREATE_DOCUMENT_VERSION` / `ARCHIVE_DOCUMENT`. Engineering Observation recorded: canon `26` "new version → superseded" diverges from the frozen `current_version_id` design (document stays active; document-level supersede reserved for a future explicit op).
 
-Next capability: **document versioning + lifecycle** — `app.add_document_version` (new version → supersedes the prior, flips `is_current`, sets the document `superseded`→`active` current pointer per `26`) and `app.archive_document` (active/superseded → archived with reason). Then document expiry surfacing (official-doc `expires_at`, `16`) and financial-document visibility (`VIEW_FINANCIAL_DOCUMENTS`) complete Phase 7 (`32`). Reference: `08`/`16` + `documents`/`document_versions`/`document_links`.
+Next capability: **document expiry surfacing** — a read-only `app.expiring_documents(p_within_days)` over official documents' `expires_at` (`16`: passport/national_id/visa/medical_certificate), the query behind expiry alerts. Then financial-document visibility (`VIEW_FINANCIAL_DOCUMENTS` distinguishing financial vs travel documents) completes Phase 7 (`32`). Reference: `08`/`16` + `documents`/`document_versions`/`document_links`.
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
