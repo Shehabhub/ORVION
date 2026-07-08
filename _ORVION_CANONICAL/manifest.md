@@ -25,13 +25,13 @@ Update this section continuously; keep it to current state only. `Last Completed
 
 Current Phase: Phase 7 — Documents (application layer), on the Supabase-native backend (ADR-0014). Phase 6 Finance Core COMPLETE (frozen in `32`).
 
-Current Module: Phase 7 Documents — starting. Document core + `document_links` tables exist; Document Lifecycle State Machine (`26`: active → archived/superseded) is canonical. Building document upload, linkage, lifecycle, expiry, archive, and versioning. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Phase 7 Documents — upload + linkage COMPLETE (`app.upload_document`). Document core + versions + links tables in use; Document Lifecycle State Machine (`26`: active → superseded/archived) canonical. Remaining: lifecycle transitions, versioning, expiry, financial-document visibility. (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-108 — basic journal entries: `app.create_journal_entry` (balanced double-entry from jsonb lines) + `app.seed_default_chart_of_accounts` (per-tenant researched default chart); closes Phase 6 Finance Core.
+Last Completed: SPEC-109 — `app.upload_document`: creates a document (`active`) + first version + a `document_links` link to its subject (passenger/booking/booking_item/invoice/receipt/supplier) in one transaction; enforces the document-type/file-type/target catalogs, canonical placement rules (passport→passenger, ticket/visa/hotel_voucher→booking_item), and `UPLOAD_DOCUMENT`; emits `document_uploaded`+`document_linked`.
 
-Next capability: **document upload + linkage** — `app.upload_document(...)` to create a document (type, owner, storage reference) in `active` status and link it to its subject (passenger / booking item / financial document) via `document_links`, guarded by `UPLOAD_DOCUMENT`, emitting `document_uploaded`/`document_linked`. Then the document lifecycle (`advance_document`: active → superseded/archived, versioning), expiry tracking, and financial-document visibility complete Phase 7 (`32`). Phase-7 Design Review: read `08_document_model.md` + `16_document_types_and_rules.md` + the document core tables (`documents`/`document_versions`/`document_links`) before the first CR.
+Next capability: **document versioning + lifecycle** — `app.add_document_version` (new version → supersedes the prior, flips `is_current`, sets the document `superseded`→`active` current pointer per `26`) and `app.archive_document` (active/superseded → archived with reason). Then document expiry surfacing (official-doc `expires_at`, `16`) and financial-document visibility (`VIEW_FINANCIAL_DOCUMENTS`) complete Phase 7 (`32`). Reference: `08`/`16` + `documents`/`document_versions`/`document_links`.
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
