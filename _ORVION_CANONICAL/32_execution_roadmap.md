@@ -191,7 +191,9 @@ Outputs:
 
 # Phase 7: Documents
 
-Status: Active
+Status: Complete
+
+Delivered: `app.upload_document` (document + first version + polymorphic link, with document-type/file-type/target catalogs + placement rules), `app.add_document_version` + `app.archive_document` (versioning + lifecycle), `app.expiring_documents` (expiry surfacing), and `app.financial_documents` (`VIEW_FINANCIAL_DOCUMENTS`-guarded stricter visibility) — SPEC-109…112. Engineering Observation recorded (SPEC-110): canon-26 "new version → superseded" diverges from the frozen `current_version_id` intra-document versioning design; document-level supersede reserved for a future explicit op.
 
 Objective:
 
