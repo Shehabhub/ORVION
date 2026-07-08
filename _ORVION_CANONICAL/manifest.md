@@ -25,13 +25,13 @@ Update this section continuously; keep it to current state only. `Last Completed
 
 Current Phase: Phase 6 — Finance Core (application layer), on the Supabase-native backend (ADR-0014).
 
-Current Module: Finance Core — invoicing: `app.create_invoice(...)` COMPLETE (first finance-transaction write; creates a `draft` invoice with a per-tenant year-prefixed unique number `INV-YYYY-NNNN`). The ADR-0020 booking lifecycle is complete; Finance Core write capabilities have begun. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Finance Core — invoicing: create + issue. `app.create_invoice` and `app.issue_invoice` (`draft → issued`, making an invoice a live receivable) COMPLETE. (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-100 — `app.create_invoice` (first finance-transaction write): creates a `draft` customer invoice with a per-tenant, year-prefixed, DB-unique sequential number `INV-YYYY-NNNN`, guarded by `CREATE_INVOICE`, emitting `invoice_created`.
+Last Completed: SPEC-101 — `app.issue_invoice`: moves a customer invoice `draft → issued` (the point it becomes a receivable counted by `app.customer_balance`), reusing `CREATE_INVOICE`, emitting `invoice_issued`.
 
-Next capability: **issue-invoice** (`draft → issued`) — turns a draft into a live receivable that `app.customer_balance` counts. Then the remaining Finance Core outputs (`32` Phase 6): payment recording (`payment_allocations` → `partially_paid`/`paid`), receipts, refund workflows, basic journal entries, profit per booking item. (No canonical invoice state machine in `26` yet; propose one only if the issue/paid/void lifecycle outgrows the obvious.)
+Next capability: **payment recording** — record a customer payment against issued invoices via `payments` + `payment_allocations`, driving invoice status to `partially_paid`/`paid` and reducing the receivable in `app.customer_balance`. Then receipts, refund workflows, basic journal entries, profit per booking item (`32` Phase 6). (No canonical invoice state machine in `26` yet; propose one only if the invoice lifecycle outgrows the obvious.)
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
