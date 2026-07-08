@@ -25,13 +25,13 @@ Update this section continuously; keep it to current state only. `Last Completed
 
 Current Phase: Phase 6 — Finance Core (application layer), on the Supabase-native backend (ADR-0014).
 
-Current Module: Finance Core — customer receivables (invoice→payment→receipt) and supplier payables (derived balance + payment) COMPLETE. Both money flows now have a derived balance primitive and a payment write. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Finance Core — receivables, payables, and refunds COMPLETE. Customer invoice→payment→receipt, supplier balance+payment, and the customer refund workflow (request→approve→complete) all built on the derived-balance primitives. (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-105 — `app.record_supplier_payment`: records a `supplier_payment` to an external supplier (optionally booking-scoped), drawing down `app.supplier_balance`; guarded by `RECORD_PAYMENT`; emits `supplier_payment_recorded`.
+Last Completed: SPEC-106 — customer refund workflow: `app.record_refund` (opens a `requested` refund) + `app.advance_refund` (lifecycle → `completed`, which re-opens the receivable in `app.customer_balance`); both guarded by `RECORD_REFUND`.
 
-Next capability: **refund workflow** — `app.record_refund` (the `refunds` table; `customer_refund` direction already read by `app.customer_balance` as re-opening what the customer owes; guarded by `RECORD_REFUND`). Then basic journal entries and profit per booking item (selling price − cost) close Phase 6 Finance Core (`32`). Deferred (SPEC-102): multi-invoice allocation, on-account credit/overpayment, cross-currency allocation via `exchange_rate_id`.
+Next capability: **profit per booking item** — a derived read-only primitive `app.booking_item_profit(...)` (selling price − cost, per item/booking, per currency), the last analytical output before Phase 6 closes; then **basic journal entries** (the `journal_entries` double-entry record for finance events). After both, Phase 6 Finance Core is complete → Freeze Phase 6, Start Phase 7 (Documents). Deferred (SPEC-102): multi-invoice allocation, on-account credit/overpayment, cross-currency allocation via `exchange_rate_id`; supplier refunds (`supplier_refund` mirror).
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
