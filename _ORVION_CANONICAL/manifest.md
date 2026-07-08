@@ -25,13 +25,13 @@ Update this section continuously; keep it to current state only. `Last Completed
 
 Current Phase: Phase 7 — Documents (application layer), on the Supabase-native backend (ADR-0014). Phase 6 Finance Core COMPLETE (frozen in `32`).
 
-Current Module: Phase 7 Documents — upload/linkage, versioning/archival, and expiry surfacing COMPLETE (`upload_document`, `add_document_version`, `archive_document`, `expiring_documents`). Remaining: financial-document visibility. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Phase 7 Documents — COMPLETE. Upload/linkage, versioning/archival, expiry surfacing, and financial-document visibility all delivered (`upload_document`, `add_document_version`, `archive_document`, `expiring_documents`, `financial_documents`). (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-111 — `app.expiring_documents(p_within_days)`: derived read-only list of non-archived documents expiring on/before now + N days (incl. already-expired), with `days_until_expiry`; the query behind expiry alerts (`16`; scheduled notification is a Phase-10/ADR-0018 concern).
+Last Completed: SPEC-112 — `app.financial_documents()`: `VIEW_FINANCIAL_DOCUMENTS`-guarded read of financial documents (invoice/receipt type or invoice/receipt-linked), enforcing the stricter-than-RLS visibility canon requires; closes Phase 7.
 
-Next capability: **financial-document visibility** — a read-only `app.financial_documents(...)` (or a `VIEW_FINANCIAL_DOCUMENTS`-guarded read) distinguishing financial documents (invoice/receipt-linked) from travel documents (`16`/`28`: financial documents require stricter visibility). This is the last Phase-7 output → then `Freeze Phase 7` + Phase-7 completion review. Reference: `08`/`16` + `28` (`VIEW_FINANCIAL_DOCUMENTS`/`VIEW_TRAVEL_DOCUMENTS`).
+Next capability: `Freeze Phase 7` + Phase-7 completion review, then `Start Phase 8` (Offline Conversion — Google Ads offline-conversion feedback: click capture `gclid`/`gbraid`/`wbraid` + consent, lead attribution, CRM outcome mapping, conversion delivery + retry). Phase-8 Design Review: read `21_offline_conversion_engine.md` + `18_integration_priority.md` + the `marketing`/offline-conversion tables; verify attribution capture at lead intake (deferred check from ADR-0020 notes) as an early step.
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
