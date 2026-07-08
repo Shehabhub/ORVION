@@ -167,7 +167,9 @@ Outputs:
 
 # Phase 6: Finance Core
 
-Status: Active
+Status: Complete
+
+Delivered: `app.customer_balance` + `app.supplier_balance` + `app.booking_item_profit` (derived read primitives); invoice create/issue, `record_payment` (allocation + status), `issue_receipt`, `record_supplier_payment`, customer refund workflow (`record_refund`/`advance_refund`), and basic journal entries + default chart of accounts (SPEC-089, SPEC-100–108). The finance-approval execution gate landed in Phase 5 (ADR-0020).
 
 Objective:
 
@@ -189,7 +191,7 @@ Outputs:
 
 # Phase 7: Documents
 
-Status: Pending
+Status: Active
 
 Objective:
 

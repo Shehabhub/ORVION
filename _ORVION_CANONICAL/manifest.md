@@ -23,15 +23,15 @@ This file holds ONLY current state. Detailed per-SPEC history is NOT restated he
 
 Update this section continuously; keep it to current state only. `Last Completed` names only the single most recent capability — replace it each time, never chain a "Prior:" history (git log + `changes/` + `reports/` hold history). If any field starts becoming a changelog, trim it.
 
-Current Phase: Phase 6 — Finance Core (application layer), on the Supabase-native backend (ADR-0014).
+Current Phase: Phase 7 — Documents (application layer), on the Supabase-native backend (ADR-0014). Phase 6 Finance Core COMPLETE (frozen in `32`).
 
-Current Module: Finance Core — receivables, payables, and refunds COMPLETE. Customer invoice→payment→receipt, supplier balance+payment, and the customer refund workflow (request→approve→complete) all built on the derived-balance primitives. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Phase 7 Documents — starting. Document core + `document_links` tables exist; Document Lifecycle State Machine (`26`: active → archived/superseded) is canonical. Building document upload, linkage, lifecycle, expiry, archive, and versioning. (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-107 — `app.booking_item_profit`: derived, read-only profit per booking item (`selling_amount − cost_amount`, per currency, with a `cost_locked` projected/realised flag); the margin primitive alongside `customer_balance`/`supplier_balance`.
+Last Completed: SPEC-108 — basic journal entries: `app.create_journal_entry` (balanced double-entry from jsonb lines) + `app.seed_default_chart_of_accounts` (per-tenant researched default chart); closes Phase 6 Finance Core.
 
-Next capability: **basic journal entries** — the last Phase-6 output: a double-entry `journal_entries`/`journal_lines` record for finance events (per `07`/`14` chart of accounts). After it, Phase 6 Finance Core is complete → `Freeze Phase 6`, `Start Phase 7` (Documents). Deferred (SPEC-102): multi-invoice allocation, on-account credit/overpayment, cross-currency allocation via `exchange_rate_id`; supplier refunds (`supplier_refund` mirror).
+Next capability: **document upload + linkage** — `app.upload_document(...)` to create a document (type, owner, storage reference) in `active` status and link it to its subject (passenger / booking item / financial document) via `document_links`, guarded by `UPLOAD_DOCUMENT`, emitting `document_uploaded`/`document_linked`. Then the document lifecycle (`advance_document`: active → superseded/archived, versioning), expiry tracking, and financial-document visibility complete Phase 7 (`32`). Phase-7 Design Review: read `19`/document canon + the document core tables before the first CR.
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
