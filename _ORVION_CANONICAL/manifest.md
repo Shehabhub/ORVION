@@ -21,7 +21,7 @@ This file holds ONLY current state. Detailed per-SPEC history is NOT restated he
 
 # Current Development Status
 
-Update this section continuously; keep it to current state only.
+Update this section continuously; keep it to current state only. `Last Completed` names only the single most recent capability — replace it each time, never chain a "Prior:" history (git log + `changes/` + `reports/` hold history). If any field starts becoming a changelog, trim it.
 
 Current Phase: Phase 6 — Finance Core (application layer), on the Supabase-native backend (ADR-0014).
 
@@ -29,9 +29,9 @@ Current Module: Finance Core — invoicing: `app.create_invoice(...)` COMPLETE (
 
 Active Change Request: None
 
-Last Completed: SPEC-100 — `app.create_invoice`: creates a customer invoice in `draft` with a per-tenant, year-prefixed, DB-unique sequential number (`INV-YYYY-NNNN`; unique index `invoices_tenant_number_key`; race-safe via a per-(tenant,year) advisory lock; non-gapless by design per researched legal/industry practice), guarded by `CREATE_INVOICE`, emitting `invoice_created`. First finance-transaction write capability. Prior: SPEC-099 (CI reliability — pinned Supabase CLI); SPEC-098 (booking Refund/Reissue, completing the ADR-0020 lifecycle); SPEC-097 (Cancel/Void); SPEC-096 (Issue + risk flag).
+Last Completed: SPEC-100 — `app.create_invoice` (first finance-transaction write): creates a `draft` customer invoice with a per-tenant, year-prefixed, DB-unique sequential number `INV-YYYY-NNNN`, guarded by `CREATE_INVOICE`, emitting `invoice_created`.
 
-Next capability: continue Finance Core invoicing/receivables (`32` Phase 6). Natural next slice: **issue-invoice** (`draft → issued`), which turns a draft into a live receivable that `app.customer_balance` counts — this also connects invoicing to the booking issuance risk flag. Then payment recording (drives `partially_paid`/`paid` via `payment_allocations`), receipts, refund workflows, basic journal entries, and profit per booking item. No canonical invoice state machine exists in `26` yet; if the issue/paid/void lifecycle grows beyond the obvious, propose adding one (Design-Review call at that point).
+Next capability: **issue-invoice** (`draft → issued`) — turns a draft into a live receivable that `app.customer_balance` counts. Then the remaining Finance Core outputs (`32` Phase 6): payment recording (`payment_allocations` → `partially_paid`/`paid`), receipts, refund workflows, basic journal entries, profit per booking item. (No canonical invoice state machine in `26` yet; propose one only if the issue/paid/void lifecycle outgrows the obvious.)
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
