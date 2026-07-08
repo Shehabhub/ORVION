@@ -25,13 +25,13 @@ Update this section continuously; keep it to current state only. `Last Completed
 
 Current Phase: Phase 7 — Documents (application layer), on the Supabase-native backend (ADR-0014). Phase 6 Finance Core COMPLETE (frozen in `32`).
 
-Current Module: Phase 7 Documents — upload/linkage + versioning/archival COMPLETE (`app.upload_document`, `app.add_document_version`, `app.archive_document`). Remaining: expiry surfacing, financial-document visibility. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Phase 7 Documents — upload/linkage, versioning/archival, and expiry surfacing COMPLETE (`upload_document`, `add_document_version`, `archive_document`, `expiring_documents`). Remaining: financial-document visibility. (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-110 — `app.add_document_version` (new current version; document stays `active`, `current_version_id` advances) + `app.archive_document` (active → `archived` with reason); guarded by `CREATE_DOCUMENT_VERSION` / `ARCHIVE_DOCUMENT`. Engineering Observation recorded: canon `26` "new version → superseded" diverges from the frozen `current_version_id` design (document stays active; document-level supersede reserved for a future explicit op).
+Last Completed: SPEC-111 — `app.expiring_documents(p_within_days)`: derived read-only list of non-archived documents expiring on/before now + N days (incl. already-expired), with `days_until_expiry`; the query behind expiry alerts (`16`; scheduled notification is a Phase-10/ADR-0018 concern).
 
-Next capability: **document expiry surfacing** — a read-only `app.expiring_documents(p_within_days)` over official documents' `expires_at` (`16`: passport/national_id/visa/medical_certificate), the query behind expiry alerts. Then financial-document visibility (`VIEW_FINANCIAL_DOCUMENTS` distinguishing financial vs travel documents) completes Phase 7 (`32`). Reference: `08`/`16` + `documents`/`document_versions`/`document_links`.
+Next capability: **financial-document visibility** — a read-only `app.financial_documents(...)` (or a `VIEW_FINANCIAL_DOCUMENTS`-guarded read) distinguishing financial documents (invoice/receipt-linked) from travel documents (`16`/`28`: financial documents require stricter visibility). This is the last Phase-7 output → then `Freeze Phase 7` + Phase-7 completion review. Reference: `08`/`16` + `28` (`VIEW_FINANCIAL_DOCUMENTS`/`VIEW_TRAVEL_DOCUMENTS`).
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
