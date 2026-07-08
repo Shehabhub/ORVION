@@ -193,6 +193,8 @@ Notes:
 | APPROVE_BOOKING | Yes | Yes | Yes | Yes | No | No | No | No | branch/department |
 | ISSUE_BOOKING | Yes | Yes | Yes | No | Yes | No | No | No | branch/department |
 | CANCEL_BOOKING | Yes | Yes | Yes | No | Yes | No | No | No | branch/department |
+| REFUND_BOOKING | Yes | Yes | Yes | No | Yes | No | No | No | branch/department |
+| REISSUE_BOOKING | Yes | Yes | Yes | No | Yes | No | No | No | branch/department |
 | UPDATE_BOOKING_ITEM_STATUS | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | assigned/department |
 | ASSIGN_SUPPLIER | Yes | Yes | Yes | Yes | Optional | Yes | Optional | No | branch/department |
 | ENTER_SELLING_PRICE | Yes | Yes | Yes | Yes | Optional | Yes | Assigned only | No | assigned |
@@ -203,7 +205,7 @@ Notes:
 
 - Issuing before full collection requires explicit permission and creates risk flag event.
 - Department Manager does not receive negative balance issuance permission by default.
-- Booking lifecycle authority is capability-driven (ADR-0020): APPROVE_BOOKING governs the booking-level management approval `pending_approval -> confirmed` ("Required approval granted", 26) and is a management act, distinct from the item-level finance execution approval (APPROVE_FINANCE). ISSUE_BOOKING governs `in_progress -> issued` (issuance) and is finance-consequential (owner/ceo/branch_manager/finance_manager); issuing before full collection additionally requires ALLOW_ISSUE_WITH_NEGATIVE_BALANCE and emits the `booking_item_risk_flag_created` risk event capturing the customer balance snapshot. CANCEL_BOOKING governs the post-approval cancellations (`confirmed/in_progress -> cancelled`) and the void (`issued -> void`) and is finance-consequential (owner/ceo/branch_manager/finance_manager); pre-approval cancels (`draft/pending_approval -> cancelled`) stay under CREATE_BOOKING (discarding not-yet-approved work). Every `cancelled` transition requires a cancellation reason (27). The remaining capability permissions (Refund/Reissue) are minted by the CRs that first consume those transitions, per Earn-It / ADR-0015.
+- Booking lifecycle authority is capability-driven (ADR-0020): APPROVE_BOOKING governs the booking-level management approval `pending_approval -> confirmed` ("Required approval granted", 26) and is a management act, distinct from the item-level finance execution approval (APPROVE_FINANCE). ISSUE_BOOKING governs `in_progress -> issued` (issuance) and is finance-consequential (owner/ceo/branch_manager/finance_manager); issuing before full collection additionally requires ALLOW_ISSUE_WITH_NEGATIVE_BALANCE and emits the `booking_item_risk_flag_created` risk event capturing the customer balance snapshot. CANCEL_BOOKING governs the post-approval cancellations (`confirmed/in_progress -> cancelled`) and the void (`issued -> void`) and is finance-consequential (owner/ceo/branch_manager/finance_manager); pre-approval cancels (`draft/pending_approval -> cancelled`) stay under CREATE_BOOKING (discarding not-yet-approved work). Every `cancelled` transition requires a cancellation reason (27). REFUND_BOOKING governs `issued -> refunded` and REISSUE_BOOKING governs `issued -> reissue` (both finance-consequential: owner/ceo/branch_manager/finance_manager); completing a re-issuance (`reissue -> issued`) reuses ISSUE_BOOKING, since every transition into `issued` is issuance and runs the negative-balance risk-flag check. This completes the capability-driven booking lifecycle authority set (Submit/Approve/Issue/Cancel/Refund/Reissue) per ADR-0020.
 
 ---
 
