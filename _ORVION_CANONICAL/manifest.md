@@ -29,9 +29,9 @@ Current Module: Finance Core — receivables, payables, and refunds COMPLETE. Cu
 
 Active Change Request: None
 
-Last Completed: SPEC-106 — customer refund workflow: `app.record_refund` (opens a `requested` refund) + `app.advance_refund` (lifecycle → `completed`, which re-opens the receivable in `app.customer_balance`); both guarded by `RECORD_REFUND`.
+Last Completed: SPEC-107 — `app.booking_item_profit`: derived, read-only profit per booking item (`selling_amount − cost_amount`, per currency, with a `cost_locked` projected/realised flag); the margin primitive alongside `customer_balance`/`supplier_balance`.
 
-Next capability: **profit per booking item** — a derived read-only primitive `app.booking_item_profit(...)` (selling price − cost, per item/booking, per currency), the last analytical output before Phase 6 closes; then **basic journal entries** (the `journal_entries` double-entry record for finance events). After both, Phase 6 Finance Core is complete → Freeze Phase 6, Start Phase 7 (Documents). Deferred (SPEC-102): multi-invoice allocation, on-account credit/overpayment, cross-currency allocation via `exchange_rate_id`; supplier refunds (`supplier_refund` mirror).
+Next capability: **basic journal entries** — the last Phase-6 output: a double-entry `journal_entries`/`journal_lines` record for finance events (per `07`/`14` chart of accounts). After it, Phase 6 Finance Core is complete → `Freeze Phase 6`, `Start Phase 7` (Documents). Deferred (SPEC-102): multi-invoice allocation, on-account credit/overpayment, cross-currency allocation via `exchange_rate_id`; supplier refunds (`supplier_refund` mirror).
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
