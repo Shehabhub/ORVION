@@ -190,6 +190,7 @@ Notes:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | CREATE_BOOKING | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | branch/department |
 | CREATE_BOOKING_ITEM | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | branch/department |
+| APPROVE_BOOKING | Yes | Yes | Yes | Yes | No | No | No | No | branch/department |
 | UPDATE_BOOKING_ITEM_STATUS | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | assigned/department |
 | ASSIGN_SUPPLIER | Yes | Yes | Yes | Yes | Optional | Yes | Optional | No | branch/department |
 | ENTER_SELLING_PRICE | Yes | Yes | Yes | Yes | Optional | Yes | Assigned only | No | assigned |
@@ -200,6 +201,7 @@ Notes:
 
 - Issuing before full collection requires explicit permission and creates risk flag event.
 - Department Manager does not receive negative balance issuance permission by default.
+- Booking lifecycle authority is capability-driven (ADR-0020): APPROVE_BOOKING governs the booking-level management approval `pending_approval -> confirmed` ("Required approval granted", 26) and is a management act, distinct from the item-level finance execution approval (APPROVE_FINANCE). The remaining capability permissions (Issue/Cancel/Refund/Reissue) are minted by the CRs that first consume those transitions, per Earn-It / ADR-0015.
 
 ---
 
