@@ -25,13 +25,13 @@ Update this section continuously; keep it to current state only. `Last Completed
 
 Current Phase: Phase 6 — Finance Core (application layer), on the Supabase-native backend (ADR-0014).
 
-Current Module: Finance Core — invoicing: create + issue. `app.create_invoice` and `app.issue_invoice` (`draft → issued`, making an invoice a live receivable) COMPLETE. (Next work is stated once, below, in the single `Next capability` field.)
+Current Module: Finance Core — invoicing/receivables: create → issue → pay. `app.create_invoice`, `app.issue_invoice`, and `app.record_payment` (allocation + `partially_paid`/`paid` derivation) COMPLETE. (Next work is stated once, below, in the single `Next capability` field.)
 
 Active Change Request: None
 
-Last Completed: SPEC-101 — `app.issue_invoice`: moves a customer invoice `draft → issued` (the point it becomes a receivable counted by `app.customer_balance`), reusing `CREATE_INVOICE`, emitting `invoice_issued`.
+Last Completed: SPEC-102 — `app.record_payment`: records a customer payment against an issued invoice, allocates it (`payment_allocations`), derives status `partially_paid`/`paid`, and draws down the receivable in `app.customer_balance`; guarded by `RECORD_PAYMENT`; emits `payment_recorded` + the invoice status-transition event.
 
-Next capability: **payment recording** — record a customer payment against issued invoices via `payments` + `payment_allocations`, driving invoice status to `partially_paid`/`paid` and reducing the receivable in `app.customer_balance`. Then receipts, refund workflows, basic journal entries, profit per booking item (`32` Phase 6). (No canonical invoice state machine in `26` yet; propose one only if the invoice lifecycle outgrows the obvious.)
+Next capability: **receipts** — issue a receipt document per recorded payment (`receipts` table, per-tenant receipt number, mirrors the invoice-number scheme). Then supplier payables (the `supplier_payment` direction mirror of invoice→payment), refund workflows, basic journal entries, and profit per booking item (`32` Phase 6). Deferred future slices (recorded in SPEC-102): multi-invoice allocation, on-account credit/overpayment, cross-currency allocation via `exchange_rate_id`.
 
 Prior phases (summary; full history in git log + `changes/` + `reports/`): Phase 2 (Database Foundation, migrations 1–20) COMPLETE; Phase 3 (Identity & Access) COMPLETE; Phase 4 (CRM Core) COMPLETE at SPEC-072; Phase 5 (Booking Core) COMPLETE — SPEC-073…080 (booking / item / passenger creation + linkage, item + booking transitions, internal supplier linkage) plus SPEC-081–083 (finance-gate execution-approval control) done; negative-balance risk flag deferred to Finance Core per ADR-0020.
 
