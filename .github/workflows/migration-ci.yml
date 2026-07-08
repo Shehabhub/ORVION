@@ -19,10 +19,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Pin an explicit CLI version (not `latest`): `latest` resolves the newest release via an
+      # unauthenticated GitHub API call that is rate-limited on shared runner IPs, a non-deterministic
+      # build input that has failed CI transiently before migrations even run. A pinned version skips
+      # that call entirely -> deterministic, reproducible builds. setup-cli@v3 also moves off the
+      # deprecated Node 20 runtime. Bump this deliberately when adopting a newer CLI.
       - name: Set up Supabase CLI
-        uses: supabase/setup-cli@v1
+        uses: supabase/setup-cli@v3
         with:
-          version: latest
+          version: 2.109.1
 
       - name: Start local Supabase stack
         run: supabase start
@@ -32,4 +37,4 @@ jobs:
 
       - name: Stop local Supabase stack
         if: always()
-        run: supabase stop
+        run: supabase stop || true
