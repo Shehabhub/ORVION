@@ -1,38 +1,9 @@
-# ORVION Protocol
+# ORVION Protocol — RETIRED (2026-07-11, repository engineering session 10)
 
-## Purpose
+This file is retired to a pointer. A full diff (session 10) confirmed it held **no exclusive authority**: its principles (repository-first, git-as-history, one-task/reviewer/implementation, never redesign the workflow without approval) are all owned by `AGENTS.md`; its "Layers" list was stale (Skills/Hooks are now available) and is superseded by `GOVERNANCE.md §1`. Retained (not deleted) for discoverability and history.
 
-The ORVION Protocol defines how AI agents collaborate.
+- Agent conduct, execution posture, standing authorities → **`AGENTS.md`** (single authority)
+- Knowledge/decision governance, hierarchy, SSOT → **`GOVERNANCE.md`**
+- Change Request lifecycle & collaboration flow → **`CR_LIFECYCLE.md`**
 
-The protocol belongs to the repository, not to any specific AI provider.
-
-Any compliant agent may participate.
-
-## Principles
-
-* Repository first.
-* Git is the execution history.
-* AGENTS.md defines agent behavior and execution posture (including when to continue and when to stop); this document defers to it.
-* One task at a time.
-* One reviewer at a time.
-* One implementation at a time.
-* Never redesign the workflow without approval.
-
-## Authority
-
-AGENTS.md is the operational authority for agent execution.
-This document defines collaboration principles only.
-When these principles conflict with AGENTS.md execution rules, AGENTS.md takes precedence.
-
-## Layers
-
-The repository is organized into the following layers.
-Layers marked [Active] have corresponding files. Layers marked [Planned] are defined in principle but not yet implemented.
-
-1. Repository [Active]
-2. Project Context [Active]
-3. Tasks [Active — see changes/]
-4. Reviews [Active — see changes/]
-5. Skills [Planned — not yet implemented]
-6. Hooks [Planned — not yet implemented]
-7. Agents [Active — see AGENTS.md]
+Do not add content here.

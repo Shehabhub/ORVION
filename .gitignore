@@ -18,3 +18,6 @@ node_modules/
 # Supabase local CLI state (transient)
 supabase/.temp/
 supabase/.branches/
+
+# Ad-hoc backups — git is the backup (repository-eos-review §9 retirement)
+backup/

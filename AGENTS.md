@@ -69,7 +69,7 @@ A fresh session bootstraps itself from the repository — conversation history i
 5. **Task-specific canon only** — `_ORVION_CANONICAL/00`–`23` for business/domain rules, `24`–`33` for schema/database, `34`/`35` for the cross-cutting principle docs. Read only what the current task needs.
 6. **Rationale, on demand** — `reports/` for the "why" behind a decision; `reports/architecture-decision-records.md` for active ADRs; `reports/future-backlog.md` for deferred work and its triggers.
 
-Supporting references, pulled only when relevant: **`CR_LIFECYCLE.md`** (Change Request state machine and command vocabulary), **`PROJECT_CONTEXT.md`** (project identity, vision, boundaries, business context), **`CODING_STANDARDS.md`** (naming, SQL, API, security standards).
+Supporting references, pulled only when relevant: **`GOVERNANCE.md`** (knowledge/decision operating system — where every fact lives (SSOT map), the decision/report lifecycles, and where agents may/may not write), **`CR_LIFECYCLE.md`** (Change Request state machine and command vocabulary), **`PROJECT_CONTEXT.md`** (project identity, vision, boundaries, business context), **`CODING_STANDARDS.md`** (naming, SQL, API, security standards).
 
 ---
 

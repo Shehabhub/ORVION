@@ -1,0 +1,28 @@
+# ORVION — LLM / AI-agent boot map
+
+> ORVION is a travel CRM / operations / revenue platform (Egyptian travel agencies: flights, Umrah, Hajj, visa, hotels, tours). Backend is Supabase/PostgreSQL — SQL migrations + `app`-schema RPCs. This file is the curated map for AI agents; read the linked files in order, not the whole repo.
+
+## Boot order (every agent — do this first)
+1. [README.md](README.md) — what ORVION is + reading order.
+2. [AGENTS.md](AGENTS.md) — execution operating model: how work is done, when to continue vs stop, standing authorities. **Authoritative for conduct.**
+3. [GOVERNANCE.md](GOVERNANCE.md) — knowledge/decision operating system: where every fact lives (SSOT matrix §2), decision lifecycle (§3), where you may/may not write (§8). **Authoritative for knowledge.**
+4. [_ORVION_CANONICAL/manifest.md](_ORVION_CANONICAL/manifest.md) — live state: current phase, module, active Change Request.
+5. If an active Change Request exists → read that `changes/SPEC-*.md`. Else → [_ORVION_CANONICAL/32_execution_roadmap.md](_ORVION_CANONICAL/32_execution_roadmap.md).
+
+## Where truth lives (see GOVERNANCE.md §2 for the full SSOT matrix)
+- Execution conduct → `AGENTS.md` · Change Request state machine → `CR_LIFECYCLE.md` · Coding standards → `CODING_STANDARDS.md`
+- Business/schema canon → `_ORVION_CANONICAL/**` · Live state → `manifest.md` · Schema truth (as-built) → `supabase/migrations/**`
+- Ratified decisions → `reports/architecture-decision-records.md` · Accepted findings → `reports/master/MASTER_GAP_REGISTER.md`
+- What to do next → `reports/master/MASTER_EXECUTION_PLAN.md` · Where we stand → `reports/master/MASTER_CERTIFICATION_STATUS.md`
+- Reports index/classes → `reports/README.md` · Repo health → `reports/master/MASTER_REPOSITORY_HEALTH.md`
+- Reports layout: `reports/master/` (Living), `reports/evidence/` (validation), `reports/history/` (immutable). Cite reports by unique filename.
+
+## Rules for AI agents (GOVERNANCE.md §8)
+- One fact = one home; reference by ID, never restate.
+- New finding → PENDING first; only Validated findings enter `MASTER_GAP_REGISTER`; only owner-ratified decisions enter ADRs/canon.
+- Do NOT edit: historical dated reports, `repository-index.md` (auto-generated), or protected files (`AGENTS.md`, `README.md`, `_ORVION_CANONICAL/**`) without explicit owner authorization.
+- Owner approval required for: any new ADR, canon change, roadmap change, or irreversible action.
+
+## Build & verify
+- `npx supabase start` then `npx supabase db reset` (applies all migrations).
+- Smoke test: `scripts/verify_database.sql` → must print `ALL CHECKS PASSED`.
