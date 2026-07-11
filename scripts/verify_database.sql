@@ -1,3 +1,4 @@
+\set ON_ERROR_STOP on
 -- ORVION database verification smoke-test
 -- Plan reference: 33_sql_migration_plan.md migration 20 (database verification)
 -- Executable assertions over the completed database foundation (migrations 1-19). Run against a

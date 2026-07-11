@@ -29,7 +29,7 @@ Current Module: Phase 7 Documents COMPLETE and frozen. Awaiting `Start Phase 8`.
 
 Active Change Request: None
 
-Last Completed: SPEC-114 — added the canon-required leading `tenant_id` index to the 18 tenant tables built without one (migration `202607048300`), closing the index portion of ARB finding A2, plus a pgTAP invariant guarding full coverage. Prior: SPEC-113 stood up the pgTAP harness (DC-16); SPEC-112 closed Phase 7.
+Last Completed: SPEC-117 — wrapped `app.current_tenant_id()` in a scalar subquery across all 63 RLS policies (migration `202607048500`, ARB finding A1) so it evaluates once per query (InitPlan) not per row, plus a pgTAP invariant guarding the pattern. Semantics unchanged. Prior: SPEC-116 fixed smoke-test CI gating; SPEC-115 pinned function search_path; SPEC-114 added 18 tenant_id indexes (A2); SPEC-113 stood up the pgTAP harness (DC-16); SPEC-112 closed Phase 7.
 
 Next capability: `Start Phase 8` (Offline Conversion — Google Ads offline-conversion feedback: click capture `gclid`/`gbraid`/`wbraid` + consent, lead attribution, CRM outcome mapping, internal conversion event, delivery + retry). Phase-8 Design Review: read `21_offline_conversion_engine.md` + `18_integration_priority.md` + the marketing/offline-conversion tables (migration `202607043000`); verify attribution capture at lead intake (deferred check noted in the roadmap) as an early step. Research-warranted area (Google Ads offline conversions API + consent) per Learn-Before-Designing.
 

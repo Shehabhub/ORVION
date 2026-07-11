@@ -6,12 +6,14 @@ on:
       - "supabase/migrations/**"
       - "supabase/tests/**"
       - "supabase/config.toml"
+      - "scripts/verify_database.sql"
       - ".github/workflows/migration-ci.yml"
   pull_request:
     paths:
       - "supabase/migrations/**"
       - "supabase/tests/**"
       - "supabase/config.toml"
+      - "scripts/verify_database.sql"
 
 jobs:
   db-reset:
@@ -39,6 +41,9 @@ jobs:
 
       - name: Run pgTAP invariant tests
         run: supabase test db
+
+      - name: Run database smoke-test (verify_database.sql)
+        run: docker exec -i supabase_db_ORVION psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f - < scripts/verify_database.sql
 
       - name: Stop local Supabase stack
         if: always()

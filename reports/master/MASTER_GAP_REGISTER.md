@@ -154,7 +154,13 @@ Legend — **Req/Opt:** R = Architecturally Required · O = Architecturally Opti
 
 ### DC-16 — pgTAP harness
 - **Root cause:** verification is smoke-test + manual psql; no regression net — a precondition for safely executing R1–R8/DC-1/DC-13 built-table retrofits; also nothing asserts RLS coverage (V5 latent trap: RLS depends on tenant_id NOT NULL). **Affected:** test tree + CI step; invariant tests (RLS on every tenant table, money currency-correctness, append-only triggers present). **Migration:** additive. **Order:** Batch 0, first. **Req:** R.
-- **Status: ✅ IMPLEMENTED (SPEC-113, 2026-07-11).** `supabase/tests/**` + `supabase test db` in CI. RLS-coverage (negative-checked), append-only, and money-currency invariants live; money-currency runs as a `todo` that surfaces DC-1 (have:22 want:0) without breaking the build. Removing that `todo` wrapper is the acceptance test for the DC-1 fix.
+- **Status: ✅ IMPLEMENTED (SPEC-113, 2026-07-11).** `supabase/tests/**` + `supabase test db` in CI. RLS-coverage (negative-checked), append-only, and money-currency invariants live; money-currency runs as a `todo` that surfaces DC-1 (have:22 want:0) without breaking the build. Removing that `todo` wrapper is the acceptance test for the DC-1 fix. Extended by SPEC-114 (tenant_id index coverage) and SPEC-115 (function search_path).
+
+### SEC-1 — Function search_path hardening (discovered 2026-07-11, continuous review)
+- **Finding:** `app.forbid_mutation()` was the one of 55 app functions not pinning `search_path` (CODING_STANDARDS violation; mutable-search_path hardening gap in the append-only guard). **Status: ✅ IMPLEMENTED (SPEC-115).** Body unchanged, `set search_path=''` added; pgTAP `05_function_search_path_test` now guards all app functions permanently.
+
+### OPS-2 — Smoke-test non-gating (discovered 2026-07-11, continuous review)
+- **Finding:** `scripts/verify_database.sql` raises on the first broken invariant but did not set `ON_ERROR_STOP`, so psql exited 0 on failure — the smoke-test was silently non-gating for every caller (local + never run in CI). **Status: ✅ IMPLEMENTED (SPEC-116).** File now self-arms `\set ON_ERROR_STOP on` (verified: pass→0, fail→3) and CI runs it after every `db reset`.
 
 ### DC-17 — Realtime publication scope
 - **Root cause:** reviews were data-at-rest; Realtime is a delivery surface for shared inbox/live dashboards. **Affected:** explicit per-table realtime publication list + RLS-authorized channels. **Migration:** additive config. **Order:** Batch 5 (Engagement). **Req:** R.

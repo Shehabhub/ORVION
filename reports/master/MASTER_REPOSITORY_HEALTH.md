@@ -11,7 +11,7 @@ Last measured: 2026-07-11 (session: `repository-engineering-2026-07-11-b.md`, fi
 | Governance Coverage | 97 | GOVERNANCE.md + reports/README + lifecycles + SSOT matrix + one-authority rule (§6.8); duplicate conduct docs retired |
 | Knowledge Coverage (design) | 82 | per `MASTER_COVERAGE_SCORE.md` (weighted design completeness) |
 | Documentation Coverage | 90 | every layer documented + indexed; −10: some canon still `Draft` status |
-| Automation Coverage | 58 | repository-index auto-gen + **pgTAP invariant suite in CI (SPEC-113)** live; governance-lint / link-check still pending |
+| Automation Coverage | 68 | repository-index auto-gen + **6-file pgTAP suite in CI (SPEC-113/114/115/117)** + **self-gating smoke-test in CI (SPEC-116)** live; governance-lint / link-check still pending |
 | Review Coverage | 98 | 6 review sessions + validation pipeline; every finding traced |
 | Repository Maturity | 84 | pre-implementation, governance-complete, automation-pending |
 
@@ -54,7 +54,7 @@ Last measured: 2026-07-11 (session: `repository-engineering-2026-07-11-b.md`, fi
 | AGENTS.md size | 109 lines | ✅ within the 150-line agent-efficiency budget (evidence: 2026 AGENTS.md research) |
 | llms.txt (agent curated map) | present ✅ | added session 8 — root boot map for AI agents |
 | Avg Living-doc age | <2 days | very fresh (governance built this month) |
-| Governance version | 1.3 | changelog in GOVERNANCE.md (§6.8 one-authority, §18 maintenance mode) |
+| Governance version | 1.4 | changelog in GOVERNANCE.md (§6.8 one-authority, §18 maintenance mode + discovery-to-guard loop) |
 | Reports needing an index | 0 | `reports/README.md` covers all |
 
 ## 5. Top health actions (derived — not new findings)

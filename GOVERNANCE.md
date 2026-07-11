@@ -4,9 +4,10 @@ Status: **Authoritative governance operating system for the knowledge/decision/r
 
 **Precedence & scope boundary (no overlap):** `AGENTS.md` is authoritative for **execution conduct** (how work is done, when to continue/stop, standing authorities). This document is authoritative for **knowledge governance** (where information lives and how decisions/documents flow). Where the two touch, AGENTS.md governs conduct and GOVERNANCE.md governs knowledge placement. Neither restates the other. `CR_LIFECYCLE.md` remains authoritative for the Change Request state machine.
 
-Version 1.3 · 2026-07-11 · Governs every future human, Claude, Codex, and AI/MCP session.
+Version 1.4 · 2026-07-11 · Governs every future human, Claude, Codex, and AI/MCP session.
 
 **Governance changelog** (governance governs itself — §15):
+- v1.4 (2026-07-11) — extended §18 with the discovery-to-guard loop (implementation is the review; every fix lands a permanent guard) and an evolution-on-evidence pointer to §15/§11/AGENTS§3.2. Rejected 4 proposed duplicate rules (already owned). Owner-ratified.
 - v1.3 (2026-07-11) — added §18 Repository maintenance mode & lifecycle (Maintenance Mode + Implement→Sync→Earn-It→Continue lifecycle + structural Earn-It gate; references AGENTS §3, restates nothing). Owner-ratified. No SSOT reassignment.
 - v1.2 (2026-07-11) — added §6.8 one-authority consolidation rule (every governance rule lives here; conduct stays in AGENTS per §5). Owner-ratified. No SSOT reassignment.
 - v1.1 (2026-07-11) — added §15 governance-change lifecycle, §16 SaaS portability layer, §17 repository-health pointer. No SSOT reassignment.
@@ -294,6 +295,16 @@ The repository structure is **stable** (evidence: three consecutive engineering 
 **Synchronization pass (lightweight — after each implementation batch; not a review).** Verify only: no stale references · no duplicate authority · no broken navigation · no inconsistent paths (§2 subfolders) · no doc referencing completed work as pending (or vice-versa) · no stale counts. Fix what is inside Repository Engineering authority immediately; classify the rest.
 
 **Earn-It structural gate.** *Every* structural repository change must first pass the Earn-It rule (`AGENTS.md §3` — not restated here). A structural change is implemented only if it demonstrably: improves navigation · improves synchronization · reduces duplication · reduces maintenance · improves AI onboarding · improves human onboarding · reduces token consumption · preserves one authority per concept (§2). If any criterion cannot be shown, the change is **not** made.
+
+**Discovery-to-guard loop (implementation is the review).** Implementation is the primary discovery mechanism; no separate review cycle is required to find gaps. When implementing a capability, run this loop:
+
+```
+Implement → Discover a gap (missing protection/test/reference/constraint/data/rule) → Prove it with repository evidence → Earn-It → Fix (if inside authority) → add the PERMANENT guard that prevents recurrence → Continue
+```
+
+The **permanent guard** is what distinguishes this from ad-hoc fixing: every fix that closes a class of defect also lands the invariant that keeps it closed — a pgTAP fitness function, a self-gating script, a CHECK/constraint, or seed. Precedent: SPEC-113/114 (pgTAP invariants), SPEC-115 (search_path invariant), SPEC-116 (self-gating smoke-test). Do not wait for the owner to request these; implementation exposes them. A gap whose fix crosses a protected boundary (Canon/ADR/Frozen-Baseline/schema/business/product) is classified and escalated, not implemented.
+
+**Evolution on evidence (governance & environment are never frozen).** Governance, tooling, and engineering knowledge evolve when new evidence appears (implementation experience, repository evolution, better practice, new industry standards, new AI capability, new tooling). This is not a new rule — it is the standing behaviour, owned where it already lives: governance changes follow the **§15** lifecycle; tooling adoption follows **§11**; researching current best practice before a major decision follows **`AGENTS.md §3` step 2 (Learn-Before-Designing)**. The only addition here: re-evaluation is **periodic and evidence-triggered**, never assumed-complete — but a change is adopted only if it survives Earn-It, never because it is newer.
 
 ## 14. Final governance certification
 
