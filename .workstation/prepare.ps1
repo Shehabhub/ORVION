@@ -35,13 +35,12 @@ Write-Host ""
 Write-Host "== VS Code extensions (manifest.md section 2) =="
 if (Get-Command code -ErrorAction SilentlyContinue) {
     $installed = @(code --list-extensions 2>$null)
-    # Agent + owner AI + the ORVION-relevant editor tools (Supabase, SQL, PowerShell, Docker).
-    # github.copilot is NOT CLI-installed here: it depends on github.copilot-chat, which VS Code now
-    # ships built-in — the CLI tries to downgrade it and fails. Install Copilot from the VS Code
-    # Extensions UI instead (it resolves the built-in dependency). It stays in .vscode/extensions.json
-    # recommendations. (github.copilot-chat itself is built-in — never install explicitly.)
+    # MINIMUM ORVION-essential set only (a clean, intentional recovery environment — NOT a copy of
+    # the owner's editor). Personal/owner AI tools (openai.chatgpt/Codex, github.copilot) are NOT
+    # auto-installed — they live in .vscode/extensions.json recommendations for one-click add.
+    # (github.copilot also can't CLI-install: its github.copilot-chat dep is now built-in.)
     foreach ($ext in @(
-            "anthropic.claude-code", "openai.chatgpt",
+            "anthropic.claude-code",
             "supabase.vscode-supabase-extension", "mtxr.sqltools",
             "ms-vscode.powershell", "ms-azuretools.vscode-docker")) {
         if ($installed -contains $ext) { Write-Host "[ OK ] $ext present"; Note "ext:$ext" "present"; continue }
@@ -52,7 +51,7 @@ if (Get-Command code -ErrorAction SilentlyContinue) {
     }
 }
 else { Write-Host "[SKIP] 'code' CLI not on PATH — open VS Code once, enable the 'code' command, re-run"; Note "vscode-extensions" "skipped (no code CLI)" }
-Write-Host "[NOTE] GitHub Copilot (owner tool): install from the VS Code Extensions UI — the CLI conflicts with the built-in Copilot Chat."
+Write-Host "[NOTE] Owner AI tools (GitHub Copilot, ChatGPT/Codex) are recommended, not auto-installed — add them from the VS Code Extensions UI (Copilot's CLI install conflicts with the built-in Copilot Chat)."
 
 Write-Host ""
 Write-Host "== Claude tooling + project dependencies (restore what git-clone can't) =="

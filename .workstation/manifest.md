@@ -24,17 +24,20 @@ Last curated: 2026-07-11 · Platform: Windows 11 + PowerShell · Primary agent: 
 
 ## 2. VS Code extensions
 
-Provisioned by `prepare.ps1` (the reproducible ORVION editor set):
+**Auto-installed by `prepare.ps1`** — the minimum ORVION-essential set (a clean, intentional recovery
+environment, NOT a copy of anyone's editor):
 
-| Extension | id | Earn-It verdict |
+| Extension | id | Why it earns auto-install |
 |---|---|---|
-| Claude Code | `anthropic.claude-code` | **Keep** — primary engineering interface |
-| GitHub Copilot | `github.copilot` (+ built-in `-chat`) | **Keep** — owner tool |
-| OpenAI Codex / ChatGPT | `openai.chatgpt` | **Keep** — owner tool |
-| Supabase | `supabase.vscode-supabase-extension` | **Keep** — ORVION *is* Supabase |
-| SQLTools | `mtxr.sqltools` | **Keep** — ORVION is SQL-heavy |
-| PowerShell | `ms-vscode.powershell` | **Keep** — workstation scripts are `.ps1` |
-| Docker | `ms-azuretools.vscode-docker` | **Keep** — local Supabase runs on Docker |
+| Claude Code | `anthropic.claude-code` | primary engineering interface — non-negotiable |
+| Supabase | `supabase.vscode-supabase-extension` | ORVION *is* Supabase |
+| SQLTools | `mtxr.sqltools` | ORVION is SQL/Postgres-heavy |
+| PowerShell | `ms-vscode.powershell` | workstation scripts + shell are `.ps1` |
+| Docker | `ms-azuretools.vscode-docker` | local Supabase stack runs on Docker |
+
+**Recommended, NOT auto-installed** (owner/personal tools — offered via `.vscode/extensions.json` for
+one-click add, but a fresh recovery does not force them): `github.copilot`, `openai.chatgpt` (Codex).
+Not required for ORVION development or recovery.
 
 Recommended **removals** (installed but fail Earn-It for ORVION — a local Supabase/Postgres project; user-global, so removal is owner-confirmed, not auto):
 
