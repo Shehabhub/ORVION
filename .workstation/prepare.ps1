@@ -1,7 +1,7 @@
 # ORVION Workstation Provisioner — "Prepare this workstation"
 # Idempotent + fault-tolerant: installs only what is missing, CONTINUES past any failure,
 # and prints a final Installed/Present/Failed summary. Re-running is also the retry path —
-# only still-missing items are attempted. Real logic lives here; setup.cmd is a thin launcher.
+# only still-missing items are attempted. Real logic lives here; workstation.cmd (menu) is the launcher.
 $ErrorActionPreference = "Continue"
 $Root = Split-Path $PSScriptRoot -Parent
 Set-Location $Root
@@ -65,7 +65,7 @@ $Results | ForEach-Object { Write-Host ("  {0,-24} {1}" -f $_.Item, $_.State) }
 $failed = @($Results | Where-Object { $_.State -like "FAILED*" })
 if ($failed.Count -gt 0) {
     Write-Host ""
-    Write-Host "$($failed.Count) item(s) FAILED. Re-run setup.cmd to retry only those (idempotent). If a base tool keeps failing, install it manually and re-run."
+    Write-Host "$($failed.Count) item(s) FAILED. Re-run Prepare (workstation.cmd -> 1) to retry only those (idempotent). If a base tool keeps failing, install it manually and re-run."
 }
 else {
     Write-Host ""

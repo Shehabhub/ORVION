@@ -76,17 +76,19 @@ Kept as owner conveniences (harmless, not part of the reproducible set): gitlens
 
 ## 6. Scripts (`.workstation/*.ps1`) — what each is and who runs it
 
-The `.ps1` files hold all logic; `setup.cmd`/`doctor.cmd` at the repo root are thin double-click
-launchers over `prepare.ps1`/`doctor.ps1`. `prepare.ps1` is intentionally a single linear script
-(≈60 lines) — not split into modules, because that would add orchestration overhead without earning it.
+The `.ps1` files hold all logic. The single root launcher `workstation.cmd` → `.workstation/menu.ps1`
+presents an interactive menu (Prepare / Verify / Update / Cleanup / Docs) and only invokes these
+scripts — no logic of its own. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
+not split into modules, because that would add orchestration overhead without earning it.
 
 | Script | Purpose | When to run | Human? | AI agent? | Auto-called by | Idempotent / safe to repeat |
 |---|---|---|---|---|---|---|
-| `prepare.ps1` | Provision the environment: install missing base tools (winget) + VS Code extensions; point at MCP config; then verify. Fault-tolerant — continues past failures and prints an Installed/Present/Failed summary. | Once on a fresh machine (via `setup.cmd`); re-run to **retry** failed items. | Yes (double-click `setup.cmd`) | Yes (call `prepare.ps1` directly — no pause) | — | ✅ installs only what is missing |
-| `doctor.ps1` | Verify the environment (read-only): tools on PATH, key repo files, Docker engine. | Anytime to check health; after `prepare`. | Yes (double-click `doctor.cmd`) | Yes | `prepare.ps1`, `update.ps1` (run it at the end) | ✅ read-only, changes nothing |
+| `prepare.ps1` | Provision the environment: install missing base tools (winget) + VS Code extensions; point at MCP config; then verify. Fault-tolerant — continues past failures and prints an Installed/Present/Failed summary. | Once on a fresh machine (menu → **1 Prepare**); re-run to **retry** failed items. | Yes (`workstation.cmd` → 1) | Yes (call `prepare.ps1` directly) | — | ✅ installs only what is missing |
+| `doctor.ps1` | Verify the environment (read-only): tools on PATH, key repo files, Docker engine. | Anytime to check health; after `prepare`. | Yes (`workstation.cmd` → 2) | Yes | `prepare.ps1`, `update.ps1` (run it at the end) | ✅ read-only, changes nothing |
+| `menu.ps1` | Interactive menu — the single human entry; invokes the scripts above. Refuses non-interactive input. | Whenever a human wants to run any workstation action. | Yes (via `workstation.cmd`) | No (call the `.ps1` scripts directly) | `workstation.cmd` | ✅ no logic of its own |
 | `update.ps1` | Periodic maintenance: `winget upgrade` the workstation tools + `npm update -g` Claude Code, continue past failures, print a summary, then verify. (This is the "maintenance" command — update + verify in one; no separate `maintenance.ps1`.) | Occasionally (e.g. monthly). | Yes (run directly) | Optional | — (calls `doctor.ps1` at the end) | ✅ upgrades are no-ops if current |
 | `cleanup.ps1` | Remove only transient/obsolete artifacts: retired-experiment env vars, gitignored generated logs, stray backups. Never touches committed files, migrations, or canon. | Rarely, if the tree accumulates transient logs. | Yes (run directly) | Optional | — | ✅ safe; skips what is absent |
 
-**No launchers for `update`/`cleanup`** (Earn-It): they are occasional/rare admin operations — a
-root `.cmd` for each would be clutter for something a fresh user never double-clicks. Run their `.ps1`
-directly when needed.
+`menu.ps1` (interactive, human-only — refuses non-interactive input) is reached via `workstation.cmd`;
+it is the one entry point that exposes all four operations, so there are no per-action root launchers
+(Earn-It: one launcher, not four). AI agents call the `.ps1` scripts directly.

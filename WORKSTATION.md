@@ -9,7 +9,7 @@ See `GOVERNANCE.md §2` (Workstation rebuild row).
 
 ---
 
-## Rebuild: clone, then one action
+## Rebuild: clone, then one launcher
 
 Prerequisites on a bare Windows 11 machine: it already ships PowerShell; install **Git** (to clone)
 and **Docker Desktop** (start it once). Then clone and enter the repo:
@@ -19,19 +19,24 @@ git clone <ORVION repo url>
 cd ORVION
 ```
 
-Now **double-click `setup.cmd`** in the repo root. That is the whole rebuild — it **provisions and
-then verifies**: it installs only what is missing (base tools via `winget`, VS Code extensions — from
-the single source of truth `.workstation/manifest.md`) and finishes by running the verifier. A clean
-result means the environment is ready — return to `README.md` and develop ORVION.
+Now **double-click `workstation.cmd`** in the repo root and choose **1 (Prepare)**. That is the whole
+rebuild — Prepare **provisions and then verifies**: it installs only what is missing (base tools via
+`winget`, VS Code extensions — from the single source of truth `.workstation/manifest.md`) and
+finishes by running the verifier. A clean result means the environment is ready — return to
+`README.md` and develop ORVION. The same menu also offers Verify, Update, and Cleanup.
 
-- **No double-click? / prefer a terminal:** run `./.workstation/prepare.ps1`.
-- **AI agent controlling Windows:** call `./.workstation/prepare.ps1` directly (the `.cmd` is a
-  human convenience that pauses at the end).
-- **Re-check health anytime:** double-click `doctor.cmd` (or run `./.workstation/doctor.ps1`) — no
-  changes, just checks.
+- **Prefer a terminal / no double-click:** run `./.workstation/prepare.ps1` (provision) or
+  `./.workstation/doctor.ps1` (verify) directly.
+- **AI agent controlling Windows:** call the `.workstation/*.ps1` scripts directly — **do not** use
+  the menu (it waits for input).
 
-`setup.cmd` / `doctor.cmd` are **thin launchers only** — the real logic lives in `.workstation/*.ps1`
-(no duplicated logic, no second authority).
+`workstation.cmd` is a **thin launcher** over `.workstation/menu.ps1`, which contains no logic and only
+invokes the existing `.workstation/*.ps1` scripts — the real implementation. No duplicated logic, no
+second authority.
+
+**Why no `irm <url> | iex` remote bootstrap:** rejected by design — it would execute unreviewed remote
+code and move setup logic *outside* the repository. ORVION keeps the implementation *in* the repo:
+clone first, then run the local launcher. The only pre-clone steps are installing Git + Docker.
 
 ---
 
@@ -39,7 +44,7 @@ result means the environment is ready — return to `README.md` and develop ORVI
 
 | Concern | Source of truth |
 |---|---|
-| Double-click launchers (human convenience, thin wrappers) | `setup.cmd`, `doctor.cmd` (repo root) |
+| Single launcher (interactive menu, human) | `workstation.cmd` (root) → `.workstation/menu.ps1` |
 | What to install (tools, extensions, MCPs, plugins) + why | `.workstation/manifest.md` |
 | Provision the environment (real logic) | `.workstation/prepare.ps1` |
 | Verify the environment (real logic) | `.workstation/doctor.ps1` |
