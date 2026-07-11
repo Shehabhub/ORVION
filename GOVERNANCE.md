@@ -173,7 +173,7 @@ The full classification and index live in **`reports/README.md`** (self-explanat
 
 ## 8. Future AI-agent governance guide (read this, then act)
 
-Any Claude/Codex/Gemini/Cursor/Aider/MCP session:
+Any Claude/Codex/Gemini/Cursor/MCP session:
 - **Where truth lives:** §2 SSOT matrix. Always edit the SSOT, never a copy.
 - **How to record a discovery:** run the §3 lifecycle. New finding → PENDING first; only Validated findings enter `MASTER_GAP_REGISTER.md`; only owner-ratified decisions enter ADRs/canon.
 - **Where you may write:** LIVING docs (Masters, evidence reports, backlog) + a NEW dated report per review. **Where you must NOT write:** any HISTORICAL-IMMUTABLE report; `repository-index.md`; protected resources (`AGENTS.md`, `README.md`, `_ORVION_CANONICAL/**`) without explicit owner authorization (AGENTS §6).

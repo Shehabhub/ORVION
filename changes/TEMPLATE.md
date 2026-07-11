@@ -13,18 +13,6 @@ Allowed values are exactly these five. Do not use any other status word (for exa
 
 ---
 
-## Assigned Model Tier
-
-Mark one:
-
-[ ] Tier 1 — Strong reasoning model
-    Permitted modes: ANALYZE, PLAN, REVIEW, REFACTOR
-
-[ ] Tier 2 — Local execution agent (Qwen3.8B)
-    Permitted modes: IMPLEMENT only
-
----
-
 ## Objective
 
 [One sentence. State exactly what this task produces. No ambiguity. No compound objectives.
@@ -147,7 +135,7 @@ or apply a guessed resolution.>
 
 ## Verification Notes
 
-[Appended by the reviewing agent (Tier 1) after independently re-checking the Execution Log
+[Appended by the reviewing agent after independently re-checking the Execution Log
 against the live repository state. Append-only — never edit or delete a prior entry.]
 
 ### <YYYY-MM-DD HH:MM> — <agent identifier>
