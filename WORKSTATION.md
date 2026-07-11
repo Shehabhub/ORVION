@@ -7,6 +7,12 @@ It is separate from `README.md` (which is the entry point for *working on ORVION
 scripts and manifest as the source of truth for the actual steps — it does not restate tool lists.
 See `GOVERNANCE.md §2` (Workstation rebuild row).
 
+**Design assumption (permanent):** the local machine is **disposable**; **GitHub is the permanent
+source of truth**. Every workstation decision optimizes for rebuilding a completely new machine from
+GitHub with the fewest user actions. When "convenient on this machine" conflicts with "reproducible
+from GitHub," choose GitHub. (`doctor.ps1` enforces the spirit of this by warning when local commits
+are not yet pushed.)
+
 ---
 
 ## Rebuild on a brand-new machine — ONE command

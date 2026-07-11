@@ -17,11 +17,11 @@ function Open($path) { Start-Process (Join-Path $Root $path) }
 while ($true) {
     Write-Host ""
     Write-Host "========================================="
-    Write-Host "          ORVION Workstation"
+    Write-Host "       ORVION Control Center"
     Write-Host "========================================="
     Write-Host " Environment"
     Write-Host "   1  Prepare   (install missing tools + verify)"
-    Write-Host "   2  Verify    (doctor — read-only)"
+    Write-Host "   2  Verify    (doctor — health, versions, GitHub sync)"
     Write-Host "   3  Update    (upgrade tools + verify)"
     Write-Host "   4  Cleanup   (remove transient artifacts — safe)"
     Write-Host " Develop"
