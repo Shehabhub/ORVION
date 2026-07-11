@@ -154,6 +154,7 @@ Legend — **Req/Opt:** R = Architecturally Required · O = Architecturally Opti
 
 ### DC-16 — pgTAP harness
 - **Root cause:** verification is smoke-test + manual psql; no regression net — a precondition for safely executing R1–R8/DC-1/DC-13 built-table retrofits; also nothing asserts RLS coverage (V5 latent trap: RLS depends on tenant_id NOT NULL). **Affected:** test tree + CI step; invariant tests (RLS on every tenant table, money currency-correctness, append-only triggers present). **Migration:** additive. **Order:** Batch 0, first. **Req:** R.
+- **Status: ✅ IMPLEMENTED (SPEC-113, 2026-07-11).** `supabase/tests/**` + `supabase test db` in CI. RLS-coverage (negative-checked), append-only, and money-currency invariants live; money-currency runs as a `todo` that surfaces DC-1 (have:22 want:0) without breaking the build. Removing that `todo` wrapper is the acceptance test for the DC-1 fix.
 
 ### DC-17 — Realtime publication scope
 - **Root cause:** reviews were data-at-rest; Realtime is a delivery surface for shared inbox/live dashboards. **Affected:** explicit per-table realtime publication list + RLS-authorized channels. **Migration:** additive config. **Order:** Batch 5 (Engagement). **Req:** R.

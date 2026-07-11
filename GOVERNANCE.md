@@ -4,9 +4,11 @@ Status: **Authoritative governance operating system for the knowledge/decision/r
 
 **Precedence & scope boundary (no overlap):** `AGENTS.md` is authoritative for **execution conduct** (how work is done, when to continue/stop, standing authorities). This document is authoritative for **knowledge governance** (where information lives and how decisions/documents flow). Where the two touch, AGENTS.md governs conduct and GOVERNANCE.md governs knowledge placement. Neither restates the other. `CR_LIFECYCLE.md` remains authoritative for the Change Request state machine.
 
-Version 1.1 · 2026-07-11 · Governs every future human, Claude, Codex, and AI/MCP session.
+Version 1.3 · 2026-07-11 · Governs every future human, Claude, Codex, and AI/MCP session.
 
 **Governance changelog** (governance governs itself — §15):
+- v1.3 (2026-07-11) — added §18 Repository maintenance mode & lifecycle (Maintenance Mode + Implement→Sync→Earn-It→Continue lifecycle + structural Earn-It gate; references AGENTS §3, restates nothing). Owner-ratified. No SSOT reassignment.
+- v1.2 (2026-07-11) — added §6.8 one-authority consolidation rule (every governance rule lives here; conduct stays in AGENTS per §5). Owner-ratified. No SSOT reassignment.
 - v1.1 (2026-07-11) — added §15 governance-change lifecycle, §16 SaaS portability layer, §17 repository-health pointer. No SSOT reassignment.
 - v1.0 (2026-07-11) — initial governance operating system (hierarchy, SSOT matrix, decision/knowledge/document lifecycles, registry, drift rules, AI/human onboarding, migration).
 
@@ -29,11 +31,11 @@ STATE             Live phase / module / active CR                   → _ORVION_
    ↓
 EXECUTION         The change being made                             → changes/SPEC-*.md  (built truth → supabase/migrations/**)
    ↓
-FINDINGS          Accepted architectural gaps & plans               → reports/MASTER_*.md
+FINDINGS          Accepted architectural gaps & plans               → reports/master/MASTER_*.md
    ↓
-EVIDENCE          Proof, validation, citations                      → reports/{PROOF_LOG,VALIDATED,PENDING,REJECTED,INDUSTRY_REFERENCES}
+EVIDENCE          Proof, validation, citations                      → reports/evidence/{PROOF_LOG,VALIDATED,PENDING,REJECTED,INDUSTRY_REFERENCES}
    ↓
-HISTORY           Dated review/session reports (immutable)          → reports/*-YYYY-MM* , phase-* , process reports
+HISTORY           Dated review/session reports (immutable)          → reports/history/*-YYYY-MM* , phase-* , process reports
 ```
 Read top-down to answer "what am I allowed to do?"; read a specific layer to answer "where does this fact live?".
 
@@ -56,17 +58,17 @@ Read top-down to answer "what am I allowed to do?"; read a specific layer to ans
 | Live state (phase/module/active CR) | `_ORVION_CANONICAL/manifest.md` | never duplicated |
 | Roadmap **phases** | `_ORVION_CANONICAL/32` | MASTER_EXECUTION_PLAN references phases, does not restate them |
 | **Ratified** architectural decisions | `reports/architecture-decision-records.md` | MASTER_ARCHITECTURE_DECISIONS (tracking overlay only) |
-| **Proposed/pending** decisions | `reports/MASTER_ARCHITECTURE_DECISIONS.md §B` + VALIDATED/PENDING | — |
-| Accepted architectural findings/gaps | `reports/MASTER_GAP_REGISTER.md` | ALL other Masters reference finding **IDs**, never restate the finding |
-| Finding evidence trail (9 stages) | `reports/ARCHITECTURE_PROOF_LOG.md` | — |
-| Finding lifecycle stage detail | `reports/{VALIDATED,PENDING,REJECTED}_ARCHITECTURE_DECISIONS.md` | register row shows the current status |
-| External citations | `reports/INDUSTRY_REFERENCES.md` | every evidence-based finding cites a ref-id |
-| Risk | `reports/MASTER_RISK_REGISTER.md` | references finding IDs |
-| Certification state | `reports/MASTER_CERTIFICATION_STATUS.md` | — |
-| Execution batches/sequencing | `reports/MASTER_EXECUTION_PLAN.md` | references register IDs + roadmap phases |
-| Finding dependencies | `reports/MASTER_DEPENDENCY_GRAPH.md` | — |
-| Design completion scores | `reports/MASTER_COVERAGE_SCORE.md` | references register IDs |
-| Domain blueprint (catalog/ER/flow) | `reports/MASTER_{DOMAIN_CATALOG,ENTITY_RELATIONSHIP_MAP,DATA_FLOW}.md` | reference canon + physical-design |
+| **Proposed/pending** decisions | `reports/master/MASTER_ARCHITECTURE_DECISIONS.md §B` + evidence/VALIDATED/PENDING | — |
+| Accepted architectural findings/gaps | `reports/master/MASTER_GAP_REGISTER.md` | ALL other Masters reference finding **IDs**, never restate the finding |
+| Finding evidence trail (9 stages) | `reports/evidence/ARCHITECTURE_PROOF_LOG.md` | — |
+| Finding lifecycle stage detail | `reports/evidence/{VALIDATED,PENDING,REJECTED}_ARCHITECTURE_DECISIONS.md` | register row shows the current status |
+| External citations | `reports/evidence/INDUSTRY_REFERENCES.md` | every evidence-based finding cites a ref-id |
+| Risk | `reports/master/MASTER_RISK_REGISTER.md` | references finding IDs |
+| Certification state | `reports/master/MASTER_CERTIFICATION_STATUS.md` | — |
+| Execution batches/sequencing | `reports/master/MASTER_EXECUTION_PLAN.md` | references register IDs + roadmap phases |
+| Finding dependencies | `reports/master/MASTER_DEPENDENCY_GRAPH.md` | — |
+| Design completion scores | `reports/master/MASTER_COVERAGE_SCORE.md` | references register IDs |
+| Domain blueprint (catalog/ER/flow) | `reports/master/MASTER_{DOMAIN_CATALOG,ENTITY_RELATIONSHIP_MAP,DATA_FLOW}.md` | reference canon + physical-design |
 | Deferred backlog + triggers | `reports/future-backlog.md` | — |
 | Repository file index | `repository-index.md` (auto-generated) | **do not hand-edit** |
 | AI memory | `.claude/**/memory/**` | **cache only** — never the sole home of an operational fact (AGENTS §6) |
@@ -135,10 +137,10 @@ When a review changes a conclusion, it **updates the LIVING doc** and **writes a
 | `_ORVION_CANONICAL/**` | business + schema canon | Living (protected) | domain/schema intent, principles | owner-authorized CRs |
 | `manifest.md` | live state | Living | current phase/CR | every CR |
 | `reports/architecture-decision-records.md` | ratified ADRs | Living | ratified decisions | on owner ratification |
-| `reports/MASTER_*.md` (12) | findings/plan/blueprint | Living | see §2 rows | every review |
-| `reports/{VALIDATED,PENDING,REJECTED}_*.md`, `INDUSTRY_REFERENCES.md`, `ARCHITECTURE_PROOF_LOG.md` | decision evidence | Living | finding lifecycle + evidence | every validation |
+| `reports/master/MASTER_*.md` (13 incl. MASTER_REPOSITORY_HEALTH) | findings/plan/blueprint/health | Living | see §2 rows | every review |
+| `reports/evidence/{VALIDATED,PENDING,REJECTED}_*.md`, `INDUSTRY_REFERENCES.md`, `ARCHITECTURE_PROOF_LOG.md` | decision evidence | Living | finding lifecycle + evidence | every validation |
 | `reports/future-backlog.md` | deferred + triggers | Living | deferred work | reviews |
-| `reports/*-2026-07*`, `phase-*`, process reports | historical analysis | **Immutable** | the record of that session | never |
+| `reports/history/*-2026-07*`, `phase-*`, process reports | historical analysis | **Immutable** | the record of that session | never |
 | `repository-index.md` | file index | Auto-gen | file listing | `scripts/repository-all.ps1` |
 
 **Redundancy resolved (was drift risk):** `MASTER_ARCHITECTURE_DECISIONS.md` overlapped the ADR log → it is now explicitly a **tracking overlay** (proposed + amendment status only), not a second decision record. `MASTER_EXECUTION_PLAN.md` overlapped canon-32 → it owns finding-**batches** and references roadmap **phases**, never restating them. `PROTOCOL.md`/`global-rules.md` overlapped AGENTS.md → both already declare deference; retained as subordinate, authoritative for nothing exclusive.
@@ -154,12 +156,13 @@ When a review changes a conclusion, it **updates the LIVING doc** and **writes a
 5. **Memory is a cache.** An operational fact must exist in the repo; memory may point to it, never replace it.
 6. **Every review runs the Master Knowledge Loop** (merge → dedup → resolve contradictions → update Masters → verify nothing forgotten → write dated report). No isolated reports.
 7. **Governance validation (automatable, §11):** a check that (a) every report has a class header, (b) no finding ID appears with conflicting status across Masters, (c) cross-reference links resolve.
+8. **One authority per concept — governance consolidates here.** Every *knowledge-governance* rule (where a fact lives, how a decision/document flows, how drift is prevented, reports taxonomy) lives in exactly one place: this file. If such a rule is found anywhere else — AGENTS, README, a report, a template, a script, a prompt, memory — move it here and replace the original with a pointer; never duplicate it. Boundary (§5): **execution-conduct** rules remain owned by `AGENTS.md` and are *not* moved here — GOVERNANCE points to them. The same one-authority/one-owner/one-lifecycle discipline applies to every repository concept: no file may become a second authority for something another file already owns.
 
 ---
 
 ## 7. Reports organization
 
-The full classification and index live in **`reports/README.md`** (self-explanatory folder). Summary: 3 classes — Living-Authoritative (Masters + evidence + ADR log + backlog), Historical-Immutable (dated review/phase/process reports), and the entry index. Physical subfoldering (`reports/master/`, `/evidence/`, `/history/`) is **proposed** in §10 as an owner-approved migration (it moves paths other docs reference) — the index in `reports/README.md` delivers self-explanation now without that risk.
+The full classification and index live in **`reports/README.md`** (self-explanatory folder). Summary: 3 classes — Living-Authoritative (Masters + evidence + ADR log + backlog), Historical-Immutable (dated review/phase/process reports), and the entry index. Physical subfoldering (`reports/master/`, `/evidence/`, `/history/`) is **done** (session 9); references cite by unique filename (§2) so the move broke nothing.
 
 ---
 
@@ -191,9 +194,9 @@ Total ≈ 52 min → a new senior engineer can navigate everything and knows exa
 
 **Assessment:** the repo already largely reflects governance (canon isolated, changes/ for CRs, reports/ for analysis, auto-index). Two weaknesses: (a) `reports/` is flat with 40 mixed-class files; (b) three subordinate conduct docs a newcomer must read to learn they're subordinate — solved by §5 registry + this file.
 
-**Proposal (owner-approved migration, §12 tooling required to keep links intact):**
-- `reports/` → `reports/master/` (Living Masters), `reports/evidence/` (validation set), `reports/history/` (immutable dated + phase + process), keeping `reports/README.md` + `architecture-decision-records.md` + `future-backlog.md` at top. **Deferred to a migration CR** because moving files breaks cross-references in Masters, memory, AGENTS, and scripts — must be done atomically with a link-update pass. Not done unilaterally.
-- Root stays as-is; add a one-line pointer to `GOVERNANCE.md` in `AGENTS.md §4` and `README.md` (owner-authorized, since both are protected).
+**Both proposals below are now DONE:**
+- `reports/` → `reports/master/` (Living Masters), `reports/evidence/` (validation set), `reports/history/` (immutable dated + phase + process), keeping `reports/README.md` + `architecture-decision-records.md` + `future-backlog.md` at top. **Completed session 9.** Safe because references cite by unique filename (§2), not path.
+- **Completed session 10:** one-line `GOVERNANCE.md` pointer added to `AGENTS.md §4`, `README.md`, and `llms.txt`.
 
 ---
 
@@ -216,15 +219,15 @@ I did not self-install any: all modify the user's Claude config or CI. Exact ste
 
 | Step | Action | Owner-gated? | Risk |
 |---|---|---|---|
-| 1 | Adopt `GOVERNANCE.md` as the knowledge SSOT (this file) | no (additive) | none |
-| 2 | Add `reports/README.md` index (done with this review) | no (additive) | none |
-| 3 | One-line pointer to GOVERNANCE.md in `AGENTS.md §4` + `README.md` | **yes** (protected) | trivial |
-| 4 | Reconcile the two resolved redundancies (§5) — annotate MASTER_ARCHITECTURE_DECISIONS as overlay, MASTER_EXECUTION_PLAN as batches-not-phases | no | none (annotations added) |
-| 5 | Physical `reports/` subfoldering + link-update pass | **yes** (migration CR + tooling) | medium (cross-refs) — do atomically |
-| 6 | Governance-lint hook + repository-all.ps1 extension | **yes** (config/CI) | low |
-| 7 | Optionally retire `PROTOCOL.md`/`global-rules.md` into GOVERNANCE/AGENTS if the owner wants fewer conduct files | **yes** | low — currently harmless (subordinate) |
+| 1 | Adopt `GOVERNANCE.md` as the knowledge SSOT (this file) | no (additive) | none | **DONE** |
+| 2 | Add `reports/README.md` index | no (additive) | none | **DONE** |
+| 3 | One-line pointer to GOVERNANCE.md in `AGENTS.md §4` + `README.md` + `llms.txt` | **yes** (protected) | trivial | **DONE** (session 10) |
+| 4 | Reconcile the two resolved redundancies (§5) — annotate MASTER_ARCHITECTURE_DECISIONS as overlay, MASTER_EXECUTION_PLAN as batches-not-phases | no | none | **DONE** |
+| 5 | Physical `reports/` subfoldering | **yes** (migration) | none — filename-cited refs | **DONE** (session 9) |
+| 6 | Governance-lint hook + repository-all.ps1 extension | **yes** (config/CI) | low | **pending owner** |
+| 7 | Retire `PROTOCOL.md`/`global-rules.md` to tombstone pointers | **yes** | low | **DONE** (session 10, full-diff verified) |
 
-Steps 1–2 and 4 are done by this review. 3, 5–7 await owner approval (protected files / config / CI).
+Only step 6 (governance automation — config/CI) awaits owner approval. Steps 1–5, 7 are complete.
 
 ---
 
@@ -275,17 +278,32 @@ Governance artifacts are tagged **GENERIC** (portable to any SaaS repo — copy 
 
 ## 17. Repository health (measurable governance)
 
-Governance effectiveness is **measured, not asserted** — the current-practice "fitness function" approach. The dashboard + drift-detection indicators live in `reports/MASTER_REPOSITORY_HEALTH.md` (Living SSOT for repo health), regenerated each review and (target) by the governance-lint automation (§11). If a health indicator regresses (e.g., a duplicate finding ID, a broken reference, a stale doc), that is a governance defect to fix, not tolerate.
+Governance effectiveness is **measured, not asserted** — the current-practice "fitness function" approach. The dashboard + drift-detection indicators live in `reports/master/MASTER_REPOSITORY_HEALTH.md` (Living SSOT for repo health), regenerated each review and (target) by the governance-lint automation (§11). If a health indicator regresses (e.g., a duplicate finding ID, a broken reference, a stale doc), that is a governance defect to fix, not tolerate.
+
+## 18. Repository maintenance mode & lifecycle
+
+The repository structure is **stable** (evidence: three consecutive engineering sessions produced only sync-level fixes — stale paths, counts, one script pointer — no structural redesign; all remaining structural items are owner-gated). Repository Engineering therefore operates in **Maintenance Mode**, permanently:
+
+- Structural work is **reactive, not proactive** — the repository is changed only when repository evidence proves the change improves it. Repository *redesign* is no longer normal work; it requires new evidence, not preference.
+- Maintenance is part of the **implementation lifecycle**, not a separate project. This prevents future large cleanup passes by keeping drift near zero continuously:
+
+  ```
+  Implement (a batch/capability) → Synchronize → Earn-It maintenance gate → Continue implementing
+  ```
+
+**Synchronization pass (lightweight — after each implementation batch; not a review).** Verify only: no stale references · no duplicate authority · no broken navigation · no inconsistent paths (§2 subfolders) · no doc referencing completed work as pending (or vice-versa) · no stale counts. Fix what is inside Repository Engineering authority immediately; classify the rest.
+
+**Earn-It structural gate.** *Every* structural repository change must first pass the Earn-It rule (`AGENTS.md §3` — not restated here). A structural change is implemented only if it demonstrably: improves navigation · improves synchronization · reduces duplication · reduces maintenance · improves AI onboarding · improves human onboarding · reduces token consumption · preserves one authority per concept (§2). If any criterion cannot be shown, the change is **not** made.
 
 ## 14. Final governance certification
 
-**CERTIFIED — governance is complete, non-conflicting, and drift-resistant, conditional on migration steps 3, 5–7.** Evidence:
+**CERTIFIED — governance is complete, non-conflicting, and drift-resistant.** Migration steps 1–5 and 7 are DONE; only governance automation (step 6, config/CI) remains owner-gated and does not block operation. Evidence:
 - **One hierarchy** (§1); **one SSOT per fact** (§2) with the two real redundancies resolved (§5).
 - **Permanent decision, knowledge, and document lifecycles** (§3–4) — no longer living only inside review reports.
 - **Drift-prevention rules** (§6) make divergence a rule violation, not an accident; automatable (§11).
 - **Self-explanatory reports** (§7 + `reports/README.md`); **AI-agent guide** (§8); **<1-hour human onboarding** (§9).
 - **No conflict found** among conduct docs — precedence already self-declared; retained as subordinate.
 
-**Residual (owner-gated):** the pointer into AGENTS.md/README (step 3), the physical reports reorg (step 5), and governance automation (step 6). None blocks operation; all are additive. Until step 5, the `reports/README.md` index provides the self-explanation.
+**Residual (owner-gated):** governance automation (step 6 — governance-lint hook, link-checker, pgTAP) — the only remaining item; additive, blocks nothing. It would move the §17 drift indicators from best-effort (👁) to enforced (⚙).
 
 *This governance system is designed to operate for years across many engineers and AI agents without knowledge loss, duplication, or drift. Challenge it in any future governance review exactly as rigorously as the architecture was challenged.*

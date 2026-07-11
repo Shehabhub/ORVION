@@ -108,4 +108,5 @@ An Observation concerning the engineering methodology itself — as distinct fro
 - **`AGENTS.md`** — the operating model and boot sequence (how work is done, standing authorities, decision tiers, where to look next). Authoritative on execution posture. Points here for Change Request mechanics.
 - **`CR_LIFECYCLE.md`** (this document) — the single authoritative reference for the Change Request state machine, command vocabulary, and the canonical definitions of IMPLEMENT and Synchronization.
 - **`changes/TEMPLATE.md`** — the per-Change-Request document format; defines the fields every Change Request contains.
-- **`PROTOCOL.md`** — collaboration principles only; defers to `AGENTS.md`.
+- **`GOVERNANCE.md`** — the knowledge/decision operating system (where every fact lives, decision/document lifecycles). Authoritative on knowledge placement; points here for CR mechanics.
+- **`PROTOCOL.md`** / **`global-rules.md`** — RETIRED (2026-07-11) to tombstone pointers; own nothing exclusive. Conduct → `AGENTS.md`; knowledge → `GOVERNANCE.md`.

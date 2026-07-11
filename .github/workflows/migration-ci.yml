@@ -4,11 +4,13 @@ on:
   push:
     paths:
       - "supabase/migrations/**"
+      - "supabase/tests/**"
       - "supabase/config.toml"
       - ".github/workflows/migration-ci.yml"
   pull_request:
     paths:
       - "supabase/migrations/**"
+      - "supabase/tests/**"
       - "supabase/config.toml"
 
 jobs:
@@ -34,6 +36,9 @@ jobs:
 
       - name: Apply all migrations on a clean database
         run: supabase db reset
+
+      - name: Run pgTAP invariant tests
+        run: supabase test db
 
       - name: Stop local Supabase stack
         if: always()

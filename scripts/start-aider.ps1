@@ -7,5 +7,5 @@ aider `
     --read AGENTS.md `
     --read README.md `
     --read PROJECT_CONTEXT.md `
-    --read global-rules.md
+    --read GOVERNANCE.md
 ```

@@ -4,7 +4,7 @@ Status: **Permanent engineering reference.** Never recreate; evolve. One entry p
 
 Last updated: 2026-07-11. **Design Completion %** = how completely the domain is *designed* (owner's standard: a new team needs no rediscovery), not how much is implemented. `[B]` built (Phases 2–7), `[D]` designed-in-register, `[H]` hooks-pending.
 
-Grounding (verified 2026-07-11): 71 tables · ~54 app RPCs · 61 catalog types · 64 permissions · 9 roles · 119 indexes · 12 CHECKs · 0 views.
+Grounding (verified 2026-07-11): 71 tables · ~54 app RPCs · 61 catalog types · 64 permissions · 9 roles · 137 indexes · 12 CHECKs · 0 views.
 
 ---
 
