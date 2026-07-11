@@ -27,6 +27,10 @@ Ensure-Tool python "Python.Python.3.12"          "Python 3.12"
 Ensure-Tool code   "Microsoft.VisualStudioCode"  "VS Code"
 # Supabase CLI is used via `npx supabase` (no global install) — see manifest.md.
 
+# Refresh PATH in this session so tools just installed by winget are usable immediately
+# (no shell restart needed).
+$env:Path = [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [Environment]::GetEnvironmentVariable("Path", "User")
+
 Write-Host ""
 Write-Host "== VS Code extensions (manifest.md section 2) =="
 if (Get-Command code -ErrorAction SilentlyContinue) {
@@ -69,5 +73,5 @@ if ($failed.Count -gt 0) {
 }
 else {
     Write-Host ""
-    Write-Host "All items present or installed. If a base tool was just installed, restart the shell so PATH updates."
+    Write-Host "All items present or installed. PATH was refreshed in-session — no shell restart needed."
 }

@@ -1,7 +1,12 @@
-# ORVION — Engineering Workstation Rebuild
+# ORVION — Workstation Disaster Recovery & First-Time Bootstrap
 
-This is the entry point for **rebuilding the engineering environment** on a fresh Windows machine.
-It is separate from `README.md` (which is the entry point for *working on ORVION itself*).
+This is the entry point for **recovering the ORVION workstation** onto a fresh Windows machine — after
+an SSD failure, a Windows reinstall, or a new computer. Its job is *recovery*, not a daily dashboard.
+It is separate from `README.md` (the entry point for *working on ORVION itself*).
+
+**Primary purpose:** restore the ORVION **project** from GitHub onto a clean machine with the fewest
+possible actions, and leave it immediately ready for development. Installing tools is only one step of
+that recovery.
 
 **One-authority note:** this file owns only *how to rebuild the workstation*. It points to the
 scripts and manifest as the source of truth for the actual steps — it does not restate tool lists.
@@ -33,20 +38,24 @@ Desktop once when prompted. When `prepare` reports a clean `doctor`, return to `
 you place in the repo's scripts once cloned. This is the standard Windows bootstrap pattern (Chocolatey,
 Scoop, rustup). The script is tiny and reviewable in the repo.
 
-## Already have the repo? — one launcher
+## Already have the repo? — Recovery & Maintenance launcher
 
-```powershell
-cd ORVION   # (or wherever you cloned it)
-```
-Double-click **`workstation.cmd`** and choose **1 (Prepare)** — provisions and self-verifies. The menu
-also offers Verify, Update, Cleanup, Open-in-VS-Code, README, Installation-status, Restart-shell.
+Double-click **`workstation.cmd`** in the repo root. It is **recovery-first**: if base tools are
+missing it offers to run recovery immediately; otherwise it shows the maintenance menu —
+**Prepare/Repair · Verify · Update · Cleanup · Decommission** — with a GitHub-sync header. `prepare.ps1`
+refreshes PATH in-session, so no shell restart is ever needed.
 
-- **Terminal / no double-click:** run `./.workstation/prepare.ps1` (provision) or `doctor.ps1` (verify).
+- **Terminal / no double-click:** run `./.workstation/prepare.ps1` (recover/repair) or `doctor.ps1` (verify).
 - **AI agent controlling Windows:** call the `.workstation/*.ps1` scripts directly — **not** the menu.
 
 `bootstrap.ps1` (remote entry) and `workstation.cmd → .workstation/menu.ps1` (local entry) are both thin
 — they only clone/launch. The real implementation lives in `.workstation/*.ps1`. No duplicated logic,
 no second authority.
+
+**Retiring or selling this machine?** The menu's **Decommission** option (`.workstation/decommission.ps1`)
+removes ORVION from the machine — the local repo + ORVION-specific env — after you type `DECOMMISSION`.
+It never touches general tools or unrelated data, and it is fully recoverable via the bootstrap (GitHub
+is permanent).
 
 ---
 
@@ -55,10 +64,11 @@ no second authority.
 | Concern | Source of truth |
 |---|---|
 | Remote bootstrap (fresh machine, pre-clone) | `bootstrap.ps1` (root; served via GitHub raw URL) |
-| Single launcher (interactive menu, human) | `workstation.cmd` (root) → `.workstation/menu.ps1` |
+| Recovery & Maintenance launcher (human) | `workstation.cmd` (root) → `.workstation/menu.ps1` |
 | What to install (tools, extensions, MCPs, plugins) + why | `.workstation/manifest.md` |
-| Provision the environment (real logic) | `.workstation/prepare.ps1` |
+| Recover / provision the environment (real logic) | `.workstation/prepare.ps1` |
 | Verify the environment (real logic) | `.workstation/doctor.ps1` |
+| Decommission (remove ORVION from a retired machine) | `.workstation/decommission.ps1` |
 | MCP server configuration | `.mcp.json` (repo root; secrets via env vars, never committed) |
 | Known blockers | `.workstation/reports/INCIDENT_*.md` |
 | Current install status | `.workstation/reports/INSTALLATION_STATUS.md` |

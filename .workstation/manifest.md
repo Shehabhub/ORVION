@@ -78,10 +78,10 @@ Kept as owner conveniences (harmless, not part of the reproducible set): gitlens
 
 The `.ps1` files hold all logic. Two thin entry points feed them: the **remote** `bootstrap.ps1`
 (root; run via `irm …/bootstrap.ps1 | iex` on a bare machine — ensures git, clones the repo, hands off
-to `prepare.ps1`) and the **local** `workstation.cmd` → `.workstation/menu.ps1` (the state-aware **ORVION Control Center**:
-a live Docker + GitHub-sync header, then Prepare / Verify / Update / Cleanup / Open VS Code / README /
-AGENTS / Supabase Studio / Installation status / Restart). The menu only dispatches and reads state
-for display — no setup logic lives in it. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
+to `prepare.ps1`) and the **local** `workstation.cmd` → `.workstation/menu.ps1` — a **Recovery & Maintenance** launcher
+(NOT a dev dashboard). It is **recovery-first**: on launch, if base tools are missing it offers to run
+recovery immediately; otherwise it shows maintenance — Prepare/Repair, Verify, Update, Cleanup,
+Decommission — with a GitHub-sync header. The menu only dispatches / reads state; no logic lives in it. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
 not split into modules, because that would add orchestration overhead without earning it.
 
 | Script | Purpose | When to run | Human? | AI agent? | Auto-called by | Idempotent / safe to repeat |
@@ -91,6 +91,7 @@ not split into modules, because that would add orchestration overhead without ea
 | `menu.ps1` | Interactive menu — the single human entry; invokes the scripts above. Refuses non-interactive input. | Whenever a human wants to run any workstation action. | Yes (via `workstation.cmd`) | No (call the `.ps1` scripts directly) | `workstation.cmd` | ✅ no logic of its own |
 | `update.ps1` | Periodic maintenance: `winget upgrade` the workstation tools + `npm update -g` Claude Code, continue past failures, print a summary, then verify. (This is the "maintenance" command — update + verify in one; no separate `maintenance.ps1`.) | Occasionally (e.g. monthly). | Yes (run directly) | Optional | — (calls `doctor.ps1` at the end) | ✅ upgrades are no-ops if current |
 | `cleanup.ps1` | Remove only transient/obsolete artifacts: retired-experiment env vars, gitignored generated logs, stray backups. Never touches committed files, migrations, or canon. | Rarely, if the tree accumulates transient logs. | Yes (run directly) | Optional | — | ✅ safe; skips what is absent |
+| `decommission.ps1` | **Secure decommission** — remove ORVION from this machine (local repo + ORVION env vars; stops the local stack) for retire/sell/replace. Never touches general tools or unrelated data. Recoverable via the bootstrap (GitHub is permanent). | Only when retiring/selling this machine. | Yes (confirmation: type `DECOMMISSION`) | Optional | menu option 5 | ✅ but destructive — confirmation-gated |
 
 `menu.ps1` (interactive, human-only — refuses non-interactive input) is reached via `workstation.cmd`;
 it is the one entry point that exposes all four operations, so there are no per-action root launchers

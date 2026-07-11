@@ -5,7 +5,7 @@
 **This file is the single entry point for every session, human or AI. No chat history or prior memory is needed — everything is in the repository.** Pick your goal:
 
 - **Develop ORVION** → read **`AGENTS.md`** next. It is the execution brain and hands you off to the live state (`_ORVION_CANONICAL/manifest.md`) and your current task. See the Boot Sequence below.
-- **Rebuild the engineering environment** → see **`WORKSTATION.md`**. On a *brand-new machine*, one PowerShell command clones from GitHub and provisions everything (`irm …/bootstrap.ps1 | iex`). If you already have the repo, double-click **`workstation.cmd`** → **1 (Prepare)**. When it passes, return here and develop.
+- **Recover / rebuild the workstation** (new machine, SSD failure, Windows reinstall) → see **`WORKSTATION.md`**. On a *brand-new machine*, one PowerShell command restores ORVION from GitHub and provisions everything (`irm …/bootstrap.ps1 | iex`). If you already have the repo, double-click **`workstation.cmd`** (recovery-first). When it passes, return here and develop.
 
 Everything below is reference — read only what your goal calls for.
 
