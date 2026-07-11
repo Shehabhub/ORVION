@@ -78,8 +78,10 @@ Kept as owner conveniences (harmless, not part of the reproducible set): gitlens
 
 The `.ps1` files hold all logic. Two thin entry points feed them: the **remote** `bootstrap.ps1`
 (root; run via `irm …/bootstrap.ps1 | iex` on a bare machine — ensures git, clones the repo, hands off
-to `prepare.ps1`) and the **local** `workstation.cmd` → `.workstation/menu.ps1` (interactive menu:
-Prepare / Verify / Update / Cleanup / Open VS Code / README / status). Neither contains setup logic. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
+to `prepare.ps1`) and the **local** `workstation.cmd` → `.workstation/menu.ps1` (the state-aware **ORVION Control Center**:
+a live Docker + GitHub-sync header, then Prepare / Verify / Update / Cleanup / Open VS Code / README /
+AGENTS / Supabase Studio / Installation status / Restart). The menu only dispatches and reads state
+for display — no setup logic lives in it. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
 not split into modules, because that would add orchestration overhead without earning it.
 
 | Script | Purpose | When to run | Human? | AI agent? | Auto-called by | Idempotent / safe to repeat |
