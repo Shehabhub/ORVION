@@ -76,9 +76,10 @@ Kept as owner conveniences (harmless, not part of the reproducible set): gitlens
 
 ## 6. Scripts (`.workstation/*.ps1`) — what each is and who runs it
 
-The `.ps1` files hold all logic. The single root launcher `workstation.cmd` → `.workstation/menu.ps1`
-presents an interactive menu (Prepare / Verify / Update / Cleanup / Docs) and only invokes these
-scripts — no logic of its own. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
+The `.ps1` files hold all logic. Two thin entry points feed them: the **remote** `bootstrap.ps1`
+(root; run via `irm …/bootstrap.ps1 | iex` on a bare machine — ensures git, clones the repo, hands off
+to `prepare.ps1`) and the **local** `workstation.cmd` → `.workstation/menu.ps1` (interactive menu:
+Prepare / Verify / Update / Cleanup / Open VS Code / README / status). Neither contains setup logic. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
 not split into modules, because that would add orchestration overhead without earning it.
 
 | Script | Purpose | When to run | Human? | AI agent? | Auto-called by | Idempotent / safe to repeat |

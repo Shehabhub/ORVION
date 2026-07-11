@@ -139,6 +139,7 @@ When a review changes a conclusion, it **updates the LIVING doc** and **writes a
 | `WORKSTATION.md` | engineering-environment rebuild entry | Living | how to rebuild the workstation (points to `.workstation/`) | when env reproducibility changes |
 | `.workstation/manifest.md` | SSOT of tools/extensions/MCPs/plugins + Earn-It rationale | Living | what the workstation contains | when a tool earns/loses its place |
 | `.workstation/*.ps1` | provision (`prepare`) + verify (`doctor`) + `update`/`cleanup` | Living | reproducible environment scripts (the real logic) | with the manifest |
+| `bootstrap.ps1` (root) | remote pre-clone bootstrap (`irm … | iex`) | Living | nothing — ensures git, clones repo, hands off to `.workstation/prepare.ps1` | keep minimal (no setup logic) |
 | `workstation.cmd` (root) → `.workstation/menu.ps1` | single interactive launcher (menu) | Living | nothing — thin pass-through invoking `.workstation/*.ps1` | keep thin (no logic) |
 | `_ORVION_CANONICAL/**` | business + schema canon | Living (protected) | domain/schema intent, principles | owner-authorized CRs |
 | `manifest.md` | live state | Living | current phase/CR | every CR |

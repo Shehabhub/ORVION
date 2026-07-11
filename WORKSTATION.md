@@ -9,34 +9,38 @@ See `GOVERNANCE.md §2` (Workstation rebuild row).
 
 ---
 
-## Rebuild: clone, then one launcher
+## Rebuild on a brand-new machine — ONE command
 
-Prerequisites on a bare Windows 11 machine: it already ships PowerShell; install **Git** (to clone)
-and **Docker Desktop** (start it once). Then clone and enter the repo:
+Open PowerShell on a fresh Windows 11 machine (no USB, no manual download) and run:
 
 ```powershell
-git clone <ORVION repo url>
-cd ORVION
+irm https://raw.githubusercontent.com/Shehabhub/ORVION/main/bootstrap.ps1 | iex
 ```
 
-Now **double-click `workstation.cmd`** in the repo root and choose **1 (Prepare)**. That is the whole
-rebuild — Prepare **provisions and then verifies**: it installs only what is missing (base tools via
-`winget`, VS Code extensions — from the single source of truth `.workstation/manifest.md`) and
-finishes by running the verifier. A clean result means the environment is ready — return to
-`README.md` and develop ORVION. The same menu also offers Verify, Update, and Cleanup.
+`bootstrap.ps1` (committed in this repo; the URL just delivers it) does the minimum needed *before* the
+repo exists: ensure Git (install via `winget` if missing), clone ORVION from GitHub into `~/ORVION`,
+then hand off to the in-repo provisioner `.workstation/prepare.ps1`. **All real setup logic stays in
+the repo** — the bootstrap only downloads the repository and transfers execution to it. Start Docker
+Desktop once when prompted. When `prepare` reports a clean `doctor`, return to `README.md` and develop.
 
-- **Prefer a terminal / no double-click:** run `./.workstation/prepare.ps1` (provision) or
-  `./.workstation/doctor.ps1` (verify) directly.
-- **AI agent controlling Windows:** call the `.workstation/*.ps1` scripts directly — **do not** use
-  the menu (it waits for input).
+**Trust model:** `irm|iex` runs a script fetched over HTTPS from your own GitHub repo — the same trust
+you place in the repo's scripts once cloned. This is the standard Windows bootstrap pattern (Chocolatey,
+Scoop, rustup). The script is tiny and reviewable in the repo.
 
-`workstation.cmd` is a **thin launcher** over `.workstation/menu.ps1`, which contains no logic and only
-invokes the existing `.workstation/*.ps1` scripts — the real implementation. No duplicated logic, no
-second authority.
+## Already have the repo? — one launcher
 
-**Why no `irm <url> | iex` remote bootstrap:** rejected by design — it would execute unreviewed remote
-code and move setup logic *outside* the repository. ORVION keeps the implementation *in* the repo:
-clone first, then run the local launcher. The only pre-clone steps are installing Git + Docker.
+```powershell
+cd ORVION   # (or wherever you cloned it)
+```
+Double-click **`workstation.cmd`** and choose **1 (Prepare)** — provisions and self-verifies. The menu
+also offers Verify, Update, Cleanup, Open-in-VS-Code, README, Installation-status, Restart-shell.
+
+- **Terminal / no double-click:** run `./.workstation/prepare.ps1` (provision) or `doctor.ps1` (verify).
+- **AI agent controlling Windows:** call the `.workstation/*.ps1` scripts directly — **not** the menu.
+
+`bootstrap.ps1` (remote entry) and `workstation.cmd → .workstation/menu.ps1` (local entry) are both thin
+— they only clone/launch. The real implementation lives in `.workstation/*.ps1`. No duplicated logic,
+no second authority.
 
 ---
 
@@ -44,6 +48,7 @@ clone first, then run the local launcher. The only pre-clone steps are installin
 
 | Concern | Source of truth |
 |---|---|
+| Remote bootstrap (fresh machine, pre-clone) | `bootstrap.ps1` (root; served via GitHub raw URL) |
 | Single launcher (interactive menu, human) | `workstation.cmd` (root) → `.workstation/menu.ps1` |
 | What to install (tools, extensions, MCPs, plugins) + why | `.workstation/manifest.md` |
 | Provision the environment (real logic) | `.workstation/prepare.ps1` |
