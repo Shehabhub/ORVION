@@ -1,5 +1,5 @@
-# ORVION Workstation Doctor — read-only verification + diagnostics.
-# Checks tools, key repo files, Docker, tool versions, and GitHub sync (local is disposable —
+# ORVION Workstation Doctor - read-only verification + diagnostics.
+# Checks tools, key repo files, Docker, tool versions, and GitHub sync (local is disposable -
 # unpushed work is at risk). Changes nothing. Safe to run anytime.
 $ErrorActionPreference = "Continue"
 $Root = Split-Path $PSScriptRoot -Parent
@@ -42,16 +42,16 @@ foreach ($v in @(
 }
 
 Write-Host ""
-Write-Host "[GitHub sync]  (local is disposable — GitHub is the source of truth)"
+Write-Host "[GitHub sync]  (local is disposable - GitHub is the source of truth)"
 if (Get-Command git -ErrorAction SilentlyContinue) {
     $branch = git rev-parse --abbrev-ref HEAD 2>$null
     git rev-parse "@{u}" *> $null
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "[WARN] branch '$branch' has no upstream — push it so GitHub has your work"
+        Write-Host "[WARN] branch '$branch' has no upstream - push it so GitHub has your work"
     }
     else {
         $ahead = (git rev-list --count "@{u}..HEAD" 2>$null)
-        if ([int]$ahead -gt 0) { Write-Host "[WARN] $ahead local commit(s) not pushed — at risk until 'git push'" }
+        if ([int]$ahead -gt 0) { Write-Host "[WARN] $ahead local commit(s) not pushed - at risk until 'git push'" }
         else { Write-Host "[ OK ] in sync with origin/$branch" }
     }
 }

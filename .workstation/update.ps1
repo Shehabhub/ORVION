@@ -1,6 +1,6 @@
 # ORVION Workstation Update / periodic maintenance
 # Updates the workstation's own tools, continues past failures, prints a summary, then verifies.
-# This IS the periodic-maintenance command (update + verify in one) — run it occasionally.
+# This IS the periodic-maintenance command (update + verify in one) - run it occasionally.
 # Does NOT touch ORVION project state. VS Code extensions auto-update; not forced here.
 $ErrorActionPreference = "Continue"
 $Root = Split-Path $PSScriptRoot -Parent
@@ -27,14 +27,14 @@ Step "npm global (Claude Code)" {
     npm update -g @anthropic-ai/claude-code 2>&1 | Out-Null
 }
 
-Step "Supabase CLI (project-local via npx — nothing global to update)" {
+Step "Supabase CLI (project-local via npx - nothing global to update)" {
     npx --yes supabase@latest --version 2>&1 | Out-Null
 }
 
 Write-Host ""
 Write-Host "== Update summary =="
 $Results | ForEach-Object { Write-Host ("  {0,-45} {1}" -f $_.Item, $_.State) }
-Write-Host "(VS Code extensions auto-update inside VS Code — not forced here.)"
+Write-Host "(VS Code extensions auto-update inside VS Code - not forced here.)"
 
 Write-Host ""
 Write-Host "== Verify =="

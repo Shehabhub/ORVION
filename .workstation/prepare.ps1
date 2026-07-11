@@ -1,6 +1,6 @@
-# ORVION Workstation Provisioner — "Prepare this workstation"
+# ORVION Workstation Provisioner - "Prepare this workstation"
 # Idempotent + fault-tolerant: installs only what is missing, CONTINUES past any failure,
-# and prints a final Installed/Present/Failed summary. Re-running is also the retry path —
+# and prints a final Installed/Present/Failed summary. Re-running is also the retry path -
 # only still-missing items are attempted. Real logic lives here; workstation.cmd (menu) is the launcher.
 $ErrorActionPreference = "Continue"
 $Root = Split-Path $PSScriptRoot -Parent
@@ -12,7 +12,7 @@ function Note($Item, $State) { $Results.Add([pscustomobject]@{ Item = $Item; Sta
 function Ensure-Tool {
     param($Cmd, $WingetId, $Label)
     if (Get-Command $Cmd -ErrorAction SilentlyContinue) { Write-Host "[ OK ] $Label present"; Note $Label "present"; return }
-    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { Write-Host "[FAIL] $Label — winget unavailable"; Note $Label "FAILED (no winget)"; return }
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { Write-Host "[FAIL] $Label - winget unavailable"; Note $Label "FAILED (no winget)"; return }
     Write-Host "[INSTALL] $Label ($WingetId)"
     winget install --id $WingetId -e --accept-source-agreements --accept-package-agreements
     if (Get-Command $Cmd -ErrorAction SilentlyContinue) { Note $Label "installed" } else { Write-Host "[FAIL] $Label"; Note $Label "FAILED" }
@@ -25,7 +25,7 @@ Ensure-Tool node   "OpenJS.NodeJS.LTS"           "Node.js LTS"
 Ensure-Tool docker "Docker.DockerDesktop"        "Docker Desktop"
 Ensure-Tool python "Python.Python.3.12"          "Python 3.12"
 Ensure-Tool code   "Microsoft.VisualStudioCode"  "VS Code"
-# Supabase CLI is used via `npx supabase` (no global install) — see manifest.md.
+# Supabase CLI is used via `npx supabase` (no global install) - see manifest.md.
 
 # Refresh PATH in this session so tools just installed by winget are usable immediately
 # (no shell restart needed).
@@ -35,9 +35,9 @@ Write-Host ""
 Write-Host "== VS Code extensions (manifest.md section 2) =="
 if (Get-Command code -ErrorAction SilentlyContinue) {
     $installed = @(code --list-extensions 2>$null)
-    # MINIMUM ORVION-essential set only (a clean, intentional recovery environment — NOT a copy of
+    # MINIMUM ORVION-essential set only (a clean, intentional recovery environment - NOT a copy of
     # the owner's editor). Personal/owner AI tools (openai.chatgpt/Codex, github.copilot) are NOT
-    # auto-installed — they live in .vscode/extensions.json recommendations for one-click add.
+    # auto-installed - they live in .vscode/extensions.json recommendations for one-click add.
     # (github.copilot also can't CLI-install: its github.copilot-chat dep is now built-in.)
     foreach ($ext in @(
             "anthropic.claude-code",
@@ -50,8 +50,8 @@ if (Get-Command code -ErrorAction SilentlyContinue) {
         else { Write-Host "[FAIL] $ext"; Note "ext:$ext" "FAILED" }
     }
 }
-else { Write-Host "[SKIP] 'code' CLI not on PATH — open VS Code once, enable the 'code' command, re-run"; Note "vscode-extensions" "skipped (no code CLI)" }
-Write-Host "[NOTE] Owner AI tools (GitHub Copilot, ChatGPT/Codex) are recommended, not auto-installed — add them from the VS Code Extensions UI (Copilot's CLI install conflicts with the built-in Copilot Chat)."
+else { Write-Host "[SKIP] 'code' CLI not on PATH - open VS Code once, enable the 'code' command, re-run"; Note "vscode-extensions" "skipped (no code CLI)" }
+Write-Host "[NOTE] Owner AI tools (GitHub Copilot, ChatGPT/Codex) are recommended, not auto-installed - add them from the VS Code Extensions UI (Copilot's CLI install conflicts with the built-in Copilot Chat)."
 
 Write-Host ""
 Write-Host "== Claude tooling + project dependencies (restore what git-clone can't) =="
@@ -60,15 +60,15 @@ if (Get-Command npm -ErrorAction SilentlyContinue) {
     npm install -g "@anthropic-ai/claude-code" 2>&1 | Out-Null
     if (Get-Command claude -ErrorAction SilentlyContinue) { Write-Host "[ OK ] claude CLI"; Note "claude CLI" "ok" } else { Write-Host "[FAIL] claude CLI"; Note "claude CLI" "FAILED" }
 
-    Write-Host "[INSTALL] Project dependencies (npm install — restores node_modules from package-lock)"
+    Write-Host "[INSTALL] Project dependencies (npm install - restores node_modules from package-lock)"
     Push-Location $Root; npm install 2>&1 | Out-Null; $npmrc = $LASTEXITCODE; Pop-Location
     if ($npmrc -eq 0) { Write-Host "[ OK ] npm install"; Note "npm install" "ok" } else { Write-Host "[FAIL] npm install"; Note "npm install" "FAILED" }
 }
-else { Write-Host "[SKIP] npm unavailable — restart shell so Node is on PATH, then re-run"; Note "npm-steps" "skipped" }
+else { Write-Host "[SKIP] npm unavailable - restart shell so Node is on PATH, then re-run"; Note "npm-steps" "skipped" }
 
 Write-Host ""
 Write-Host "== MCP servers (manifest.md section 4) =="
-Write-Host "Configured in .mcp.json (context7, postgres-local) — auto-loaded by Claude Code on start."
+Write-Host "Configured in .mcp.json (context7, postgres-local) - auto-loaded by Claude Code on start."
 Write-Host "Cloud Supabase MCP: add @supabase/mcp-server-supabase with SUPABASE_ACCESS_TOKEN once a cloud project exists."
 
 Write-Host ""
@@ -85,12 +85,12 @@ if ($failed.Count -gt 0) {
 }
 else {
     Write-Host ""
-    Write-Host "All items present or installed. PATH was refreshed in-session — no shell restart needed."
+    Write-Host "All items present or installed. PATH was refreshed in-session - no shell restart needed."
 }
 
 Write-Host ""
-Write-Host "== Manual re-provisions (by design — never stored in git) =="
+Write-Host "== Manual re-provisions (by design - never stored in git) =="
 Write-Host "  - Sign in to Claude Code:  claude   (then authenticate)"
 Write-Host "  - Secrets (only if used):  set env vars for any cloud MCP token (see WORKSTATION.md)."
-Write-Host "  - Local Supabase stack:    npx supabase start   (recreated from in-repo migrations — no data to restore)."
-Write-Host "The repository, tools, extensions, dependencies, and config are now restored — ready to develop."
+Write-Host "  - Local Supabase stack:    npx supabase start   (recreated from in-repo migrations - no data to restore)."
+Write-Host "The repository, tools, extensions, dependencies, and config are now restored - ready to develop."

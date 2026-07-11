@@ -20,7 +20,7 @@ foreach ($name in @("GEMINI_API_KEY", "OLLAMA_API_BASE")) {
 
 Write-Host ""
 Write-Host "[Transient workstation logs] (gitignored generated captures only)"
-# Only the regenerated, gitignored logs — NOT the curated committed reports/*.md.
+# Only the regenerated, gitignored logs - NOT the curated committed reports/*.md.
 $patterns = @(".workstation\reports\*.txt", ".workstation\reports\*.log", ".workstation\reports\mcp\*.txt", ".workstation\reports\tools\*.txt")
 foreach ($p in $patterns) {
     Get-ChildItem $p -File -ErrorAction SilentlyContinue | ForEach-Object {
@@ -38,7 +38,7 @@ foreach ($f in @("opencode.json.backup", ".aider.tags.cache.v4")) {
 
 Write-Host ""
 Write-Host "== Cleanup summary =="
-if ($Removed.Count -eq 0) { Write-Host "  Nothing to clean — workstation already tidy." }
+if ($Removed.Count -eq 0) { Write-Host "  Nothing to clean - workstation already tidy." }
 else { $Removed | ForEach-Object { Write-Host "  removed: $_" } }
 Write-Host ""
 Write-Host "Cleanup does not touch committed files, migrations, or canon."

@@ -1,4 +1,4 @@
-# ORVION Remote Bootstrap — the ONLY thing that runs before the repository exists.
+# ORVION Remote Bootstrap - the ONLY thing that runs before the repository exists.
 # Almost no logic: ensure Git, clone ORVION from GitHub, then hand off to the in-repo provisioner.
 # ALL real setup logic lives in the repository (the permanent source of truth). This file is
 # committed in the repo; the raw URL only delivers it for the single pre-clone step.

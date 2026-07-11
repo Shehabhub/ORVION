@@ -84,7 +84,11 @@ The `.ps1` files hold all logic. Two thin entry points feed them: the **remote**
 to `prepare.ps1`) and the **local** `workstation.cmd` → `.workstation/menu.ps1` — a **Recovery & Maintenance** launcher
 (NOT a dev dashboard). It is **recovery-first**: on launch, if base tools are missing it offers to run
 recovery immediately; otherwise it shows maintenance — Prepare/Repair, Verify, Update, Cleanup,
-Decommission — with a GitHub-sync header. The menu only dispatches / reads state; no logic lives in it. `prepare.ps1` is intentionally a single linear script (≈60 lines) —
+Decommission — with a GitHub-sync header. The menu only dispatches / reads state; no logic lives in it.
+
+**5.1 compatibility (hard constraint):** a fresh Windows machine runs **Windows PowerShell 5.1**, which reads a no-BOM `.ps1` as ANSI (not UTF-8) and lacks PS7-only syntax. All workstation scripts MUST be **pure ASCII** (no em dashes / box-drawing / smart-quotes) and avoid PS7-only syntax (ternary `?:`, `&&`, `||`, `??`). Verify with `powershell.exe` (5.1), not only `pwsh` 7.
+
+`prepare.ps1` is intentionally a single linear script (~60 lines) -
 not split into modules, because that would add orchestration overhead without earning it.
 
 | Script | Purpose | When to run | Human? | AI agent? | Auto-called by | Idempotent / safe to repeat |
