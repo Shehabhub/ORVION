@@ -24,12 +24,29 @@ Last curated: 2026-07-11 · Platform: Windows 11 + PowerShell · Primary agent: 
 
 ## 2. VS Code extensions
 
-| Extension | id | Owner | Earn-It verdict |
-|---|---|---|---|
-| Claude Code | `anthropic.claude-code` | agent | **Keep** — primary engineering interface |
-| GitHub Copilot | `github.copilot` (+`-chat`) | **owner** | **Keep** — owner uses directly |
-| OpenAI Codex / ChatGPT | `openai.chatgpt` | **owner** | **Keep** — owner uses directly |
-| Continue | `continue.continue` | — | **Remove** — not the primary agent, not an owner tool, overlaps Copilot; no measurable value under the stated model |
+Provisioned by `prepare.ps1` (the reproducible ORVION editor set):
+
+| Extension | id | Earn-It verdict |
+|---|---|---|
+| Claude Code | `anthropic.claude-code` | **Keep** — primary engineering interface |
+| GitHub Copilot | `github.copilot` (+ built-in `-chat`) | **Keep** — owner tool |
+| OpenAI Codex / ChatGPT | `openai.chatgpt` | **Keep** — owner tool |
+| Supabase | `supabase.vscode-supabase-extension` | **Keep** — ORVION *is* Supabase |
+| SQLTools | `mtxr.sqltools` | **Keep** — ORVION is SQL-heavy |
+| PowerShell | `ms-vscode.powershell` | **Keep** — workstation scripts are `.ps1` |
+| Docker | `ms-azuretools.vscode-docker` | **Keep** — local Supabase runs on Docker |
+
+Recommended **removals** (installed but fail Earn-It for ORVION — a local Supabase/Postgres project; user-global, so removal is owner-confirmed, not auto):
+
+| Extension | Why it fails |
+|---|---|
+| `ms-azuretools.vscode-azure-github-copilot` | Azure — ORVION has no Azure surface |
+| `ms-azuretools.vscode-azure-mcp-server` | Azure MCP — irrelevant |
+| `ms-azuretools.vscode-azureresourcegroups` | Azure resource mgmt — irrelevant |
+| `github.codespaces` | cloud dev environments — ORVION is local |
+| `continue.continue` | already removed — overlapped the primary agent |
+
+Kept as owner conveniences (harmless, not part of the reproducible set): gitlens, errorlens, prettier, eslint, markdown/yaml tooling, python support, path-intellisense, etc. — the owner's editor, out of scope for the ORVION manifest.
 
 ## 3. Claude plugins
 
@@ -54,3 +71,22 @@ Last curated: 2026-07-11 · Platform: Windows 11 + PowerShell · Primary agent: 
 ---
 
 **Reversibility:** every removal here is reinstallable (`winget`, `npm i -g`, `code --install-extension`, `claude plugin`). Nothing removed is irrecoverable.
+
+---
+
+## 6. Scripts (`.workstation/*.ps1`) — what each is and who runs it
+
+The `.ps1` files hold all logic; `setup.cmd`/`doctor.cmd` at the repo root are thin double-click
+launchers over `prepare.ps1`/`doctor.ps1`. `prepare.ps1` is intentionally a single linear script
+(≈60 lines) — not split into modules, because that would add orchestration overhead without earning it.
+
+| Script | Purpose | When to run | Human? | AI agent? | Auto-called by | Idempotent / safe to repeat |
+|---|---|---|---|---|---|---|
+| `prepare.ps1` | Provision the environment: install missing base tools (winget) + VS Code extensions; point at MCP config; then verify. Fault-tolerant — continues past failures and prints an Installed/Present/Failed summary. | Once on a fresh machine (via `setup.cmd`); re-run to **retry** failed items. | Yes (double-click `setup.cmd`) | Yes (call `prepare.ps1` directly — no pause) | — | ✅ installs only what is missing |
+| `doctor.ps1` | Verify the environment (read-only): tools on PATH, key repo files, Docker engine. | Anytime to check health; after `prepare`. | Yes (double-click `doctor.cmd`) | Yes | `prepare.ps1`, `update.ps1` (run it at the end) | ✅ read-only, changes nothing |
+| `update.ps1` | Periodic maintenance: `winget upgrade` the workstation tools + `npm update -g` Claude Code, continue past failures, print a summary, then verify. (This is the "maintenance" command — update + verify in one; no separate `maintenance.ps1`.) | Occasionally (e.g. monthly). | Yes (run directly) | Optional | — (calls `doctor.ps1` at the end) | ✅ upgrades are no-ops if current |
+| `cleanup.ps1` | Remove only transient/obsolete artifacts: retired-experiment env vars, gitignored generated logs, stray backups. Never touches committed files, migrations, or canon. | Rarely, if the tree accumulates transient logs. | Yes (run directly) | Optional | — | ✅ safe; skips what is absent |
+
+**No launchers for `update`/`cleanup`** (Earn-It): they are occasional/rare admin operations — a
+root `.cmd` for each would be clutter for something a fresh user never double-clicks. Run their `.ps1`
+directly when needed.

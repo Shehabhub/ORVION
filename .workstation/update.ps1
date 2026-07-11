@@ -1,80 +1,41 @@
+# ORVION Workstation Update / periodic maintenance
+# Updates the workstation's own tools, continues past failures, prints a summary, then verifies.
+# This IS the periodic-maintenance command (update + verify in one) — run it occasionally.
+# Does NOT touch ORVION project state. VS Code extensions auto-update; not forced here.
 $ErrorActionPreference = "Continue"
-
-Write-Host ""
-Write-Host "========================================="
-Write-Host "ORVION WORKSTATION UPDATE"
-Write-Host "========================================="
-Write-Host ""
-
 $Root = Split-Path $PSScriptRoot -Parent
 Set-Location $Root
 
-$ReportDir = ".workstation\reports"
-
-if (!(Test-Path $ReportDir)) {
-    New-Item -ItemType Directory -Force $ReportDir | Out-Null
-}
-
-$Report = Join-Path $ReportDir "update-report.txt"
-
-"ORVION UPDATE REPORT" | Set-Content $Report
-(Get-Date) | Add-Content $Report
-"" | Add-Content $Report
-
-function Run-Step {
-    param(
-        [string]$Title,
-        [scriptblock]$Command
-    )
-
+$Results = [System.Collections.Generic.List[object]]::new()
+function Step($Title, [scriptblock]$Cmd) {
     Write-Host ""
     Write-Host "[$Title]"
+    try { & $Cmd; $Results.Add([pscustomobject]@{ Item = $Title; State = "ok" }) }
+    catch { Write-Host "[WARN] $($_.Exception.Message)"; $Results.Add([pscustomobject]@{ Item = $Title; State = "FAILED" }) }
+}
 
-    try {
-
-        & $Command
-
-        "$Title : OK" | Add-Content $Report
-
+Step "winget upgrades (workstation tools)" {
+    if (Get-Command winget -ErrorAction SilentlyContinue) {
+        foreach ($id in @("Git.Git", "OpenJS.NodeJS.LTS", "Docker.DockerDesktop", "Python.Python.3.12", "Microsoft.VisualStudioCode")) {
+            winget upgrade --id $id -e --accept-source-agreements --accept-package-agreements 2>&1 | Out-Null
+        }
     }
-    catch {
-
-        Write-Host "[WARN] $($_.Exception.Message)"
-
-        "$Title : FAILED" | Add-Content $Report
-
-    }
+    else { throw "winget unavailable" }
 }
 
-Run-Step "Git Version" {
-    git --version
+Step "npm global (Claude Code)" {
+    npm update -g @anthropic-ai/claude-code 2>&1 | Out-Null
 }
 
-Run-Step "Node Version" {
-    node -v
-}
-
-Run-Step "NPM Version" {
-    npm -v
-}
-
-Run-Step "Docker Version" {
-    docker --version
-}
-
-Run-Step "Python Version" {
-    python --version
-}
-
-Run-Step "Claude Version" {
-    claude --version
-}
-
-Run-Step "VS Code Version" {
-    code --version
+Step "Supabase CLI (project-local via npx — nothing global to update)" {
+    npx --yes supabase@latest --version 2>&1 | Out-Null
 }
 
 Write-Host ""
-Write-Host "Update completed."
-Write-Host "Report:"
-Write-Host $Report
+Write-Host "== Update summary =="
+$Results | ForEach-Object { Write-Host ("  {0,-45} {1}" -f $_.Item, $_.State) }
+Write-Host "(VS Code extensions auto-update inside VS Code — not forced here.)"
+
+Write-Host ""
+Write-Host "== Verify =="
+& (Join-Path $PSScriptRoot "doctor.ps1")
