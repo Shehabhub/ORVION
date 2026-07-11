@@ -55,6 +55,19 @@ else { Write-Host "[SKIP] 'code' CLI not on PATH — open VS Code once, enable t
 Write-Host "[NOTE] GitHub Copilot (owner tool): install from the VS Code Extensions UI — the CLI conflicts with the built-in Copilot Chat."
 
 Write-Host ""
+Write-Host "== Claude tooling + project dependencies (restore what git-clone can't) =="
+if (Get-Command npm -ErrorAction SilentlyContinue) {
+    Write-Host "[INSTALL] Claude Code CLI (npm global)"
+    npm install -g "@anthropic-ai/claude-code" 2>&1 | Out-Null
+    if (Get-Command claude -ErrorAction SilentlyContinue) { Write-Host "[ OK ] claude CLI"; Note "claude CLI" "ok" } else { Write-Host "[FAIL] claude CLI"; Note "claude CLI" "FAILED" }
+
+    Write-Host "[INSTALL] Project dependencies (npm install — restores node_modules from package-lock)"
+    Push-Location $Root; npm install 2>&1 | Out-Null; $npmrc = $LASTEXITCODE; Pop-Location
+    if ($npmrc -eq 0) { Write-Host "[ OK ] npm install"; Note "npm install" "ok" } else { Write-Host "[FAIL] npm install"; Note "npm install" "FAILED" }
+}
+else { Write-Host "[SKIP] npm unavailable — restart shell so Node is on PATH, then re-run"; Note "npm-steps" "skipped" }
+
+Write-Host ""
 Write-Host "== MCP servers (manifest.md section 4) =="
 Write-Host "Configured in .mcp.json (context7, postgres-local) — auto-loaded by Claude Code on start."
 Write-Host "Cloud Supabase MCP: add @supabase/mcp-server-supabase with SUPABASE_ACCESS_TOKEN once a cloud project exists."
@@ -75,3 +88,10 @@ else {
     Write-Host ""
     Write-Host "All items present or installed. PATH was refreshed in-session — no shell restart needed."
 }
+
+Write-Host ""
+Write-Host "== Manual re-provisions (by design — never stored in git) =="
+Write-Host "  - Sign in to Claude Code:  claude   (then authenticate)"
+Write-Host "  - Secrets (only if used):  set env vars for any cloud MCP token (see WORKSTATION.md)."
+Write-Host "  - Local Supabase stack:    npx supabase start   (recreated from in-repo migrations — no data to restore)."
+Write-Host "The repository, tools, extensions, dependencies, and config are now restored — ready to develop."
