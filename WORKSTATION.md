@@ -9,25 +9,25 @@ See `GOVERNANCE.md §2` (Workstation rebuild row).
 
 ---
 
-## Rebuild in three steps
+## Rebuild: read this, run one command
 
-1. Install Git + PowerShell (Windows 11 ships PowerShell; install Git for the initial clone), then:
-   ```powershell
-   git clone <ORVION repo url>
-   cd ORVION
-   ```
-2. Open the repo and tell the agent (or run directly):
-   > "Prepare this workstation."
-   ```powershell
-   ./.workstation/prepare.ps1
-   ```
-   `prepare.ps1` is idempotent — it installs only what is missing (base tools via `winget`, VS Code
-   extensions, MCP servers, plugins) from the single source of truth: **`.workstation/manifest.md`**.
-3. Verify:
-   ```powershell
-   ./.workstation/doctor.ps1
-   ```
-   A clean run means the environment is ready. Then continue with `README.md` to work on ORVION.
+Prerequisites on a bare Windows 11 machine: it already ships PowerShell; install **Git** (to clone)
+and **Docker Desktop** (start it once). Then:
+
+```powershell
+git clone <ORVION repo url>
+cd ORVION
+./.workstation/prepare.ps1
+```
+
+That is the whole rebuild — the one command **provisions and then verifies**. `prepare.ps1` is
+idempotent (installs only what is missing — base tools via `winget`, VS Code extensions — from the
+single source of truth `.workstation/manifest.md`) and finishes by running `doctor.ps1` itself. When
+it prints a clean `doctor` result, the environment is ready.
+
+> "Prepare this workstation." = run the command above. Then return to `README.md` and develop ORVION.
+
+Re-verify anytime with `./.workstation/doctor.ps1` (no changes, just checks).
 
 ---
 
