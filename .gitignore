@@ -21,3 +21,14 @@ supabase/.branches/
 
 # Ad-hoc backups — git is the backup (repository-eos-review §9 retirement)
 backup/
+
+# Workstation generated logs & raw command captures (transient — scripts regenerate them).
+# The curated workstation (scripts, manifest.md, reports/*.md) IS committed; see WORKSTATION.md.
+.workstation/reports/*.txt
+.workstation/reports/*.log
+.workstation/reports/mcp/
+.workstation/reports/tools/*.txt
+
+# Local secrets (MCP tokens etc.) — never commit. .mcp.json itself is committed (no secrets in it).
+.env
+.env.local

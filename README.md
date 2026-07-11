@@ -9,6 +9,7 @@ ORVION is the project identity and working repository for the travel CRM and ope
 * `AGENTS.md` - AI agent operating rules for this repository (execution conduct authority).
 * `GOVERNANCE.md` - Knowledge & decision operating system: where every fact lives (SSOT map), the decision/report lifecycles, and where agents may write.
 * `llms.txt` - Curated boot map for AI agents.
+* `WORKSTATION.md` - Entry point for rebuilding the engineering environment on a fresh machine (points to `.workstation/`). Separate from ORVION development, which starts here.
 * `PROTOCOL.md` - Retired → pointer to `AGENTS.md`/`GOVERNANCE.md`.
 * `PROJECT_CONTEXT.md` - Project context for AI agents.
 * `CODING_STANDARDS.md` - Repository coding standards.

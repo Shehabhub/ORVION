@@ -51,6 +51,7 @@ Read top-down to answer "what am I allowed to do?"; read a specific layer to ans
 | Execution conduct / operating model | `AGENTS.md` | PROTOCOL.md, global-rules.md, CLAUDE/GEMINI/.cursor/.github (thin pointers) |
 | Change Request state machine | `CR_LIFECYCLE.md` | AGENTS.md (points to it) |
 | Boot sequence / reading order | `README.md` + `AGENTS.md §4` | this file |
+| Workstation rebuild (tools/extensions/MCPs/plugins) | `.workstation/manifest.md` (what + why) + `.workstation/prepare.ps1` (how) | `WORKSTATION.md` (thin entry, points here), README |
 | Coding / SQL / API / security standards | `CODING_STANDARDS.md` | ADRs, canon |
 | Business & domain rules | `_ORVION_CANONICAL/00–23` | reports (rationale only) |
 | Schema **intent** (planned) | `_ORVION_CANONICAL/24–33` | MASTER_DOMAIN_CATALOG (indexes it) |
@@ -135,6 +136,9 @@ When a review changes a conclusion, it **updates the LIVING doc** and **writes a
 | `CODING_STANDARDS.md` | code/SQL/API/security standards | Living | standards | as standards evolve |
 | `PROJECT_CONTEXT.md` | identity/vision/boundaries | Living | product identity | owner |
 | `CLAUDE/GEMINI/.cursor/.github` | tool pointers | Living | nothing — thin pointers to AGENTS | keep thin |
+| `WORKSTATION.md` | engineering-environment rebuild entry | Living | how to rebuild the workstation (points to `.workstation/`) | when env reproducibility changes |
+| `.workstation/manifest.md` | SSOT of tools/extensions/MCPs/plugins + Earn-It rationale | Living | what the workstation contains | when a tool earns/loses its place |
+| `.workstation/*.ps1` | provision (`prepare`) + verify (`doctor`) + `update`/`cleanup` | Living | reproducible environment scripts | with the manifest |
 | `_ORVION_CANONICAL/**` | business + schema canon | Living (protected) | domain/schema intent, principles | owner-authorized CRs |
 | `manifest.md` | live state | Living | current phase/CR | every CR |
 | `reports/architecture-decision-records.md` | ratified ADRs | Living | ratified decisions | on owner ratification |
