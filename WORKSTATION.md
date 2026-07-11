@@ -9,25 +9,29 @@ See `GOVERNANCE.md §2` (Workstation rebuild row).
 
 ---
 
-## Rebuild: read this, run one command
+## Rebuild: clone, then one action
 
 Prerequisites on a bare Windows 11 machine: it already ships PowerShell; install **Git** (to clone)
-and **Docker Desktop** (start it once). Then:
+and **Docker Desktop** (start it once). Then clone and enter the repo:
 
 ```powershell
 git clone <ORVION repo url>
 cd ORVION
-./.workstation/prepare.ps1
 ```
 
-That is the whole rebuild — the one command **provisions and then verifies**. `prepare.ps1` is
-idempotent (installs only what is missing — base tools via `winget`, VS Code extensions — from the
-single source of truth `.workstation/manifest.md`) and finishes by running `doctor.ps1` itself. When
-it prints a clean `doctor` result, the environment is ready.
+Now **double-click `setup.cmd`** in the repo root. That is the whole rebuild — it **provisions and
+then verifies**: it installs only what is missing (base tools via `winget`, VS Code extensions — from
+the single source of truth `.workstation/manifest.md`) and finishes by running the verifier. A clean
+result means the environment is ready — return to `README.md` and develop ORVION.
 
-> "Prepare this workstation." = run the command above. Then return to `README.md` and develop ORVION.
+- **No double-click? / prefer a terminal:** run `./.workstation/prepare.ps1`.
+- **AI agent controlling Windows:** call `./.workstation/prepare.ps1` directly (the `.cmd` is a
+  human convenience that pauses at the end).
+- **Re-check health anytime:** double-click `doctor.cmd` (or run `./.workstation/doctor.ps1`) — no
+  changes, just checks.
 
-Re-verify anytime with `./.workstation/doctor.ps1` (no changes, just checks).
+`setup.cmd` / `doctor.cmd` are **thin launchers only** — the real logic lives in `.workstation/*.ps1`
+(no duplicated logic, no second authority).
 
 ---
 
@@ -35,9 +39,10 @@ Re-verify anytime with `./.workstation/doctor.ps1` (no changes, just checks).
 
 | Concern | Source of truth |
 |---|---|
+| Double-click launchers (human convenience, thin wrappers) | `setup.cmd`, `doctor.cmd` (repo root) |
 | What to install (tools, extensions, MCPs, plugins) + why | `.workstation/manifest.md` |
-| Provision the environment | `.workstation/prepare.ps1` |
-| Verify the environment | `.workstation/doctor.ps1` |
+| Provision the environment (real logic) | `.workstation/prepare.ps1` |
+| Verify the environment (real logic) | `.workstation/doctor.ps1` |
 | MCP server configuration | `.mcp.json` (repo root; secrets via env vars, never committed) |
 | Known blockers | `.workstation/reports/INCIDENT_*.md` |
 | Current install status | `.workstation/reports/INSTALLATION_STATUS.md` |

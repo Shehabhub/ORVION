@@ -138,7 +138,8 @@ When a review changes a conclusion, it **updates the LIVING doc** and **writes a
 | `CLAUDE/GEMINI/.cursor/.github` | tool pointers | Living | nothing — thin pointers to AGENTS | keep thin |
 | `WORKSTATION.md` | engineering-environment rebuild entry | Living | how to rebuild the workstation (points to `.workstation/`) | when env reproducibility changes |
 | `.workstation/manifest.md` | SSOT of tools/extensions/MCPs/plugins + Earn-It rationale | Living | what the workstation contains | when a tool earns/loses its place |
-| `.workstation/*.ps1` | provision (`prepare`) + verify (`doctor`) + `update`/`cleanup` | Living | reproducible environment scripts | with the manifest |
+| `.workstation/*.ps1` | provision (`prepare`) + verify (`doctor`) + `update`/`cleanup` | Living | reproducible environment scripts (the real logic) | with the manifest |
+| `setup.cmd` / `doctor.cmd` (root) | double-click launchers | Living | nothing — thin pass-throughs to `.workstation/*.ps1` | keep thin (no logic) |
 | `_ORVION_CANONICAL/**` | business + schema canon | Living (protected) | domain/schema intent, principles | owner-authorized CRs |
 | `manifest.md` | live state | Living | current phase/CR | every CR |
 | `reports/architecture-decision-records.md` | ratified ADRs | Living | ratified decisions | on owner ratification |

@@ -5,7 +5,7 @@
 **This file is the single entry point for every session, human or AI. No chat history or prior memory is needed — everything is in the repository.** Pick your goal:
 
 - **Develop ORVION** → read **`AGENTS.md`** next. It is the execution brain and hands you off to the live state (`_ORVION_CANONICAL/manifest.md`) and your current task. See the Boot Sequence below.
-- **Rebuild the engineering environment** (new/fresh machine) → read **`WORKSTATION.md`**, run the one command it gives, wait for verification to pass, then return here and develop.
+- **Rebuild the engineering environment** (new/fresh machine) → read **`WORKSTATION.md`**, then **double-click `setup.cmd`** (it provisions and self-verifies). When it passes, return here and develop.
 
 Everything below is reference — read only what your goal calls for.
 
