@@ -1,0 +1,11 @@
+{
+  "// note": "Recommended extensions for ORVION. See .workstation/manifest.md (SSOT) for rationale. Copilot Chat is built into VS Code; not listed.",
+  "recommendations": [
+    "anthropic.claude-code",
+    "github.copilot",
+    "openai.chatgpt"
+  ],
+  "unwantedRecommendations": [
+    "continue.continue"
+  ]
+}

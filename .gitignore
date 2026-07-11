@@ -32,3 +32,7 @@ backup/
 # Local secrets (MCP tokens etc.) — never commit. .mcp.json itself is committed (no secrets in it).
 .env
 .env.local
+
+# Machine-local Claude settings + their timestamped backups (personal, not shared)
+.claude/settings.local.json
+.claude/settings.local.backup-*.json
