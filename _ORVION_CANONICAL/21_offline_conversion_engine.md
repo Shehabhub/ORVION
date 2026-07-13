@@ -44,8 +44,11 @@ Google Ads
 The system should capture and store:
 
 - GCLID
+- GBRAID (iOS / app-campaign click id)
+- WBRAID (web-to-app click id)
 - Session ID
 - Click ID where available
+- Consent signals (ad_user_data, ad_personalization) — required for Data Manager API delivery
 - Landing page URL
 - UTM source
 - UTM medium

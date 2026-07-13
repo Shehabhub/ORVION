@@ -446,6 +446,7 @@ Core fields:
 - customer_phone_snapshot
 - customer_name_snapshot
 - source_payload jsonb nullable
+- attribution_click_id nullable (first-touch attribution anchor -> `attribution_clicks`)
 - created_by
 - created_at
 - updated_at
@@ -1751,8 +1752,12 @@ Core fields:
 - attribution_source_code
 - marketing_campaign_id nullable
 - gclid nullable
+- gbraid nullable (iOS/app-campaign Google click id)
+- wbraid nullable (web-to-app Google click id)
 - session_id nullable
 - click_id nullable
+- consent_ad_user_data nullable (Google consent-mode signal: granted/denied/unspecified)
+- consent_ad_personalization nullable (Google consent-mode signal: granted/denied/unspecified)
 - landing_page_url nullable
 - utm_source nullable
 - utm_medium nullable

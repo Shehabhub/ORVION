@@ -29,7 +29,7 @@ Current Module: Phase 7 Documents COMPLETE and frozen. Awaiting `Start Phase 8`.
 
 Active Change Request: None
 
-Last Completed: SPEC-118 — DC-1/R7 money precision: widened all 21 monetary columns from `numeric(14,2)` to `numeric(19,4)` (migration `202607048600`) so 3-decimal GCC currencies (KWD/BHD/OMR) store without truncation; converted pgTAP test 03 from a `todo` into a hard gate; updated the canonical Money Standard (`30`/`31`). RK-01 resolved. Prior: SPEC-117 RLS InitPlan wrapping (A1); SPEC-114 tenant_id indexes (A2); SPEC-113 pgTAP harness (DC-16).
+Last Completed: SPEC-119 — R5 attribution capture: added `gbraid`/`wbraid` + Google consent signals (`consent_ad_user_data`/`consent_ad_personalization`, CHECK granted/denied/unspecified) to `attribution_clicks`, and a first-touch `leads.attribution_click_id` anchor (FK `on delete restrict`, indexed) — migration `202607048700`, canon `21`/`31` updated. Closes the Phase-8 capture-side prerequisite. Prior: SPEC-118 DC-1 money precision (numeric(19,4), RK-01); SPEC-117 RLS InitPlan (A1); SPEC-114 tenant_id indexes (A2).
 
 Next capability: `Start Phase 8` (Offline Conversion — Google Ads offline-conversion feedback: click capture `gclid`/`gbraid`/`wbraid` + consent, lead attribution, CRM outcome mapping, internal conversion event, delivery + retry). Phase-8 Design Review: read `21_offline_conversion_engine.md` + `18_integration_priority.md` + the marketing/offline-conversion tables (migration `202607043000`); verify attribution capture at lead intake (deferred check noted in the roadmap) as an early step. Research-warranted area (Google Ads offline conversions API + consent) per Learn-Before-Designing.
 

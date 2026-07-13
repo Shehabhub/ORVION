@@ -28,7 +28,7 @@ Legend — **Req/Opt:** R = Architecturally Required · O = Architecturally Opti
 | R2 | journal_entry_lines + accounting dimensions | finance | High | R | 0→4 | M | 🔒 | DESIGN-READY | synthesis | 07-09 | 07-11 |
 | R3 | invoices + invoice_lines (INV-1 roll-up) | finance | High | R | 0→4 | M | 🔒 | DESIGN-READY | synthesis | 07-09 | 07-11 |
 | R4 | booking_items + product/reference links + ticketing_deadline | reservations | High | R | 0 | M | 🔒 | DESIGN-READY | synthesis/BF-1/DC-7 | 07-09 | 07-11 |
-| R5 | attribution_clicks + gbraid/wbraid/consent; leads.attribution_click_id | attribution | High | R | 0→3 | M | 🔒 | DESIGN-READY | audit A3 | 07-09 | 07-11 |
+| R5 | attribution_clicks + gbraid/wbraid/consent; leads.attribution_click_id | attribution | High | R | 0→3 | M | 🔒 | ✅IMPLEMENTED (SPEC-119) | done | 07-09 | 07-13 |
 | R6 | customers/suppliers + party_id; customer credit terms | party | High | R | 0 | M | 🔒 | DESIGN-READY | synthesis/BF-3 | 07-09 | 07-11 |
 | R8/B3 | business-key UNIQUE constraints (5 keys) | integrity | High | R | 0 | M | 🔒 | DESIGN-READY | audit B3 | 07-09 | 07-11 |
 | DC-13 | UUIDv7 PK on high-insert tables (amend ADR-0002) | scalability | Med | NME | trigger | M | 📋 | MOVED→PENDING | deferred (RJ-1) | ARB-07-11 | 07-11 | 07-11 |
