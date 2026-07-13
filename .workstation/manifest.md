@@ -57,13 +57,14 @@ Kept as owner conveniences (harmless, not part of the reproducible set): gitlens
 |---|---|
 | GitKraken Hooks | **Keep** — provides durability (auto-commit). Improve commit-message convention (currently `"y"`). |
 | Ponytail | **Keep (as-used)** — second-opinion review flow; occasional but real value |
-| claude-mem | **Disabled** — `failed to load: cache-miss` + Windows worker never healthy; redundant with file-memory + self-describing repo. Re-enable only if upstream ships a Windows fix. |
+| claude-mem | **Disabled** — `failed to load: cache-miss` + Windows worker never healthy; redundant with file-memory + self-describing repo. Confirmed `false` in global `.claude/settings.json` (2026-07-13) — its dead `UserPromptSubmit` hook was timing out at 60s. Re-enable only if upstream ships a Windows fix. |
+| Impeccable (`pbakaus/impeccable`) | **Deferred** — frontend design skill pack (typography/color/motion, UI critique, browser Live Mode). ORVION is backend-only (SQL migrations + RPCs, no UI surface), so it has nothing to act on. Adopt when the first application UI is built — same trigger as Playwright (§4). |
 
 ## 4. MCP servers (`.mcp.json` at repo root)
 
 | MCP | Earn-It verdict |
 |---|---|
-| Supabase MCP | **Adopt** — the one MCP that measurably speeds the agent's ORVION work (direct schema/SQL/RLS vs `docker exec`). Needs a connection string via env var — never commit the secret. |
+| Postgres MCP (`postgres-local` in `.mcp.json`) | **Adopted** — `@modelcontextprotocol/server-postgres` pointed at the local Supabase Postgres; the one MCP that measurably speeds the agent's ORVION work (direct schema/SQL/RLS vs `docker exec`). Uses the standard local dev string (`127.0.0.1:54322`, non-secret); a hosted/remote target would move the string to an env var — never commit a real secret. |
 | Context7 | **Keep** — connected, near-zero maintenance, occasional doc lookups |
 | Serena / GitHub / Playwright | **Deferred** — Serena (little payoff on a SQL/RPC repo), GitHub (gh CLI suffices), Playwright (no app UI to drive yet) |
 

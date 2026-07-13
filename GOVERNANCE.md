@@ -4,9 +4,10 @@ Status: **Authoritative governance operating system for the knowledge/decision/r
 
 **Precedence & scope boundary (no overlap):** `AGENTS.md` is authoritative for **execution conduct** (how work is done, when to continue/stop, standing authorities). This document is authoritative for **knowledge governance** (where information lives and how decisions/documents flow). Where the two touch, AGENTS.md governs conduct and GOVERNANCE.md governs knowledge placement. Neither restates the other. `CR_LIFECYCLE.md` remains authoritative for the Change Request state machine.
 
-Version 1.4 · 2026-07-11 · Governs every future human, Claude, Codex, and AI/MCP session.
+Version 1.5 · 2026-07-13 · Governs every future human, Claude, Codex, and AI/MCP session.
 
 **Governance changelog** (governance governs itself — §15):
+- v1.5 (2026-07-13) — added the §18 **Retention Earn-It** clause (Earn-It is also a retention test, not only an adoption gate; existing artifacts are re-challenged at review cadences that already exist — no new review event). Owner-ratified. No SSOT reassignment. Confirmed idea "every memory needs a repo SSOT" already fully owned by §2/§6.5/AGENTS §6 — no addition made (would duplicate).
 - v1.4 (2026-07-11) — extended §18 with the discovery-to-guard loop (implementation is the review; every fix lands a permanent guard) and an evolution-on-evidence pointer to §15/§11/AGENTS§3.2. Rejected 4 proposed duplicate rules (already owned). Owner-ratified.
 - v1.3 (2026-07-11) — added §18 Repository maintenance mode & lifecycle (Maintenance Mode + Implement→Sync→Earn-It→Continue lifecycle + structural Earn-It gate; references AGENTS §3, restates nothing). Owner-ratified. No SSOT reassignment.
 - v1.2 (2026-07-11) — added §6.8 one-authority consolidation rule (every governance rule lives here; conduct stays in AGENTS per §5). Owner-ratified. No SSOT reassignment.
@@ -73,6 +74,7 @@ Read top-down to answer "what am I allowed to do?"; read a specific layer to ans
 | Domain blueprint (catalog/ER/flow) | `reports/master/MASTER_{DOMAIN_CATALOG,ENTITY_RELATIONSHIP_MAP,DATA_FLOW}.md` | reference canon + physical-design |
 | Deferred backlog + triggers | `reports/future-backlog.md` | — |
 | Repository file index | `repository-index.md` (auto-generated) | **do not hand-edit** |
+| AI cold-start map (machine-readable) | `ai-map.json` (auto-generated from the SSOTs it points to) | **do not hand-edit** — regenerate via `scripts/generate-ai-map.ps1`; restates nothing, only points |
 | AI memory | `.claude/**/memory/**` | **cache only** — never the sole home of an operational fact (AGENTS §6) |
 | Historical "why" (analysis) | dated reports in `reports/` | **immutable once written** |
 
@@ -149,6 +151,7 @@ When a review changes a conclusion, it **updates the LIVING doc** and **writes a
 | `reports/future-backlog.md` | deferred + triggers | Living | deferred work | reviews |
 | `reports/history/*-2026-07*`, `phase-*`, process reports | historical analysis | **Immutable** | the record of that session | never |
 | `repository-index.md` | file index | Auto-gen | file listing | `scripts/repository-all.ps1` |
+| `ai-map.json` | machine-readable AI cold-start map (pointers + extracted live-state) | Auto-gen | nothing — points to SSOTs | `scripts/generate-ai-map.ps1` (called by `repository-all.ps1`) |
 
 **Redundancy resolved (was drift risk):** `MASTER_ARCHITECTURE_DECISIONS.md` overlapped the ADR log → it is now explicitly a **tracking overlay** (proposed + amendment status only), not a second decision record. `MASTER_EXECUTION_PLAN.md` overlapped canon-32 → it owns finding-**batches** and references roadmap **phases**, never restating them. `PROTOCOL.md`/`global-rules.md` overlapped AGENTS.md → both already declare deference; retained as subordinate, authoritative for nothing exclusive.
 
@@ -159,7 +162,7 @@ When a review changes a conclusion, it **updates the LIVING doc** and **writes a
 1. **One SSOT per fact (§2).** Never type a fact into a second file — reference it.
 2. **IDs, not restatements.** Findings are referenced by register ID (DC-*, R-*, BF-*, …) everywhere except their SSOT row.
 3. **Living updates + immutable history.** Change conclusions by updating the LIVING doc and writing a NEW dated report; never edit an old one.
-4. **Auto-generated files are never hand-edited** (`repository-index.md`).
+4. **Auto-generated files are never hand-edited** (`repository-index.md`, `ai-map.json`).
 5. **Memory is a cache.** An operational fact must exist in the repo; memory may point to it, never replace it.
 6. **Every review runs the Master Knowledge Loop** (merge → dedup → resolve contradictions → update Masters → verify nothing forgotten → write dated report). No isolated reports.
 7. **Governance validation (automatable, §11):** a check that (a) every report has a class header, (b) no finding ID appears with conflicting status across Masters, (c) cross-reference links resolve.
@@ -311,6 +314,8 @@ Implement → Discover a gap (missing protection/test/reference/constraint/data/
 The **permanent guard** is what distinguishes this from ad-hoc fixing: every fix that closes a class of defect also lands the invariant that keeps it closed — a pgTAP fitness function, a self-gating script, a CHECK/constraint, or seed. Precedent: SPEC-113/114 (pgTAP invariants), SPEC-115 (search_path invariant), SPEC-116 (self-gating smoke-test). Do not wait for the owner to request these; implementation exposes them. A gap whose fix crosses a protected boundary (Canon/ADR/Frozen-Baseline/schema/business/product) is classified and escalated, not implemented.
 
 **Evolution on evidence (governance & environment are never frozen).** Governance, tooling, and engineering knowledge evolve when new evidence appears (implementation experience, repository evolution, better practice, new industry standards, new AI capability, new tooling). This is not a new rule — it is the standing behaviour, owned where it already lives: governance changes follow the **§15** lifecycle; tooling adoption follows **§11**; researching current best practice before a major decision follows **`AGENTS.md §3` step 2 (Learn-Before-Designing)**. The only addition here: re-evaluation is **periodic and evidence-triggered**, never assumed-complete — but a change is adopted only if it survives Earn-It, never because it is newer.
+
+**Retention Earn-It (does this still earn its place?).** Earn-It is not only an *adoption* gate; it is also a *retention* test. At the review cadences that **already exist** — the phase-transition checkpoint (`AGENTS.md §3` step 8) and the Design-Drift/Synchronization pass — also challenge what already exists (governance rules, docs, tools, generated artifacts, automation, repository structure) with the inverse question: *does this still earn its place, or has it become bloat, duplication, or stale?* Whatever no longer earns it is simplified, merged, or retired **through the mechanism that already owns it** — governance rules via the §15 lifecycle (Retire, never silent-delete), tools via §11, docs/structure via the Earn-It structural gate above, generated artifacts by deletion. This adds **no new review event** — it is one extra question inside reviews that already happen, and it catches the slow accumulation a purely pre-adoption gate cannot. (Precedent: the 2026-07-13 pass removed a stale `future-backlog.md` MCP entry and flagged `ai-map.json` as provisional with a kill-criterion.)
 
 ## 14. Final governance certification
 

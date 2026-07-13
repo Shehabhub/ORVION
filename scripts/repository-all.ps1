@@ -27,6 +27,9 @@ foreach ($f in $canonicalFiles) {
 }
 $indexLines | Out-File "repository-index.md" -Encoding utf8
 
+# Regenerate the machine-readable AI cold-start map from the same SSOTs (keeps ai-map.json fresh on every sync).
+& "$PSScriptRoot\generate-ai-map.ps1"
+
 Write-Host "[2/6] Stage Changes..."
 git add .
 

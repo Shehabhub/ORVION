@@ -86,7 +86,7 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | `pg_cron` scheduled jobs | OTP cleanup (Deletion Rule), subscription grace→read-only transitions, `usage_counters` rollups. | When those lifecycles are implemented |
 | Declarative partitioning | High-volume tables (`events`, `conversation_messages`, `security_events`, `campaign_daily_metrics`, `attribution_clicks`) at scale. | When data volume warrants; not before real load |
 | `citext`, partial indexes, generated columns | Case-insensitive emails; `document_versions WHERE is_current`; derived `full_name` as GENERATED. | Per-migration micro-optimizations |
-| Supabase / Postgres MCP server | Would replace `docker exec … psql` verification with direct queries; dev-experience only. | When tooling setup is prioritized; needs approval |
+| Impeccable (`pbakaus/impeccable`) — frontend design skill pack | Evaluated 2026-07-13 and **intentionally deferred** (not rejected). It is 100% frontend/UI tooling (typography, color, motion, visual-hierarchy critique, browser Live Mode, 44 frontend detector rules). ORVION is backend-only today (no UI surface), so an agent could not use it — it fails Earn-It *now*, not permanently. Recorded so future agents do not re-run this research. | **Trigger: the first real application UI / dashboard implementation.** Same trigger class as Playwright (`.workstation/manifest.md §4`). |
 
 ## Future Candidates — Domain Reference Layer Expansion (continuously evaluate, do not add now)
 
