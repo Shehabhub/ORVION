@@ -23,7 +23,7 @@ Legend — **Req/Opt:** R = Architecturally Required · O = Architecturally Opti
 
 | ID | Title | Category | Sev | Req/Opt | Batch | Mig | Cert | Status | Owner Decision | Source | Added | Updated |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| DC-1/R7 | Money columns numeric(14,2) truncate 3-dp currencies | correctness | Critical | R | 0 | M | 🔒 | DESIGN-READY | pending | cert-2026-07 | 07-10 | 07-11 |
+| DC-1/R7 | Money columns numeric(14,2) truncate 3-dp currencies | correctness | Critical | R | 0 | M | 🔒 | ✅IMPLEMENTED (SPEC-118) | done | cert-2026-07 | 07-10 | 07-13 |
 | R1 | events + schema_version/correlation_id/causation_id | event-contract | High | R | 0 | M | 🔒 | DESIGN-READY | synthesis | 07-09 | 07-11 |
 | R2 | journal_entry_lines + accounting dimensions | finance | High | R | 0→4 | M | 🔒 | DESIGN-READY | synthesis | 07-09 | 07-11 |
 | R3 | invoices + invoice_lines (INV-1 roll-up) | finance | High | R | 0→4 | M | 🔒 | DESIGN-READY | synthesis | 07-09 | 07-11 |

@@ -337,7 +337,7 @@ Amounts should be stored as numeric, not floating point.
 Recommended:
 
 ```sql
-amount numeric(14, 2)
+amount numeric(19, 4)
 ```
 
 Currency code should be stored separately.
@@ -348,7 +348,7 @@ Recommended:
 currency_code text not null
 ```
 
-`currency_code` values must reference `currencies.code` (see `31_schema_draft.md`, Reference Tables). The `numeric(14, 2)` default above is correct for every currency currently in ORVION's documented scope (EGP, SAR, USD); `currencies.decimal_places` exists to prevent a silent rounding defect if a non-2-decimal currency is added in the future.
+`currency_code` values must reference `currencies.code` (see `31_schema_draft.md`, Reference Tables). The `numeric(19, 4)` standard (widened from `numeric(14, 2)` by SPEC-118 / DC-1) carries scale 4 so it stores the minor unit of 3-decimal currencies (KWD/BHD/OMR/JOD, `currencies.decimal_places = 3`) without truncation, with headroom to ISO 4217's maximum minor unit of 4; precision 19 preserves at least 15 integer digits. `currencies.decimal_places` still governs display/rounding per currency.
 
 Exchange rates should be numeric with sufficient precision.
 

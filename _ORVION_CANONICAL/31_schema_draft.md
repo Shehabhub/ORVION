@@ -355,7 +355,7 @@ Unique:
 Notes:
 
 - Every `currency_code` column elsewhere in this document is a reference to `currencies.code`.
-- `decimal_places` exists because the Money Standard's `numeric(14, 2)` convention (see `30_database_conventions.md`) is a safe default for EGP/SAR/USD but is not universal; this column allows a future currency to be onboarded without a silent rounding defect.
+- `decimal_places` governs per-currency display/rounding; the Money Standard's `numeric(19, 4)` storage convention (see `30_database_conventions.md`, widened from `numeric(14, 2)` by SPEC-118 / DC-1) already stores the minor unit of 3-decimal currencies without truncation.
 
 ---
 
