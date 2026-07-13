@@ -18,7 +18,8 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 
 | Item | Why it matters | Trigger / when | CR? |
 | --- | --- | --- | --- |
-| Reference Data Layer (countries, cities, nationalities, languages, airports) | `25_catalog_registry.md` recommends dedicated reference tables; columns (`passengers.nationality_code`, `passport_issuing_country_code`, `customers.preferred_language_code`, `bookings.destination_country_code`) have no integrity backing. | **Before Migrations 8–10** (customers/passengers/bookings) | Yes — adds tables + updates `31`/`33`, or a documented decision to keep free-text |
+| ~~Reference Data Layer — core (countries, nationalities, languages, currencies)~~ — **DONE** (verified 2026-07-13 live-DB audit) | Core reference tables exist and **all 19 reference-code columns are FK-backed** (`passengers.nationality_code`/`passport_issuing_country_code`, `customers.preferred_language_code`, `bookings.destination_country_code`, all `*currency_code`). The "no integrity backing" concern is resolved. | Closed | Implemented (reference tables + FKs) |
+| Reference Data Layer — travel-specific (cities, airports) | Still free-text/absent; distinct from the core layer above. Tracked as domain reference expansion. | See **Future Candidates — Domain Reference Layer Expansion** below (evidence-gated: a migration must introduce a column needing the integrity) | Yes, when promoted |
 | Table-level CHECK constraints from `31` "Rules" | Documented invariants must be DB-enforced, not prose: journal debit/credit exclusivity (mig 12), `booking_items`/`booking_item_passengers` non-negative (10), `document_links` single-target (15), `document_versions` single-current (7), passenger `passport_issue < expiry` (9). | Each in its own table's migration | Within each migration's CR |
 | Process safeguard for Complete-sync | The `Active Change Request` pointer-clear was omitted twice (SPEC-024, SPEC-027). A Claude Stop/PostToolUse hook (or scripted check) verifying `Active Change Request: None` after Complete would prevent recurrence. | Any time | Yes — small `settings.json` CR |
 
@@ -61,6 +62,18 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 | Item | Why it matters | Trigger / when | CR? |
 | --- | --- | --- | --- |
 | Status-column naming normalization | The audit found the schema otherwise fully consistent (constraints/indexes/table-plurals/`_at` timestamps/`_id`-vs-`_by`-vs-`_user_id` FK conventions). The one real inconsistency: `tenants.status` and `company_assets.status` use bare `status`; `invoices`/`marketing_campaigns`/`otp_challenges`/`subscription_payment_proofs`/`trusted_devices` use unprefixed `status_code` vs `<entity>_status_code` elsewhere. Cosmetic (functional today), no current consumer, but renaming post-code is a breaking change across API/frontend/queries. | **Backend/API phase start** — before any code references these columns; still cheap then, and pays off when consistency matters | Yes — small `31` amendment + `ALTER ... RENAME COLUMN` migration. Optionally include the two non-`is_`/`has_` booleans (`finance_approval_required`, `marketing_opt_in`) if a strict Boolean Standard is enforced. |
+
+## Pre-Phase-8 Audit Orphans (from the 2026-07-13 readiness audit)
+
+Capabilities surfaced in `reports/history/` phase reports and confirmed present-but-inert by the 2026-07-13 live-DB + reports audit — previously tracked in **no** living register. Promoted here so they are not re-discovered. Each is evidence-backed with a trigger; cross-refs avoid duplicating existing IDs.
+
+| Item | Evidence | Trigger / when | CR? |
+| --- | --- | --- | --- |
+| **Quotations are inert** — tables `quotations`/`quotation_items` + state machine (`26`) + events exist, but there are **no quotation RPCs** (verified: 55 `app` RPCs, none create/advance a quotation); `advance_lead` sets `quotation_sent` with no `quotations` row → "a lead flag with no entity behind it" | `reports/history/phase-05-finance-gate-readiness.md` §3B/§4; live RPC inventory | When the Sales quotation-issuance workflow is scheduled | Yes — quotation RPC set + link `bookings.quotation_id` |
+| **Event-requirements (`28`) not emitted** — `lead_created`, role-assigned/permission-change security events defined in canon but not fired by RPCs; audit trail under-populated | `phase-03/04/05` reports | Before/with Phase 8 (event backbone feeds RI + conversion events); relates to register **N1** (event_type registry) | Yes — emit the missing events in their RPCs |
+| **Booking-item roll-up never consumed** — item cost/selling + passenger overrides stored but never rolled to an item/booking total; `finance_approval_required` set but never read | `phase-05` §4 | With invoicing depth; relates to register **R3** (invoice_lines) | Within the finance/invoicing CR |
+| **Finance-gated booking transitions partial** — only the execution-approval slice (SPEC-081) built; `confirmed`/`issued`/`void`/`refunded`/`reissue`/`completed` + capability set (Submit/Approve/Issue/Cancel/Refund/Reissue) still per-consumer | `phase-05`; ADR-0020 | As each booking consumer is built | Per-consumer CRs |
+| **`chart_of_accounts.account_type` has no governing catalog** despite `14_finance_rules.md` promising a default chart | `reports/history/phase-02-prioritized-findings.md` finding 14 | Finance seed / chart-of-accounts work | Small catalog + seed CR |
 
 ## Recommended (evidence-backed, medium-term)
 
