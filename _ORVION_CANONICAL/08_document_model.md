@@ -12,7 +12,7 @@ The system must support upload and retrieval of:
 
 - PDF files
 - Images
-- Excel files
+- Excel files <!-- C2 (2026-07-15 recovery): Excel is deferred for MVP per 16_document_types_and_rules.md (authoritative for MVP document-type scope); no business change. -->
 - Other approved document types defined later
 
 ---

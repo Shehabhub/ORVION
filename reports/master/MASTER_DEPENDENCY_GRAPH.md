@@ -29,7 +29,7 @@ R4 booking_item product/refs ──required before──▶ CDD-2 product/invent
 \* DC-12 (passenger_relationships) depends on passengers (built), not on Party; grouped with BF-2.
 
 ## Parallelizable (no inter-dependency)
-- Batch 0: DC-13 (UUIDv7) ∥ R7 (money) ∥ R8 (unique keys) ∥ R1 (events dims) — independent column/DDL changes; sequence only behind DC-16.
+- Batch 0: R7 (money ✅ SPEC-118) ∥ R8 (unique keys) ∥ R1 (events dims) — independent column/DDL changes; sequence only behind DC-16 (✅ SPEC-113). (DC-13 UUIDv7 DEFERRED → PG18 trigger; no longer a Batch-0 item — when it lands it is a cost-neutral per-table default swap.)
 - Batch 1: DC-6 (read log) ∥ DC-8 (reconciliation) ∥ DC-9 (timezone) ∥ document_sequences ∥ i18n — independent.
 - Batch 2: A1 ∥ A2 ∥ B2 ∥ B6 ∥ B1 (independent hardening); B5+DC-5 (grants+storage RLS) pair; DC-15 pairs with B5.
 

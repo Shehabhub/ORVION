@@ -2,17 +2,17 @@
 
 Status: **Permanent cumulative design checklist.** Never recreate; evolve. A finding is checked only when its **design** is integrated into canon (implementation timing is separate — see `MASTER_EXECUTION_PLAN.md`). This is the certification gate list. Cross-reference: `MASTER_GAP_REGISTER.md`, `MASTER_CERTIFICATION_STATUS.md`.
 
-Last updated: 2026-07-11. `[ ]` open · `[~]` design-ready (specified, not in canon) · `[x]` design in canon · `[✓]` implemented+verified.
+Last updated: 2026-07-15 (Repository Recovery synchronization — implemented+verified items advanced to `[✓]` per the legend below; the `[✓]` symbol already denotes implemented+verified, so this is legend application, not a scoring change). `[ ]` open · `[~]` design-ready (specified, not in canon) · `[x]` design in canon · `[✓]` implemented+verified.
 
 ## Batch 0 — Foundation-lock
-- [ ] DC-16 pgTAP harness + invariant tests (RLS coverage V5, money-currency, append-only)
-- [~] DC-1/R7 money precision → numeric(19,4) + per-currency rounding
-- [~] DC-13 UUIDv7 — **DEFERRED (session 4)**: not Batch 0; trigger = PG18 upgrade / hot table >~2–5M rows / partitioning
+- [✓] DC-16 pgTAP harness + invariant tests (RLS coverage V5, money-currency, append-only) — SPEC-113
+- [✓] DC-1/R7 money precision → numeric(19,4) + per-currency rounding — SPEC-118
+- [~] DC-13 UUIDv7 — **DEFERRED (session 4)**: not a Batch-0 gate item; trigger = PG18 upgrade / hot table >~2–5M rows / partitioning
 - [~] R1 events + schema_version/correlation_id/causation_id
 - [~] R2 journal_entry_lines dimension columns (hooks)
 - [~] R3 invoices + invoice_lines + INV-1 roll-up
 - [~] R4 booking_items product/reference links + DC-7 ticketing_deadline + BF-1 references
-- [~] R5 attribution_clicks gbraid/wbraid/consent + leads.attribution_click_id
+- [✓] R5 attribution_clicks gbraid/wbraid/consent + leads.attribution_click_id — SPEC-119
 - [~] R6 customers/suppliers party_id + customer credit terms
 - [~] R8/B3 business-key unique constraints
 - [~] INV-1..4 derived-primitive invariants (amend ADR-0021)
@@ -35,8 +35,8 @@ Last updated: 2026-07-11. `[ ]` open · `[~]` design-ready (specified, not in ca
 - [~] DC-4 erasure implementation
 
 ## Batch 2 — Pre-production hardening
-- [ ] A1 RLS (select …) init-plan wrapping
-- [ ] A2 18 tenant_id indexes
+- [✓] A1 RLS (select …) init-plan wrapping — SPEC-117
+- [✓] A2 18 tenant_id indexes (bare-index portion) — SPEC-114; composite refinements deferred to their access-path capabilities
 - [ ] B5 DML grants + anon read scope
 - [~] DC-5 document storage + Storage RLS
 - [ ] DC-15 service_role least-privilege + tenant assertions

@@ -4,6 +4,11 @@ Version: 0.1
 Status: Draft
 Canonical: Yes
 
+> **Synchronization annotations (2026-07-15 Repository Recovery — no business change; these align prose to authoritative sources):**
+> - **Plan names (C1):** the plan-family names below (Basic / Integrated / Complete) are **superseded by the authoritative names Starter / Professional / Enterprise**, which are the ones seeded and used in `17_saas_plan_matrix.md`, `14_finance_rules.md`, and the catalog seed (`202607043100`). Read the sections below by position (entry / mid / top tier); the seeded names govern implementation.
+> - **Authentication prose (C3):** any authentication/OTP/login detail in this document predates and is **superseded by ADR-0017 (Supabase-native authentication)** and the cross-cutting principles in `34_authentication_and_identity_principles.md`. Where they differ, ADR-0017 / doc 34 govern.
+> - **Activation-code idea & subscription grace/read-only mode (C4/C5):** these remain **undecided pending owner disposition** (recorded in the 2026-07-15 recovery findings) — neither adopted nor rejected here.
+
 ---
 
 # Initial Plans

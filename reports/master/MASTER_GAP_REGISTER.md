@@ -4,7 +4,7 @@ Status: **Permanent single source of truth for architectural findings.** Never r
 
 Owner policy in force: **Earn-It suspended for design/assurance only.** Findings are classified **Architecturally Required** (evidence proves it belongs in a complete modern Travel ERP/CRM/Revenue platform → its *design* must exist now) or **Architecturally Optional** (genuine independent/optimization choice). **Implementation timing belongs only to the owner.** The phrase "can be added later" is not used.
 
-Last updated: 2026-07-11 (session 4 — Evidence Validation).
+Last updated: 2026-07-15 (Repository Recovery synchronization — status column reconciled to `MASTER_EXECUTION_PLAN.md`, the verified current-truth for implementation state; no finding added or removed, statuses only).
 
 ## Validation reclassifications (2026-07-11 session 4 — authoritative)
 The 9-stage evidence pipeline (`ARCHITECTURE_PROOF_LOG.md`) moved these rows OUT of accepted-required status. Their register rows below remain for traceability but are **superseded by these statuses**:
@@ -32,7 +32,7 @@ Legend — **Req/Opt:** R = Architecturally Required · O = Architecturally Opti
 | R6 | customers/suppliers + party_id; customer credit terms | party | High | R | 0 | M | 🔒 | DESIGN-READY | synthesis/BF-3 | 07-09 | 07-11 |
 | R8/B3 | business-key UNIQUE constraints (5 keys) | integrity | High | R | 0 | M | 🔒 | DESIGN-READY | audit B3 | 07-09 | 07-11 |
 | DC-13 | UUIDv7 PK on high-insert tables (amend ADR-0002) | scalability | Med | NME | trigger | M | 📋 | MOVED→PENDING | deferred (RJ-1) | ARB-07-11 | 07-11 | 07-11 |
-| DC-16 | pgTAP regression harness + RLS/invariant tests | quality | High | R | 0 | A | 🔒 | OPEN | pending | ARB-07-11 | 07-11 | 07-11 |
+| DC-16 | pgTAP regression harness + RLS/invariant tests | quality | High | R | 0 | A | 🔒 | ✅IMPLEMENTED (SPEC-113) | done | ARB-07-11 | 07-11 | 07-15 |
 | DC-2 | write-idempotency keys on mutating RPCs | correctness | High | R | 1 | A | 🔒 | DESIGN-READY | cert-2026-07 | 07-10 | 07-11 |
 | DC-3 | concurrency control (oversell lock + lost-update guard) | concurrency | High | R | 1 | A | 🔒 | DESIGN-READY | cert-2026-07 | 07-10 | 07-11 |
 | DC-4 | PII erasure boundary (pseudonymization/crypto-shred) | privacy | High | R | 0→1 | A/M | 🔒 | DESIGN-READY | cert-2026-07 | 07-10 | 07-11 |
@@ -41,9 +41,9 @@ Legend — **Req/Opt:** R = Architecturally Required · O = Architecturally Opti
 | INV-1..4 | derived-primitive invariants (amend ADR-0021) | finance | High | R | 0 | A | 🔒 | DESIGN-READY | synthesis | 07-09 | 07-11 |
 | DC-5 | document binary storage + Storage RLS | security | High | R | 2 | A | 🛡 | DESIGN-READY | cert-2026-07 | 07-10 | 07-11 |
 | DC-10 | opening-balance / legacy AR-AP onboarding | accounting | High | R | 4 | A | ➕ | OPEN | pending | ARB-07-11 | 07-11 | 07-11 |
-| A1 | RLS (select …) init-plan wrapping | performance | High | R | 2 | M | 🛡 | VERIFIED-OPEN | pending | audit A1 | 07-09 | 07-11 |
-| A2 | 18 missing tenant_id indexes | performance | High | R | 2 | A | 🛡 | OPEN | pending | audit A2 | 07-09 | 07-11 |
-| B5 | DML grants to authenticated (+anon read scope) | access | High | R | 2 | A | 🛡 | OPEN | pending | audit B5 | 07-09 | 07-11 |
+| A1 | RLS (select …) init-plan wrapping | performance | High | R | 2 | M | 🛡 | ✅RESOLVED (SPEC-117) | done | audit A1 | 07-09 | 07-15 |
+| A2 | 18 missing tenant_id indexes | performance | High | R | 2 | A | 🛡 | ✅RESOLVED bare-index (SPEC-114); composite deferred | partial | audit A2 | 07-09 | 07-15 |
+| B5 | DML grants to authenticated (+anon read scope) | access | High | R | 2 | A | 🛡 | ✅authenticated-DML DONE (202607043400); anon scope→DC-23 | partial | audit B5 | 07-09 | 07-15 |
 | B2 | remaining DB CHECK constraints (only 12 exist) | integrity | Medium | R | 2 | A | 🛡 | OPEN | pending | audit B2 | 07-09 | 07-11 |
 | B1 | reference-data integrity (+airports) | reference | Medium | R | 2 | A | 🛡 | OPEN | pending | backlog | 07-04 | 07-11 |
 | B6 | status-column naming normalization | consistency | Low | R | 2 | M | 🛡 | OPEN | pending | audit B6 | 07-09 | 07-11 |
@@ -174,3 +174,7 @@ Legend — **Req/Opt:** R = Architecturally Required · O = Architecturally Opti
 - **V4:** `events`/`security_events` immutability trigger exists (`forbid_mutation`) → partially closes B4. ✅ for those two tables.
 - **V5:** RLS coverage silently depends on `tenant_id NOT NULL` → guarded by DC-16 test.
 - **V6 (ARB-07-11):** schema has **0 views / 0 materialized views** — the read-model layer (reporting/RI/dashboards) does not yet exist; RC-4 introduces it. Recorded, not a defect.
+
+### S-EVENT — Event vocabulary unenforced (verified 2026-07-15 audit; fix = N1, deferred to implementation phase)
+- **Evidence (source-verified twice):** `events.event_type_code` is `text not null` in `202607042600_create_event_and_notification_tables.sql:13` with **no FK and no CHECK**; a repository search for a `create table … event_type(s)` catalog returns **none** — no event-type catalog exists. `app.record_event`'s `p_event_type_code` is passed by call sites as a computed variable, so a mistyped code is silently accepted. Emitted codes already drift from canon-27 (e.g. `internal_supplier_linked` vs canon `internal_supplier_link_created`; `receipt_issued` vs `receipt_created`; `invoice_issued`/`invoice_paid`/`supplier_payment_recorded`/`refund_requested` absent from canon-27).
+- **Assessment:** this is the substantive justification for **N1** (event_type registry validated by `record_event`) — it is arresting *live* drift, not speculative. **Classification: the fix is a new schema object + ADR-0006 amendment = architectural capability, OUT of scope for the Repository Recovery phase.** Recorded here so it is not re-discovered; implement under N1 when the implementation phase resumes, together with a one-authority canon-27 ↔ emitters reconcile.

@@ -9,7 +9,7 @@ Last updated: 2026-07-11. Likelihood × Impact → Risk. Trigger = the event aft
 | RK-01 | Financial amounts truncated for 3-dp GCC currencies; balances un-reconcilable | DC-1/R7 | High (GCC market) | Critical | **✅RESOLVED (SPEC-118)** | first real finance rows | widened to numeric(19,4) 2026-07-13 |
 | RK-02 | Duplicate payments/bookings/invoices on client retry | DC-2 | High | High | **High** | first client/API write | idempotency keys |
 | RK-03 | Oversold Umrah/Hajj departures & allotments; lost updates | DC-3 | Med-High | High | **High** | inventory/allotment go-live | locking discipline |
-| RK-04 | PK index fragmentation/write-amplification on hot tables; painful PK migration later | DC-13 | High at scale | Med-High | **High** | before event/message volume | UUIDv7 now |
+| RK-04 | PK index fragmentation/write-amplification on hot tables; painful PK migration later | DC-13 | High at scale | Med-High | **High** | before event/message volume | UUIDv7 at PG18 (DEFERRED; cost-neutral default swap — see gap register DC-13) |
 | RK-05 | Structural retrofit breaks a built RPC (customer_balance, finance gate, merge) with no regression net | DC-16 | High during Batch 0 | High | **High** | before running retrofits | pgTAP first |
 | RK-06 | GDPR erasure request unsatisfiable vs immutable audit; EU-ad-integrated CRM | DC-4 | Medium | High (legal) | **High** | EU launch / first request | pseudonymization boundary |
 | RK-07 | Sensitive-doc bytes accessible around row RLS via Storage | DC-5 | Medium | High | **High** | DML grants / client go-live | Storage RLS mirror |

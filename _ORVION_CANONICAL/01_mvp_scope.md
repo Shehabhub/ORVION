@@ -67,7 +67,7 @@ The goal is to build a controlled foundation that supports the most important bu
 
 ## Documents
 
-- Upload PDF, images, Excel files, and related document types
+- Upload PDF, images, Excel files, and related document types <!-- C2 (2026-07-15 recovery): Excel upload is deferred for MVP per 16_document_types_and_rules.md, which governs MVP document-type scope; no business change. -->
 - Link documents to customer, passenger, booking, invoice, supplier, or subscription payment
 - Retrieve documents later
 - Export or download documents where permitted

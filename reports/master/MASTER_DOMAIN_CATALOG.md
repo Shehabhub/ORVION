@@ -4,7 +4,7 @@ Status: **Permanent engineering reference.** Never recreate; evolve. One entry p
 
 Last updated: 2026-07-11. **Design Completion %** = how completely the domain is *designed* (owner's standard: a new team needs no rediscovery), not how much is implemented. `[B]` built (Phases 2–7), `[D]` designed-in-register, `[H]` hooks-pending.
 
-Grounding (verified 2026-07-11): 71 tables · ~54 app RPCs · 61 catalog types · 64 permissions · 9 roles · 137 indexes · 12 CHECKs · 0 views.
+Grounding (counts re-verified from source 2026-07-15): 71 tables · **55** app RPCs · **65** catalog types · 64 permissions · 9 roles · 137 indexes · 12 CHECKs · 0 views. (Corrected from "~54 RPCs / 61 catalog types" — RPC count enumerated from migration `create or replace function app.*`; catalog-type count per `scripts/verify_database.sql` expected 65. Index/CHECK/view counts are 2026-07-11 live-DB values pending a live re-verification — Docker was down for the 2026-07-15 pass.)
 
 ---
 
@@ -107,4 +107,4 @@ document_sequences (CDD-6) · accounting dimensions (CDD-5) · transactional out
 Physical Warehouse / MRP · Retail POS. Operational-not-schema: Monitoring/Logging/Backup-DR (ops runbook).
 
 ---
-**Weighted platform design completion ≈ 84%** (see `MASTER_COVERAGE_SCORE.md`). The remaining ~16% is concentrated in Finance-depth, Product/Inventory, Reporting read-models, and the cross-cutting substrate — all designed in the register, awaiting canon integration + phased build.
+**Weighted platform design completion: see `MASTER_COVERAGE_SCORE.md`** — the single source of truth for this metric (≈82% as last scored 2026-07-11; that figure predates the 2026-07-15 implementations and understates current completeness). The remaining balance is concentrated in Finance-depth, Product/Inventory, Reporting read-models, and the cross-cutting substrate — all designed in the register, awaiting canon integration + phased build.

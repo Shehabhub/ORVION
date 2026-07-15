@@ -8,6 +8,8 @@ Canonical: Yes
 
 # Proposed Integration Order
 
+> **Synchronization annotation (2026-07-15 Repository Recovery, C7 — no business change):** this document proposes integration *priority/rationale*; the **authoritative execution sequencing is `32_execution_roadmap.md`** (and `reports/master/MASTER_EXECUTION_PLAN.md` for finding-batch order). Where the order below differs from the roadmap, the roadmap governs.
+
 Recommended order after core foundations:
 
 1. GTM

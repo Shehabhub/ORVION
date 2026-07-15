@@ -23,15 +23,19 @@ Roles alone are not enough. Permission checks must also consider:
 
 # Core Company Roles
 
+> **Synchronization annotation (2026-07-15 Repository Recovery, C6 — no business change):** this list is **not authoritative for the role set**. The authoritative role model is `28_permissions_matrix.md` and the seed (`202607043500`), which additionally include **Finance Manager** and **System Administrator** (9 roles total: owner, ceo, branch_manager, department_manager, finance_manager, senior_employee, employee, trainee, system_administrator). Read `28` for the complete set and per-role permissions.
+
 Initial company roles:
 
 - CEO
 - Owner
 - Branch Manager
 - Department Manager
+- Finance Manager
 - Senior Employee
 - Employee
 - Trainee
+- System Administrator
 
 Operational roles may include:
 

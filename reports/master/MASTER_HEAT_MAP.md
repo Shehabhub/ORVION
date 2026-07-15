@@ -12,7 +12,7 @@ Last updated: 2026-07-11. ★ = architectural criticality (blast radius if wrong
 | Money / Finance correctness | wrong numbers destroy trust; cross-cutting | 82% | **DC-1 money-scale now** + INV-1..4 |
 | Party / counterparty identity | customers/suppliers/sub-agents/employees hang off it | 88% | CDD-1 party (Batch 1) |
 | Accounting foundation (GL/dimensions/posting) | every finance event posts through it | 82% | CDD-5 (Batch 4) — design locked now |
-| Identity keys / PK strategy | painful to change after data | 96% | DC-13 UUIDv7 (Batch 0) |
+| Identity keys / PK strategy | painful to change after data | 96% | DC-13 UUIDv7 (DEFERRED → PG18 trigger; not Batch 0) |
 | Test assurance | the net that makes retrofits safe | 60% | DC-16 pgTAP (Batch 0, first) |
 
 ## ★★★★☆ High (broad reach; additive but pervasive)

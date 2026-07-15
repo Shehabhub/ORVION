@@ -4,6 +4,8 @@ Version: 0.1
 Status: Draft
 Canonical: Yes
 
+> **Supersession banner (2026-07-15 Repository Recovery, C3 — no business change):** any authentication/OTP prose here is **superseded by ADR-0017** and `34_authentication_and_identity_principles.md` (auth artifacts belong to Supabase Auth). The notification-domain content itself remains current design intent.
+
 ---
 
 # Notification Channels

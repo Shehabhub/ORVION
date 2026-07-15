@@ -13,12 +13,15 @@ function Get-Field($text, $label) {
     return $null
 }
 
+# Read as UTF-8 explicitly: under Windows PowerShell 5.1 the default read codepage is ANSI,
+# which corrupts em-dashes/Unicode in the manifest into mojibake (e.g. "â€”"). Forcing UTF-8
+# makes the generator produce a clean ai-map.json regardless of the host PowerShell edition.
 $manifestPath = "_ORVION_CANONICAL/manifest.md"
-$manifest = Get-Content $manifestPath -Raw
+$manifest = Get-Content $manifestPath -Raw -Encoding utf8
 
 $canonical = @()
 foreach ($f in (Get-ChildItem -Path "_ORVION_CANONICAL" -Filter "*.md" | Sort-Object Name)) {
-    $c = Get-Content $f.FullName -Raw
+    $c = Get-Content $f.FullName -Raw -Encoding utf8
     $num = if ($f.Name -match '^(\d\d)_') { [int]$matches[1] } else { -1 }
     $layer = if ($num -ge 0 -and $num -le 23) { "business/domain" }
              elseif ($num -ge 24 -and $num -le 33) { "schema/database" }
@@ -65,5 +68,8 @@ $map = [ordered]@{
     counts = [ordered]@{ canonical_docs = $canonical.Count }
 }
 
-$map | ConvertTo-Json -Depth 6 | Out-File "ai-map.json" -Encoding utf8
+# Write UTF-8 WITHOUT BOM, edition-independently (PS 5.1 `Out-File -Encoding utf8` emits a BOM
+# that some strict JSON parsers reject; this keeps the artifact clean everywhere).
+$json = $map | ConvertTo-Json -Depth 6
+[System.IO.File]::WriteAllText((Join-Path $root "ai-map.json"), $json, (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "ai-map.json generated ($($canonical.Count) canonical docs, phase extracted from manifest)."

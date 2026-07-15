@@ -2,7 +2,7 @@
 
 Status: **Permanent cumulative decision ledger.** Never recreate; evolve. This is the ARB's decision-tracking overlay; the **authoritative ADR log remains `architecture-decision-records.md`**. This file tracks: (a) accepted ADRs and any ARB-proposed amendments, and (b) decisions the ARB proposes but the **owner has not yet ratified** (proposed ADRs must be recorded per the owner policy — design is not withheld). No canonical/ADR file is modified until the owner approves.
 
-Last updated: 2026-07-11.
+Last updated: 2026-07-15 (Repository Recovery synchronization — annotated the implemented state of proposed item 11 (DC-1); no decision made, no ADR recorded/removed. The formal money-storage ADR question is flagged for the owner, not resolved here).
 
 ## A. Accepted ADRs (authoritative in `architecture-decision-records.md`) — ARB status
 | ADR | Title | ARB verdict |
@@ -43,7 +43,7 @@ Consolidated set (from Baseline/Physical/Synthesis §9, confirmed by ARB):
 10. **Localization** (CDD-11).
 
 ARB-added proposed decisions (new this session):
-11. **Money-storage standard** (DC-1) — `numeric(19,4)`; rounding driven by `currencies.decimal_places`.
+11. **Money-storage standard** (DC-1) — `numeric(19,4)`; rounding driven by `currencies.decimal_places`. **⚠️ IMPLEMENTED via SPEC-118** (migration `202607048600`, canon `30`/`31` updated) **without a formal ADR recorded.** Open owner/ADR-process decision (A3): does the money-storage standard warrant a ratified ADR-0022, or is the canon-30/31 convention update sufficient? Flagged, not decided, during Repository Recovery.
 12. **Write-idempotency standard** (DC-2) — idempotency-key table + optional RPC param on all mutating RPCs.
 13. **Concurrency-control standard** (DC-3) — `FOR UPDATE`/advisory locks for oversell-risk RPCs; optimistic guard for concurrent edits.
 14. **Data-lifecycle & privacy** (DC-4/DC-6/DC-14) — pseudonymization erasure boundary; sensitive-read log; tenant export/purge.

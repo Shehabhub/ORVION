@@ -2,7 +2,9 @@
 
 Status: **Permanent engineering scorecard.** Never recreate; evolve. Score = **design completeness** against the completion standard ("a new team needs no rediscovery"), NOT implementation %. Each score is justified. Cross-reference: `MASTER_DOMAIN_CATALOG.md`, `MASTER_GAP_REGISTER.md`.
 
-Last updated: 2026-07-11. Scale 0–100. ▲ = raised since last review; new categories marked (new).
+Last updated: 2026-07-15 (Repository Recovery synchronization). Scale 0–100. ▲ = raised since last review; new categories marked (new).
+
+> **Sync note (2026-07-15):** since the 2026-07-11 scoring, the following deductions below are now **IMPLEMENTED** (evidence in `MASTER_EXECUTION_PLAN.md`): DC-1 money precision (SPEC-118), R5 attribution (SPEC-119), A1 RLS init-plan wrapping (SPEC-117), A2 tenant_id bare indexes (SPEC-114), DC-16 test harness (SPEC-113). The per-area justifications that cite these as gaps are therefore stale-on-the-downside — the **82% understates** current design+implementation completeness. A precise weighted recompute is deferred (it is analysis, not a mechanical sync, and the live-DB pass is pending Docker); the individual area notes are left intact for traceability and will be recomputed at the next scoring review. No score was fabricated in this sync.
 
 | Area | Score | Justification (what holds the score below 100) |
 |---|---|---|
@@ -29,7 +31,7 @@ Last updated: 2026-07-11. Scale 0–100. ▲ = raised since last review; new cat
 | Compliance / Data-Residency | 70% (new) | Consent + erasure boundary designed. −30: no data-residency/multi-region topology (DC-22, Saudi PDPL enforced SAR 5M/breach), retention/archival (DC-25). |
 | Localization / Calendar | 76% (new) | i18n translations designed. −24: no Hijri calendar (DC-21, core Umrah/Hajj market), calendar-aware business rules. |
 | Public API / Developer surface | 62% (new) | ACCESS_API perms seeded; Supabase PostgREST auto-API. −38: no API contract/versioning/rate-limit/quota (DC-23), no external-developer model. |
-| Governance / Knowledge | 97% ▲ | Canon + ADRs + 12 Master documents + cumulative reports; self-describing. −3: proposed ADRs not yet ratified. |
+| Governance / Knowledge | 97% ▲ | Canon + ADRs + 13 Master documents + cumulative reports; self-describing. −3: proposed ADRs not yet ratified. |
 
 ## Weighted platform design completion ≈ **82%** ▼ (was 84%; four new meta-pattern areas added 2026-07-11 #3)
 (Weighted by architectural importance per `MASTER_HEAT_MAP.md`; correctness/foundation domains weighted higher. The drop reflects honest discovery — DC-20…29 exposed extensibility/residency/calendar/API gaps that were previously uncounted, not new regressions.)

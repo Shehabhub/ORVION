@@ -4,6 +4,8 @@ Version: 0.1
 Status: Resolved
 Canonical: Yes
 
+> **Supersession banner (2026-07-15 Repository Recovery, C3 — no business change):** authentication-related decisions recorded here are **superseded by ADR-0017** and `34_authentication_and_identity_principles.md`. This document is already `Status: Resolved` (a historical decision record); the banner prevents its auth prose being read as current mechanics.
+
 ---
 
 # Purpose

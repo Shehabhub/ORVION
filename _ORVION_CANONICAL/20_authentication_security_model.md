@@ -4,6 +4,8 @@ Version: 0.1
 Status: Draft
 Canonical: Yes
 
+> **Supersession banner (2026-07-15 Repository Recovery, C3 — no business change):** authentication mechanics in this document (login, OTP, sessions, device trust, MFA) predate and are **superseded by ADR-0017 (Supabase-native authentication)** and the cross-cutting principles in `34_authentication_and_identity_principles.md` — auth artifacts live in Supabase Auth; ORVION owns auth *policy* (which roles require MFA, enforced via the `aal` claim). Where this prose differs from ADR-0017 / doc 34, they govern.
+
 ---
 
 # Authentication Principle

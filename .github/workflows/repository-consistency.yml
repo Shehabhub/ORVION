@@ -1,0 +1,28 @@
+name: Repository Consistency
+
+# Permanent guard (GOVERNANCE.md §11/§18) for the drift class repaired in the 2026-07-15
+# Repository Recovery: broken document references in Living docs and contradictory
+# finding-status inside a Master register. Cheap and fast — no database stack needed.
+
+on:
+  push:
+    paths:
+      - "**/*.md"
+      - "scripts/check_repository_consistency.ps1"
+      - ".github/workflows/repository-consistency.yml"
+  pull_request:
+    paths:
+      - "**/*.md"
+      - "scripts/check_repository_consistency.ps1"
+
+jobs:
+  consistency:
+    name: document consistency guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run repository consistency guard
+        shell: pwsh
+        run: pwsh -File scripts/check_repository_consistency.ps1
