@@ -49,7 +49,7 @@ This document owns only the state above. Every other responsibility belongs else
 
 - Project identity, vision, and platform boundaries — `PROJECT_CONTEXT.md`.
 - Engineering principles, execution rules, and workflow — `AGENTS.md` (with `GOVERNANCE.md` for knowledge governance and `CR_LIFECYCLE.md` for CR mechanics). `PROTOCOL.md` is retired to a pointer and owns nothing.
-- Document discovery and reading order — `README.md`'s First Reading Order.
+- Document discovery and reading order — `AGENTS.md §4` (the single, mandatory boot sequence); `README.md` is the one-hop router into it.
 - Phase and module progress — `_ORVION_CANONICAL/32_execution_roadmap.md`, the single source of truth for that state.
 - Per-capability history and rationale — the git log, `changes/*.md`, and `reports/`.
 

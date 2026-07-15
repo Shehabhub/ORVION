@@ -1,69 +1,30 @@
 # ORVION
 
-## Start here — one entry, two goals
+ORVION is the working repository for a travel CRM / operations / revenue platform for Egyptian travel agencies (flights, Umrah, Hajj, visa, hotels, tours). The backend is Supabase/PostgreSQL — SQL migrations + `app`-schema RPCs. There is no application UI yet.
 
-**This file is the single entry point for every session, human or AI. No chat history or prior memory is needed — everything is in the repository.** Pick your goal:
+**This file has one job: route you to the right authority in a single hop.** It does not restate the boot sequence, the rules, or the current status — each of those has exactly one home, linked below (One Authority — `GOVERNANCE.md §2`).
 
-- **Develop ORVION** → read **`AGENTS.md`** next. It is the execution brain and hands you off to the live state (`_ORVION_CANONICAL/manifest.md`) and your current task. See the Boot Sequence below.
-- **Recover / rebuild the workstation** (new machine, SSD failure, Windows reinstall) → see **`WORKSTATION.md`**. On a *brand-new machine*, one PowerShell command restores ORVION from GitHub and provisions everything (`irm …/bootstrap.ps1 | iex`). If you already have the repo, double-click **`workstation.cmd`** (recovery-first). When it passes, return here and develop.
+## Pick your goal
 
-Everything below is reference — read only what your goal calls for.
+- **Work on ORVION (develop, review, operate — human or AI)** → go to **`AGENTS.md`**. Its **§4 is the single, mandatory boot sequence** — it walks every session from orientation → governance → live state → active work, and tells you exactly what to read next. Nothing else here needs to precede it.
+- **Rebuild the workstation / environment** (new machine, SSD failure, Windows reinstall) → go to **`WORKSTATION.md`**. On a brand-new machine, one PowerShell command restores everything from GitHub (`irm …/bootstrap.ps1 | iex`); if you already have the repo, double-click **`workstation.cmd`**.
 
-## Purpose
+That is the entire entry decision. Everything below is a pointer, not a second authority.
 
-ORVION is the project identity and working repository for the travel CRM and operations system. This README serves as the primary entry point for humans and AI agents.
+## Where things live (authorities)
 
-## Repository Structure
+| You want… | Go to |
+|---|---|
+| The boot sequence / reading order | `AGENTS.md §4` (single authority) |
+| How work is done — conduct, standing authorities, decision tiers | `AGENTS.md` |
+| Where every fact lives — SSOT matrix, decision & document lifecycles, write-permissions | `GOVERNANCE.md` |
+| Change Request state machine & command vocabulary | `CR_LIFECYCLE.md` |
+| Current phase, module, and Active Change Request (live state) | `_ORVION_CANONICAL/manifest.md` |
+| Business & schema canon (source of truth for domain/schema intent) | `_ORVION_CANONICAL/**` |
+| As-built schema truth | `supabase/migrations/**` |
+| Coding / SQL / API / security standards | `CODING_STANDARDS.md` |
+| Project identity, vision, boundaries | `PROJECT_CONTEXT.md` |
+| Rationale, findings, ADRs, deferred backlog | `reports/` (index: `reports/README.md`) |
+| Full document registry (what each file owns) | `GOVERNANCE.md §5` |
 
-* `AGENTS.md` - AI agent operating rules for this repository (execution conduct authority).
-* `GOVERNANCE.md` - Knowledge & decision operating system: where every fact lives (SSOT map), the decision/report lifecycles, and where agents may write.
-* `llms.txt` - Curated boot map for AI agents.
-* `WORKSTATION.md` - Entry point for rebuilding the engineering environment on a fresh machine (points to `.workstation/`). Separate from ORVION development, which starts here.
-* `PROTOCOL.md` - Retired → pointer to `AGENTS.md`/`GOVERNANCE.md`.
-* `PROJECT_CONTEXT.md` - Project context for AI agents.
-* `CODING_STANDARDS.md` - Repository coding standards.
-* `global-rules.md` - Retired → pointer to `AGENTS.md §6`.
-* `_ORVION_CANONICAL/` - Canonical project documents and source of truth.
-* `scripts/` - Development and maintenance scripts.
-* `changes/` - Active change requests.
-* `supabase/` - Local Supabase configuration and database resources.
-
-## Boot Sequence
-
-A fresh session bootstraps itself from the repository — no prior conversation or `/resume` required. Read only what the current state calls for; large documents stay unread until the state needs them.
-
-1. **`AGENTS.md`** — the operating model and execution brain: how work is done here, what governs conduct, the standing authorities, how decisions are made, and where to look next. Read this first.
-2. **`_ORVION_CANONICAL/manifest.md`** — the live state: current phase, module, and `Active Change Request`.
-3. **If `Active Change Request` is not `None`** — read that `changes/SPEC-*.md`; its own Minimum Reading List takes over from here.
-4. **If it is `None`** — read `_ORVION_CANONICAL/32_execution_roadmap.md` for the current phase and its next capability.
-5. **Task-specific canon only** — `_ORVION_CANONICAL/00`–`23` (business/domain rules), `24`–`33` (schema/database), and the cross-cutting principle docs `34_authentication_and_identity_principles.md` and `35_tenant_isolation_and_data_access_principles.md`. Read only what the current task needs.
-6. **Rationale, on demand** — `reports/` for the "why" behind a decision; `reports/architecture-decision-records.md` for active ADRs; `reports/future-backlog.md` for deferred work and its triggers.
-
-## Development Principles
-
-* Preserve the existing project direction.
-* Keep changes small and local.
-* Respect documented decisions.
-* Validate assumptions before changing code.
-* Stop and ask when requirements are unclear.
-
-## Repository Rules
-
-* Do not modify canonical documents unless explicitly requested.
-* Keep changes minimal.
-* Follow `AGENTS.md`.
-* Follow project coding standards.
-
-## Project Status
-
-Current Phase:
-
-See `_ORVION_CANONICAL/manifest.md`'s Current Development Status — not restated here, to avoid the two falling out of sync.
-
-Source of Truth:
-
-`_ORVION_CANONICAL/`
-
-Repository Policy:
-
-Canonical-first
+**Repository policy:** canonical-first; the source of truth is `_ORVION_CANONICAL/` and the migrations. Conduct is governed by `AGENTS.md`; knowledge placement by `GOVERNANCE.md`. A fresh session needs no chat history — the repository is self-describing; start at `AGENTS.md`.

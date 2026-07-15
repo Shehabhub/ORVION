@@ -62,16 +62,19 @@ Governance is self-revising: if a step stops earning its confidence, propose sim
 
 ## 4. Where to look next (the boot sequence)
 
-A fresh session bootstraps itself from the repository — conversation history is optional.
+**This is the SINGLE authoritative boot sequence for every session — human or AI, any tool. It is the only home for the reading order (`GOVERNANCE.md §2`); `README.md`, `llms.txt`, and `ai-map.json` route here and never restate these steps.** Following it is **mandatory and self-directing**: no agent should ever ask "what do I read?", "where do I start?", or "may I read AGENTS / GOVERNANCE / the canon?" — this sequence is the answer. **Reading mandatory repository knowledge is never owner approval**; owner approval is required only where governance explicitly says so (a new ADR, a canon change, a roadmap change, an irreversible action — §1 stop-conditions).
 
-1. **This file** — how work is done (you are here).
-2. **`_ORVION_CANONICAL/manifest.md`** — current phase, module, and Active Change Request. This is the live state.
-3. **If `Active Change Request` is not `None`** — read that `changes/SPEC-*.md`; its own Minimum Reading List takes over from here.
-4. **If it is `None`** — read `_ORVION_CANONICAL/32_execution_roadmap.md` for the current phase and its next capability.
-5. **Task-specific canon only** — `_ORVION_CANONICAL/00`–`23` for business/domain rules, `24`–`33` for schema/database, `34`/`35` for the cross-cutting principle docs. Read only what the current task needs.
-6. **Rationale, on demand** — `reports/` for the "why" behind a decision; `reports/architecture-decision-records.md` for active ADRs; `reports/future-backlog.md` for deferred work and its triggers.
+A fresh session bootstraps itself from the repository alone — conversation history is never required.
 
-Supporting references, pulled only when relevant: **`GOVERNANCE.md`** (knowledge/decision operating system — where every fact lives (SSOT map), the decision/report lifecycles, and where agents may/may not write), **`CR_LIFECYCLE.md`** (Change Request state machine and command vocabulary), **`PROJECT_CONTEXT.md`** (project identity, vision, boundaries, business context), **`CODING_STANDARDS.md`** (naming, SQL, API, security standards).
+1. **This file (`AGENTS.md`)** — orientation: how work is done, standing authorities, decision tiers (you are here).
+2. **`GOVERNANCE.md`** — knowledge/decision operating system: where every fact lives (SSOT matrix §2), how decisions flow (§3), where you may/may not write (§8). Read it before placing or changing any knowledge.
+3. **`_ORVION_CANONICAL/manifest.md`** — live state: current phase, module, and Active Change Request.
+4. **If `Active Change Request` is not `None`** — read that `changes/SPEC-*.md`; its own Minimum Reading List takes over from here.
+5. **If it is `None`** — read `_ORVION_CANONICAL/32_execution_roadmap.md` for the current phase and its next capability.
+6. **Task-specific canon only** — `_ORVION_CANONICAL/00`–`23` (business/domain), `24`–`33` (schema/database), `34`/`35` (cross-cutting principles). Read only what the current task needs.
+7. **Rationale, on demand** — `reports/` for the "why"; `reports/architecture-decision-records.md` for active ADRs; `reports/future-backlog.md` for deferred work and its triggers.
+
+Supporting references, pulled only when relevant: **`CR_LIFECYCLE.md`** (Change Request state machine and command vocabulary), **`PROJECT_CONTEXT.md`** (project identity, vision, boundaries, business context), **`CODING_STANDARDS.md`** (naming, SQL, API, security standards).
 
 ---
 

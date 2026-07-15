@@ -52,7 +52,7 @@ Read top-down to answer "what am I allowed to do?"; read a specific layer to ans
 |---|---|---|
 | Execution conduct / operating model | `AGENTS.md` | PROTOCOL.md, global-rules.md, CLAUDE/GEMINI/.cursor/.github (thin pointers) |
 | Change Request state machine | `CR_LIFECYCLE.md` | AGENTS.md (points to it) |
-| Boot sequence / reading order | `README.md` + `AGENTS.md §4` | this file |
+| Boot sequence / reading order | `AGENTS.md §4` (single authority) | `README.md` (one-hop router), `llms.txt` (AI-convention pointer), `ai-map.json` (auto-gen pointer), this file — all reference, none restate the steps |
 | Workstation rebuild (tools/extensions/MCPs/plugins) | `.workstation/manifest.md` (what + why) + `.workstation/prepare.ps1` (how) | `WORKSTATION.md` (thin entry, points here), README |
 | Coding / SQL / API / security standards | `CODING_STANDARDS.md` | ADRs, canon |
 | Business & domain rules | `_ORVION_CANONICAL/00–23` | reports (rationale only) |
@@ -134,13 +134,13 @@ When a review changes a conclusion, it **updates the LIVING doc**, and **writes 
 |---|---|---|---|---|
 | `GOVERNANCE.md` (this) | knowledge/decision OS | Living | §2 SSOT, lifecycles | governance review |
 | `AGENTS.md` | execution operating model | Living (protected) | conduct, boot, authorities | owner-authorized only |
-| `README.md` | entry point / reading order | Living (protected) | boot sequence | owner-authorized only |
+| `README.md` | one-hop entry router | Living (protected) | routing to authorities (the boot sequence itself lives in `AGENTS.md §4`) | owner-authorized only |
 | `PROTOCOL.md` | **RETIRED** → tombstone pointer (session 10) | Historical | nothing — content owned by AGENTS/GOVERNANCE | frozen |
 | `global-rules.md` | **RETIRED** → tombstone pointer (session 10) | Historical | nothing — content owned by AGENTS §6 | frozen |
 | `CR_LIFECYCLE.md` | CR state machine | Living | CR states/transitions/vocabulary | owner-authorized |
 | `CODING_STANDARDS.md` | code/SQL/API/security standards | Living | standards | as standards evolve |
 | `PROJECT_CONTEXT.md` | identity/vision/boundaries | Living | product identity | owner |
-| `CLAUDE/GEMINI/.cursor/.github` | tool pointers | Living | nothing — thin pointers to AGENTS | keep thin |
+| `CLAUDE/GEMINI/.cursor/.github`, `llms.txt` | tool / AI-convention entry pointers | Living | nothing — thin pointers to `README.md` → `AGENTS.md §4`; restate nothing (cannot drift) | keep thin |
 | `WORKSTATION.md` | engineering-environment rebuild entry | Living | how to rebuild the workstation (points to `.workstation/`) | when env reproducibility changes |
 | `.workstation/manifest.md` | SSOT of tools/extensions/MCPs/plugins + Earn-It rationale | Living | what the workstation contains | when a tool earns/loses its place |
 | `.workstation/*.ps1` | recover (`prepare`) · verify (`doctor`) · `update` · `cleanup` · `decommission` | Living | reproducible environment scripts (the real logic) | with the manifest |
@@ -194,7 +194,7 @@ Any Claude/Codex/Gemini/Cursor/MCP session:
 
 ## 9. Human onboarding path (<1 hour)
 
-1. `README.md` (5 min) — what/why + reading order.
+1. `README.md` (2 min) — what ORVION is + one-hop routing to the right authority.
 2. `AGENTS.md` (15 min) — how work is done, when to stop.
 3. `GOVERNANCE.md` (this, 15 min) — where truth lives, how decisions flow.
 4. `manifest.md` (2 min) — where we are now.

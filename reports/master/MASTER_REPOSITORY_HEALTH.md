@@ -51,8 +51,8 @@ Last measured: 2026-07-15 (Repository Recovery synchronization — source-verifi
 | Root conduct docs | **1 authority** (AGENTS) + 2 tombstones | PROTOCOL/global-rules RETIRED to pointers (session 10, full-diff verified zero unique authority) ✅ |
 | Entry-point → GOVERNANCE pointer | present ✅ | added to README + AGENTS §4 + llms.txt (session 10) — navigation determinism closed |
 | Stray artifacts | `backup/` gitignored ✅ | retired from version control (session 8) |
-| AGENTS.md size | 109 lines | ✅ within the 150-line agent-efficiency budget (evidence: 2026 AGENTS.md research) |
-| llms.txt (agent curated map) | present ✅ | added session 8 — root boot map for AI agents |
+| AGENTS.md size | 114 lines | ✅ within the 150-line agent-efficiency budget (evidence: 2026 AGENTS.md research) |
+| llms.txt (AI-convention entry) | present ✅ | thinned to a pure pointer 2026-07-15 (restates nothing → cannot drift); boot sequence lives only in `AGENTS.md §4` |
 | Avg Living-doc age | <2 days | very fresh (governance built this month) |
 | Governance version | 1.6 | changelog in GOVERNANCE.md (v1.6 Living-Documents-first §4; v1.5 Retention Earn-It §18; §6.8 one-authority, §18 maintenance mode + discovery-to-guard loop) |
 | Reports needing an index | 0 | `reports/README.md` covers all |

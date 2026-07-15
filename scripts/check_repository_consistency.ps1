@@ -103,6 +103,32 @@ if (Test-Path $masterDir) {
     }
 }
 
+Write-Host "== Check 3: boot-chain router integrity ==" -ForegroundColor Cyan
+# The router files must always point to the single boot authority (AGENTS.md §4), or a fresh
+# session's cold-boot chain is silently severed. Precise, low-false-positive.
+$routers = @{
+    'README.md'  = 'AGENTS.md'
+    'llms.txt'   = 'AGENTS.md'
+    'AGENTS.md'  = 'GOVERNANCE.md'   # §4 sequence must still route into governance + live state
+}
+foreach ($router in $routers.Keys) {
+    $path = Join-Path $RepoRoot $router
+    if (-not (Test-Path $path)) {
+        Write-Host "  MISSING ROUTER: $router does not exist" -ForegroundColor Yellow
+        $issues++
+        continue
+    }
+    $text = Get-Content $path -Raw
+    if ($text -notmatch [regex]::Escape($routers[$router])) {
+        Write-Host "  BROKEN ROUTER: $router no longer references $($routers[$router]) — boot chain severed" -ForegroundColor Yellow
+        $issues++
+    }
+}
+if ((Get-Content (Join-Path $RepoRoot 'AGENTS.md') -Raw) -notmatch 'single authoritative boot sequence') {
+    Write-Host "  BOOT AUTHORITY WEAKENED: AGENTS.md §4 no longer declares itself the single authoritative boot sequence" -ForegroundColor Yellow
+    $issues++
+}
+
 Write-Host ""
 if ($issues -eq 0) {
     Write-Host "REPOSITORY CONSISTENCY: CLEAN" -ForegroundColor Green
