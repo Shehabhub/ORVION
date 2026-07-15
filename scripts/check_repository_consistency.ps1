@@ -8,7 +8,7 @@
   Deterministic, dependency-free. Precision over recall — it must not cry wolf, or agents
   will learn to ignore it. Four checks (1–2 scoped to Living docs; 3 boot routers; 4 all reports):
     Check 1 broken references · Check 2 intra-register status contradiction ·
-    Check 3 boot-chain router integrity · Check 4 report class-header presence.
+    Check 3 boot-chain router integrity + AI-pointer thinness · Check 4 report class-header presence.
   Details inline. Original two checks documented below:
 
     1) BROKEN REFERENCES — in Living docs (repo-root *.md, _ORVION_CANONICAL/** except the
@@ -148,6 +148,25 @@ foreach ($router in $routers.Keys) {
 if ((Get-Content (Join-Path $RepoRoot 'AGENTS.md') -Raw) -notmatch 'single authoritative boot sequence') {
     Write-Host "  BOOT AUTHORITY WEAKENED: AGENTS.md §4 no longer declares itself the single authoritative boot sequence" -ForegroundColor Yellow
     $issues++
+}
+# Anti-duplicate-authority: AI pointer files must stay THIN and keep routing to the boot chain.
+# Precedent: llms.txt had grown into a restated SSOT matrix and drifted (2026-07-15). A pointer
+# that accretes content is becoming a second authority — catch it by size + routing.
+$thinPointers = @('CLAUDE.md','GEMINI.md','.github/copilot-instructions.md','.cursor/rules/orvion.mdc','llms.txt')
+$pointerBudget = 25
+foreach ($p in $thinPointers) {
+    $pp = Join-Path $RepoRoot $p
+    if (-not (Test-Path $pp)) { continue }   # not every tool's file exists in every checkout
+    $n = @(Get-Content $pp).Count
+    $t = Get-Content $pp -Raw
+    if ($n -gt $pointerBudget) {
+        Write-Host "  POINTER BLOAT: $p is $n lines (budget $pointerBudget) — a thin pointer is accreting duplicate authority" -ForegroundColor Yellow
+        $issues++
+    }
+    if ($t -notmatch 'AGENTS\.md' -and $t -notmatch 'README\.md') {
+        Write-Host "  POINTER ADRIFT: $p references neither AGENTS.md nor README.md — no longer routes into the boot chain" -ForegroundColor Yellow
+        $issues++
+    }
 }
 
 Write-Host ""

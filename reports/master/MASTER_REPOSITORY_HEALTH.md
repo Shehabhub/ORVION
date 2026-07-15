@@ -42,7 +42,7 @@ Single discoverable list of every automatic check. If one fails, CI is red and t
 | Schema-7 | Foundation counts (71 tables, 65/395 catalog, resolver, triggers) | `scripts/verify_database.sql` (self-arming `ON_ERROR_STOP`) | `migration-ci.yml` |
 | Docs-1 | No broken document references in Living docs | `check_repository_consistency.ps1` Check 1 | `repository-consistency.yml` |
 | Docs-2 | No intra-register finding-status contradiction | Check 2 | `repository-consistency.yml` |
-| Docs-3 | Boot-chain router integrity (routers point to `AGENTS.md §4`) | Check 3 | `repository-consistency.yml` |
+| Docs-3 | Boot-chain router integrity + AI-pointer files stay thin (≤25 lines) & routed (anti-duplicate-authority) | Check 3 | `repository-consistency.yml` |
 | Docs-4 | Every report declares its document class | Check 4 | `repository-consistency.yml` |
 
 Adding a new invariant is the standard permanent-guard response (GOVERNANCE §18 discovery-to-guard) — extend the pgTAP suite or the consistency script, never a one-off manual check.
