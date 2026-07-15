@@ -6,9 +6,10 @@
 
 .DESCRIPTION
   Deterministic, dependency-free. Precision over recall — it must not cry wolf, or agents
-  will learn to ignore it. Four checks (1–2 scoped to Living docs; 3 boot routers; 4 all reports):
+  will learn to ignore it. Five checks (1–2 Living docs; 3 boot routers; 4 all reports; 5 manifest):
     Check 1 broken references · Check 2 intra-register status contradiction ·
-    Check 3 boot-chain router integrity + AI-pointer thinness · Check 4 report class-header presence.
+    Check 3 boot-chain router integrity + AI-pointer thinness · Check 4 report class-header presence ·
+    Check 5 manifest leanness (cold-boot cost).
   Details inline. Original two checks documented below:
 
     1) BROKEN REFERENCES — in Living docs (repo-root *.md, _ORVION_CANONICAL/** except the
@@ -165,6 +166,20 @@ foreach ($p in $thinPointers) {
     }
     if ($t -notmatch 'AGENTS\.md' -and $t -notmatch 'README\.md') {
         Write-Host "  POINTER ADRIFT: $p references neither AGENTS.md nor README.md — no longer routes into the boot chain" -ForegroundColor Yellow
+        $issues++
+    }
+}
+
+Write-Host "== Check 5: manifest leanness (cold-boot cost) ==" -ForegroundColor Cyan
+# manifest.md is re-read on every cold boot and its own rule forbids becoming a changelog.
+# A hard line budget mechanically enforces "keep it to current state only" — the drift that
+# accreted three dated narrative blocks (2026-07-16 cold-boot finding).
+$manifestBudget = 70
+$mfPath = Join-Path $RepoRoot '_ORVION_CANONICAL/manifest.md'
+if (Test-Path $mfPath) {
+    $mfLines = @(Get-Content $mfPath).Count
+    if ($mfLines -gt $manifestBudget) {
+        Write-Host "  MANIFEST BLOAT: manifest.md is $mfLines lines (budget $manifestBudget) — trim changelog-style narrative; it holds current state only, pointing to reports for history" -ForegroundColor Yellow
         $issues++
     }
 }

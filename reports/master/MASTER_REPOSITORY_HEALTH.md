@@ -44,6 +44,7 @@ Single discoverable list of every automatic check. If one fails, CI is red and t
 | Docs-2 | No intra-register finding-status contradiction | Check 2 | `repository-consistency.yml` |
 | Docs-3 | Boot-chain router integrity + AI-pointer files stay thin (≤25 lines) & routed (anti-duplicate-authority) | Check 3 | `repository-consistency.yml` |
 | Docs-4 | Every report declares its document class | Check 4 | `repository-consistency.yml` |
+| Docs-5 | `manifest.md` stays lean (≤70 lines) — current-state only, no changelog creep | Check 5 | `repository-consistency.yml` |
 
 Adding a new invariant is the standard permanent-guard response (GOVERNANCE §18 discovery-to-guard) — extend the pgTAP suite or the consistency script, never a one-off manual check.
 
