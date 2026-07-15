@@ -211,9 +211,11 @@ Outputs:
 
 ---
 
+> **Execution-order decision (owner, 2026-07-16):** phases run **7 → 9 → 8 → 10**, not in numeric order. **Phase 9 (Reports & Dashboards / RC-4) is executed BEFORE Phase 8 (Offline Conversion)** — reporting unblocks the most operational roles and is the read-model substrate for later AI/RI + offline-conversion consumers (evidence: `reports/history/repository-recovery-completion-2026-07-15.md` §5; checkpoint proposal P3). Phase numbers are stable identifiers, not execution order.
+
 # Phase 8: Offline Conversion
 
-Status: Pending
+Status: Deferred — runs after Phase 9 (2026-07-16 owner sequencing)
 
 Objective:
 
@@ -232,7 +234,7 @@ Outputs:
 
 # Phase 9: Reports And Dashboards
 
-Status: Pending
+Status: In Progress — CURRENT phase (owner-sequenced ahead of Phase 8, 2026-07-16). First capability: the RC-4 read-model foundation.
 
 Objective:
 
