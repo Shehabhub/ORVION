@@ -85,7 +85,8 @@ Local stack is Supabase (Postgres 17) via the CLI; the database container is `su
 - **Apply migrations:** `npx supabase start` (once), then `npx supabase db reset` applies every migration on a clean database.
 - **Smoke-test (must pass):** `docker exec -i supabase_db_ORVION psql -U postgres -d postgres -f - < scripts/verify_database.sql` → prints `ALL CHECKS PASSED` (the expected table count is the one asserted in `scripts/verify_database.sql`, not restated here); a non-zero exit is a regression.
 - **Behavioral test:** exercise the new RPC through `docker exec -i supabase_db_ORVION psql -U postgres -d postgres`, confirming both the allowed and the blocked paths.
-- **CI:** `.github/workflows/migration-ci.yml` re-runs `supabase db reset` on every push/PR.
+- **Repository consistency (docs):** before committing any documentation/report change, run `pwsh -File scripts/check_repository_consistency.ps1` — it must print `REPOSITORY CONSISTENCY: CLEAN` (guards broken references, Master-register status contradictions, boot-router integrity, and report class headers). Part of the definition of done for doc changes, not only a CI check.
+- **CI:** `.github/workflows/migration-ci.yml` re-runs `supabase db reset` on every push/PR; `.github/workflows/repository-consistency.yml` runs the consistency guard on every doc-touching push/PR.
 
 RPC conventions (match existing migrations, e.g. `202607045700_advance_booking_item.sql`): `security invoker`; `set search_path = ''`; resolve tenant via `app.current_tenant_id()`; gate with `app.authorize('<PERMISSION>')`; emit business events via `app.record_event(...)`; `grant execute ... to authenticated`.
 

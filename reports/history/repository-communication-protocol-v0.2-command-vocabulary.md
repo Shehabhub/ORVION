@@ -1,5 +1,7 @@
 # Repository Communication Protocol — v0.2 Addendum: Command Vocabulary
 
+Class: **HISTORICAL-IMMUTABLE** (dated process record; class header added 2026-07-16 as a metadata normalization — content unchanged).
+
 Version: 0.2 (amends `reports/repository-communication-protocol.md` v0.1 — v0.1 is not edited; this
 document supersedes it for the topics covered here, following the same "never retroactively edit,
 always supersede" rule this protocol itself defines for Change Requests)

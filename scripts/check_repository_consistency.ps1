@@ -6,7 +6,10 @@
 
 .DESCRIPTION
   Deterministic, dependency-free. Precision over recall — it must not cry wolf, or agents
-  will learn to ignore it. Two checks, both scoped to LIVING documents only:
+  will learn to ignore it. Four checks (1–2 scoped to Living docs; 3 boot routers; 4 all reports):
+    Check 1 broken references · Check 2 intra-register status contradiction ·
+    Check 3 boot-chain router integrity · Check 4 report class-header presence.
+  Details inline. Original two checks documented below:
 
     1) BROKEN REFERENCES — in Living docs (repo-root *.md, _ORVION_CANONICAL/** except the
        two deprecated files, reports/master, reports/evidence, reports root), any strict
@@ -99,6 +102,24 @@ if (Test-Path $masterDir) {
                 Write-Host "  STATUS CONTRADICTION: $($md.Name): $id OPEN at line $($openAt[$id]) but resolved at line $($resolvedAt[$id])" -ForegroundColor Yellow
                 $issues++
             }
+        }
+    }
+}
+
+Write-Host "== Check 4: every report declares its document class ==" -ForegroundColor Cyan
+# A report without a class/type header has an ambiguous lifecycle (Living vs Historical vs
+# Auto-generated — GOVERNANCE.md §4). The reports index and the ADR/backlog roots are exempt
+# (they are not classed findings/records). Header must appear in the first 6 lines.
+$reportExempt = @('readme.md','architecture-decision-records.md','future-backlog.md')
+$reportsRoot = Join-Path $RepoRoot 'reports'
+if (Test-Path $reportsRoot) {
+    foreach ($md in Get-ChildItem $reportsRoot -Recurse -Filter *.md -File) {
+        if ($reportExempt -contains $md.Name.ToLower()) { continue }
+        $head = (Get-Content $md.FullName -TotalCount 6) -join "`n"
+        if ($head -notmatch '(?im)^\s*(Class|Type|Status|Purpose)\s*:') {
+            $rel = $md.FullName.Substring($RepoRoot.Length + 1)
+            Write-Host "  UNTYPED REPORT: $rel has no Class/Type/Status/Purpose header (first 6 lines)" -ForegroundColor Yellow
+            $issues++
         }
     }
 }

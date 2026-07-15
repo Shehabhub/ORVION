@@ -28,6 +28,25 @@ Last measured: 2026-07-15 (Repository Recovery synchronization — source-verifi
 | Tracked findings | ~95 | R/A/B/BF/CDD/DC/N/INV/RC/FOE/OPS (SSOT: `MASTER_GAP_REGISTER.md`) |
 | Memory files | 29 | cache only (never sole SSOT) |
 
+## 2b. Enforced repository invariants (the fitness functions — what the repo validates automatically)
+Single discoverable list of every automatic check. If one fails, CI is red and the merge is blocked (schema) or the consistency job fails (docs). This is how the repository stays self-validating without human supervision.
+
+| # | Invariant | Mechanism | Gate |
+|---|---|---|---|
+| Schema-1 | RLS enabled + policy on every tenant table | `supabase/tests/01_rls_coverage_test.sql` (pgTAP) | `migration-ci.yml` |
+| Schema-2 | Append-only audit tables carry the immutability trigger | `02_append_only_audit_test.sql` | `migration-ci.yml` |
+| Schema-3 | Every money column scale ≥ currency precision | `03_money_currency_precision_test.sql` | `migration-ci.yml` |
+| Schema-4 | Every `tenant_id` column has an index | `04_tenant_id_index_coverage_test.sql` | `migration-ci.yml` |
+| Schema-5 | Every `app` function pins `search_path` | `05_function_search_path_test.sql` | `migration-ci.yml` |
+| Schema-6 | RLS predicates wrap `current_tenant_id()` (InitPlan) | `06_rls_initplan_wrapping_test.sql` | `migration-ci.yml` |
+| Schema-7 | Foundation counts (71 tables, 65/395 catalog, resolver, triggers) | `scripts/verify_database.sql` (self-arming `ON_ERROR_STOP`) | `migration-ci.yml` |
+| Docs-1 | No broken document references in Living docs | `check_repository_consistency.ps1` Check 1 | `repository-consistency.yml` |
+| Docs-2 | No intra-register finding-status contradiction | Check 2 | `repository-consistency.yml` |
+| Docs-3 | Boot-chain router integrity (routers point to `AGENTS.md §4`) | Check 3 | `repository-consistency.yml` |
+| Docs-4 | Every report declares its document class | Check 4 | `repository-consistency.yml` |
+
+Adding a new invariant is the standard permanent-guard response (GOVERNANCE §18 discovery-to-guard) — extend the pgTAP suite or the consistency script, never a one-off manual check.
+
 ## 3. Drift indicators (👁 target-automated)
 | Indicator | Value | Method / status |
 |---|---|---|

@@ -1,5 +1,7 @@
 # Repository Engineering Program
 
+Class: **HISTORICAL-IMMUTABLE** (process record; class header added 2026-07-16 as a metadata normalization — content unchanged).
+
 ## What Repository Engineering Is
 
 Repository Engineering is the implementation program that follows this repository's completed architectural review (Governance stabilization, Repository Recovery, Repository Normalization, the Compatibility Adapter Contract, the Engineering Playbook, the Execution Contract). It executes the smallest set of Change Requests needed to bring the repository into alignment with its own frozen architecture before SQL implementation begins. It exists because the defect that started this entire effort — completed work whose repository state was never synchronized — was found not just in one place but across governance, onboarding, and roadmap documents; Repository Engineering is the corrective execution of that finding, one package at a time.
