@@ -144,6 +144,25 @@ Reconstructed from implementation; each "Group 3" capability assessed for whethe
 
 Rationale: producing full ADRs for the four deferred domains now would be speculative architecture for future, business-policy-dependent capabilities off the critical path — a Learn-Before-Designing / Earn-It violation. Each is preserved with a concrete trigger so nothing is lost.
 
+## Repository-Improvement Evaluation (2026-07-17, §5 of the Advisory-Board directive)
+
+Every proposal evaluated against what already exists (the owner proposes; repository evidence decides). **Dominant finding: most proposals already exist under a different name** (the Master suite + SSOT matrix + guard already provide them) — adopting them again would duplicate authority (One-Authority / Anti-Entropy). A few earn a *later* trigger; almost none earn *now*.
+
+| Proposal | Verdict | Evidence |
+|---|---|---|
+| Repository Health / Maturity / Phase-Readiness / Automation-Readiness **Scores** | **Reject** | Scalar "scores" are vanity metrics; `MASTER_REPOSITORY_HEALTH.md` (§17) + `MASTER_CERTIFICATION_STATUS.md` + roadmap/manifest already give richer, decision-driving state. A number adds no confidence. |
+| Knowledge / Architecture / Governance / Canon / ADR **Coverage Matrices** | **Reject (duplicate)** | Already are: GOVERNANCE §2 SSOT matrix, `MASTER_COVERAGE_SCORE.md`, GOVERNANCE §5 registry, ai-map `canonical_docs`, ADR log + `MASTER_ARCHITECTURE_DECISIONS`. |
+| Repository Traceability Matrix / Cross-reference Completeness | **Adopt Later → already scoped** | Covered by the consistency-guard broken-ref check + the §19 periodic orphan/lineage steward scan. No new artifact. |
+| Architecture-Decision Dashboard / Repository-Health Dashboard | **Reject (exists)** | ADR log + `MASTER_ARCHITECTURE_DECISIONS`; `MASTER_REPOSITORY_HEALTH.md`. |
+| Domain Dependency Matrix | **Reject (exists)** | `MASTER_ENTITY_RELATIONSHIP_MAP.md` + canon 29 relationship map. |
+| Capability Dependency Graph | **Adopt Later** | `MASTER_DEPENDENCY_GRAPH.md` covers finding-deps; a capability-level graph earns it when capability count/coupling makes phase-order reasoning hard. Trigger: post-Phase-10 or on evidence. |
+| Event Flow Map | **Adopt Later** | canon 27 + `MASTER_DATA_FLOW.md` define events; a concise event→consumer flow view earns it **at Phase 8** (offline-conversion consumes events). Trigger: Phase 8. |
+| RPC Dependency Map | **Adopt Later** | 67 RPCs are migration-ordered + self-documenting today; a map earns it when coupling makes reasoning hard. Trigger: on evidence. |
+| Dashboard contracts / per-department dashboard architecture / KPI Catalog / Widget Catalog / Dashboard Permission Matrix | **Adopt Later (UI trigger)** | Pure frontend concerns; ORVION has no UI. The Phase-9 `reporting` views already are the data contracts; RBAC + RLS already gate access. Trigger: first dashboard/frontend implementation (same trigger class as the deferred frontend design pack). |
+| **Permanent Integration Catalog** (Google/Meta/WhatsApp/n8n/AI/Email/SMS/Payment/External) | **Adopt Later — soon** | Genuine cross-cutting value (unlike the dashboards): a single canonical registry of external integrations + transport + status + decision-record link. Not yet earned (only one integration is imminent), but **trigger = Phase 8 lands** → seed it with the Google Data Manager decision (`google-offline-conversion-transport-decision-2026-07-17.md`) and grow it as Meta/WhatsApp/n8n arrive. Strongest of the §5 proposals. |
+
+Net: **1 near-term adopt (Integration Catalog, trigger Phase 8), ~6 UI/scale-triggered defers, the rest rejected as duplicates of the existing Master suite.** This is Earn-It doing its job against governance bloat — the owner proposed, the evidence decided.
+
 ## How items enter and leave this backlog
 
 1. A review or migration surfaces an improvement not justified for immediate implementation.
