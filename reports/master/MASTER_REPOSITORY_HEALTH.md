@@ -20,7 +20,7 @@ Last measured: 2026-07-15 (Repository Recovery synchronization — source-verifi
 |---|---|---|
 | Schema: tables / indexes / triggers / functions / CHECKs / views | 71 / 137 / 36 / 66 / 12 / 0 | +18 tenant_id indexes (SPEC-114, A2); 0 views = read-model layer not built (RC-4) |
 | app RPCs / catalog types / permissions / roles | 55 / 65 / 64 / 9 | source-verified 2026-07-15 (RPC = `create or replace function app.*`; catalog types = `verify_database.sql` expected 65); grounding for domain catalog |
-| Canon docs | 39 | `_ORVION_CANONICAL/**` (2 deprecated: codex, SYSTEM_PROMPT) |
+| Canon docs | 37 | `_ORVION_CANONICAL/**` (deprecated tombstones retired 2026-07-17; git history preserves them) |
 | ADRs (ratified) | 21 | ADR-0001…0021 |
 | Master documents (Living) | 13 | 12 findings/blueprint + this health doc |
 | Evidence reports (Living) | 5 | VALIDATED/PENDING/REJECTED/INDUSTRY_REFERENCES/PROOF_LOG |
@@ -61,7 +61,7 @@ Adding a new invariant is the standard permanent-guard response (GOVERNANCE §18
 | Pending ADRs (proposed, unratified) | 10 | `MASTER_ARCHITECTURE_DECISIONS §B` — **owner action** |
 | Pending findings (failed a pipeline stage) | 8 | `PENDING_ARCHITECTURE_FINDINGS.md` |
 | Pending governance changes | 1 | GOVERNANCE §12 step 6 only (governance automation — config/CI, owner-gated); steps 1–5,7 DONE |
-| Deprecated docs still present | 2 | codex.md, SYSTEM_PROMPT.md (correctly marked, retained as history) |
+| Deprecated docs still present | 0 | codex.md + SYSTEM_PROMPT.md retired 2026-07-17 (documents-serve-ORVION clause; git preserves history) |
 
 ## 4. Growth / complexity trend
 | Metric | Value | Watch |

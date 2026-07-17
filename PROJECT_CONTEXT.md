@@ -46,7 +46,7 @@ ORVION is not:
 
 It integrates with such systems when necessary.
 
-## 13. Business Context (from codex.md)
+## 13. Business Context
 
 ### About ORVION
 

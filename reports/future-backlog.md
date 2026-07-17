@@ -193,6 +193,16 @@ Reviewed all 19 axes against the clarified digital-operating-system vision. **Ve
 
 Next-step determination: **Phase 8 remains the objectively highest-value step** — it is also the first end-to-end exercise of the integration pattern (outbox + n8n + consent) every later platform reuses, i.e. it validates the 10-year architecture with the least new surface.
 
+### Foundational-completeness & governance-conflict scan (2026-07-17, documents-serve-ORVION directive)
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| HR / payroll / leave domain | **Owner decision (isolated, non-blocking)** | `PROJECT_CONTEXT.md §12` currently declares "ORVION is not an HR System" — a boundary only the owner may move (product identity = business policy). NOTE: the administrative *skeleton already exists* (users/branches/departments/tasks/`branch_business_hours`/`holidays`/`company_assets`), so employee-as-operational-actor needs nothing new; full HR (payroll/contracts/leave) would be a product-scope expansion. If the owner elects it, it becomes Fundamental-Domain-Structure and its canon doc + tables are modeled then. |
+| Administration / org-management / branch-management structures | **Already present** | branches, departments, assignments, transfer events, business hours, holidays, company assets — verified in migrations. |
+| Additional travel reference structures | **Unchanged verdicts** | see the Structural-Completeness Assessment above (feature-model-dependent; trigger recorded). |
+| Governance conflicts found | **One (resolved) + one boundary note** | (a) Deprecated tombstones (`codex.md`, `SYSTEM_PROMPT.md`) conflicted with the shrink-over-time law → retired 2026-07-17 (first application of the §15 supremacy clause; ai-map 39→37; guard exclusion cleared; `PROJECT_CONTEXT §13` citation cleaned). (b) The §12 not-HR boundary vs the owner's completeness directive is *not* a governance defect — it is the isolated owner decision above. No duplicated/contradictory rules found otherwise (One-Authority scan clean). |
+| New MCP servers / skills / tooling | **No change earned now** | Postgres MCP already connected; tooling adoption already owned by GOVERNANCE §11 + `.workstation/manifest.md` (Earn-It-gated). Re-evaluate per §11 when a concrete need appears (e.g., an n8n MCP at Phase-8 workflow build). |
+
 ## How items enter and leave this backlog
 
 1. A review or migration surfaces an improvement not justified for immediate implementation.

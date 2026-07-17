@@ -42,7 +42,7 @@ $fileNames = @{}
 foreach ($f in $allFiles) { $fileNames[$f.Name.ToLower()] = $true }
 
 # --- Living-doc set (what we lint) ----------------------------------------------------------
-$deprecated = @('codex.md','system_prompt.md')
+$deprecated = @()   # retired 2026-07-17; list kept for future tombstone exclusions
 $livingDocs = $allFiles | Where-Object {
     $_.Extension -eq '.md' -and
     $_.FullName -notmatch '[\\/](changes|history)[\\/]' -and
