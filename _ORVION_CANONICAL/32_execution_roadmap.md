@@ -215,7 +215,7 @@ Outputs:
 
 # Phase 8: Offline Conversion
 
-Status: Deferred — runs after Phase 9 (2026-07-16 owner sequencing)
+Status: In Progress — CURRENT phase (started 2026-07-17 after Phase 9 Tier A completed). ORVION-side core landed (migration 049200): `record_offline_conversion` + the n8n outbox pair (`claim_conversion_deliveries`/`record_conversion_delivery_result`) + `orvion_integration` role + in-DB consent gate. Remaining: the automated outcome→conversion mapper, then the n8n workflow (Data Manager API + ECL; needs owner's Google OAuth credentials).
 
 Objective:
 
@@ -234,7 +234,7 @@ Outputs:
 
 # Phase 9: Reports And Dashboards
 
-Status: In Progress — CURRENT phase (owner-sequenced ahead of Phase 8, 2026-07-16). First capability: the RC-4 read-model foundation.
+Status: Complete (Tier A, 2026-07-17 — migration 048900: `reporting` schema + 7 security_invoker views serving all six outputs per ADR-0022). Tier B aggregates remain evidence-gated (a report must prove measured cost) and do not hold the phase open.
 
 Objective:
 
@@ -273,7 +273,7 @@ Outputs:
 
 The primary execution reference for future sessions. Phase numbers are stable identifiers; execution order is 7→9→8→10. Update whenever repository evidence justifies it — this section is Living, never frozen.
 
-## Phase 8 — Offline Conversion (next; architecture decided)
+## Phase 8 — Offline Conversion (CURRENT; core landed 2026-07-17)
 
 - **Objective:** close the founding feedback loop — verified CRM outcomes delivered to Google Ads.
 - **Deliverables:** conversion-mapping RPC (verified outcome → `offline_conversions`, value = revenue); n8n-facing outbox pair `claim_conversion_deliveries` / `record_conversion_delivery_result` + dedicated integration role; in-DB consent gate; the n8n workflow (Data Manager API + Enhanced Conversions for Leads, OAuth `datamanager` scope, SHA-256 hashing at the edge).
