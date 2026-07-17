@@ -163,6 +163,23 @@ Every proposal evaluated against what already exists (the owner proposes; reposi
 
 Net: **1 near-term adopt (Integration Catalog, trigger Phase 8), ~6 UI/scale-triggered defers, the rest rejected as duplicates of the existing Master suite.** This is Earn-It doing its job against governance bloat — the owner proposed, the evidence decided.
 
+### Living-Repository philosophy evaluation (2026-07-17, owner directive §4; extends the GOVERNANCE §19 knowledge-graph determination)
+
+Principles extracted (not tools) and judged against what ORVION already does:
+
+| Philosophy | Principle extracted | Verdict |
+|---|---|---|
+| Docs-as-Code | docs versioned with code, reviewed, CI-validated | **Already embodied** — everything is markdown in git, guarded by the consistency CI |
+| Living Documentation | generate docs from implementation evidence; hand-written docs decay | **Adopt (already begun)** — `repository-index.md` + `ai-map.json` are generated; standing rule: whenever a doc's content is mechanically derivable from implementation, prefer extending the generators/guard over hand-maintenance (GOVERNANCE §11 owns the automation list) |
+| Backstage (software catalog) | one registry of components/APIs/owners | **Reject as tool; principle already present** — GOVERNANCE §5 registry + Master suite are the catalog; a platform would duplicate authority |
+| C4 model | hierarchical architecture diagrams | **Adopt Later** — earns it at the first *service topology* (n8n workflows + Edge + portals); today one database = trivial C1–C3. Trigger: Phase 10 / first multi-service deployment |
+| ADR automation | decisions captured at the moment of change, template-enforced | **Already embodied** — ADR log + §15 lifecycle + guard class-header check |
+| Zettelkasten / knowledge graphs | atomic notes, stable IDs, backlinks, orphan detection | **Determined in GOVERNANCE §19** — principles largely embodied; tooling layer rejected; orphan scan adopted as periodic steward review |
+| Event/Integration catalogs | one home per event/integration contract | **Event catalog already canonical (`27`)**; Integration Catalog Adopt-Later (trigger: Phase 8 lands — seed with ADR-0023) |
+| "Repository shrinks over time" | retire > accumulate; every artifact re-earns its place | **Already law** — Retention Earn-It (GOVERNANCE §18) + Living-Documents-first (§4); the enforcement is the existing review cadences, not a new mechanism |
+
+Net: the living-repository goal is **already ORVION's operating model**; the two genuine deltas are recorded above (generate-over-hand-write preference; C4 at service-topology trigger). No new tooling earned.
+
 ## How items enter and leave this backlog
 
 1. A review or migration surfaces an improvement not justified for immediate implementation.
