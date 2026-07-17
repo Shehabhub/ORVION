@@ -2,7 +2,7 @@
 
 Status: **Permanent cumulative certification ledger.** Never recreate; evolve. Records what is certified, conditionally certified, or not certified, and the exact conditions to reach unconditional certification. Cross-reference: `MASTER_GAP_REGISTER.md`, `MASTER_DESIGN_CHECKLIST.md`.
 
-Last updated: 2026-07-15 (Repository Recovery synchronization — removed the DEFERRED DC-13 from the Batch-0 gate (it was making the gate unsatisfiable), and recorded the Batch-0/2 items already landed: DC-16, DC-1/R7, R5, A1. No certification verdict changed; the gate is corrected to match `MASTER_GAP_REGISTER.md`/`MASTER_EXECUTION_PLAN.md`).
+Last updated: 2026-07-18 (Post-production synchronization — production database deployment verified by matching local/remote migrations through `202607049600`; repository health counts refreshed; Phase 9 Tier A and the Phase 8 ORVION-side pipeline are now reflected here. Product/application launch remains outside this database-deployment certification.)
 
 ## Overall verdict
 
@@ -11,16 +11,17 @@ Last updated: 2026-07-15 (Repository Recovery synchronization — removed the DE
 | **Domain completeness** | ✅ **CERTIFIED** | 23-lens board + 4 adversarial passes; no missing domain/aggregate/foundational relationship survived. Excluded (Warehouse/MRP, Retail POS) correctly excluded. |
 | **Internal consistency** | ✅ **CERTIFIED** | Synthesis reconciled all reports; contradictions resolved (C1/C2, V1 RLS, ADR-0002/0006/0021 amendments). |
 | **Foundation stability** | 🟡 **CONDITIONAL** | Becomes unconditional when Batch 0 + Batch 1 (🔒 items) land. Landed: DC-1 money (SPEC-118), R5 attribution (SPEC-119), DC-16 test net (SPEC-113). Remaining Batch-0: R1–R4/R6/R8 retrofits, INV-1..4. (DC-13 UUIDv7 is DEFERRED — trigger PG18 — and is no longer a gate item.) |
-| **Production readiness** | 🟡 **CONDITIONAL** | Requires Batch 2 hardening (A1/A2/B5/DC-5/DC-15/OPS-1) + Batch 0/1 correctness (DC-2/3/4). |
+| **Production database deployment** | ✅ **CERTIFIED** | Local and remote migration lists match through `202607049600`; smoke contract is 72 tables, 67 catalog types, 565 catalog values; app RPCs exist in schema `app`; no Edge Functions are implemented in the repository. |
+| **Product/application launch readiness** | 🟡 **CONDITIONAL** | Database deployment is complete, but the application UI/runtime surface is not implemented and Phase-8 n8n go-live still needs owner-exclusive credentials. |
 | **Tenant isolation / security core** | ✅ **CERTIFIED (audited)** | Default-deny, single RLS primitive (ADR-0013), service_role-only platform access, immutability trigger present. DC-15 bounds the one residual (service_role radius). |
 | **SaaS readiness (schema)** | ✅ CERTIFIED | Subscription/entitlement/usage tables ready; runtime lifecycle (RC-1) is unbuilt, not a defect. |
-| **AI/RI readiness** | 🟡 CONDITIONAL | Strong (event+RPC surface); conditional on N1 event registry + RC-4 read-model layer (0 views today) + DC-18 pgvector for semantic. |
+| **AI/RI readiness** | 🟡 CONDITIONAL | Strong (event+RPC surface); N1 event registry and RC-4 Tier-A read-model layer are implemented; conditional items remain capability-specific (for example, DC-18 pgvector for semantic use cases). |
 
 ## Conditions for UNCONDITIONAL certification (the gate)
 All must be true:
 1. Batch 0 complete: DC-16 harness ✅ (SPEC-113); ADRs recorded (+ADR-0002/0006/0021 amendments); R1–R8 (**R5 ✅ SPEC-119**, **R7/DC-1 ✅ SPEC-118** — remaining R1–R4/R6/R8), INV-1..4 landed. (DC-13 UUIDv7 removed — DEFERRED to PG18 trigger, not a Batch-0 gate item.)
 2. Batch 1 complete: party+consent, dimensions, event registry, outbox, DC-2/3/4/6/8/9, numbering, i18n, feature-flags.
-3. Batch 2 complete: A1/A2/B5/B1/B2/B6/DC-5/DC-15/OPS-1.
+3. Batch 2 complete: remaining evidence-gated hardening only when its trigger fires (for example, A2 composite indexes on measured volume); already landed items are not gates.
 4. `MASTER_DESIGN_CHECKLIST.md` fully checked; pgTAP invariant tests green (RLS coverage, money-currency, append-only).
 
 Until then: **CERTIFIED FOR CONTINUED PHASED IMPLEMENTATION**, not for production launch.

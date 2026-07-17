@@ -17,7 +17,7 @@ Last curated: 2026-07-11 · Platform: Windows 11 + PowerShell · Primary agent: 
 | Node.js LTS | `OpenJS.NodeJS.LTS` | runs `npx supabase`, tooling | ✅ v24.18 |
 | Docker Desktop | `Docker.DockerDesktop` | local Supabase/Postgres stack (`supabase start`) | ✅ 29.6.1 |
 | Python 3 | `Python.Python.3.12` | base scripting dependency | ✅ 3.12.10 |
-| VS Code | `Microsoft.VisualStudioCode` | editor host for all agents/extensions | ✅ 1.128 |
+| VS Code | `Microsoft.VisualStudioCode` | editor host for all agents/extensions | ✅ 1.129 |
 | Supabase CLI | via `npx supabase` (no global install) | migrations, `db reset`, `test db` | ✅ 2.109 |
 
 > Supabase CLI is intentionally **not** installed globally — `npx supabase` pins per-project and avoids a stale global. Verified working this session.

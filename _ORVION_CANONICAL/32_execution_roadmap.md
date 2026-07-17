@@ -215,7 +215,7 @@ Outputs:
 
 # Phase 8: Offline Conversion
 
-Status: In Progress — CURRENT phase (started 2026-07-17 after Phase 9 Tier A completed). ORVION-side core landed (migration 049200): `record_offline_conversion` + the n8n outbox pair (`claim_conversion_deliveries`/`record_conversion_delivery_result`) + `orvion_integration` role + in-DB consent gate. ORVION-side pipeline COMPLETE (capture→map→claim→ack, migrations 049200/049300/049400). Remaining: Integration Catalog seed + n8n workflow (owner-exclusive: Google OAuth + orvion_integration password).
+Status: In Progress — CURRENT phase (started 2026-07-17 after Phase 9 Tier A completed). ORVION-side pipeline COMPLETE (capture→map→claim→ack, migrations 049200/049300/049400) and Integration Catalog seeded. Production database deployment complete: remote migrations match local through `202607049600`. Remaining: n8n workflow activation (owner-exclusive: Google OAuth + `orvion_integration` password).
 
 Objective:
 
@@ -269,14 +269,14 @@ Outputs:
 
 ---
 
-# Remaining Work — Living Forward Plan (2026-07-17; evolve in place)
+# Remaining Work — Living Forward Plan (2026-07-18; evolve in place)
 
 The primary execution reference for future sessions. Phase numbers are stable identifiers; execution order is 7→9→8→10. Update whenever repository evidence justifies it — this section is Living, never frozen.
 
-## Phase 8 — Offline Conversion (CURRENT; core landed 2026-07-17)
+## Phase 8 — Offline Conversion (CURRENT; ORVION-side pipeline landed 2026-07-17)
 
 - **Objective:** close the founding feedback loop — verified CRM outcomes delivered to Google Ads.
-- **Deliverables:** conversion-mapping RPC (verified outcome → `offline_conversions`, value = revenue); n8n-facing outbox pair `claim_conversion_deliveries` / `record_conversion_delivery_result` + dedicated integration role; in-DB consent gate; the n8n workflow (Data Manager API + Enhanced Conversions for Leads, OAuth `datamanager` scope, SHA-256 hashing at the edge).
+- **Deliverables:** conversion-mapping RPC (verified outcome → `offline_conversions`, value = revenue) ✓; n8n-facing outbox pair `claim_conversion_deliveries` / `record_conversion_delivery_result` + dedicated integration role ✓; in-DB consent gate ✓; Integration Catalog workflow contract ✓; the n8n workflow activation remains (Data Manager API + Enhanced Conversions for Leads, OAuth `datamanager` scope, SHA-256 hashing at the edge).
 - **Dependencies (all met):** attribution capture (SPEC-119) ✓ · money precision (SPEC-118) ✓ · read-model outcome surface (ADR-0022) ✓ · event cursor (`seq`, mig 049000) ✓ · event-type registry (mig 049100) ✓.
 - **Decided ADRs:** ADR-0023 (transport + n8n outbox). **Expected new:** none — remaining choices are implementation-level.
 - **Integration points:** Google Data Manager API (first row of the Integration Catalog, which seeds when this phase lands); GTM/GA4 coexist via Google's unified enhanced-conversions setting.
@@ -306,6 +306,4 @@ The primary execution reference for future sessions. Phase numbers are stable id
 
 # Immediate Next Action
 
-Phases 2–7 and 9 (Tier A) are complete. Per the 2026-07-16 owner sequencing (decision banner above §Phase 8), execution order is **7 → 9 → 8 → 10**, so **Phase 8 (Offline Conversion) is the current phase**. For the live next engineering action (current module, active Change Request, and immediate next step), the single source of truth is `manifest.md` — this roadmap owns phase *sequencing*, not live state, and does not restate it.
-
-**Phase 8 (Offline Conversion), when reached:** its capture-side prerequisites already landed — DC-1 money precision (`numeric(19,4)`, SPEC-118) and R5 attribution capture (`gbraid`/`wbraid` + consent on `attribution_clicks`, and the `leads.attribution_click_id` first-touch anchor; SPEC-119). The remaining Phase-8 work is the offline-conversion delivery + retry RPCs consuming the existing `attribution_clicks` / `offline_conversions` / `offline_conversion_deliveries` tables. One open owner decision for Phase 8's first Design Challenge: the outbound delivery transport — Google's **Data Manager API** + consent mode (legacy Ads offline-import blocked 2026-06-15). See `reports/future-backlog.md`.
+Phases 2–7 and 9 (Tier A) are complete. Per the 2026-07-16 owner sequencing (decision banner above §Phase 8), execution order is **7 → 9 → 8 → 10**, so **Phase 8 (Offline Conversion) is the current phase** until its n8n workflow is activated. The outbound transport decision is closed by ADR-0023. For the live next engineering action (current module, active Change Request, and immediate next step), the single source of truth is `manifest.md` — this roadmap owns phase *sequencing*, not live state, and does not restate it.
