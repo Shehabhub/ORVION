@@ -126,6 +126,21 @@ Forward-looking direction validated by research (2026-07). These do not change t
 | Full Meta-ecosystem research | Before designing the communication/marketing layer: Meta Business Platform/Portfolio, WhatsApp Business Platform, Marketing API, Messenger, Instagram Messaging, Embedded Signup, System Users, App Review, Business Verification, conversation ownership, shared-inbox architecture, multi-agent messaging. Per `AGENTS.md` §3 Learn-Before-Designing. | Communication/marketing layer (Phase 10 or the Communications domain) | Research task, then design CR(s) |
 | Revenue Intelligence delivery posture | Later integrations (Phase 8 Google Ads, Phase 10 Meta/analytics) are **outbound/push, ORVION-owns-the-truth**: ORVION emits verified events/values; platforms ingest. Do not build a home-grown attribution/measurement black box — deliver to each platform's ingestion API. | Phases 8 and 10 design | Within those phases' CRs |
 
+## Group 3 architectural determinations (2026-07-17, Chief-Architect review under full delegation)
+
+Reconstructed from implementation; each "Group 3" capability assessed for whether a full ADR is *earned now* (Earn-It / Learn-Before-Designing "study the strongest implementations at the trigger, not before") versus deferred with a trigger.
+
+| Capability | Determination | Trigger for a full ADR |
+|---|---|---|
+| **FX / presentation currency** | **RESOLVED via ADR-0022** as the one isolated owner business-policy decision (per-currency default vs single presentation currency). The FX conversion primitive (`reporting.convert_amount` over the existing `exchange_rates`) is designed and additive; built only if the owner elects single-currency. | Owner selects single-currency presentation |
+| **Read-model / reporting** | **RESOLVED — ADR-0022** (full architecture, implementation-ready). | Done |
+| **Quotations workflow** | Deferred. Schema + state machine + events exist (inert). A full ADR needs the *business* quotation→booking workflow (product decision), not derivable from implementation. Not on the P9→P8 critical path. | When the Sales quotation-issuance workflow is scheduled |
+| **Subscription lifecycle** | Deferred by ADR-0016 ("separate future slice"). Full schema exists; lifecycle RPCs need subscription-*strategy* (owner business policy: plans, grace, billing). Phase-9 reports the *state*; it does not require the lifecycle to exist. | Subscription/billing go-live decision |
+| **Communications domain** | Deferred — shape explicitly undecided; requires Meta-ecosystem Learn-Before-Designing (per PROJECT_CONTEXT). Premature to ADR now. | First customer-communications capability (post-attachment substrate, Phase 7 done) |
+| **Notifications delivery** | Deferred. In-DB notifications are written (e.g., SLA); external delivery needs the outbound infra decision (Edge/n8n/pg_net) shared with Phase 8. Fold into the Phase-8 outbound-infra ADR rather than a standalone one (Anti-Entropy). | Phase 8 outbound-integration design |
+
+Rationale: producing full ADRs for the four deferred domains now would be speculative architecture for future, business-policy-dependent capabilities off the critical path — a Learn-Before-Designing / Earn-It violation. Each is preserved with a concrete trigger so nothing is lost.
+
 ## How items enter and leave this backlog
 
 1. A review or migration surfaces an improvement not justified for immediate implementation.
