@@ -1,7 +1,7 @@
 # Decision Record — Google Offline-Conversion Transport (Phase 8)
 
 Class: **Decision Record** (technical advisory analysis; awaiting owner ratification → becomes ADR-0023 on decision). Prepared 2026-07-17 under the Technical-Advisory-Board directive.
-Status: **Awaiting owner decision.** Recommendation stated; rationale + evidence below.
+Status: **RESOLVED 2026-07-17 → ADR-0023** (owner ratified: Data Manager API + Enhanced Conversions for Leads, **orchestrated by n8n** — the owner selected n8n over the recommended Edge Function, confirming n8n as ORVION's primary orchestration layer). This record is now the immutable analysis behind that ADR.
 Purpose: give the owner an *informed* transport decision for delivering ORVION's verified conversion outcomes to Google Ads — the one open Phase-8 business/compliance decision.
 
 ## Why this decision exists (and can't be objectively derived)
