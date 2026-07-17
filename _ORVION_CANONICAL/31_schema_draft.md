@@ -750,7 +750,7 @@ Core fields:
 - owner_department_id nullable
 - owner_branch_id nullable
 - quotation_status_code
-- quotation_number
+- quotation_number (unique per tenant — migration 048800)
 - currency_code
 - total_amount numeric
 - valid_until nullable
@@ -913,7 +913,7 @@ Core fields:
 - customer_id
 - booking_status_code
 - title
-- booking_reference
+- booking_reference (unique per tenant — migration 048800)
 - travel_start_date nullable
 - travel_end_date nullable
 - destination_country_code nullable
@@ -1152,7 +1152,7 @@ Core fields:
 - invoice_date
 - due_date nullable
 - currency_code
-- total_amount numeric
+- total_amount numeric (>= 0, non-negative CHECK — migration 048800)
 - status_code
 - voided_at nullable
 - voided_by nullable
@@ -1188,7 +1188,7 @@ Core fields:
 - payment_method_code
 - reference_number nullable
 - currency_code
-- amount numeric
+- amount numeric (>= 0, non-negative CHECK — migration 048800)
 - paid_at
 - received_by nullable
 - verified_by nullable
@@ -1209,7 +1209,7 @@ Core fields:
 - tenant_id
 - payment_id
 - invoice_id
-- allocated_amount numeric
+- allocated_amount numeric (>= 0, non-negative CHECK — migration 048800)
 - currency_code
 - exchange_rate_id nullable
 - allocated_amount_invoice_currency numeric nullable
@@ -1262,7 +1262,7 @@ Core fields:
 - booking_item_id nullable
 - refund_reason_code nullable
 - currency_code
-- amount numeric
+- amount numeric (>= 0, non-negative CHECK — migration 048800)
 - refund_status_code
 - requested_at
 - completed_at nullable
@@ -1554,6 +1554,10 @@ Core fields:
 - is_active
 - created_at
 
+Unique:
+
+- plan_code (platform-global — no tenant scope; migration 048800)
+
 ## feature_entitlements
 
 Purpose:
@@ -1568,6 +1572,10 @@ Core fields:
 - is_enabled
 - limit_value nullable
 - created_at
+
+Unique:
+
+- subscription_plan_id + feature_code (migration 048800)
 
 ## subscriptions
 
@@ -1623,6 +1631,10 @@ Core fields:
 - used_value numeric
 - limit_value numeric nullable
 - updated_at
+
+Unique:
+
+- tenant_id + usage_metric_code + period_start + period_end (migration 048800)
 
 ---
 

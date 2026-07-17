@@ -2,14 +2,11 @@
 
 ORVION is the working repository for a travel CRM / operations / revenue platform for Egyptian travel agencies (flights, Umrah, Hajj, visa, hotels, tours). The backend is Supabase/PostgreSQL — SQL migrations + `app`-schema RPCs. There is no application UI yet.
 
-**This file has one job: route you to the right authority in a single hop.** It does not restate the boot sequence, the rules, or the current status — each of those has exactly one home, linked below (One Authority — `GOVERNANCE.md §2`).
+**This file has one job: orient you inside the repository and route you to the right authority in a single hop.** It does not restate the boot sequence, the rules, or the current status — each of those has exactly one home, linked below (One Authority — `GOVERNANCE.md §2`). It is a router, not a second authority.
 
-## Pick your goal
+## Start here
 
-- **Work on ORVION (develop, review, operate — human or AI)** → go to **`AGENTS.md`**. Its **§4 is the single, mandatory boot sequence** — it walks every session from orientation → governance → live state → active work, and tells you exactly what to read next. Nothing else here needs to precede it.
-- **Rebuild the workstation / environment** (new machine, SSD failure, Windows reinstall) → go to **`WORKSTATION.md`**. On a brand-new machine, one PowerShell command restores everything from GitHub (`irm …/bootstrap.ps1 | iex`); if you already have the repo, double-click **`workstation.cmd`**.
-
-That is the entire entry decision. Everything below is a pointer, not a second authority.
+**To develop, review, or operate ORVION — human or AI → go to `AGENTS.md`.** Its **§4 is the single, mandatory boot sequence** — it walks every session from orientation → governance → live state → active work, and finishes by *verifying* the repository is internally consistent before engineering begins. Nothing else here needs to precede it.
 
 ## Where things live (authorities)
 

@@ -53,7 +53,7 @@ Read top-down to answer "what am I allowed to do?"; read a specific layer to ans
 | Execution conduct / operating model | `AGENTS.md` | PROTOCOL.md, global-rules.md, CLAUDE/GEMINI/.cursor/.github (thin pointers) |
 | Change Request state machine | `CR_LIFECYCLE.md` | AGENTS.md (points to it) |
 | Boot sequence / reading order | `AGENTS.md §4` (single authority) | `README.md` (one-hop router), `llms.txt` (AI-convention pointer), `ai-map.json` (auto-gen pointer), this file — all reference, none restate the steps |
-| Workstation rebuild (tools/extensions/MCPs/plugins) | `.workstation/manifest.md` (what + why) + `.workstation/prepare.ps1` (how) | `WORKSTATION.md` (thin entry, points here), README |
+| Workstation rebuild (tools/extensions/MCPs/plugins) | `.workstation/manifest.md` (what + why) + `.workstation/prepare.ps1` (how) | `WORKSTATION.md` (thin entry, points here) — README does **not** reference the environment (repository/environment separation, 2026-07-17) |
 | Coding / SQL / API / security standards | `CODING_STANDARDS.md` | ADRs, canon |
 | Business & domain rules | `_ORVION_CANONICAL/00–23` | reports (rationale only) |
 | Schema **intent** (planned) | `_ORVION_CANONICAL/24–33` | MASTER_DOMAIN_CATALOG (indexes it) |

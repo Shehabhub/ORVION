@@ -6,10 +6,12 @@
 
 .DESCRIPTION
   Deterministic, dependency-free. Precision over recall — it must not cry wolf, or agents
-  will learn to ignore it. Five checks (1–2 Living docs; 3 boot routers; 4 all reports; 5 manifest):
+  will learn to ignore it. Seven checks (1–2 Living docs; 3 boot routers; 4 all reports; 5 manifest;
+  6 roadmap↔manifest; 7 ai-map freshness):
     Check 1 broken references · Check 2 intra-register status contradiction ·
     Check 3 boot-chain router integrity + AI-pointer thinness · Check 4 report class-header presence ·
-    Check 5 manifest leanness (cold-boot cost).
+    Check 5 manifest leanness (cold-boot cost) · Check 6 roadmap↔manifest phase agreement ·
+    Check 7 ai-map freshness vs manifest.
   Details inline. Original two checks documented below:
 
     1) BROKEN REFERENCES — in Living docs (repo-root *.md, _ORVION_CANONICAL/** except the
@@ -180,6 +182,76 @@ if (Test-Path $mfPath) {
     $mfLines = @(Get-Content $mfPath).Count
     if ($mfLines -gt $manifestBudget) {
         Write-Host "  MANIFEST BLOAT: manifest.md is $mfLines lines (budget $manifestBudget) — trim changelog-style narrative; it holds current state only, pointing to reports for history" -ForegroundColor Yellow
+        $issues++
+    }
+}
+
+Write-Host "== Check 6: roadmap <-> manifest phase agreement ==" -ForegroundColor Cyan
+# Verified failure class (2026-07-17): the roadmap and manifest can disagree on WHICH phase is
+# current (INC-1: manifest = Phase 9, roadmap "Immediate Next Action" still said "Phase 8 is
+# next"). Checks 1-5 could not see it. Invariant, deterministic + precise: the manifest's
+# Current Phase number must equal the unique roadmap phase heading marked In Progress/CURRENT,
+# and no roadmap prose may assert a DIFFERENT phase is "the current phase" / "is next".
+$roadmapPath = Join-Path $RepoRoot '_ORVION_CANONICAL/32_execution_roadmap.md'
+$manifestCur = $null
+if (Test-Path $mfPath) {
+    $m = [regex]::Match((Get-Content $mfPath -Raw), 'Current Phase:\s*\*\*\s*Phase\s+(?<n>\d+)')
+    if ($m.Success) { $manifestCur = [int]$m.Groups['n'].Value }
+}
+if ($null -eq $manifestCur) {
+    Write-Host "  UNREADABLE: manifest.md has no parseable 'Current Phase: **Phase N'" -ForegroundColor Yellow
+    $issues++
+} elseif (Test-Path $roadmapPath) {
+    $headingPhase = $null
+    $inProgress = @()   # phase numbers whose heading Status is In Progress/CURRENT
+    $lineNo = 0
+    foreach ($line in [System.IO.File]::ReadAllLines($roadmapPath)) {
+        $lineNo++
+        $h = [regex]::Match($line, '^#\s+Phase\s+(?<n>\d+)\b')
+        if ($h.Success) { $headingPhase = [int]$h.Groups['n'].Value; continue }
+        if ($line -match '^Status:' -and $line -match 'In Progress|CURRENT phase') {
+            if ($null -ne $headingPhase) { $inProgress += $headingPhase }
+        }
+        # inline assertion; the lookahead forbids crossing another "Phase N" token or a period,
+        # so a lazy match can't span from an unrelated phase mention to a later "is current".
+        foreach ($mm in [regex]::Matches($line, 'Phase\s+(?<n>\d+)\b(?:(?!Phase\s+\d+|[.\n]).)*?\bis (?:the current phase|next)\b')) {
+            $x = [int]$mm.Groups['n'].Value
+            if ($x -ne $manifestCur) {
+                Write-Host "  PHASE DRIFT: roadmap line $lineNo asserts Phase $x is current/next, but manifest Current Phase is $manifestCur" -ForegroundColor Yellow
+                $issues++
+            }
+        }
+    }
+    $uniq = $inProgress | Sort-Object -Unique
+    if ($uniq.Count -eq 0) {
+        Write-Host "  PHASE DRIFT: no roadmap phase heading is marked In Progress/CURRENT (manifest says Phase $manifestCur)" -ForegroundColor Yellow
+        $issues++
+    } elseif ($uniq.Count -gt 1) {
+        Write-Host "  PHASE DRIFT: roadmap marks multiple phases In Progress ($($uniq -join ', ')); exactly one (Phase $manifestCur) must be" -ForegroundColor Yellow
+        $issues++
+    } elseif ($uniq[0] -ne $manifestCur) {
+        Write-Host "  PHASE DRIFT: roadmap marks Phase $($uniq[0]) In Progress but manifest Current Phase is $manifestCur" -ForegroundColor Yellow
+        $issues++
+    }
+}
+
+Write-Host "== Check 7: ai-map freshness vs manifest ==" -ForegroundColor Cyan
+# Verified failure class (2026-07-17, INC-2): ai-map.json's live_state COPIES the manifest but
+# is regenerated only by repository-all.ps1, which is not in the doc-change DoD — so it drifted
+# (generated_at a day behind HEAD). Dependency-free freshness: the manifest's Current Phase
+# number and Last Completed SPEC id must both appear in ai-map's live_state. Skips cleanly if
+# ai-map has been retired (owner-gated recommendation, 2026-07-17).
+$aiMapPath = Join-Path $RepoRoot 'ai-map.json'
+if ((Test-Path $aiMapPath) -and (Test-Path $mfPath)) {
+    $mfRaw2 = Get-Content $mfPath -Raw
+    $aiRaw  = Get-Content $aiMapPath -Raw
+    $lastSpec = [regex]::Match($mfRaw2, 'Last Completed:\s*(?<s>SPEC-[0-9]+)')
+    if ($null -ne $manifestCur -and $aiRaw -notmatch "Phase\s+$manifestCur\b") {
+        Write-Host "  AI-MAP STALE: ai-map.json live_state does not name manifest Current Phase $manifestCur — regenerate (scripts/generate-ai-map.ps1)" -ForegroundColor Yellow
+        $issues++
+    }
+    if ($lastSpec.Success -and $aiRaw -notmatch [regex]::Escape($lastSpec.Groups['s'].Value)) {
+        Write-Host "  AI-MAP STALE: ai-map.json does not name manifest Last Completed $($lastSpec.Groups['s'].Value) — regenerate (scripts/generate-ai-map.ps1)" -ForegroundColor Yellow
         $issues++
     }
 }

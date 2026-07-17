@@ -64,15 +64,24 @@ Governance is self-revising: if a step stops earning its confidence, propose sim
 
 **This is the SINGLE authoritative boot sequence for every session — human or AI, any tool. It is the only home for the reading order (`GOVERNANCE.md §2`); `README.md`, `llms.txt`, and `ai-map.json` route here and never restate these steps.** Following it is **mandatory and self-directing**: no agent should ever ask "what do I read?", "where do I start?", or "may I read AGENTS / GOVERNANCE / the canon?" — this sequence is the answer. **Reading mandatory repository knowledge is never owner approval**; owner approval is required only where governance explicitly says so (a new ADR, a canon change, a roadmap change, an irreversible action — §1 stop-conditions).
 
-A fresh session bootstraps itself from the repository alone — conversation history is never required.
+A fresh session bootstraps itself from the repository alone — conversation history is never required. The sequence has three stages — **Orient (read) → Verify → Ready** — and it is **not** finished when the documents have been read. It is finished only when live state has been *verified against ground truth* and the next engineering action is known. A boot that stops after Stage A has produced *documented* understanding, not *verified* understanding.
 
-1. **This file (`AGENTS.md`)** — orientation: how work is done, standing authorities, decision tiers (you are here).
-2. **`GOVERNANCE.md`** — knowledge/decision operating system: where every fact lives (SSOT matrix §2), how decisions flow (§3), where you may/may not write (§8). Read it before placing or changing any knowledge.
+### Stage A — Orient (read)
+1. **This file (`AGENTS.md`)** — how work is done, standing authorities, decision tiers (you are here).
+2. **`GOVERNANCE.md`** — where every fact lives (SSOT matrix §2), how decisions flow (§3), where you may/may not write (§8). Read it before placing or changing any knowledge.
 3. **`_ORVION_CANONICAL/manifest.md`** — live state: current phase, module, and Active Change Request.
 4. **If `Active Change Request` is not `None`** — read that `changes/SPEC-*.md`; its own Minimum Reading List takes over from here.
 5. **If it is `None`** — read `_ORVION_CANONICAL/32_execution_roadmap.md` for the current phase and its next capability.
 6. **Task-specific canon only** — `_ORVION_CANONICAL/00`–`23` (business/domain), `24`–`33` (schema/database), `34`/`35` (cross-cutting principles). Read only what the current task needs.
 7. **Rationale, on demand** — `reports/` for the "why"; `reports/architecture-decision-records.md` for active ADRs; `reports/future-backlog.md` for deferred work and its triggers.
+
+### Stage B — Verify (always; cheap; the repository, not the documents, is the truth)
+8. **Run the consistency guard** — `pwsh -File scripts/check_repository_consistency.ps1` must print `REPOSITORY CONSISTENCY: CLEAN`. It mechanically checks broken references, intra-register status contradictions, boot-router integrity, report classes, manifest leanness, **roadmap↔manifest phase agreement, and ai-map freshness**. Non-CLEAN is a synchronization defect to fix (or report) *before* engineering — never work over a dirty guard.
+9. **Cross-check the five live-state facts** — {current phase · active CR · last completed step · next engineering action · open owner decisions} must resolve *identically* across `manifest.md`, the roadmap, and `git log`. The guard covers phase and ai-map mechanically; you confirm the rest.
+10. **Reality overrides documentation (invariant).** On any conflict, ground truth wins in this order — `supabase/migrations/**` + `git` (as-built) → canon → prose/reports — and the drifted document is corrected (or recorded as a finding) before proceeding. A claim you did not verify is a finding, not a fact (§2, Test-before-trust).
+
+### Stage C — Ready (before engineering only; a read-only/question session may stop after Stage B)
+11. From the verified state, answer plainly: **is any owner decision still open? is any prerequisite missing? is the repository internally consistent?** For schema work, prove the baseline — `npx supabase db reset` + the smoke-test (`§5`). Conclude with one line: **ready to engineer**, or **blocked on `<X>`**. This is orientation, not a gate that needs owner approval; only the §1 stop-conditions pause execution.
 
 Supporting references, pulled only when relevant: **`CR_LIFECYCLE.md`** (Change Request state machine and command vocabulary), **`PROJECT_CONTEXT.md`** (project identity, vision, boundaries, business context), **`CODING_STANDARDS.md`** (naming, SQL, API, security standards).
 
