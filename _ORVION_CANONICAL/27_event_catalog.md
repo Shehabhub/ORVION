@@ -433,7 +433,7 @@ Severity: info
 
 Severity: info
 
-## internal_supplier_link_created
+## internal_supplier_linked
 
 Severity: info
 
@@ -504,7 +504,7 @@ Requires:
 - Payment
 - Allocated amount
 
-## receipt_created
+## receipt_issued
 
 Severity: info
 
@@ -512,7 +512,7 @@ Severity: info
 
 Severity: info
 
-## refund_created
+## refund_requested
 
 Severity: warning
 
@@ -963,3 +963,29 @@ The following do not require events unless they cause a business state change:
 # Next Step
 
 Create `28_permissions_matrix.md`.
+
+---
+
+# As-built additions & alignments (2026-07-17, evidence-backed sync)
+
+Implementation (Phases 5–7 RPCs) extended the vocabulary beyond v0.2; the emitted codes are the
+as-built truth (empty DB, no rename cost). Renamed in place above (unused draft names → emitted
+names): internal_supplier_link_created → internal_supplier_linked; receipt_created →
+receipt_issued; refund_created → refund_requested. Added below (emitted by issue_invoice /
+record_payment / record_supplier_payment):
+
+## invoice_issued
+
+Invoice moved to issued.
+
+## invoice_partially_paid
+
+Invoice partially settled by payment allocation.
+
+## invoice_paid
+
+Invoice fully settled.
+
+## supplier_payment_recorded
+
+Supplier payment recorded against payable.

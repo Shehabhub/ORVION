@@ -269,6 +269,40 @@ Outputs:
 
 ---
 
+# Remaining Work — Living Forward Plan (2026-07-17; evolve in place)
+
+The primary execution reference for future sessions. Phase numbers are stable identifiers; execution order is 7→9→8→10. Update whenever repository evidence justifies it — this section is Living, never frozen.
+
+## Phase 8 — Offline Conversion (next; architecture decided)
+
+- **Objective:** close the founding feedback loop — verified CRM outcomes delivered to Google Ads.
+- **Deliverables:** conversion-mapping RPC (verified outcome → `offline_conversions`, value = revenue); n8n-facing outbox pair `claim_conversion_deliveries` / `record_conversion_delivery_result` + dedicated integration role; in-DB consent gate; the n8n workflow (Data Manager API + Enhanced Conversions for Leads, OAuth `datamanager` scope, SHA-256 hashing at the edge).
+- **Dependencies (all met):** attribution capture (SPEC-119) ✓ · money precision (SPEC-118) ✓ · read-model outcome surface (ADR-0022) ✓ · event cursor (`seq`, mig 049000) ✓ · event-type registry (mig 049100) ✓.
+- **Decided ADRs:** ADR-0023 (transport + n8n outbox). **Expected new:** none — remaining choices are implementation-level.
+- **Integration points:** Google Data Manager API (first row of the Integration Catalog, which seeds when this phase lands); GTM/GA4 coexist via Google's unified enhanced-conversions setting.
+- **Risks:** Data Manager API is <1 yr old (mitigated: transport behind the claim/ack boundary); consent-data handling (mitigated: in-DB gate + hashing at edge); owner must provision Google OAuth credentials.
+
+## Phase 10 — Automation & Integrations
+
+- **Objective:** n8n as the standing orchestration fabric; WhatsApp Cloud API conversations (company-owned, on the existing `conversations` structures); Meta CAPI reusing the Phase-8 outbox (`platform_code`); GTM/GA4 wiring; Edge Functions where n8n does not fit.
+- **Expected ADRs:** communications-domain shape (after full Meta-ecosystem Learn-Before-Designing — deliberately undecided until then); generic automation event-feed RPC (trigger: second n8n event consumer; additive thanks to `events.seq`).
+- **Expected canon:** communications-domain doc(s) when that Design Challenge runs; Integration Catalog growth.
+- **Risks:** Meta platform review/verification lead times; channel-ownership migration of live customer conversations.
+
+## Post-phase capability queue (each enters as its trigger fires; all structures already exist)
+
+| Capability | Trigger | Expected decisions |
+|---|---|---|
+| Quotations workflow (schema inert today) | Sales quotation-issuance scheduled | quotation→booking integration design |
+| Subscription/billing lifecycle (schema complete) | Business go-live decision (C4/C5 open: activation-code, grace) | subscription-strategy ADR (owner: pricing/grace = business policy) |
+| Department dashboards / first UI | First frontend implementation | dashboard contracts over the `reporting` schema; UI stack ADR; DML GRANTs + `anon` scope |
+| Customer/Supplier/Employee portals | After first internal UI | portal identity surface (RLS model already supports) |
+| AI-agent capabilities | First AI capability scheduled | runtime agent role/permission ADR; RPC + events are the interface |
+| Phase-9 Tier B aggregates | A Tier-A report measurably slow | per-report `pg_cron` refresh (ADR-0022 pre-designed) |
+| Travel reference tables (airports/airlines/cities) | Flight-ticketing design | reference-shape decided by that feature |
+| Presentation-currency FX | Owner elects single-currency reporting | additive `convert_amount` over `exchange_rates` (ADR-0022 pre-designed) |
+| Live-DB V-series re-verification; A3 money-storage ADR | Next comprehensive DB audit | — |
+
 # Immediate Next Action
 
 Phases 2–7 are complete. Per the 2026-07-16 owner sequencing (see the decision banner above §Phase 8), execution order is **7 → 9 → 8 → 10**, so **Phase 9 (Reports & Dashboards / RC-4) is the current phase**, ahead of Phase 8. For the live next engineering action (current module, active Change Request, and immediate next step), the single source of truth is `manifest.md` — this roadmap owns phase *sequencing*, not live state, and does not restate it.
