@@ -30,3 +30,4 @@ backup/
 # Machine-local Claude settings + their timestamped backups (personal, not shared)
 .claude/settings.local.json
 .claude/settings.local.backup-*.json
+.claude/settings.json
