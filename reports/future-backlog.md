@@ -203,6 +203,23 @@ Next-step determination: **Phase 8 remains the objectively highest-value step** 
 | Governance conflicts found | **One (resolved) + one boundary note** | (a) Deprecated tombstones (`codex.md`, `SYSTEM_PROMPT.md`) conflicted with the shrink-over-time law → retired 2026-07-17 (first application of the §15 supremacy clause; ai-map 39→37; guard exclusion cleared; `PROJECT_CONTEXT §13` citation cleaned). (b) The §12 not-HR boundary vs the owner's completeness directive is *not* a governance defect — it is the isolated owner decision above. No duplicated/contradictory rules found otherwise (One-Authority scan clean). |
 | New MCP servers / skills / tooling | **No change earned now** | Postgres MCP already connected; tooling adoption already owned by GOVERNANCE §11 + `.workstation/manifest.md` (Earn-It-gated). Re-evaluate per §11 when a concrete need appears (e.g., an n8n MCP at Phase-8 workflow build). |
 
+### First-Principles Assumption Review (2026-07-17 — falsification attempted, not defended)
+
+Load-bearing assumptions attacked; verdicts recorded so future sessions inherit the *tested* state. Two previously **invisible** assumptions promoted to visible-and-intentional:
+
+| Assumption | Falsification attempt | Verdict |
+|---|---|---|
+| **"Postgres is the platform"** (queue=deliveries table, workflow state=tables, event store=events, cache=aggregates) — the deepest invisible assumption | At high volume: hot events table, outbox polling limits, single-region ceiling; cell-based sharding is expensive to retrofit | **SURVIVES — now visible & intentional.** ADR-0014/0018/0023 each carry explicit escalation triggers (queues/retry/high-volume → dedicated infra); `tenant_id`-everywhere makes future tenant-sharding feasible (tenant is the natural shard key). Not silently permanent anymore: it is a *decided* posture with recorded exits. |
+| **State-first, events-as-audit** (tables are truth; events are milestones for audit/integration — ORVION is deliberately NOT event-sourced) | Should a "revenue intelligence" platform be event-sourced for temporal reconstruction? | **SURVIVES.** Event sourcing would trade relational clarity + RLS simplicity for replay complexity no current requirement needs; the append-only `events`+`seq` log already gives integrations and audit what ES would, without making it the write path. Deliberate, now stated. |
+| Shared-schema multi-tenancy via RLS (ADR-0003) | Noisy neighbors, RLS overhead, compliance isolation demands | Survives for the real tenant scale (tens→hundreds of agencies); 2026 consensus for this class; sharding path preserved via tenant_id. |
+| Per-tenant customer identity (no cross-tenant person graph) | A global traveler identity could serve dedup across agencies | Survives *because* tenants are competitors — cross-tenant identity would be a privacy/compliance liability, not a feature. |
+| Phone-centric identity signals (Egyptian market) | Email-first is the Western default | Survives — evidence-based for the market (WhatsApp/phone-first sales reality, PROJECT_CONTEXT §13). |
+| DB-centric testing (smoke + behavioral + pgTAP; no app-layer pyramid) | Insufficient once app servers exist | Survives *while logic lives in the database* (it all does); escalation = first out-of-DB service. |
+| Serialized engineering (one Active CR, single manifest pointer) | Parallel agents would conflict | Survives as a deliberate §6 choice (one-task-at-a-time); revisit only if the owner runs concurrent agents. |
+| Problem definition itself (close the verified-revenue loop; replace personal-tool operations) | — | Owner-domain; grounded in stated business pain, not engineering guess. Not an engineering assumption to falsify. |
+
+**No assumption failed.** The review's value: the two invisible assumptions are now explicit with recorded exits — which is exactly what prevents them becoming tomorrow's constraints.
+
 ### Meta-architecture hypothesis verdicts (2026-07-17)
 
 | Hypothesis | Verdict | Evidence |
