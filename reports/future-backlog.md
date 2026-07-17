@@ -180,6 +180,19 @@ Principles extracted (not tools) and judged against what ORVION already does:
 
 Net: the living-repository goal is **already ORVION's operating model**; the two genuine deltas are recorded above (generate-over-hand-write preference; C4 at service-topology trigger). No new tooling earned.
 
+### 10-year Enterprise Architecture Review (2026-07-17, pre-Phase-8; owner directive)
+
+Reviewed all 19 axes against the clarified digital-operating-system vision. **Verdict: the architecture satisfies the vision** (evidence: this session's verified findings — 71 tables/79 catalogs anticipate communications/marketing/departments; ADR-0022 reporting surface is the shared truth for all future dashboards; ADR-0023 outbox is channel-generic for Google/Meta/WhatsApp; RLS 71/71 + capability-driven permissions; append-only audit; self-describing repo for AI agents). Deltas found and classified:
+
+| Finding | Verdict | Disposition |
+|---|---|---|
+| Events lacked a monotonic consumer cursor (uuid+created_at only) — automation consumers need a stable watermark | **Adopt Now — DONE** | Migration `049000`: `seq bigint identity` + indexes on `events`/`security_events` (empty-table window; a later rewrite on a populated event log would be expensive). Canon 31 synced. |
+| Generic automation event-feed (claim/cursor RPC over `events` for n8n subscribers) | **Adopt Later** | The Phase-8 conversion outbox is the first consumer and defines the shape; generalize at the **second** n8n workflow needing events (Rule-of-Three/Earn-It). `seq` (above) makes it purely additive — no schema change will be needed. |
+| Runtime AI-agent access model (AI agents as operational actors, not dev agents) | **Adopt Later** | Natural interface already exists (RPC surface + events + RLS); a dedicated agent-role/permission model earns an ADR at the first AI-agent capability. |
+| Inbound webhook ingestion boundary (WhatsApp/Meta/GTM → n8n → ORVION) | **Already anticipated** | `create_lead(p_source_payload jsonb)` + `external_conversation_id` + `attribution_clicks` are the landing structures; the capture RPCs are Phase-8/10 feature work, not missing structure. |
+
+Next-step determination: **Phase 8 remains the objectively highest-value step** — it is also the first end-to-end exercise of the integration pattern (outbox + n8n + consent) every later platform reuses, i.e. it validates the 10-year architecture with the least new surface.
+
 ## How items enter and leave this backlog
 
 1. A review or migration surfaces an improvement not justified for immediate implementation.

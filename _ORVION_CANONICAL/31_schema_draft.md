@@ -1469,11 +1469,13 @@ Core fields:
 - reason nullable
 - payload jsonb nullable
 - created_at
+- seq bigint identity (monotonic consumer cursor for automation/outbox readers — migration 049000)
 
 Indexes:
 
 - tenant_id + entity_type + entity_id + created_at
 - tenant_id + event_type_code + created_at
+- seq unique; tenant_id + seq (consumer read path — migration 049000)
 
 Notes:
 
@@ -1496,6 +1498,7 @@ Core fields:
 - user_agent nullable
 - payload jsonb nullable
 - created_at
+- seq bigint identity (monotonic consumer cursor — migration 049000)
 
 ## notifications
 
