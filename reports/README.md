@@ -39,6 +39,7 @@ reports/
 | `MASTER_COVERAGE_SCORE.md` | design-completeness scorecard |
 | `MASTER_HEAT_MAP.md` | architectural-importance ranking |
 | `MASTER_REPOSITORY_HEALTH.md` | measurable repo/governance health |
+| `MASTER_INTEGRATION_CATALOG.md` | external-integration contracts: registry, workflow specs, owner-setup checklists (seeded 2026-07-17, Phase-8 trigger) |
 
 ## evidence/ 🔵 — decision-validation trail
 | File | Role |

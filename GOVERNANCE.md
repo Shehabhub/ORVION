@@ -4,9 +4,10 @@ Status: **Authoritative governance operating system for the knowledge/decision/r
 
 **Precedence & scope boundary (no overlap):** `AGENTS.md` is authoritative for **execution conduct** (how work is done, when to continue/stop, standing authorities). This document is authoritative for **knowledge governance** (where information lives and how decisions/documents flow). Where the two touch, AGENTS.md governs conduct and GOVERNANCE.md governs knowledge placement. Neither restates the other. `CR_LIFECYCLE.md` remains authoritative for the Change Request state machine.
 
-Version 1.8 · 2026-07-17 · Governs every future human, Claude, Codex, and AI/MCP session.
+Version 1.9 · 2026-07-17 · Governs every future human, Claude, Codex, and AI/MCP session.
 
 **Governance changelog** (governance governs itself — §15):
+- v1.9 (2026-07-17) — added the **Integration Catalog** SSOT row (§2) + registry entry (§5): `reports/master/MASTER_INTEGRATION_CATALOG.md` is the single home for external-integration contracts (registry, workflow specs, owner-setup checklists); ADRs keep owning the decisions, the catalog owns the contract surface. Seeded at its recorded Adopt-Later trigger (Phase 8 landed) under delegated engineering authority. MINOR: new SSOT row for a new concept; no reassignment.
 - v1.8 (2026-07-17) — **Documents-serve-ORVION supremacy clause** added to §15 (owner-ratified): every document exists to serve ORVION, never the reverse; a document that blocks an objectively superior architecture becomes itself the subject of review — amend/supersede/split/retire it through its owning lifecycle rather than working around it; preserve history, never preserve architectural mistakes. First application: retired the `codex.md`/`SYSTEM_PROMPT.md` tombstones (git history preserves them). PATCH: sharpens §15's existing self-revision principle; no SSOT reassignment.
 - v1.7 (2026-07-17) — added §19 **Repository Stewardship** (owner-ratified): the engineering role is steward of the whole repository as ORVION's permanent memory — implementation-age-is-not-evidence, repair-before-features, every-historical-recommendation-must-resolve, governance-before-execution. Includes the **knowledge-graph Earn-It determination**: adopt the principles (ORVION already embodies ~80% via the SSOT matrix + stable-ID references + decision/capability lineage), **reject** a wikilink/graph-tooling layer as bloat, adopt orphan/lineage completeness as a periodic stewardship scan (not a CI gate). MINOR: new section, no SSOT reassignment; sequences existing §6/§17/§18 rather than restating them.
 - v1.6 (2026-07-15) — **Living-Documents-first** default added to §4 (update the authoritative Living doc in place; a dated Historical report is written only when it preserves genuine historical engineering evidence, not because information changed — Earn-It applied to documentation, against report sprawl). Owner-ratified in the 2026-07-15 Repository-Recovery directives. PATCH/MINOR: no SSOT reassignment; refines the §4 "write a new dated report" default and records it as policy. Companion conduct clauses (multi-role usability review; synchronization-in-definition-of-done) added to `AGENTS.md §3/§6` as pointers, not duplicated here.
@@ -75,6 +76,7 @@ Read top-down to answer "what am I allowed to do?"; read a specific layer to ans
 | Finding dependencies | `reports/master/MASTER_DEPENDENCY_GRAPH.md` | — |
 | Design completion scores | `reports/master/MASTER_COVERAGE_SCORE.md` | references register IDs |
 | Domain blueprint (catalog/ER/flow) | `reports/master/MASTER_{DOMAIN_CATALOG,ENTITY_RELATIONSHIP_MAP,DATA_FLOW}.md` | reference canon + physical-design |
+| External integration contracts (registry + workflow specs) | `reports/master/MASTER_INTEGRATION_CATALOG.md` | ADRs own the *decisions*; the catalog owns the *contract surface* and points to them |
 | Deferred backlog + triggers | `reports/future-backlog.md` | — |
 | Repository file index | `repository-index.md` (auto-generated) | **do not hand-edit** |
 | AI cold-start map (machine-readable) | `ai-map.json` (auto-generated from the SSOTs it points to) | **do not hand-edit** — regenerate via `scripts/generate-ai-map.ps1`; restates nothing, only points |
@@ -151,7 +153,7 @@ When a review changes a conclusion, it **updates the LIVING doc**, and **writes 
 | `_ORVION_CANONICAL/**` | business + schema canon | Living (protected) | domain/schema intent, principles | owner-authorized CRs |
 | `manifest.md` | live state | Living | current phase/CR | every CR |
 | `reports/architecture-decision-records.md` | ratified ADRs | Living | ratified decisions | on owner ratification |
-| `reports/master/MASTER_*.md` (13 incl. MASTER_REPOSITORY_HEALTH) | findings/plan/blueprint/health | Living | see §2 rows | every review |
+| `reports/master/MASTER_*.md` (14 incl. MASTER_REPOSITORY_HEALTH, MASTER_INTEGRATION_CATALOG) | findings/plan/blueprint/health/integration contracts | Living | see §2 rows | every review |
 | `reports/evidence/{VALIDATED,PENDING,REJECTED}_*.md`, `INDUSTRY_REFERENCES.md`, `ARCHITECTURE_PROOF_LOG.md` | decision evidence | Living | finding lifecycle + evidence | every validation |
 | `reports/future-backlog.md` | deferred + triggers | Living | deferred work | reviews |
 | `reports/history/*-2026-07*`, `phase-*`, process reports | historical analysis | **Immutable** | the record of that session | never |
