@@ -300,6 +300,7 @@ The primary execution reference for future sessions. Phase numbers are stable id
 | AI-agent capabilities | First AI capability scheduled | runtime agent role/permission ADR; RPC + events are the interface |
 | Phase-9 Tier B aggregates | A Tier-A report measurably slow | per-report `pg_cron` refresh (ADR-0022 pre-designed) |
 | Travel reference tables (airports/airlines/cities) | Flight-ticketing design | reference-shape decided by that feature |
+| HR domain (owner boundary revision 2026-07-17 — `PROJECT_CONTEXT §12`) | Owner schedules the HR capability | HR Design Challenge + Learn-Before-Designing first; employee-vs-membership identity split is the expected core decision; org skeleton already built |
 | Presentation-currency FX | Owner elects single-currency reporting | additive `convert_amount` over `exchange_rates` (ADR-0022 pre-designed) |
 | Live-DB V-series re-verification; A3 money-storage ADR | Next comprehensive DB audit | — |
 

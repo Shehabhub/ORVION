@@ -40,11 +40,12 @@ ORVION is not:
 
 - ERP
 - Accounting Suite
-- HR System
 - Hotel PMS
 - Airline Reservation System
 
 It integrates with such systems when necessary.
+
+**HR (owner boundary revision, 2026-07-17):** ORVION is not an HR system *today*, but a complete HR domain is part of the owner's long-term vision (employees, leave, payroll-adjacent workflows) as one subsystem of the travel-company operating system. The organizational skeleton (branches, departments, users-as-memberships, tasks, business hours, holidays, assets) already exists; HR-specific structures are deliberately deferred until the HR Design Challenge + Learn-Before-Designing run at the owner's scheduling — their correct shape depends on that design, exactly like the travel reference tables (`32_execution_roadmap.md` capability queue).
 
 ## 13. Business Context
 
