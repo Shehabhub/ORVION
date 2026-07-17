@@ -215,7 +215,7 @@ Outputs:
 
 # Phase 8: Offline Conversion
 
-Status: In Progress — CURRENT phase (started 2026-07-17 after Phase 9 Tier A completed). ORVION-side core landed (migration 049200): `record_offline_conversion` + the n8n outbox pair (`claim_conversion_deliveries`/`record_conversion_delivery_result`) + `orvion_integration` role + in-DB consent gate. Remaining: the attribution-click capture RPC, then the n8n workflow (Data Manager API + ECL; needs owner Google OAuth credentials).
+Status: In Progress — CURRENT phase (started 2026-07-17 after Phase 9 Tier A completed). ORVION-side core landed (migration 049200): `record_offline_conversion` + the n8n outbox pair (`claim_conversion_deliveries`/`record_conversion_delivery_result`) + `orvion_integration` role + in-DB consent gate. ORVION-side pipeline COMPLETE (capture→map→claim→ack, migrations 049200/049300/049400). Remaining: Integration Catalog seed + n8n workflow (owner-exclusive: Google OAuth + orvion_integration password).
 
 Objective:
 
