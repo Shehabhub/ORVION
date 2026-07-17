@@ -102,16 +102,19 @@ Capabilities surfaced in `reports/history/` phase reports and confirmed present-
 | `citext`, partial indexes, generated columns | Case-insensitive emails; `document_versions WHERE is_current`; derived `full_name` as GENERATED. | Per-migration micro-optimizations |
 | Impeccable (`pbakaus/impeccable`) — frontend design skill pack | Evaluated 2026-07-13 and **intentionally deferred** (not rejected). It is 100% frontend/UI tooling (typography, color, motion, visual-hierarchy critique, browser Live Mode, 44 frontend detector rules). ORVION is backend-only today (no UI surface), so an agent could not use it — it fails Earn-It *now*, not permanently. Recorded so future agents do not re-run this research. | **Trigger: the first real application UI / dashboard implementation.** Same trigger class as Playwright (`.workstation/manifest.md §4`). |
 
-## Future Candidates — Domain Reference Layer Expansion (continuously evaluate, do not add now)
+## Structural-Completeness Assessment (2026-07-17, under the Fundamental-Domain-Structure principle, `AGENTS.md §3`)
 
-Per standing guidance, continuously evaluate whether ORVION should add dedicated reference tables for travel-domain entities, and surface each as a Finding **only when repository evidence justifies it** (i.e., a migration introduces a column that needs the integrity/UX a reference table provides):
+Owner directive: inevitable *domain structure* belongs in the repo now even without a consumer; only *features/infrastructure* are Earn-It-deferrable. Applying the 6-criteria test (+ the 5-year question) to every remaining structural candidate against the built schema (71 tables, 79 catalog families, all reference-code columns FK-backed). Finding: ORVION is already structurally near-complete; each remaining candidate fails at least one criterion — **not** blind-add foundational.
 
-- Airlines, Hotel Chains, Aircraft Types, Cabin Classes, Fare Classes
-- Visa Types, Passport Types
-- Payment Providers, Banks
-- Airport Time Zones, Country Phone Codes, Currency Locales
+| Candidate | Verdict | Reason (which criterion fails) | Promotes when |
+|---|---|---|---|
+| Airports / airlines / cities (reference tables) | **Trigger-defer** | "Architecturally-correct *now*" fails — the validated shape (timezone/coords/ICAO/metadata) is driven by the **unbuilt flight-ticketing** feature; canon 25 §Reference Data defers on exactly this. Empty pre-creation avoids no FK-wiring migration and risks a wrong-shape one. | Flight-ticketing design (defines what airport/airline metadata must be validated) |
+| First-class `invoice_lines` (+ tax lines) | **Owner decision** | Not inevitable for ORVION — current model *derives* invoice detail from linked `booking_items`; lines-as-table vs derived-detail are two valid models; tax/VAT lines are a compliance decision (ETA e-invoicing). | Owner selects the invoicing model |
+| Document-number sequences (booking/invoice/quotation/receipt) | **Owner decision → then foundational** | Structure is modelable but the **format/scheme** is a business decision (SPEC-073 deferred it); uniqueness already guarded (migration 048800). | Owner sets the identifier-format policy |
+| Structured address model | **Defer** | Not clearly canonical — ORVION uses `customer_contact_methods`; free-text/JSON addresses are a valid mature-SaaS choice; no evidence it's required. | Evidence a validated address is needed |
+| Aircraft types, hotel chains, fare-class detail, GDS/PNR structures | **Feature-defer** | Feature-specific ticketing internals, not stable domain structure. | Their feature's design |
 
-These are **not** approved for implementation. Each remains a candidate until a specific migration provides the evidence that promotes it to a classified Finding and its own Change Request.
+Rationale recorded so this is not re-litigated: the comprehensive up-front design is *why* little inevitable structure remains. Two owner decisions (invoicing model; identifier format) would each unlock foundational structure that would then be added immediately, not deferred.
 
 ---
 
