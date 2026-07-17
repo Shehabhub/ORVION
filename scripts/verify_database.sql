@@ -5,7 +5,7 @@
 -- freshly reset database: raises an exception on the first broken invariant, otherwise prints
 -- "ALL CHECKS PASSED". CI-able: a non-zero exit signals a regression.
 --   docker exec -i <db> psql -U postgres -d postgres -f - < scripts/verify_database.sql
--- Expected values track the frozen baseline: 71 public base tables, 67 catalog types, 565 catalog
+-- Expected values track the frozen baseline: 72 public base tables, 67 catalog types, 565 catalog
 -- values. Documented referential exceptions to the restrict default (30 Referential Action Standard):
 -- users.auth_user_id -> auth.users ON DELETE SET NULL (ADR-0011); trusted_devices / otp_challenges /
 -- totp_enrollments -> auth.users ON DELETE CASCADE (ADR-0012).
@@ -22,7 +22,7 @@ begin
     -- 2. Public base table count
     select count(*) into n from pg_class c join pg_namespace ns on ns.oid = c.relnamespace
         where ns.nspname = 'public' and c.relkind = 'r';
-    if n <> 71 then raise exception 'CHECK 2 FAILED: expected 71 public tables, found %', n; end if;
+    if n <> 72 then raise exception 'CHECK 2 FAILED: expected 72 public tables, found %', n; end if;
 
     -- 3. RLS enabled on every public base table
     select count(*) into n from pg_class c join pg_namespace ns on ns.oid = c.relnamespace
@@ -33,6 +33,7 @@ begin
     select string_agg(c.relname, ', ') into bad
         from pg_class c join pg_namespace ns on ns.oid = c.relnamespace
         where ns.nspname = 'public' and c.relkind = 'r' and c.relrowsecurity
+          and c.relname not in ('integration_cursors')  -- intentionally policy-less: locked to SECURITY DEFINER paths (mig 049300)
           and not exists (select 1 from pg_policies p where p.schemaname = 'public' and p.tablename = c.relname);
     if bad is not null then raise exception 'CHECK 4 FAILED: RLS tables with no policy: %', bad; end if;
 
@@ -75,6 +76,6 @@ begin
     select count(*) into n from pg_trigger where tgname in ('events_append_only', 'security_events_append_only');
     if n <> 2 then raise exception 'CHECK 9 FAILED: expected 2 append-only triggers, found %', n; end if;
 
-    raise notice 'ALL CHECKS PASSED (71 tables, RLS + policies, resolver, 67/565 catalog, FK standard, updated_at triggers, append-only audit)';
+    raise notice 'ALL CHECKS PASSED (72 tables, RLS + policies, resolver, 67/565 catalog, FK standard, updated_at triggers, append-only audit)';
 end
 $$;
