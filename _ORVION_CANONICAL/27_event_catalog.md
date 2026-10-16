@@ -247,6 +247,18 @@ Severity: info
 
 Severity: info
 
+## user_deactivated
+
+Severity: security
+
+## user_reactivated
+
+Severity: security
+
+## user_identity_bound
+
+Severity: security
+
 ## user_branch_transfer_started
 
 Severity: info
@@ -405,6 +417,14 @@ Requires:
 
 Severity: warning
 
+## booking_item_reassigned
+
+Created whenever responsibility moves away from an occupied booking-item owner field. Requires previous/new owners, actor, reason, and time. Severity: warning.
+
+## finance_approval_requirement_withdrawn
+
+Created when an authorized actor withdraws a still-pending finance requirement. Requires actor, reason, previous/new state, and closure of the pending approval request. Severity: critical.
+
 ---
 
 # Passenger Events
@@ -420,6 +440,22 @@ Severity: info
 ## passenger_passport_expiry_warning
 
 Severity: warning
+
+## booking_item_passenger_linked
+
+Created when a passenger joins a booking-item manifest. After issue, requires correction reason and actor. Severity: info.
+
+## booking_item_passenger_replaced
+
+Created when a manifest row changes passenger. Requires previous/new passenger and, after issue, correction reason and actor. Severity: warning.
+
+## booking_item_passenger_removed
+
+Created when a passenger leaves a booking-item manifest. After issue, requires correction reason and actor. Severity: warning.
+
+## document_legal_hold_placed / document_legal_hold_released
+
+Created for each legal-hold transition with actor and reason. Both are critical because they change destruction eligibility.
 
 ---
 
@@ -437,9 +473,54 @@ Severity: info
 
 Severity: info
 
+## supplier_credit_threshold_exceeded
+
+Created when a supplier's outstanding payable, in the currency its credit ceiling is denominated in, rises above that ceiling. The ceiling WARNS; it never refuses (owner decision 2026-09-04, SUP-4b). Emitted once per breach, not once per write: it is suppressed while the most recent threshold event for the supplier is already this one.
+
+Severity: warning
+
+Triggers:
+
+- a booking-item cost becoming or remaining locked against the supplier
+- a supplier payment being recorded, changed or removed
+
+## supplier_credit_threshold_cleared
+
+Created when a supplier previously over its ceiling falls back to or below it. Exists so a later breach alerts again; without it the first breach would silence the supplier forever.
+
+Severity: info
+
 ---
 
 # Finance Events
+
+## invoice_voided
+
+Created when an ORVION invoice is voided internally, through `app.void_invoice` or the equivalent table write. Carries NO external or tax meaning: ORVION performs no cancellation with any tax authority, and the payload states `external_effect: none` explicitly. Refused, and therefore never emitted, once payment is allocated to the invoice or once the document has been accepted externally.
+
+Severity: warning
+
+Triggers:
+
+- an invoice moving to `voided` from `draft`, `issued` or `overdue`
+
+## customer_credit_threshold_exceeded
+
+Created when a customer's outstanding receivable rises above the credit ceiling configured on that customer. Exposure held in other currencies is CONVERTED into the ceiling's currency at the tenant's latest manual rate at or before the evaluation instant; any currency with no usable rate is REPORTED in the payload as `unconvertible_currencies` rather than dropped. The ceiling WARNS; it never refuses (owner decision 2026-09-04, CUST-3). Emitted once per breach, not once per write: it is suppressed while the most recent threshold event for the customer is already this one.
+
+Severity: warning
+
+Triggers:
+
+- an invoice for the customer being created, changed or removed
+- a customer payment being recorded, changed or removed
+- a completed customer refund being recorded, changed or removed
+
+## customer_credit_threshold_cleared
+
+Created when a customer previously over its ceiling falls back to or below it. Exists so a later breach alerts again; without it the first breach would silence the customer forever.
+
+Severity: info
 
 ## finance_approval_requested
 
@@ -503,6 +584,15 @@ Requires:
 - Invoice
 - Payment
 - Allocated amount
+
+## payment_allocation_amount_changed
+
+Severity: warning
+
+Requires:
+
+- Payment allocation
+- Allocated amount before and after
 
 ## receipt_issued
 

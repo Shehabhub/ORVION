@@ -219,7 +219,17 @@ Outputs:
 
 # Phase 8: Offline Conversion
 
-Status: In Progress — CURRENT phase (started 2026-07-17 after Phase 9 Tier A completed). ORVION-side pipeline COMPLETE (capture→map→claim→ack, migrations 049200/049300/049400) and Integration Catalog seeded. Production database deployment complete and verified synchronized on both authoritative Supabase projects (`MASTER_INTEGRATION_CATALOG.md §0`): remote migrations match local through `202607049900` (includes SPEC-120/121). Remaining: n8n workflow activation (owner-exclusive: Google OAuth + `orvion_integration` password).
+Status: **In Progress — CURRENT phase** (started 2026-07-17 after Phase 9 Tier A completed). Re-verified against live systems 2026-08-29 during the pre-Phase-10 reconciliation; **it is NOT complete, and the single reason is precise.**
+
+**Done:** the ORVION-side pipeline (capture→map→claim→ack, migrations 049200/049300/049400), the SPEC-123 delivery lease, the in-DB consent gate, and the Integration Catalog workflow contract. All deployed to **Primary `vrvtsxexkiiiivlkdxzp`**, this repository's sole Supabase deployment target (`MASTER_INTEGRATION_CATALOG.md §0`); Secondary `brplkqmbzffpxqgkkdzo` is the separate `Shehabhub/ORVION` environment and is **never a CRM deployment target**. Migration parity between the two was **permanently revoked** (owner-ratified 2026-08-20) — differences are valid, never a defect to reconcile. *(Live migration/fingerprint state is not restated here — `manifest.md` owns it, proven by `scripts/check_database_parity.ps1`. This paragraph carried "Primary carries 90 migrations" until 2026-08-29, seventy migrations stale: **GOV-5**.)*
+
+**Not done — the whole of what remains:** the **n8n workflow itself**. Verified live 2026-08-29: the n8n instance holds **zero workflows**. Nothing delivers a conversion to Google Ads, so the founding feedback loop this phase exists to close is open. *(2026-10-07: the remaining conditions are `MASTER_INTEGRATION_CATALOG.md §2b`'s, in the order below.)*
+
+**Why it has not been built — a gate, not a blocker:** the workflow build is **GATED behind the Foundation Completion Programme** (owner-directed 2026-08-21; the programme is `MASTER_EXECUTION_PLAN.md` Batch 6). That gate is still shut. **What is left in it is NOT enumerated here, deliberately** — the live engineering list is `MASTER_EXECUTION_PLAN.md` Batch 6 and the live owner-decision list is the single `Open owner decisions` line in `manifest.md`, each of which is maintained as the work moves. *(This sentence has now carried a stale gate list **twice**. The first — "AUDIT-3 read-scope model, ~13 write permissions, CAT-5/CAT-6" — was stale because AUDIT-3 had been resolved by SPEC-137; the replacement went stale in turn, naming DOC-LC-1, "API-3's remaining endpoints", SPEC-154-B and **SEC-1** as blockers after all four had been resolved, closed at 71/71, shipped, and decided respectively. A summary of a moving list is a stale list waiting to happen, and the honest fix is to stop restating it rather than to refresh it a third time — the same conclusion GOV-5 and ROAD-1 reached. Corrected 2026-09-01, OWNER-1.)*
+
+**Execution sequence (owner, 2026-10-07; supersedes the 2026-09-28 rule that Batch 6 Slice 31 waits for the whole Phase-8 Activation Closure).** (A) PH8-9, ingestion is not delivery — closed by SPEC-243. (B) Batch 6 resumes at Slice 31, ranked by `scripts/batch6_select_target.ps1`, and runs until its own exit criteria EC-1…EC-11 hold (`MASTER_EXECUTION_PLAN.md`). By the owner's 2026-10-08 directive, the SUB-4 correction runs ahead of Slice 35 as a recorded exception to that ranking. The same plan's Pre-Production Readiness Closure gate is evaluated when EC-1…EC-11 hold, and again before each enablement in (D)–(G). (C) A bounded revalidation of the conversion boundary Batch 6 touched — source production, mapper, consent, identity, claim, the PH8-9 provider-pending lifecycle, integration-role access and the five conversion types — not a general audit. (D) The n8n → Google Data Manager workflow (`MASTER_INTEGRATION_CATALOG.md §2/§2a`). (E) The Direct Call Quality Feedback Loop, the owner's acceptance milestone (§2b item 6). (F) PH8-10's evidence that Google attributes the click-less phone conversion in the real account. (G) Only after a trustworthy real signal, the operational Google Ads decision whether `ORVION - Qualified Phone Call` becomes the primary bidding signal, and later value-based bidding once Booking, Payment and Ticket evidence exists. (H) Phase 8 closes when the remaining §2b conditions hold or are explicitly external-gated. §2b owns the conditions; this paragraph owns only their order.
+
+**The workflow's own prerequisites are ready** and unchanged when the gate is earned: both n8n credentials are agent-verified **present** (`ORVION Google Data Manager`, `Postgres account`, 2026-08-20) and `orvion_integration` login is independently verified (`pg_roles.rolcanlogin = true`). *(Presence only — neither credential's target or scope is independently verified, and neither has been observed to authenticate. That is an UNPROVEN, not a PROVEN.)*
 
 Objective:
 
@@ -238,7 +248,9 @@ Outputs:
 
 # Phase 9: Reports And Dashboards
 
-Status: Complete (Tier A, 2026-07-17 — migration 048900: `reporting` schema + 7 security_invoker views serving all six outputs per ADR-0022). Tier B aggregates remain evidence-gated (a report must prove measured cost) and do not hold the phase open.
+Status: **Complete (Tier A)** — 2026-07-17, migration 048900: `reporting` schema + `security_invoker` views per ADR-0022. Tier B aggregates remain evidence-gated (a report must prove measured cost) and do not hold the phase open.
+
+**Acceptance re-proven live 2026-08-29** (the reconciliation did not take this status on trust): the `reporting` schema holds **8** views, each exposed over HTTP and pinned by name in `53_api_surface_test.sql`, and all six of the phase's required outputs map to one — lead performance → `lead_performance`; sales activity → `sales_activity`; booking pipeline → `booking_pipeline`; finance outstanding balances → `customer_outstanding` + `supplier_outstanding`; profit by booking item → `booking_item_profit`; subscription state → `subscription_state`. The eighth, `my_sales_performance`, was added later by SPEC-159 and is a Phase-9-shaped addition rather than an outstanding deliverable. **No output is missing, so nothing about Phase 9 gates Phase 10.**
 
 Objective:
 
@@ -257,7 +269,22 @@ Outputs:
 
 # Phase 10: Automation And Integrations
 
-Status: Pending
+Status: **Pending — NOT READY TO BEGIN. Determination made 2026-08-29 against live systems, per the owner's pre-Phase-10 reconciliation directive.**
+
+**Verdict: NOT READY.** Two prerequisites are unmet, and neither is a matter of opinion:
+
+1. **Phase 8 is not complete.** Its sole remaining deliverable is the n8n workflow, and the n8n instance holds **zero workflows** (verified live 2026-08-29). Phase 8 precedes Phase 10 in the owner's own 7→9→8→10 sequencing.
+2. **The Foundation Completion Programme gate is still shut.** The owner gated the Phase-8 workflow build behind it on 2026-08-21, and Batch 6 still carries open engineering items. **Which items, and which decisions are still the owner's, are NOT named here** — the engineering list is `MASTER_EXECUTION_PLAN.md` Batch 6 and the owner-decision list is the single `Open owner decisions` line in `manifest.md`, both maintained as the work moves. *(This line named **SEC-1** as the chief blocker until 2026-09-01, four days after the owner ratified it (OWNER-1) — the third time this file restated a moving list and the second time it did so about SEC-1 specifically, while the paragraph under Phase 8 above had already recorded the correction. Naming a settled decision as a blocker sends the next session to re-litigate it. Now guarded by Check 16.)*
+
+**These are the same blocker seen twice, not two.** Phase 10's own first output is *"n8n workflows"*, and Phase 8's remaining deliverable **is** an n8n workflow — so the work that finishes Phase 8 is literally the opening move of Phase 10, under a gate the owner placed. Starting Phase 10 now would mean building Phase 8's deliverable while calling it Phase 10, which changes the label and not the dependency.
+
+**What is NOT blocking, and was checked rather than assumed:**
+- **Phase 9** — complete, all six outputs re-proven live (above).
+- **The database foundation** — repository, local and Primary agreed on the migration ledger **and** the full function surface, both sides read live (`check_database_parity.ps1` L1/P1/L2/P2). *(As verified 2026-08-29, at 160 migrations / 230 functions. **These figures are point-in-time evidence for this determination, not current state** — current migration, ledger, function-surface and structural-surface values live in `manifest.md` and are re-read live each session. ROAD-1, 2026-08-30: they had been left in the present tense and gone stale. The parity guard has since gained the structural surface it lacked on that date — **PAR-3**.)*
+- **API reachability** — the client-facing RPC endpoints and reporting views are live and generated into `MASTER_API_CONTRACT.md`, which owns their count; **API-3** tracked those lacking HTTP evidence and is closed. The count is read from the generated contract, **never restated here** (**REG-2**) — and until 2026-09-01 this sentence restated "71" while the contract had moved to 72, contradicting its own rule in its own second clause. The number is now removed rather than refreshed, which is the only fix that does not go stale again. Guarded by Check 17.
+- **The architecture does not make Phase 10 impossible** (directive §14). The WhatsApp/AI data model is present — nullable customer/owner/sender, external ids, whatsapp catalog values, `orvion_integration` attribution capture. **CONV-3** records the one genuine gap: there is no session-less inbound *door*, which is integration-phase work with an in-house precedent, not a redesign.
+
+**Do not mark this phase started until:** the Foundation Completion Programme gate is released by the owner, and Phase 8's workflow is built and verified against `MASTER_INTEGRATION_CATALOG.md §2` with its `§2a` corrections.
 
 Objective:
 
@@ -280,7 +307,7 @@ The primary execution reference for future sessions. Phase numbers are stable id
 ## Phase 8 — Offline Conversion (CURRENT; ORVION-side pipeline landed 2026-07-17)
 
 - **Objective:** close the founding feedback loop — verified CRM outcomes delivered to Google Ads.
-- **Deliverables:** conversion-mapping RPC (verified outcome → `offline_conversions`, value = revenue) ✓; n8n-facing outbox pair `claim_conversion_deliveries` / `record_conversion_delivery_result` + dedicated integration role ✓; in-DB consent gate ✓; Integration Catalog workflow contract ✓; the n8n workflow activation remains (Data Manager API + Enhanced Conversions for Leads, OAuth `datamanager` scope, SHA-256 hashing at the edge).
+- **Deliverables:** conversion-mapping RPC (verified outcome → `offline_conversions`, value = revenue) ✓; n8n-facing outbox `claim_conversion_deliveries` / `record_conversion_ingestion` / `conversion_status_checks_due` / `record_conversion_provider_status` (SPEC-243: `sent` only on Google's terminal SUCCESS) + dedicated integration role ✓; in-DB consent gate ✓; Integration Catalog workflow contract ✓; the n8n workflow activation remains (Data Manager API + Enhanced Conversions for Leads, OAuth `datamanager` scope, SHA-256 hashing at the edge).
 - **Dependencies (all met):** attribution capture (SPEC-119) ✓ · money precision (SPEC-118) ✓ · read-model outcome surface (ADR-0022) ✓ · event cursor (`seq`, mig 049000) ✓ · event-type registry (mig 049100) ✓.
 - **Decided ADRs:** ADR-0023 (transport + n8n outbox). **Expected new:** none — remaining choices are implementation-level.
 - **Integration points:** Google Data Manager API (first row of the Integration Catalog, which seeds when this phase lands); GTM/GA4 coexist via Google's unified enhanced-conversions setting.
@@ -292,6 +319,20 @@ The primary execution reference for future sessions. Phase numbers are stable id
 - **Expected ADRs:** communications-domain shape (after full Meta-ecosystem Learn-Before-Designing — deliberately undecided until then); generic automation event-feed RPC (trigger: second n8n event consumer; additive thanks to `events.seq`).
 - **Expected canon:** communications-domain doc(s) when that Design Challenge runs; Integration Catalog growth.
 - **Risks:** Meta platform review/verification lead times; channel-ownership migration of live customer conversations.
+
+## Day-1 capability — Google Ads reporting, read-only (owner decision D4, 2026-10-11)
+
+- **Objective:** advertising cost, performance and configuration read with GAQL, inside ORVION and beside the outcomes ORVION verifies. ORVION never modifies Google Ads (canon 01; ADR-0030; contract `MASTER_INTEGRATION_CATALOG.md §5`; register GADS-1).
+- **Order:**
+  1. After Batch 6's EC-1…EC-11 hold, the integration RPCs and tables arrive as their own migration contract, never concurrently with another migration contract.
+  2. The n8n receiving workflow and the repository-held Google Ads script, which the owner installs and authorizes in the account (`§5.2`). Nothing is bought or applied for.
+  3. The reporting screens, once a client application exists.
+
+  This capability takes no place ahead of Phase 8's steps (C)–(H) unless the owner says so. It must be READY before the first production tenant, because the readiness gate holds that tenant until it is.
+- **Expected ADRs:** none beyond ADR-0030. The DDL and RPC signatures belong to the implementing contract.
+- **Risks:**
+  - a script acts with its authorizing user's own access, so read-only rests on the script's code and on change-history detection until the API upgrade path makes it a Google-enforced permission (ADR-0030);
+  - Google's documentation does not list which GAQL resources a script can read, so each query is proven from inside a script before it is relied on.
 
 ## Post-phase capability queue (each enters as its trigger fires; all structures already exist)
 

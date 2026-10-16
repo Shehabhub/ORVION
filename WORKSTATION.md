@@ -15,8 +15,7 @@ See `GOVERNANCE.md §2` (Workstation rebuild row).
 **Design assumption (permanent):** the local machine is **disposable**; **GitHub is the permanent
 source of truth**. Every workstation decision optimizes for rebuilding a completely new machine from
 GitHub with the fewest user actions. When "convenient on this machine" conflicts with "reproducible
-from GitHub," choose GitHub. (`doctor.ps1` enforces the spirit of this by warning when local commits
-are not yet pushed.)
+from GitHub," choose GitHub. (The maintenance menu's header shows commits that are not yet pushed.)
 
 ---
 
@@ -25,11 +24,12 @@ are not yet pushed.)
 Open PowerShell on a fresh Windows 11 machine (no USB, no manual download) and run:
 
 ```powershell
-irm https://raw.githubusercontent.com/Shehabhub/ORVION/main/bootstrap.ps1 | iex
+irm https://raw.githubusercontent.com/PlatPlusHub/CRM/main/bootstrap.ps1 | iex
 ```
 
 `bootstrap.ps1` (committed in this repo; the URL just delivers it) does the minimum needed *before* the
-repo exists: ensure Git (install via `winget` if missing), clone ORVION from GitHub into `~/ORVION`,
+repo exists: ensure Git (install via `winget` if missing), clone this repository — **`PlatPlusHub/CRM`,
+the CRM environment; never `Shehabhub/ORVION`, which is a separate environment** — from GitHub into `~/CRM`,
 then hand off to the in-repo provisioner `.workstation/prepare.ps1`. **All real setup logic stays in
 the repo** — the bootstrap only downloads the repository and transfers execution to it. Start Docker
 Desktop once when prompted. When `prepare` reports a clean `doctor`, return to `README.md` and develop.
@@ -38,17 +38,19 @@ Desktop once when prompted. When `prepare` reports a clean `doctor`, return to `
 you place in the repo's scripts once cloned. This is the standard Windows bootstrap pattern (Chocolatey,
 Scoop, rustup). The script is tiny and reviewable in the repo.
 
-## Already have the repo? — Recovery & Maintenance launcher
+## Already have the repo? — one-click preparation
 
-Double-click **`workstation.cmd`** in the repo root. It is **recovery-first**: if base tools are
-missing it offers to run recovery immediately; otherwise it shows the maintenance menu —
-**Prepare/Repair · Verify · Update · Cleanup · Decommission** — with a GitHub-sync header. `prepare.ps1`
-refreshes PATH in-session, so no shell restart is ever needed.
+Double-click **`workstation.cmd`** in the repo root. It immediately runs the complete idempotent
+prepare/repair flow and final verification. `prepare.ps1` refreshes PATH in-session so a newly
+installed tool is available to later steps without restarting the shell. It returns non-zero when a
+required component remains unavailable.
 
-- **Terminal / no double-click:** run `./.workstation/prepare.ps1` (recover/repair) or `doctor.ps1` (verify).
+- **Terminal / no double-click:** run `./workstation.cmd`, `./.workstation/prepare.ps1` (recover/repair), or `./.workstation/doctor.ps1` (verify).
+- **Double-click (human):** `.workstation\doctor.cmd` verifies and changes nothing; `.workstation\update.cmd` previews the available upgrades and asks before applying any. Both keep the window open and return the script's exit code.
+- **Maintenance menu (human):** `pwsh -File .workstation/menu.ps1` offers prepare, verify, update, cleanup and decommission.
 - **AI agent controlling Windows:** call the `.workstation/*.ps1` scripts directly — **not** the menu.
 
-`bootstrap.ps1` (remote entry) and `workstation.cmd → .workstation/menu.ps1` (local entry) are both thin
+`bootstrap.ps1` (remote entry) and `workstation.cmd → .workstation/prepare.ps1` (local entry) are both thin
 — they only clone/launch. The real implementation lives in `.workstation/*.ps1`. No duplicated logic,
 no second authority.
 
@@ -64,19 +66,21 @@ is permanent).
 | Concern | Source of truth |
 |---|---|
 | Remote bootstrap (fresh machine, pre-clone) | `bootstrap.ps1` (root; served via GitHub raw URL) |
-| Recovery & Maintenance launcher (human) | `workstation.cmd` (root) → `.workstation/menu.ps1` |
+| One-click local preparation (human) | `workstation.cmd` (root) → `.workstation/prepare.ps1` |
 | What to install (tools, extensions, MCPs, plugins) + why | `.workstation/manifest.md` |
 | Recover / provision the environment (real logic) | `.workstation/prepare.ps1` |
 | Verify the environment (real logic) | `.workstation/doctor.ps1` |
 | Decommission (remove ORVION from a retired machine) | `.workstation/decommission.ps1` |
-| MCP server configuration | `.mcp.json` (repo root; secrets via env vars, never committed) |
+| Project MCP configuration | `.mcp.json` (Claude project scope) + `prepare.ps1` Codex registration; secrets/OAuth never committed |
+| Claude engineering-awareness wiring (expected shape) | `.claude/awareness.json` (tracked) — applied by `.workstation/claude-awareness.ps1 -Apply`, verified by `-Verify`; `.claude/settings.json` itself stays machine-local |
 | Known blockers | `.workstation/reports/INCIDENT_*.md` |
-| Current install status | `.workstation/reports/INSTALLATION_STATUS.md` |
+| Current install status (live, the only source) | `.workstation/doctor.ps1` — run it; no tracked file reports current state |
+| Historical install snapshot (2026-09-10, evidence only) | `.workstation/reports/INSTALLATION_STATUS.md` |
 
 ## Secrets (not in the repo)
-Some MCP servers need secrets (e.g. the Supabase MCP connection string). Provide them as environment
-variables before running `prepare.ps1`; they are never committed. `prepare.ps1` registers an MCP only
-when its required env var is present.
+No MCP secret is committed or needed by `prepare.ps1`. The remote servers authenticate by OAuth inside
+each client, and Codex's `github` server reads its token from the `GITHUB_PAT_TOKEN` environment
+variable, whose value stays outside the repository (`.workstation/manifest.md §3`).
 
 ## Known blocker
 - **Claude Mem** worker does not stay healthy on Windows (port 37777). Parked; see

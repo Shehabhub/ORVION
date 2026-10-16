@@ -16,7 +16,7 @@
 create extension if not exists pgtap with schema extensions;
 
 begin;
-select plan(1);
+select plan(2);
 
 create temporary table _event_literal_scan (proname text, literal text) on commit drop;
 
@@ -71,6 +71,16 @@ begin
                 v_tuple_items := regexp_split_to_array(v_tuple_match[1], '\s*,\s*');
                 if coalesce(array_length(v_tuple_items, 1), 0) >= v_ev_idx then
                     v_lit := regexp_replace(trim(v_tuple_items[v_ev_idx]), '^''|''$', '', 'g');
+                    -- PRECISION FIX (2026-08-21, SPEC-132): an UNQUOTED `null` in the event column
+                    -- is the SQL keyword, meaning "this transition emits no event" -- it is not an
+                    -- event literal and must not be required to exist in the catalog. That shape is
+                    -- real and canonical: app.advance_conversation's pending_customer /
+                    -- pending_internal transitions emit nothing, because 26_state_machines.md's
+                    -- Required Events list for conversations deliberately does not name an event for
+                    -- them. Without this exclusion the guard demanded a catalog value literally
+                    -- called "null". Nothing is masked: `null` is a reserved keyword and could never
+                    -- be a legitimate event code, and a QUOTED 'null' would still be scanned.
+                    continue when trim(v_tuple_items[v_ev_idx]) ~* '^null$';
                     if v_lit ~ '^[a-z][a-z0-9_]*$' then
                         insert into _event_literal_scan values (v_func.proname, v_lit);
                     end if;
@@ -89,6 +99,40 @@ select is(
     )),
   0,
   'Every event_type literal an app.* function can emit has a registered event_type catalog value');
+
+-- ---------------------------------------------------------------------------------------------
+-- 2. THE OTHER DIRECTION -- EVT-2. The assertion above stops an emitted code from being
+--    unregistered. Nothing stopped a REGISTERED code from having no producer, and the WP-04-D
+--    sweep found 43 of them: vocabulary the system promises and never speaks.
+--
+--    Most are genuinely unbuilt rather than broken -- auth events (login/otp/totp/password) are
+--    produced by Supabase Auth, which ORVION does not intercept, and the notification_* family
+--    belongs to a package that does not exist yet. Building 43 producers would be inventing
+--    features, so they are classified in MASTER_GAP_REGISTER.md as EVT-2 rather than fixed here.
+--    `role_removed` was NOT one of those -- it was an asymmetry, and RBAC-1 fixed it.
+--
+--    This assertion exists so the debt is MEASURED and can only shrink. It deliberately uses <=:
+--    a new event type registered without a producer pushes the count up and fails, and every
+--    producer added lowers the ceiling on the next reader's honour. A count that could drift
+--    silently upward is how 43 accumulated in the first place.
+--
+--    The scan is intentionally generous -- a code counts as produced if it appears ANYWHERE in any
+--    app function body or trigger definition, comments included -- so it can only UNDER-report.
+--    Everything it flags is genuinely unreachable.
+-- ---------------------------------------------------------------------------------------------
+select cmp_ok(
+  (select count(*)::int
+     from public.catalog_values cv
+    where cv.catalog_type_code = 'event_type'
+      and position(cv.code in (select coalesce(string_agg(pg_get_functiondef(p.oid), E'
+'), '')
+                                 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+                                where n.nspname = 'app')) = 0
+      and position(cv.code in (select coalesce(string_agg(pg_get_triggerdef(t.oid), E'
+'), '')
+                                 from pg_trigger t where not t.tgisinternal)) = 0),
+  '<=', 42,
+  'at most 42 registered event types have no producer (EVT-2) -- the number may fall, never rise');
 
 select * from finish();
 rollback;

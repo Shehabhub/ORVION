@@ -10,7 +10,61 @@ Owner: maintained by the engineering/audit role during Change Requests and revie
 
 A permanent, evidence-driven record of valuable engineering ideas that are **not yet justified for immediate implementation**, so nothing important is silently forgotten or silently implemented. This is **not** a Change Request, not implementation work, and not a wish list — every entry must be backed by repository or authoritative external evidence, carry a classification, and state its trigger (when it should be reconsidered). Items graduate out of this backlog only through their own Change Request.
 
-Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future Candidate**. Review this document at the start of each new phase and whenever a listed trigger is reached.
+Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future Candidate**.
+
+---
+
+## Live deferred items
+
+This table is the backlog's one current list (`SPEC-270`). Each row names the latest boundary at which it must be acted on or re-triaged, as a key of the boundaries table in `MASTER_EXECUTION_PLAN.md`'s Action registry. `scripts/readiness_population.ps1` derives each row's state from that key, and Check 29 fails when a row names no known boundary or when its boundary is `REACHED` while the row is still here. An item already carried by a register finding, the execution plan, the roadmap or the integration catalog is not repeated here.
+
+| Item | Decides | Trigger | Boundary | Detail |
+| --- | --- | --- | --- | --- |
+| Disable Docker `tcp://localhost:2375` (unauthenticated daemon exposure) | owner | Recorded 2026-07-13 as failing Earn-It, deferred until "after the comprehensive review". Still listening on 2026-10-12. | `B6-EXIT` | A Docker Desktop setting, then the environment health check (Recommended, below). The row closes only on recorded evidence that nothing listens on port 2375. |
+| `users` deletion rule: deactivate-only, or add `users` to the no-physical-delete list | engineering | Before real staff records exist | `FIRST-TENANT` | Identity Lifecycle, below |
+| An invitation and activation lifecycle for staff: an invitation record, `invited_at`, `activated_at` and `invited_by`, and activation events | engineering | Staff onboarding for the first tenant. Today only the Supabase identity link exists: no such column, and no `user_invited` or `user_activated` event. | `FIRST-TENANT` | Identity Lifecycle, below |
+| A scheduled purge of expired `otp_challenges` | engineering | Staff sign-in creates OTP rows from the first tenant on. `pg_cron` is in use (lead SLA, subscription lifecycle, document reconciliation), and no OTP purge exists. | `FIRST-TENANT` | Nice to Have, below |
+| Numeric entitlement enforcement, and a producer for `usage_counters` | owner (pricing), engineering | Pricing finalization, or the first tenant approaching a ceiling. `usage_counters` has no producer. | `FIRST-SUBSCRIPTION` | Required Soon, below |
+| Booking-item cost and selling never roll up to a booking or invoice total | engineering | With invoicing depth. Re-measure at the boundary: `finance_approval_required`, the row's other half, is now read by the execution gate (`202607046200`). | `ENABLE-INVOICING` | Pre-Phase-8 Audit Orphans, below |
+| An active-tenant claim for a person with several memberships (ADR-0011) | engineering | When multi-membership UX ships; `app.current_tenant_id` serves the single-membership case today | `ENABLE-CLIENT-WRITES` | Identity Lifecycle, below |
+| Frontend design tooling and dashboard contracts (the Impeccable skill pack; KPI, widget and dashboard-permission contracts) | engineering | The first application UI | `ENABLE-CLIENT-WRITES` | Nice to Have and Repository-Improvement Evaluation, below |
+| A blank chart-account code is a postable selector: once a tenant creates an account coded `''`, `app.create_journal_entry` posts a line with an empty `account_code` to it instead of refusing the line | engineering | The first client application that submits journal lines. Measured on 2026-10-13 and not repaired, because its consequence is bounded today: only the tenant's own step-up poster can create that account, and the money lands on a real, typed account (`SPEC-278`) | `ENABLE-CLIENT-WRITES` | The `chart_of_accounts` row of `reports/master/MASTER_SURFACE_DISPOSITION.md` |
+| An event-to-consumer flow map, a C4 view, and a generic automation event feed | engineering | The first n8n delivery workflow; the feed waits for a second consumer | `ENABLE-CONVERSION-DELIVERY` | Repository-Improvement Evaluation and 10-year review, below |
+| Ideas with no earned trigger: a structured address model, a capability dependency graph, a runtime AI-agent access model | engineering | Evidence of need; otherwise re-triaged at the gate's first evaluation | `GATE-EVAL` | Structural-Completeness Assessment and 10-year review, below |
+
+**Closed or carried elsewhere by the 2026-10-12 triage (`SPEC-270`).** Every other row below was checked against the repository:
+- **Done:**
+  - the reference-data seed (REF-1 RESOLVED 08-21, SPEC-133);
+  - `auth_user_id` → `auth.users` (`on delete set null` in the users migration);
+  - DB-enforced event immutability (`202607043300`, an immutability trigger);
+  - RLS before client access (`202607043300`, and no client exists, APP-1);
+  - finance-gated booking transitions (`APPROVE_BOOKING`, `ISSUE_BOOKING`, `CANCEL_BOOKING`, `REFUND_BOOKING` and `REISSUE_BOOKING` are seeded and enforced through `app.advance_booking` and `app.enforce_booking_lifecycle`; `54_transition_permission_parity_test` pins the parity; the residue is BOOK-11 and BOOK-12);
+  - `pg_cron` adoption (three jobs; the OTP purge stays above);
+  - the methodology artifacts (the ADR log; the naming audit; migration regression is Migration CI plus parity; ordering is proven by every full reset);
+  - the RPC dependency map (`scripts/impact.ps1`);
+  - read-model and quotations.
+- **Carried by a register id:**
+  - travel reference data and airports: B1;
+  - status-column naming: B6;
+  - `pg_trgm`: B7;
+  - partitioning: B8;
+  - `invoice_lines`: R3;
+  - document sequences: CDD-6;
+  - GDS and fare detail: BF-1;
+  - HR: BF-5, and the canon-32 queue;
+  - FX presentation: OD-3;
+  - the subscription lifecycle: RC-1;
+  - notification delivery: RC-2;
+  - communications identity: CDD-10.
+- **Carried by another authority:**
+  - conversion delivery: `MASTER_INTEGRATION_CATALOG.md`;
+  - customer communications and Meta research: the Phase-10 research and the communications Design Challenge, which `MASTER_EXECUTION_PLAN.md` owns;
+  - the revenue-delivery posture: ADR-0023.
+- **Standing guidance, not an obligation:**
+  - `citext`, partial indexes and generated columns;
+  - traceability.
+
+Everything below this line is the **dated record** of earlier reviews. It is not edited to reflect later state, and its triggers are carried by the table above or by the register.
 
 ---
 
@@ -18,11 +72,11 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 
 | Item | Why it matters | Trigger / when | CR? |
 | --- | --- | --- | --- |
-| ~~Reference Data Layer — core (countries, nationalities, languages, currencies)~~ — **DONE** (verified 2026-07-13 live-DB audit) | Core reference tables exist and **all 19 reference-code columns are FK-backed** (`passengers.nationality_code`/`passport_issuing_country_code`, `customers.preferred_language_code`, `bookings.destination_country_code`, all `*currency_code`). The "no integrity backing" concern is resolved. | Closed | Implemented (reference tables + FKs) |
+| Reference Data Layer — core: **structure DONE, SEED still open** (scope corrected 2026-08-21) | The *structural* half is genuinely done and stays done: the tables exist and **all 19 reference-code columns are FK-backed** (`passengers.nationality_code`/`passport_issuing_country_code`, `customers.preferred_language_code`, `bookings.destination_country_code`, all `*currency_code`) — the "no integrity backing" concern is resolved. **What this row previously hid:** it was struck through as fully DONE while covering four tables of which only `currencies` was ever seeded. Live Primary and local both show `countries = 0`, `nationalities = 0`, `languages = 0` rows, so those four FK columns can hold nothing but `NULL` today. The deferral itself is legitimate and was governed all along — migration `202607045300`'s own header states the seeds "remain deferred until a hard requirement earns them (their referencing columns are nullable today)", and `SPEC-074`/`SPEC-076` both record them as still deferred — but closing this row erased the only forward-looking tracking they had. Re-tracked, not re-decided. | **Trigger:** the first consumer that must persist a real country / nationality / language — i.e. the first UI or API passenger-capture or booking-capture path. Not earned by Phase 8, which touches only `currencies`. | Yes — seed CR at the trigger. Tracked as **REF-1** in `MASTER_GAP_REGISTER.md`, which also carries the open `nationalities` vocabulary decision (reuse ISO 3166-1 alpha-2 with demonym names, or a separate demonym code set). |
 | Reference Data Layer — travel-specific (cities, airports) | Still free-text/absent; distinct from the core layer above. Tracked as domain reference expansion. | See **Future Candidates — Domain Reference Layer Expansion** below (evidence-gated: a migration must introduce a column needing the integrity) | Yes, when promoted |
 | ~~Table-level CHECK constraints from `31` "Rules"~~ — **DONE** (verified 2026-07-17 against migrations) | All five `31`-Rule invariants are DB-enforced in their creating migrations: journal debit/credit exclusivity + non-neg (`042500`), `booking_items`/`booking_item_passengers` non-negative (`042300`), `document_links` single-target (`042800`), `document_versions` single-current partial-unique (`041900`), passenger `passport_issue < expiry` (`042200`). This row was stale. | Closed | Implemented in the Phase-2 table migrations |
-| Process safeguard for Complete-sync | The `Active Change Request` pointer-clear was omitted twice (SPEC-024, SPEC-027). A Claude Stop/PostToolUse hook (or scripted check) verifying `Active Change Request: None` after Complete would prevent recurrence. | Any time | Yes — small `settings.json` CR |
-| `feature_entitlements` per-plan seed data | `subscription_plans` is seeded (SPEC-120), but the per-plan feature/limit rows are not, for four concrete unresolved reasons (full detail: `changes/SPEC-120-audit-remediation-event-vocabulary.md` Notes): (1) canon-17's six numeric per-plan limits — Users/Branches/Monthly Leads/Monthly Bookings/Storage/Automations — have no schema home (`feature_entitlements.feature_code` only carries the 15 boolean-style codes in `25_catalog_registry.md`, none of which are the numeric-metric names; those live in the separate, already-seeded `usage_metric_code` catalog consumed by per-tenant `usage_counters`, not by any static per-plan template); (2) "Unlimited"/"Custom" are not numeric and no NULL-means-unlimited (or sentinel) convention is documented anywhere; (3) "Enterprise includes all approved features" is not an enumerated list, and canon-17 itself flags `ai_dashboard` as conditional ("where approved"); (4) `offline_conversion` (a seeded `feature_code` candidate) has zero mention in any plan's Included/Excluded list. None of these are derivable from canon without inventing business policy. | Owner decides: (a) where the 6 numeric limits are stored; (b) how "Unlimited"/"Custom" is encoded; (c) whether Enterprise is a literal Professional superset or needs its own explicit list; (d) `offline_conversion`/`ai_dashboard` plan assignment | Yes — small canon + seed-migration CR once decided |
+| ~~Process safeguard for Complete-sync~~ — **DONE 2026-09-02 (COLD-3, `check_repository_consistency.ps1` Check 18)** | The `Active Change Request` pointer-clear was omitted twice (SPEC-024, SPEC-027), and this row proposed a Claude Stop/PostToolUse hook. **Delivered as a guard instead of a hook**, deliberately: a hook runs only on the workstation that has it configured, while the consistency guard runs in `repository-consistency.yml` on every doc-touching push, needs no per-machine setup, and is what `GOVERNANCE.md §18` calls for. **Stronger than this row asked, too** — the row wanted `Active Change Request: None` verified *after Complete*; Check 18 instead validates the pointer against the named CR's **own `## Status` section**, so it also catches a pointer at a `Cancelled` CR, at a CR file that does not exist, and at a CR whose status section is missing, ambiguous or outside the template vocabulary. Proven first: the repository was CLEAN while pointing at `SPEC-125`, whose Status is `[x] Complete`. | Closed | Implemented as Check 18; registered as **COLD-3** in `MASTER_GAP_REGISTER.md` |
+| ~~`feature_entitlements` per-plan seed data~~ — **DONE; numeric enforcement deliberately later** | The matrix now holds 66 rows (22 per plan), including 12 numeric limits. `feature_entitlements.limit_value` is the schema home and `NULL` means no ceiling; no sentinel values. `app.plan_limit` exposes ceilings, while `usage_counters` remains empty and has no producer/reader. Boolean feature gating is already enforced independently. | **Numeric-enforcement trigger:** pricing finalization or the first real tenant approaching a ceiling. Design current-state limits separately from monthly consumption; do not activate provisional prices by accident. | AUDIT-2 / PD-23 closed 2026-09-09; regression test 117 |
 
 ## Identity Lifecycle (from the 2026-07-04 Identity Lifecycle Review; SPEC-031 resolved the nullability contradiction)
 
@@ -56,7 +110,7 @@ Classifications: **Required Soon**, **Recommended**, **Nice to Have**, **Future 
 
 | Item | Why it matters | Trigger / when | CR? |
 | --- | --- | --- | --- |
-| DML `GRANT`s to `authenticated` on tenant/global tables | Migration 19 delivers RLS (row-scoping), but RLS sits *on top of* table privileges. Verified: `authenticated` has only `TRUNCATE/REFERENCES/TRIGGER` (Supabase default), **not** `SELECT/INSERT/UPDATE/DELETE`, so end-user clients cannot access any table yet. Current state is safe (fully locked), not a hole. The grant model (broad-with-RLS vs granular; whether `anon` gets read on global/reference tables) is an access-layer decision that pairs with the API/backend design, and there is no client consumer yet. | **Backend/API phase** (first client integration) | Yes — grant DML to `authenticated` (RLS enforces rows); decide `anon` read scope |
+| ~~DML `GRANT`s to `authenticated` on tenant/global tables~~ — **ROW WAS FACTUALLY WRONG; CORRECTED 2026-08-21 (remediation pass)** | This row claimed `authenticated` "has only `TRUNCATE/REFERENCES/TRIGGER` … **not** `SELECT/INSERT/UPDATE/DELETE`, so end-user clients cannot access any table yet. Current state is safe (fully locked)". **Both halves were untrue.** (1) Migration `202607043400` — which predates this row's last review — *itself* grants `authenticated` `SELECT`/`INSERT`/`UPDATE` on tenant tables and `SELECT` on the ten global tables; the DML was never withheld. (2) On live Primary the grants were wider still: `anon` held `SELECT/INSERT/UPDATE/DELETE` on all 72 public tables and `authenticated` additionally held `DELETE`/`TRUNCATE`, inherited from Supabase's `pg_default_acl`. Nothing was "fully locked". The drift half is **closed** by SPEC-124 (migration `202607050200` + guard `10_grant_model_test.sql`, verified live). The genuine remaining question — whether `authenticated` should hold direct table DML *at all*, given that RLS scopes rows and not permissions — is **not** a backlog item; it is now **SEC-1** in `MASTER_GAP_REGISTER.md` as an owner decision. | Closed here; continues as SEC-1 | Superseded by SPEC-124 + SEC-1 |
 
 ## Naming Consistency (from the Database Naming Audit, post-Migration 20)
 
@@ -237,12 +291,12 @@ Load-bearing assumptions attacked; verdicts recorded so future sessions inherit 
 | H1 — remaining opportunities are misplaced responsibilities, not missing tables | **Partially disproven (today)** | Placement scan clean: RPC/schema/catalog/canon ownership verified sound this session; the one real misplacement class found was *vocabulary* drift (canon 27 vs emitted codes) — found and fixed (mig 049100). Keep the lens; no current action. |
 | H2 — next improvements come from relationships/contracts, not objects | **Confirmed by evidence** | This session's material wins were all contract-level: event cursor (049000), event-type registry (049100), outbox claim/ack boundary (ADR-0023), roadmap↔manifest guard. Already the operating bias. |
 | H3 — prepare future capabilities structurally without their behavior | **Already law** | = Fundamental-Domain-Structure (`AGENTS §3`), with its exclusion clause (shape-dependent structures wait for their design — applied to HR below and to airports). |
-| H4 — governance should become self-validating/generated/measurable | **Confirmed; partially built; extensions owned by §11** | 7-check guard = self-validating; ai-map/repository-index = generated; `MASTER_REPOSITORY_HEALTH` = measurable. Remaining automation items stay in GOVERNANCE §11 (owner-gated CI/config), not a new mechanism. |
+| H4 — governance should become self-validating/generated/measurable | **Confirmed; partially built; extensions owned by §11** | the consistency guard = self-validating (its checks are enumerated in `MASTER_REPOSITORY_HEALTH.md §2b`; the count is not restated here — it read "7-check" while the guard carried 17, GOV-5); ai-map/repository-index = generated; `MASTER_REPOSITORY_HEALTH` = measurable. Remaining automation items stay in GOVERNANCE §11 (owner-gated CI/config), not a new mechanism. |
 | HR foundational structures now (boundary revised by owner) | **Boundary synced; structures deferred with trigger** | `PROJECT_CONTEXT §12` amended (HR = planned future domain, owner 2026-07-17); HR row added to the canon-32 capability queue. No tables now: the org skeleton already exists, and the employee-vs-membership identity split — the core HR decision — must come from the HR Design Challenge, or we'd guess the most consequential shape (same logic that correctly deferred airports). |
 
 ## How items enter and leave this backlog
 
 1. A review or migration surfaces an improvement not justified for immediate implementation.
-2. It is added here with a classification, a why, and a trigger — evidence required.
+2. It is added as a row of **Live deferred items**, with its decider, its trigger and the registry boundary at which it is acted on or re-triaged. Evidence is required. Check 29 refuses a row without a known boundary.
 3. When its trigger is reached and evidence justifies it, it becomes a Finding and then its own Change Request.
-4. On completion, it is removed from this backlog (git history preserves the record).
+4. On completion, or when a register id or another authority takes it over, its row is removed. Git history preserves the record. A row whose boundary is `REACHED` fails every guard run until it is acted on or re-triaged.

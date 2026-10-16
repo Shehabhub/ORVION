@@ -1,6 +1,6 @@
 # Schema Draft
 
-Version: 0.5
+Version: 0.6
 Status: Frozen Baseline
 Canonical: Yes
 
@@ -61,7 +61,6 @@ Important business tables include archive fields:
 - archived_at
 - archived_by
 - archive_reason
-
 Events are immutable and never archived as normal business action.
 
 Operational ownership fields should be applied consistently to work records:
@@ -293,6 +292,9 @@ Core fields:
 - description
 - is_system
 - is_active
+- required_feature_code nullable — the plan feature that must be entitled for this permission to resolve true. The commercial upper boundary; see `app.plan_allows`.
+- capability_group nullable — dashboard grouping, DERIVED from canon 28's own section headings (CRM, Booking, Finance, Documents, Marketing, Organization, Subscription, API). Metadata for presentation, never a security boundary: nothing in the authorization decision reads it. NULL means canon 28 places the permission in no section, and an ungrouped capability is surfaced as ungrouped rather than filed somewhere plausible (RBAC-5, `202607059800`).
+- action_kind — `view` | `manage`, derived from canon 28's naming convention (`VIEW_*` is a read gate). Lets View and Manage be offered independently for a capability that has both; likewise metadata, not a boundary.
 
 ## role_permissions
 
@@ -327,6 +329,35 @@ Core fields:
 - is_active
 - assigned_by
 - created_at
+
+## user_permission_grants
+
+Purpose:
+
+Grants or denies ONE permission to ONE user, independently of their roles (RBAC-5, `202607059800`, ADR-0027). Before this table `role_permissions` was the only edge into `permissions`, so there was no path from a user to a permission except through a role — which made per-user grant, per-user revoke, explicit deny, and "a role is an overridable bundle" unrepresentable. Modelled on `user_role_assignments`, which is this repository's template for an administered identity table (SPEC-138): same lifecycle columns, same per-command RLS shape, same grant set.
+
+Core fields:
+
+- id
+- tenant_id
+- user_id — the SUBJECT of the grant (whose capability it is), not the actor. The actor is `created_by`.
+- permission_id
+- effect — `grant` | `deny`. Both live in one table because precedence is a property of the pair.
+- reason nullable
+- starts_at
+- ends_at nullable — with `starts_at`, the time bounds match `user_role_assignments` rather than inventing a second lifecycle.
+- is_active — revocation is `is_active = false`, never a DELETE, so the zero-DELETE invariant and the audit trail both survive.
+- created_by — derived by trigger (`app.derive_created_by`), never supplied by the caller.
+- created_at
+- updated_at
+
+Rules:
+
+- Unique on (tenant_id, user_id, permission_id, effect); `ends_at` must be later than `starts_at` when present.
+- Tenant-qualified composite foreign keys to `users` per TENANT-1 — a grant cannot record a subject or an actor from another tenant.
+- Written only by a holder of `MANAGE_PERMISSIONS`, enforced in per-command RLS policies (insert/update) rather than a trigger; read is tenant-scoped, as for `user_role_assignments`. There is deliberately **no DELETE policy**.
+- Resolution order in `app.has_permission`, which stays the single authorization decision point: **active DENY, then user GRANT, then role GRANT, then the plan gate — the plan gate always last**, so a tenant administrator can never grant past a commercial entitlement. Deny-override is adopted from established practice (AWS IAM explicit deny, Azure RBAC deny assignments), not invented here.
+- `app.effective_permissions` itemises the same decision in the same order for explainability; it is not a second opinion. As-built truth for all of the above is `supabase/migrations/202607059800_*.sql` (canon states intent; migrations are ground truth — `GOVERNANCE.md §2`).
 
 ---
 
@@ -521,6 +552,8 @@ Core fields:
 - last_interaction_branch_id nullable
 - last_interaction_user_id nullable
 - last_interaction_at nullable
+- credit_limit_amount numeric nullable — CUST-3 (owner decision 2026-09-04, `202607060300`): the customer's receivable ceiling. NULL means NO ceiling and the customer is skipped entirely; ORVION invents no default and the value is tenant-supplied through MANAGE_CUSTOMER_CREDIT. WARNING-ONLY — exceeding it never blocks a write.
+- credit_limit_currency_code nullable — required exactly when `credit_limit_amount` is present (canon 30's money standard, as on `suppliers`). Exposure in other currencies is converted INTO this one at the tenant's latest rate; a currency with no rate is reported, never silently dropped.
 - created_by
 - created_at
 - updated_at
@@ -888,6 +921,7 @@ Notes:
 
 - Passenger relationship improves customer history and future booking context.
 - Add indexes on `passport_expiry_date` and `visa_expiry_date` for operational expiry searches.
+- A passenger row is the traveller's current, reusable profile and stays editable (future travel, passport and visa renewal, corrected data). Once a manifest freezes, editing the profile does not change the identity that manifest entry was ticketed under; see `booking_item_passengers`.
 
 Rules:
 
@@ -997,6 +1031,12 @@ Core fields:
 - passenger_id
 - selling_amount_override numeric nullable
 - cost_amount_override numeric nullable
+- manifest_first_name nullable
+- manifest_family_name nullable
+- manifest_full_name nullable
+- manifest_date_of_birth nullable
+- manifest_passport_number nullable
+- manifest_passport_issuing_country_code nullable
 - created_at
 
 Unique:
@@ -1007,6 +1047,7 @@ Rules:
 
 - selling_amount_override and cost_amount_override, when populated, represent this passenger's individual price/cost within the shared booking_item. When null, the passenger's share is treated as an even split of the parent booking_item's selling_amount/cost_amount.
 - Where populated, these fields must not be negative, consistent with the equivalent rule on booking_items.
+- The `manifest_*` fields are the traveller identity on this booked service. Until the manifest freezes (the passenger-manifest rule in `28_permissions_matrix.md`) they are derived from the linked `passengers` row and follow its edits; from the freeze point they are the ticketed identity and change only by a traveller swap or a post-issue correction under that same rule.
 
 ## suppliers
 
@@ -1024,6 +1065,7 @@ Core fields:
 - email nullable
 - payment_term_code nullable
 - credit_limit_amount numeric nullable
+- credit_limit_currency_code nullable — required exactly when `credit_limit_amount` is present (SUP-4a, `202607059900`). Canon 30's money standard: an amount is stored beside its currency, referencing `currencies.code`. This was the only money column in the schema without one, which is what made the ceiling incomparable to `app.supplier_balance`'s per-currency payable.
 - is_internal
 - internal_branch_id nullable
 - internal_department_id nullable
@@ -1153,12 +1195,13 @@ Core fields:
 - due_date nullable
 - currency_code
 - total_amount numeric (>= 0, non-negative CHECK — migration 048800)
-- status_code
-- voided_at nullable
-- voided_by nullable
-- void_reason nullable
-- external_submission_id nullable
-- external_submission_status_code nullable
+- status_code — ORVION's INTERNAL invoice lifecycle (canon 26's Invoice State Machine). Not the tax-authority lifecycle.
+- voided_at nullable — VOID-1 (`202607060400`): DERIVED from the session by `app.guard_invoice_void`, never accepted from the caller, and may change only in the statement that sets `status_code` to `voided`.
+- voided_by nullable — likewise derived.
+- void_reason nullable — REQUIRED when voiding, as canon 26 requires a reason for archiving.
+- corrects_invoice_id nullable — VOID-1: the invoice this one corrects. The anchor a FUTURE credit/debit-note workflow will use to reference the original deterministically (ETA requires a correcting document to cite the original's identifier). Nothing produces it today and it affects no balance; a credit note is NOT a void. Composite FK `(tenant_id, corrects_invoice_id)` per TENANT-1, and it may not reference itself.
+- external_submission_id nullable — the EXTERNAL authority's own document identifier.
+- external_submission_status_code nullable — the EXTERNAL tax-document lifecycle (catalog `tax_submission_status_code`), deliberately SEPARATE from `status_code`. An internal void asserts nothing here; a `cancelled` recorded here does not void the ORVION invoice. The only link is a refusal: an `accepted` document cannot be voided internally.
 - external_submitted_at nullable
 - external_response_at nullable
 - created_by
@@ -1369,6 +1412,37 @@ Core fields:
 
 # 6. Document Tables
 
+## document_retention_policies
+
+Purpose:
+
+The retention period for SUPERSEDED document versions, one row per (tenant, document_type_code). RET-1 (owner decision 2026-09-04, `202607060500`).
+
+Core fields:
+
+- id
+- tenant_id
+- document_type_code — validated against the `document_type` catalog
+- retention_days integer — NOT NULL and `>= 1`. Days from `document_versions.uploaded_at` after which a SUPERSEDED version becomes a destruction CANDIDATE. A zero or negative period cannot be STORED, not merely cannot be obeyed
+- reason nullable
+- is_active boolean — withdrawal is DEACTIVATION, not deletion: `authenticated` holds DELETE on no public base table in ORVION, and for a legal setting the record of what was configured must survive its withdrawal
+- created_by nullable — derived by `app.derive_created_by`, never accepted from the caller
+- created_at
+- updated_at
+
+Unique:
+
+- tenant_id + document_type_code — ONE authority per (tenant, type); a second row would be a second answer to a legal question
+- tenant_id + id (composite, TENANT-1)
+
+Rules:
+
+- **NO ROW MEANS NO POLICY, and no policy means nothing is ever destroyed.** The migration seeds ZERO rows, so that is the shipped state. `app.reconcile_document_storage` and `app.claim_storage_actions` INNER JOIN this table, so "retain by default" is the SHAPE of the query rather than a condition that could be edited away.
+- **There is deliberately no platform-wide default row and no nullable-tenant global row.** Two authorities disagreeing about a legal obligation is a defect, and a default would mean ORVION choosing a retention period on every tenant's behalf.
+- Only SUPERSEDED versions are ever candidates. The current version of a live document is never eligible at any age, guarded by both `is_current` and the document's own `current_version_id`.
+- Setting a policy costs MANAGE_TENANT_SETTINGS, enforced in the RLS policies rather than a trigger (as for `user_role_assignments` and `user_permission_grants`).
+- **ORVION invents no value.** Approved periods are supplied by the tenant on counsel's advice; Egypt's PDPL executive regulations require a controller to define and document a period tied to the purpose of collection, and Egyptian tax and commercial record-keeping set competing minimums. Reconciling those is a legal question.
+
 ## documents
 
 Purpose:
@@ -1382,6 +1456,10 @@ Core fields:
 - document_type_code
 - title
 - current_version_id nullable
+- legal_hold_active boolean — default false; when true, retention scan and claim both skip the document
+- legal_hold_reason nullable — required while a hold is active
+- legal_hold_changed_at nullable — server-stamped on each transition
+- legal_hold_changed_by nullable — tenant-qualified user FK, server-derived on each transition
 - lifecycle_status_code
 - is_confidential boolean
 - expires_at nullable
@@ -1952,6 +2030,7 @@ The following decisions are acceptable for MVP but should be reviewed before SQL
 6. `document_links` now uses explicit nullable target FKs instead of polymorphic target fields. SQL migration should enforce exactly one target per row.
 7. Logical schema is frozen as the working baseline after this review. No additional schema redesign should happen unless implementation reveals a real problem.
 8. Version 0.4 closed the Phase 1 Domain & Schema Audit findings via SPEC-002 and SPEC-003 (see changes/): added `currencies`, `payment_allocations`, and `customer_identity_merges`; added missing columns to `journal_entry_lines`, `invoices`, `booking_item_passengers`, `bookings`, `conversations`, `attribution_clicks`, `offline_conversions`, and `document_links`; documented five previously-unenforced constraints as table-level Rules (journal debit/credit exclusivity, booking_items and booking_item_passengers non-negative amounts, document_links single-target, document_versions single-current-version); and corrected the Table Classification Summary. State machines, events, and permissions for the CRM-extension entities (Task, Quotation, Conversation, Complaint, Service Request, Marketing Campaign) remain open and are explicitly deferred to the Phase 2 Catalog & Lifecycle Audit — no changes to `26_state_machines.md`, `27_event_catalog.md`, or `28_permissions_matrix.md` have been made as of this entry.
+9. Version 0.6 (SPEC-223, PAX-7, owner decision 2026-09-26): `booking_item_passengers` owns the ticketed traveller identity in six `manifest_*` fields, and `passengers` remains the mutable reusable profile. Freeze point and post-issue correction authority are unchanged and stay in `28_permissions_matrix.md`.
 
 ---
 

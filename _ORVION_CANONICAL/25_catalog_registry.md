@@ -428,6 +428,12 @@ Usage:
 - UI routing
 - Department-specific workflows
 
+Status:
+
+**Superseded by `department_type` — not implemented, and not to be implemented (recorded 2026-08-21, remediation pass).** Every one of the six values above is an exact subset of the live `department_type` catalog (`sales`, `operations`, `ticketing`, `finance`, `customer_service`, `administration`, plus `management`), which is seeded, FK-referenced by `departments.department_type_code`, and consumed by `app.create_department`. Introducing `functional_role_code` as a second catalog family would create two vocabularies for one concept and violate one-authority-per-concept (`GOVERNANCE.md §6.8`).
+
+This entry is retained rather than deleted, per the supersede-don't-delete convention already applied to `finance_approval_type` above. "Functional responsibility" and "UI routing" are served by `department_type` together with the separate `role_code` → `roles` table; if a future UI genuinely needs a functional axis independent of both department and RBAC role, that is a new design question, not a revival of this family.
+
 ## permission_key
 
 Ownership: System Catalog
@@ -1285,6 +1291,35 @@ Usage:
 
 - Document linking
 
+## related_entity_type
+
+Ownership: System Catalog
+
+Values:
+
+- customer
+- lead
+- booking
+- booking_item
+- quotation
+- invoice
+- payment
+- refund
+- passenger
+- supplier
+- conversation
+- complaint
+- service_request
+- document
+
+Usage:
+
+- The controlled vocabulary for the `related_entity_type` / `related_entity_id` pair on `tasks`, `notifications`, and `approval_requests` — the polymorphic "what is this about?" link defined in `29_relationship_map.md` ("Task may relate to any business entity").
+
+Added 2026-08-21 (SPEC-130). The pair previously had no vocabulary and no referential integrity: `'BoOkInG'` was accepted alongside `'booking'`, and the id could name a row in another tenant or no row at all. The values above are deliberately **singular**, matching `document_link_target_type` above and the values ORVION's own RPCs already write (`'lead'`, `'booking_item'`).
+
+Rule for extending this family: the code must be the singular form of an existing **tenant-scoped** table, because `app.enforce_entity_reference` resolves the target as `code || 's'`. This is verified, not assumed — `supabase/tests/15_entity_reference_test.sql` fails if any value in this family does not resolve to a real tenant-scoped table, so a value that breaks the rule is caught by the test suite rather than by an employee's first write.
+
 ---
 
 # Notification Catalogs
@@ -1524,6 +1559,7 @@ Ownership: System Catalog
 Values:
 
 - pending
+- ingested
 - sent
 - failed
 - retried

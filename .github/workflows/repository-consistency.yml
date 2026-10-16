@@ -9,11 +9,69 @@ on:
     paths:
       - "**/*.md"
       - "scripts/check_repository_consistency.ps1"
+      # Check 19 DELEGATES to this script and reads this evidence file. Both were missing here,
+      # and it showed twice: `6a246ca` introduced Check 19 and its script with no CI run at all,
+      # and a commit that only refreshes the ledger evidence never re-ran the guard that consumes
+      # it. Every file the guard reads or executes belongs in these lists.
+      - "scripts/check_primary_ledger.ps1"
+      - "reports/evidence/primary-ledger-evidence.json"
+      # The same rule, applied to the three INPUTS the guard reads that are not Markdown and not one
+      # of its own scripts. Measured in the guard's source rather than assumed:
+      #   Check 1  (GOV-13)  resolves pgTAP test references against `supabase/tests/`
+      #   Check 7  (INC-2)   reads `ai-map.json` and compares five live_state fields to the manifest
+      #   Check 9            derives the migration count, latest filename and ledger fingerprint
+      #                      from `supabase/migrations/` alone
+      #   Check 15 (META-1)  counts `supabase/tests/*.sql` and their assertions
+      # A commit touching ONLY migrations, ONLY tests, or ONLY `ai-map.json` therefore changed four
+      # checks' inputs while running none of them -- the same omission the comment above records for
+      # Check 19, in the three places it was left. Migration CI watches two of these paths but does
+      # NOT run this guard, and merging the two workflows would be wrong: they validate different
+      # evidence classes and this one deliberately needs no database stack.
+      - "supabase/migrations/**"
+      - "supabase/tests/**"
+      - "ai-map.json"
       - ".github/workflows/repository-consistency.yml"
+      # Check 28 (WS-1) reads these two workstation desired-state authorities and compares them
+      # against `.workstation/manifest.md`. A commit editing only one of them changes the guard's
+      # input, so it must run the guard -- the same CI-1 rule the entries above record.
+      - ".vscode/extensions.json"
+      - ".mcp.json"
+      # The guard-of-the-guard suites this workflow now runs. A change to a detector's calibration
+      # is a change to what the gate means, so it re-runs the gate.
+      - "scripts/test_future_date_guard.ps1"
+      - "scripts/test_status_contradiction_guard.ps1"
+      - "scripts/test_primary_ledger_guard.ps1"
+      - "scripts/test_cold_start_state_guard.ps1"
+      - "scripts/readiness_population.ps1"
+      - "scripts/generate-ai-map.ps1"
+      - "scripts/readiness_selftest.ps1"
   pull_request:
+    # CI-1b (2026-09-09): THIS LIST MUST MATCH `push.paths` ABOVE, ENTRY FOR ENTRY. It did not: the
+    # workflow file itself and all three guard-of-the-guard suites were added to `push` and never to
+    # `pull_request`, so a PR that touched ONLY a detector's calibration -- or only this file's own
+    # triggers -- changed what the gate MEANS and did not run the gate. Check 20 reported CLEAN
+    # throughout because it searched the whole file for each path string and found every one of them
+    # on the push side. A guard that greps a file cannot see which of two lists a line is in; that is
+    # the MEAS-1 class inside the check written to close exactly this failure, and Check 20 now
+    # parses the two blocks separately and compares them.
     paths:
       - "**/*.md"
       - "scripts/check_repository_consistency.ps1"
+      - "scripts/check_primary_ledger.ps1"
+      - "reports/evidence/primary-ledger-evidence.json"
+      - "supabase/migrations/**"
+      - "supabase/tests/**"
+      - "ai-map.json"
+      - ".github/workflows/repository-consistency.yml"
+      - ".vscode/extensions.json"
+      - ".mcp.json"
+      - "scripts/test_future_date_guard.ps1"
+      - "scripts/test_status_contradiction_guard.ps1"
+      - "scripts/test_primary_ledger_guard.ps1"
+      - "scripts/test_cold_start_state_guard.ps1"
+      - "scripts/readiness_population.ps1"
+      - "scripts/generate-ai-map.ps1"
+      - "scripts/readiness_selftest.ps1"
 
 jobs:
   consistency:
@@ -22,7 +80,64 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # FULL HISTORY IS REQUIRED — do not "optimize" this back to a shallow clone.
+          #
+          # Check 19 (RECOVER-1) delegates to `scripts/check_primary_ledger.ps1`, which attributes
+          # the recorded Primary-ledger reading to THIS history: `git cat-file -e <repository_head>`
+          # and `git merge-base --is-ancestor <repository_head> HEAD`. Both need real commits.
+          #
+          # `actions/checkout@v4` defaults to `fetch-depth: 1`, so the runner held exactly ONE
+          # commit. The evidence file always names an EARLIER commit — structurally so: Primary's
+          # ledger is read, then the evidence is committed, so the recorded head is the parent of
+          # the commit CI checks out. The attribution therefore could never succeed on the runner.
+          #
+          # The result was 13 consecutive red runs from 2026-09-03 (`d02b702` .. `c01cbf5`) that
+          # were green locally every time, each reporting exactly one issue: `UNATTRIBUTABLE`. On
+          # every one of them the substantive comparison — "Primary's recorded ledger and the
+          # repository agree exactly" — PASSED, and Checks 1-18 passed, so this was never a
+          # consistency defect. Only a missing precondition.
+          #
+          # `0` rather than a bounded depth: any ceiling works until evidence references a commit
+          # older than it, and then this breaks again silently.
+          fetch-depth: 0
 
       - name: Run repository consistency guard
         shell: pwsh
         run: pwsh -File scripts/check_repository_consistency.ps1
+
+      # AUD-01a (2026-09-06). The guard-of-the-guard suites existed but nothing ran them, so a
+      # regression inside a DETECTOR was invisible until it produced a false verdict in front of
+      # someone. That is what Check 12 did: its ceiling was the runner's LOCAL date, ORVION is
+      # written from UTC+2/+3 and this runner is UTC, so slice 3 -- pushed 2026-09-05T23:11Z with
+      # documents correctly stamped 2026-09-06 -- was CLEAN locally and 22 issues here.
+      #
+      # Runs AFTER the guard, deliberately: the guard is the gate, these are its calibration. They
+      # need no database and add seconds. `test_future_date_guard` copies the repository into a
+      # sandbox, so it also proves the guard survives being pointed somewhere other than the
+      # checkout -- the assumption every one of these suites rests on.
+      - name: Attack the guards themselves
+        # SPEC-185. Skipped on a `main` push ONLY, because a commit cannot reach `main` without a
+        # successful `orvion-acceptance` check run on that exact SHA -- ruleset 22950574 is active
+        # on the default branch with an empty bypass list and `do_not_enforce_on_create: false` --
+        # and that workflow runs these same four suites before it can conclude. Measured on the
+        # real `main` run of `a2957f1`: this step 84s, the guard above it 3s.
+        #
+        # NOT skipped anywhere else, and the asymmetry is the point. On a pull request Acceptance
+        # never runs, so this is the only calibration there; `github.ref` is `refs/pull/N/merge`
+        # under that event and cannot match a `refs/heads/` literal. On `orvion-preflight` both
+        # workflows run on one SHA, which is the only place the comparator `SPEC-172` preserves
+        # can actually compare anything. On `main` Acceptance does not run at all, so nothing is
+        # being compared here and this is purely a repeat of admitted evidence.
+        if: ${{ github.ref != 'refs/heads/main' }}
+        shell: pwsh
+        #
+        # $LASTEXITCODE is checked after EVERY suite, deliberately. With `shell: pwsh` GitHub gates
+        # the step on the exit code of the LAST command only, so three bare invocations would let a
+        # failing first suite pass silently -- a CI step that cannot fail, which is the same vacuous
+        # -guard class this whole entry exists to close.
+        run: |
+          foreach ($suite in 'test_future_date_guard','test_status_contradiction_guard','test_primary_ledger_guard','test_cold_start_state_guard','readiness_selftest') {
+            pwsh -File "scripts/$suite.ps1"
+            if ($LASTEXITCODE -ne 0) { throw "$suite FAILED (exit $LASTEXITCODE)" }
+          }

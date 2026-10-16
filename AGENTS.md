@@ -1,132 +1,157 @@
-# AGENTS.md — ORVION Operating Model
+# AGENTS.md — ORVION Operating Kernel
 
-This file is the **execution brain** for any engineering session in this repository — human or AI, any tool. It follows the cross-tool `AGENTS.md` convention (a README for agents). Read it once at the start of a session; it tells you how work is done here and where to look next. It is written to be lean on purpose: detail lives in the files it points to and is read only when the current state calls for it.
+This is the universal, client-neutral operating kernel for every ORVION engineering session. It is intentionally small. `scripts/check_agent_continuity.ps1` derives task/runtime state; the linked authorities own detail.
 
-**Precedence.** A live instruction from the owner overrides this file. Otherwise this file is the authoritative operating model: where it and any older document (`PROTOCOL.md`, `global-rules.md`, or prose in `_ORVION_CANONICAL/`) appear to conflict, this file wins. `CR_LIFECYCLE.md` is authoritative for the Change Request state machine specifically.
+**Precedence.** A live owner instruction wins. Otherwise this file governs execution posture, `CR_LIFECYCLE.md` governs Change Requests, `GOVERNANCE.md` governs knowledge placement, Canon governs business/domain truth, and migrations + Git are as-built truth. `PROTOCOL.md` and `global-rules.md` are retired pointers.
 
----
+## 1. Execution boundary and stop conditions
 
-## 1. How execution flows
+Repository READ/search access is unrestricted. CREATE/MODIFY/DELETE authority exists only in an Approved or In-Progress CR's exact `Write Scope`; Required Reading never grants write authority. In PLAN, read, search, research, diagnose, test assumptions in a disposable sandbox or prototype outside the authoritative repository (`ENGINEERING_METHOD.md §2`, "Reduce uncertainty before freezing": isolate whatever the experiment can change, so commits go in a fresh clone with its push URL disabled, because a `git worktree` shares the repository's refs and config, and database work uses its own Supabase project id and ports, never the shared local stack), establish before freezing a Draft, however small, that every command it will be judged by can pass, running one that can change shared state only in such a sandbox and asking before running one that cannot be isolated (§3), and draft a proposed CR, but do not mutate implementation. Official CR statuses remain exactly Draft, Approved, In Progress, Complete, Cancelled. PLAN, EXECUTE, VERIFY, BLOCKED and CERTIFY are runtime activities/verdicts, never statuses. Only an Approved or In-Progress CR may be the manifest's active pointer, and a Draft named as active is a rejected contradiction, not a mode.
 
-**Execution is the default state; interruptions are the rare exception.** A standing approval is standing authorization to keep executing the approved roadmap. Do not stop for routine confirmations ("Proceed?", "Continue?", "Go ahead?") or for routine engineering — bash, git, commits, pushes, branch ops, repo sync, verification scripts, tests, doc/manifest sync — that is simply the next step of approved work. Do them and report.
+Execution is the default inside approved scope. Do not pause for routine Git, tests, commits, synchronization, or objectively derivable implementation choices. Stop only for:
 
-**A checkpoint is not a pause.** Synchronizing the repository and reporting a short status at a completed capability is a *checkpoint* — it always happens and never stops execution. A *pause* — halting to await the owner — happens only when one of the five conditions below genuinely occurs. When a capability is Complete, verified, synchronized, committed, and no such condition holds, continue directly to the next dependency-ready capability; never append a routine confirmation ("Say the word", "Let me know", "Shall I continue?") — that is the pause §1 forbids, wearing checkpoint's clothes.
+1. a genuine owner-only business/legal/commercial preference or new irreversible architecture direction after Decision Exhaustion;
+2. an unresolved canonical contradiction;
+3. a material unexpected blocker outside bounded recovery;
+4. a destructive/irreversible action outside the approved workflow;
+5. unauthorized write scope, Git divergence, technical impossibility, or exhausted recovery.
 
-**Stop only when one of these genuinely occurs:**
-1. an owner-level architectural decision,
-2. a canonical contradiction,
-3. a significant long-term architectural tradeoff,
-4. an unexpected blocker that materially affects the project,
-5. a potentially destructive or irreversible action outside the approved workflow.
-
-A decision that follows from an already-approved ADR, a canonical rule, or a prior owner decision is **implementation, not escalation** — choose the strongest option the canon, ADRs, repository state, and current evidence support, and continue; escalation is reserved for a genuinely *new* direction, never for applying one already approved. When in doubt and the action is within the approved plan and reversible: proceed and report — do not ask.
+Never invent policy, expose/request secrets, force-push, use `--no-verify`, rewrite history, weaken a guard, widen scope to hide a failure, or touch unrelated user work. Before a destructive action resolve the exact target and prove it is authorized. Credentials remain external to Git; repository configuration may name environment-variable handles, never values.
 
 **The capability is the unit of progress.** The roadmap is organized around approved business capabilities; a Change Request (SPEC) is one engineering step delivering one. When a capability is best delivered as several small SPECs, continue through them as one flow — do not treat each SPEC as a fresh decision point. Drive the capability to a coherent, verified completion.
 
-**Standing execution directive (owner-ratified 2026-07-17): finish → audit → classify → execute.** (1) **Finish before proceeding** — no new unit (phase / capability / slice / migration) begins until the current one is complete on every axis: implemented, verified, tested, Review-Gate-passed, governance-satisfied, docs + Canon + repo synchronized, working tree clean, committed, no known in-unit debt. (2) **Pre-unit Critical Architecture Audit** — before each major unit, review as architect + auditor to *actively discover* missing structure / lookups / reference data / identifiers / relationships / FKs / indexes / constraints / events / drift / duplication; assume incomplete until proven otherwise; validate every conclusion against implementation, never against prior conclusions. (3) **Classify every decision immediately** — technical/architectural (derivable from implementation, PostgreSQL/Supabase, enterprise SaaS practice, current research) ⇒ decide, document the reasoning, continue; **business-policy** (customer/product behaviour, pricing, finance/compliance/legal, commercial strategy) ⇒ present options + trade-offs + recommendation and wait, never silently defer; insufficient evidence ⇒ research first, exhaust technical investigation before asking. (4) **Execution focus** — the active unit has priority; classify/record future improvements without pausing *unless* they are critical architectural debt, security, integrity, data-loss, or a structural defect that grows materially more expensive if postponed. This crystallizes conduct already owned here (Earn-It §3, Fundamental Domain Structure §3, discovery-to-guard `GOVERNANCE.md §18`, Learn-Before-Designing §3, definition-of-done §6) — it restates none of them, it sequences them.
+**Standing execution directive (owner-ratified 2026-07-17): finish → audit → classify → execute.** No new unit begins until the current one is complete on every axis; each major unit opens with a Critical Architecture Audit; every decision is classified immediately as technical (decide and continue) or business-policy (present options and wait); the active unit keeps priority. Full ratified text: `ENGINEERING_METHOD.md §1 "Standing execution directive"` — read it when starting any unit of work.
 
----
+## 2. Permanent principles
 
-## 2. Standing authorities (permanent)
+- **One Authority:** one fact has one owning location; other files point to it. See `GOVERNANCE.md §2`.
+- **Earn-It:** every process, file, abstraction, tool, and permanent rule must measurably increase confidence; prefer the simpler equivalent.
+- **Four decision rules (owner-ratified 2026-10-08):** LEARN BEFORE GUESSING → EARN IT → WORTH IT → SIMPLIFY IT WITHOUT WEAKENING, applied to small decisions as well as significant ones, with depth scaled to risk and freshness. Definitions: `ENGINEERING_METHOD.md §2`.
+- **Test Before Trust / No Guessing:** a claim is PROVEN only by an observed relevant check. Otherwise mark UNPROVEN, FAILED, or BLOCKED. Guard success proves only that guard's declared evidence class.
+- **Anti-entropy:** leave touched surfaces simpler, synchronized, deterministic, and harder to misuse; never turn this into unrelated cleanup.
+- **Implementation autonomy:** choose the strongest practical reversible option already implied by Canon, ADRs, implementation, tests, Git, and current official evidence.
+- **Owner boundary:** never invent business policy, legal/compliance risk acceptance, commercial preference, or a genuinely new strategic architecture direction.
+- **Repository memory:** chat is not state. Persist durable truth in its existing authority; reusable executable failure classes become guards/tests.
 
-These have been exercised through real implementation and are part of the permanent operating model — not a temporary mode.
+The active capability must finish on every relevant axis before another begins: implement, verify, Review-Gate, synchronize, commit, publish as a candidate, clean tree, no known in-unit debt. A checkpoint records progress; it is not a routine permission pause.
 
-- **Implementation-choice autonomy.** When several reasonable implementations exist inside an already-approved architectural direction, pick the strongest practical one and continue. Do not interrupt merely because two acceptable options exist. Local, low-risk, reversible, architecture-consistent decisions are yours to make.
-- **Autonomous completion.** When a capability is fully implemented, verified, passes all required tests, satisfies its acceptance criteria, AND introduces no NEW architectural decision (the decision already lives in an approved ADR or prior owner decision), completing it is execution, not a separate gate: mark the CR `Complete`, sync manifest/docs, commit, and push without asking. A capability that introduces a *new* decision still needs owner sign-off (usually an ADR) BEFORE it is built.
-- **Anti-entropy (boy-scout, measured).** Every session must leave the repository at least as clean, simple, deterministic, synchronized, and hard-to-misuse as it found it — and reduce entropy where the work touches. This is *measured, not asserted*: the consistency guard (`§5`) must stay CLEAN and no new duplicated authority may be introduced. Improve opportunistically through the work at hand, never as a separate documentation project; **prefer deleting, merging, and simplifying over adding.** Adding a document or rule is a cost that must Earn-It against this invariant — when an idea already exists, evolve its one home rather than create a parallel one.
-- **Delegation is Earn-It-gated (not the default).** Repository reading, architecture synthesis, synchronization, documentation analysis, and design decisions are done by you directly whenever your own context suffices. Delegate to a specialist agent only when **all** hold: the task is genuinely parallelizable; it needs external research or specialized analysis beyond your current repository context; delegation reduces total time without reducing quality; and it cannot be done as well by you alone. Before any spawn, justify — why delegation is necessary, why you cannot do it yourself, the unique value the agent adds, and the evidence you expect back. When delegating: use the fewest agents possible, no overlapping scopes, no duplicate work, each narrowly scoped. **Model selection: choose the smallest model capable of the required quality** — never an expensive reasoning model for routine inspection, indexing, formatting, sync, or simple comparison; reserve high-capability reasoning for architecture validation, complex dependency analysis, difficult research, cross-document synthesis, multi-source reasoning, and critical design. Every delegated agent applies exactly this same governance (Earn-It, One Authority, Test-Before-Assume, Learn-Before-Designing, the Impl→Discovery→Evidence→Fix→Permanent-Test→Sync lifecycle) and may not weaken it. After delegation: validate the returned evidence yourself, never trust conclusions blindly, reconcile findings into one authoritative result, and resolve conflicts before presenting. You remain solely responsible for the final architectural decisions, synchronization quality, and repository integrity. Not a parallel rule — the application of §3 Earn-It to delegation.
-- **Test before trust (never assume, always verify).** "Working" means *successfully tested*, never *looks correct*. Before reporting anything done — architecture, SQL, a migration, tooling, an environment, a documentation claim, or any AI-generated work — exercise it and observe the real result (run the smoke test, execute the RPC's allowed and blocked paths, actually query through the tool). An unverified claim is a finding, not a completion. This pairs with the discovery-to-guard loop (`GOVERNANCE.md §18`): a class of failure, once found, earns a permanent guard so it cannot silently return, and the lesson is persisted to the repository (`GOVERNANCE.md §2/§6` — the repo, never the chat, is ORVION's long-term memory).
+**Durable checkpoint test (owner-ratified continuity authority, restored 2026-09-11).** A meaningful engineering boundary is not checkpointed until the repository itself can carry it forward. Apply one question: *if this agent disappears permanently right now, can a completely fresh agent resume correctly from repository evidence alone?* If not, synchronize the Runtime Checkpoint to the exact next step, append the Execution Log entry, and commit the coherent boundary before stopping. Compact semantic state plus a durable Git checkpoint is the whole mechanism — this never requires a session report, and a knowingly inconsistent half-migration is never committed merely because a session is ending.
 
----
+## 3. Runtime workflow
 
-## 3. How decisions are made
+Run from the repository root:
 
-**Governing meta-principle — Earn-It.** Optimize for engineering *confidence*, not process. Every step (and every artifact, document, and abstraction) must justify itself by measurably increasing confidence. If the same confidence is reachable with fewer steps or fewer files, prefer the simpler path. This guards against both governance bloat and documentation bloat.
+```powershell
+pwsh -NoProfile -File scripts/check_agent_continuity.ps1 -Boot
+```
 
-**Fundamental Domain Structure vs Feature Implementation (owner-ratified 2026-07-17).** Earn-It's deferral pressure applies to *capabilities, infrastructure, integrations, workflows, automations, external systems, scheduled jobs, caches, optimizations, and feature behaviour* — not to the **canonical domain model**. A table, lookup family, enum, reference dataset, relationship, foreign key, constraint, index, event, canonical field, or business identifier that is an *inevitable* part of ORVION's domain belongs in the repository **now, even with no current consumer** — deferring it only forces an expensive structural migration after production begins, which ORVION exists to avoid. Include a structure now **only if it satisfies ALL of:** inevitable · architecturally correct · belongs to the canonical domain · reduces future structural migrations · improves long-term integrity · supported by modern enterprise best practice (as of the decision date). The decisive test: *"If ORVION were a mature enterprise travel SaaS in five years, would this structure almost certainly exist regardless of feature order?"* — if yes, add it in its correct canonical location; if it is speculative, feature-shaped, or has multiple equally-valid models whose correct choice depends on an unbuilt feature, do **not** invent it — record it with a trigger. Structural completeness is a first-class goal: future phases should primarily add *behaviour*, not redesign *structure*.
+Boot validates and extracts manifest, active CR, official status, Runtime Checkpoint, Git/upstream, repository guard, capabilities, verification profile, and blocker. Follow its exact `ACTION`, `WRITE`, and `START_CONTEXT`. Boot routes context; it does not preload whole Governance, Canon, reports, or guard output. Read more whenever evidence requires it.
 
-**Classify each capability at the start (this keeps reviews light):**
-- **Routine** — established pattern, no architectural impact (a guarded RPC reusing a proven pattern). Minimal ceremony: phase-fit → design review → implement → Review Gate (with inline Excellence check). No Design Challenge.
-- **Significant** — introduces or materially changes a business capability or architectural boundary (new/changed aggregate, phase/domain boundary, finance/security/identity-sensitive, hard to reverse, ADR-adjacent). Adds the Design Challenge and a fuller Excellence pass.
-- **Owner-Decision** — changes long-term architecture or governance, or introduces a meaningful irreversible tradeoff. Act as the owner's **Technical Advisory Board (owner-ratified 2026-07-17)**: don't merely stop and request approval — explain *why* the decision exists, why it can't be objectively derived, whether it is reversible, and its assumptions; present *every realistic* option with a comparison across the axes that matter (architecture, operational model, scalability, implementation + operational complexity, maintainability, flexibility, vendor lock-in, migration cost, security, compliance, infrastructure, roadmap + ORVION fit); recommend one with evidence; and **teach the owner *how* to choose, not just what** — the goal is an informed decision, not a rubber stamp. Isolate the decision (design everything independent of it, per §1), await approval, record an ADR. Prepare the analysis as a Decision Record first (precedent: `reports/history/google-offline-conversion-transport-decision-2026-07-17.md`).
-  - **Every proposal — including the owner's — is evaluated, never auto-accepted (owner-ratified 2026-07-17): the owner proposes, repository evidence decides.** Each concludes as exactly one of **Adopt Now / Adopt Later (explicit trigger) / Reject (with evidence)**, judged by Earn-It + repository evidence + One-Authority + Test-before-trust + Learn-Before-Designing + stewardship.
-  - **Permanent Engineering Review Board.** Review every non-trivial implementation through multiple standing perspectives that challenge one another before concluding — Repository Steward, Chief/Enterprise/Solution/Domain/Software/Database/Data/Integration/Security architect, Governance Custodian, Technical Auditor, QA, Systems Analyst, Technical Product Owner, Risk/Compliance/DevOps reviewer, Documentation Steward, Long-Term Maintenance engineer. Governance remains the final authority. (This is the Excellence Check's multi-role lens, §3 step 6, widened to architectural roles — not a separate gate.)
+Every implementation cycle is:
 
-**Workflow stages:**
-1. **Phase-fit + Earn-It → classify tier.** ("Does this belong to the current phase, or am I solving a future problem?")
-2. **Research when it materially helps (Learn-Before-Designing).** Use current external evidence as a lightweight Design Review tool whenever it would measurably improve a decision — validating a current best practice, evolving external-platform behaviour, an official spec, or an assumption before implementation. Scale it to the decision: a quick check for a routine choice touching a fast-moving external surface; for a *major* capability (UI, AI, communications, reporting, automation, analytics, search, integrations), a fuller study of the strongest current implementations — why they work, why users prefer them, where they fail, what to adopt vs deliberately avoid. Verify against up-to-date official sources (the ecosystem moves fast). When a fast-moving surface is in play — SDKs, APIs, AI tooling, cloud/infrastructure, external-platform behaviour — **prefer verifying current official information over relying on historical/stored knowledge**, because stored knowledge goes stale silently and a wrong assumption there is expensive. Goal: strengthen engineering judgment with evidence, not replace it — and not research every task.
-3. **Design Review** — gather the minimum context, then confirm canonical fit: read *only* the relevant canonical docs and the *required* schema/migrations for this capability, and look for an existing precedent (an RPC or pattern already in the repo) to reuse rather than re-invent. Minimal, precedent-first reading is what keeps a capability both correct and cheap.
-4. **Design Challenge** — *Significant only.* Objective: can we reasonably demonstrate the selected solution is the strongest practical solution among realistic alternatives? Adversarial sweep for what is MISSING or SIMPLER/BETTER (relationships, business concepts, catalog values, events, permissions, validations, integration points, hidden assumptions, simplification). Output = short findings list resolving to one of three engineering outcomes — reject, improve, or confirm the approach — then implement; a question to the owner is *not* an outcome, and is warranted only if the sweep surfaces a genuine architectural conflict (a stop condition). A full written report only at phase/gate boundaries.
-5. **Implement + prove** — clean `db reset`, behavioral tests, smoke-test, Database Audit (for schema work).
-6. **Review Gate + Excellence Check** — the CR Review Gate PLUS six questions: (a) anything overlooked? (b) simpler equivalent? (c) unnecessary complexity introduced? (d) reusable business concept emerged? (e) negligible-cost future-debt avoidance? (f) **multi-role usability** — reviewing not only as an architect but through the affected operational roles (sales, reservations, finance, accountant, call-center, support, marketing, operations, owner, plus the engineering roles): can each perform their workflow naturally? A capability no real role can use naturally is incomplete. In-phase improvement → implement; future → record at its trigger.
-7. **Complete** — autonomous per §2 when verified and no new decision; sync manifest/ADR; commit; push.
-8. **Phase-transition checkpoint** — execute a whole roadmap phase capability-by-capability without stopping, then pause at phase end with a concise checkpoint: what was completed, findings, deferred items + triggers, architectural health, next phase, recommendation, any observation deserving owner attention. Then begin the next phase.
+```text
+PLAN → FRESHNESS → PRECHECK → EXECUTE → VERIFY → CERTIFY
+```
 
-Governance is self-revising: if a step stops earning its confidence, propose simplifying it; if a missing practice would raise quality without materially slowing execution, propose adding it. Reconsider methodology only on concrete repository evidence, never on preference alone.
+- **FRESHNESS:** `INTERNAL_SUFFICIENT` when repository authority answers the decision. Use `EXTERNAL_REFRESH_REQUIRED` for materially fast-changing AI/model/tooling, SDK/API, GitHub, Supabase, n8n, Google/Meta, security, cloud, or external-contract assumptions; use current official/primary sources narrowly.
+- **PRECHECK:** observe the present invariant or construct the defect/counterexample before editing.
+- **EXECUTE:** make the smallest approved change.
+- **VERIFY:** repeat the observation and exercise allowed/blocked behavior proportional to risk.
+- **CERTIFY:** run `-Gate`, all derived mandatory profiles plus CR additions, repository consistency, generated-artifact freshness, checkpoint validation, and Git checks.
 
----
+Before completion run it through the timed runner and watch it while it runs (`CR_LIFECYCLE.md` §9); started directly, `-Finish` refuses. The runner blocks until the run ends, so the watcher runs at the same time, from a second shell or the agent's background monitor, never after the runner returns; it waits for the log if the run has not started:
 
-## 4. Where to look next (the boot sequence)
+```powershell
+# first shell: blocks until the run ends
+pwsh -NoProfile -File scripts/run_timed.ps1 -Log <log> -Command "pwsh -NoProfile -File scripts/check_agent_continuity.ps1 -Finish"
+# at the same time, a second shell or a background monitor
+pwsh -NoProfile -File scripts/watch_run.ps1 -Log <log> -Run finish-control -Brief
+```
 
-**This is the SINGLE authoritative boot sequence for every session — human or AI, any tool. It is the only home for the reading order (`GOVERNANCE.md §2`); `README.md`, `llms.txt`, and `ai-map.json` route here and never restate these steps.** Following it is **mandatory and self-directing**: no agent should ever ask "what do I read?", "where do I start?", or "may I read AGENTS / GOVERNANCE / the canon?" — this sequence is the answer. **Reading mandatory repository knowledge is never owner approval**; owner approval is required only where governance explicitly says so (a new ADR, a canon change, a roadmap change, an irreversible action — §1 stop-conditions).
+Only a successful Finish permits Review/Complete, and that is now enforced rather than asked for: Finish writes a local certification receipt bound to the implementation state it certified, and the Gate refuses a Complete transition without a fresh matching one. CR transitions, immutable contract sections, synchronization, and command vocabulary live in `CR_LIFECYCLE.md`.
 
-A fresh session bootstraps itself from the repository alone — conversation history is never required. The sequence has three stages — **Orient (read) → Verify → Ready** — and it is **not** finished when the documents have been read. It is finished only when live state has been *verified against ground truth* and the next engineering action is known. A boot that stops after Stage A has produced *documented* understanding, not *verified* understanding.
+### Decision and architecture discipline
 
-### Stage A — Orient (read)
-1. **This file (`AGENTS.md`)** — how work is done, standing authorities, decision tiers (you are here).
-2. **`GOVERNANCE.md`** — where every fact lives (SSOT matrix §2), how decisions flow (§3), where you may/may not write (§8). Read it before placing or changing any knowledge.
-3. **`_ORVION_CANONICAL/manifest.md`** — live state: current phase, module, and Active Change Request.
-4. **If `Active Change Request` is not `None`** — read that `changes/SPEC-*.md`; its own Minimum Reading List takes over from here.
-5. **If it is `None`** — read `_ORVION_CANONICAL/32_execution_roadmap.md` for the current phase and its next capability.
-6. **Task-specific canon only** — `_ORVION_CANONICAL/00`–`23` (business/domain), `24`–`33` (schema/database), `34`/`35` (cross-cutting principles). Read only what the current task needs.
-7. **Rationale, on demand** — `reports/` for the "why"; `reports/architecture-decision-records.md` for active ADRs; `reports/future-backlog.md` for deferred work and its triggers.
+Owned by `ENGINEERING_METHOD.md §2 "Decision and architecture discipline"`: the four decision rules, Earn-It, Fundamental Domain Structure, the Routine / Significant / Owner-Decision tiers, independent evaluation of every proposal, and the eight workflow stages.
 
-### Stage B — Verify (always; cheap; the repository, not the documents, is the truth)
-8. **Run the consistency guard** — `pwsh -File scripts/check_repository_consistency.ps1` must print `REPOSITORY CONSISTENCY: CLEAN`. It mechanically checks broken references, intra-register status contradictions, boot-router integrity, report classes, manifest leanness, **roadmap↔manifest phase agreement, ai-map freshness, and Supabase dual-project topology registry integrity (Check 8)**. Non-CLEAN is a synchronization defect to fix (or report) *before* engineering — never work over a dirty guard.
-9. **Cross-check the five live-state facts** — {current phase · active CR · last completed step · next engineering action · open owner decisions} must resolve *identically* across `manifest.md`, the roadmap, and `git log`. The guard covers phase, ai-map, and topology-registry integrity mechanically; you confirm the rest.
-10. **Reality overrides documentation (invariant).** On any conflict, ground truth wins in this order — `supabase/migrations/**` + `git` (as-built) → canon → prose/reports — and the drifted document is corrected (or recorded as a finding) before proceeding. A claim you did not verify is a finding, not a fact (§2, Test-before-trust).
-11. **Before any Supabase schema-changing or destructive operation, verify the exact target project ref** against `reports/master/MASTER_INTEGRATION_CATALOG.md §0` — never assume which project a connector is pointed at. ORVION has exactly two authorized targets that must remain synchronized: Primary `vrvtsxexkiiiivlkdxzp` and Secondary/Mirror `brplkqmbzffpxqgkkdzo`. `wgsmrjcuhjdksfpdbhre` (accidental) and `hzyuczdlwalectfduehw` (deleted) are never targets, under any circumstance.
+Read it when classifying a capability or making an architectural or owner-facing decision. Routine execution inside an approved contract does not need it. Nothing was weakened in the move — Check 27 of `scripts/check_repository_consistency.ps1` fails if any of those rules stops existing there.
 
-### Stage C — Ready (before engineering only; a read-only/question session may stop after Stage B)
-12. From the verified state, answer plainly: **is any owner decision still open? is any prerequisite missing? is the repository internally consistent?** For schema work, prove the baseline — `npx supabase db reset` + the smoke-test (`§5`). Conclude with one line: **ready to engineer**, or **blocked on `<X>`**. This is orientation, not a gate that needs owner approval; only the §1 stop-conditions pause execution.
+## 4. Context routing and live state
 
-Supporting references, pulled only when relevant: **`CR_LIFECYCLE.md`** (Change Request state machine and command vocabulary), **`PROJECT_CONTEXT.md`** (project identity, vision, boundaries, business context), **`CODING_STANDARDS.md`** (naming, SQL, API, security standards).
+This section is the **single authoritative boot sequence**; its executable entry is `-Boot`. If that command cannot run, use this recovery route only:
 
----
+| Need | Authority |
+| --- | --- |
+| Current phase/task/active CR/next capability | `_ORVION_CANONICAL/manifest.md` |
+| CR format, write scope, exact step/checkpoint | active `changes/SPEC-*.md` + `changes/TEMPLATE.md` |
+| CR states/transitions/synchronization | `CR_LIFECYCLE.md` |
+| Decision tiers, design method, measurement integrity, DB + cross-path protocols | `ENGINEERING_METHOD.md` |
+| Knowledge placement, reports, governance change | `GOVERNANCE.md` |
+| Business/domain truth | `_ORVION_CANONICAL/00`–`23` task-specific only |
+| Schema/database design truth | `_ORVION_CANONICAL/24`–`33`; as-built = `supabase/migrations/**` |
+| Coding/SQL/security conventions | `CODING_STANDARDS.md` |
+| Ratified decisions | `reports/architecture-decision-records.md` |
+| Findings / deferred triggers | `reports/master/MASTER_GAP_REGISTER.md` / `reports/future-backlog.md` |
+| What is open, due now, blocked or waiting, and why | `reports/master/MASTER_EXECUTION_PLAN.md` Action registry; `scripts/readiness_population.ps1 -Registry` prints it |
+| Integration contracts/targets | `reports/master/MASTER_INTEGRATION_CATALOG.md` |
+| File discovery | `repository-index.md` / generated `ai-map.json` |
+
+Reality wins in this order: migrations + Git → Canon → living reports/prose. Fetch before work. If local and upstream diverge both ways, do not merge/rebase/reset automatically. Pre-existing out-of-scope dirt is a hard blocker; never stash, discard, or commit it.
+
+The normal handoff is active CR + official Status + Runtime Checkpoint + exact Resume Step + Blocker + Git/live checks. It never depends on chat or a mandatory latest-session report. Read a session report only when Boot/Required Reading points to it or durable forensic/research/phase-boundary evidence is relevant.
 
 ## 5. Build and verify
 
-Local stack is Supabase (Postgres 17) via the CLI; the database container is `supabase_db_ORVION` (from `supabase/config.toml` `project_id`). Application logic is SQL migrations + `app`-schema RPCs in `supabase/migrations/` (filename `2026MMDDHHMM_<name>.sql`, applied in order).
+Mandatory verification is derived from Write Scope and cannot be removed; `Additional Verification` can only add. Profiles are:
 
-- **Apply migrations:** `npx supabase start` (once), then `npx supabase db reset` applies every migration on a clean database.
-- **Smoke-test (must pass):** `docker exec -i supabase_db_ORVION psql -U postgres -d postgres -f - < scripts/verify_database.sql` → prints `ALL CHECKS PASSED` (the expected table count is the one asserted in `scripts/verify_database.sql`, not restated here); a non-zero exit is a regression.
-- **Behavioral test:** exercise the new RPC through `docker exec -i supabase_db_ORVION psql -U postgres -d postgres`, confirming both the allowed and the blocked paths.
-- **Repository consistency (docs):** before committing any documentation/report change, run `pwsh -File scripts/check_repository_consistency.ps1` — it must print `REPOSITORY CONSISTENCY: CLEAN` (guards broken references, Master-register status contradictions, boot-router integrity, and report class headers). Part of the definition of done for doc changes, not only a CI check.
-- **CI:** `.github/workflows/migration-ci.yml` re-runs `supabase db reset` on every push/PR; `.github/workflows/repository-consistency.yml` runs the consistency guard on every doc-touching push/PR.
+- **REPOSITORY:** every engineering CR; continuity Gate, repository consistency, relevant tests, `git diff --check`, scope and generated-artifact checks.
+- **CONTROL:** agent/governance/CR-contract/control-script/hook changes; run `scripts/test_agent_continuity.ps1` and affected guard-of-the-guard suites.
+- **CI:** workflow changes; validate syntax/range behavior and prove the remote run after push.
+- **WORKSTATION:** bootstrap/doctor changes; prove setup idempotence and doctor detection.
+- **DATABASE:** migration/schema/database-contract changes; the full §5a protocol below.
 
-RPC conventions (match existing migrations, e.g. `202607045700_advance_booking_item.sql`): `security invoker`; `set search_path = ''`; resolve tenant via `app.current_tenant_id()`; gate with `app.authorize('<PERMISSION>')`; emit business events via `app.record_event(...)`; `grant execute ... to authenticated`.
+### 5a. Database verification protocol
 
-## 6. Guardrails
+Owned by `ENGINEERING_METHOD.md §4 "Database verification protocol"`, unchanged and never narrowed. Read it when the `DATABASE` profile applies; `-Finish` executes that protocol in order, so the contract must declare the `supabase-local` capability and name its relevant `scripts/verify_*` HTTP suites in Additional Verification.
 
-- **Protected resources** — do not modify `AGENTS.md`, `README.md`, `GOVERNANCE.md`, `CR_LIFECYCLE.md`, or `_ORVION_CANONICAL/**` unless the current task explicitly authorizes it. The authoritative protected set is the "Living (protected)" / owner-authorized rows of the `GOVERNANCE.md §5` registry — consult it rather than trusting this line as exhaustive.
-- **One task at a time; one implementation; one reviewer.** A completed task leaves the repository in a releasable state. No partial or placeholder implementations; no TODO comments unless requested.
-- **Synchronization is part of the task, not a later phase (definition of done).** A task is complete only when its implementation AND every Living document it affects are synchronized in the same unit of work: docs, roadmap, status, cross-references, and manifest state all reflect the new truth, and governance stays consistent. Never leave the repository partially synchronized between tasks. (`GOVERNANCE.md §18` owns the maintenance lifecycle; this is its conduct half.)
-- **Every task solves one business problem.** Prefer several small changes over one large change. When multiple valid choices exist, prefer the one that leaves the next Change Request easier to execute — less maintenance, less duplicated knowledge, less duplicated authority, less required context.
-- **Git is the source of truth.** Never rewrite history. Always leave a clean working tree. Handoff happens through `changes/*.md` and the manifest's `Active Change Request` field — never through chat.
-- **Recoverable at every meaningful checkpoint.** Durability is defined around engineering checkpoints, not a timer: each meaningful step — a verified migration, a completed CR Implementation Step, a synchronized doc, a phase transition — becomes durable the moment it is reached. A commit is the mechanism; git history + `manifest.md` + the active Change Request's living artifact are the only durable state — never the conversation. At each checkpoint ask: *if execution stopped permanently right now, could a completely fresh session continue from the repository alone?* If not, make it so before continuing — commit the finished step atomically and update the manifest's `Active Change Request` and the CR's `Execution Log` to the true current state. Recovery is then a cold boot (README → this file → manifest → active CR), never a reconstruction. Git cannot recover uncommitted work, so checkpoint at each meaningful step, not only at `Complete` or phase-end. External `.claude` memory is a cache only: never let an operational fact live solely there — if it matters for continuity, it lives in the repository.
-- **No guessing.** Never invent APIs, tables, files, business rules, or requirements. When information is missing, stop and report it. Never redesign existing architecture unless explicitly instructed.
-- **External credentials never pass through the agent.** A secret for a third-party system (a database role password, an OAuth client secret, an API key, a token) — Phase 8's `orvion_integration` password and n8n/Google OAuth client secret are the precedent — is entered by the owner directly into its destination (the database console, n8n's credential UI, the provider's own form), never into a prompt, tool call, file, or any other agent-visible surface. An agent must not generate, request, echo, or transit such a secret, even transiently in a tool call whose output only the agent sees. Concrete application of `CODING_STANDARDS.md §8`; verify by effect (a credential test passing, a query succeeding), never by inspecting the secret.
+### 5b. Cross-path impact protocol
 
----
+Owned by `ENGINEERING_METHOD.md §5 "Cross-path impact protocol"`, with the full trigger list. Read it when changing triggers, RLS, grants, SECURITY DEFINER functions, lifecycle/archive/catalog enforcement, events, immutable fields, scope, FK/key shape, permissions, vocabulary, columns, constraints, authorization helpers, or attribution structures.
 
-## 7. Multi-agent and tool files
+## 6. Blocked recovery and decisions
 
-`AGENTS.md` is the single source of truth for agent behavior; do not duplicate it into tool-specific files. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, and `.cursor/rules/` are thin pointers into the repository entry point and must stay that way. If instructions genuinely conflict and this file does not resolve them, stop and ask.
+A BLOCKED result starts bounded recovery, not automatic owner escalation:
 
----
+```text
+BLOCKED → DIAGNOSE → REFRESH EVIDENCE → ROOT-CAUSE HYPOTHESIS → PRECHECK → REPAIR → VERIFY → CERTIFY
+```
 
-## 8. Maintaining this file
+Maximum three attempts for the same blocker. Attempt 1 uses immediate error/diff/nearby tests; Attempt 2 uses consumers/history/ADRs/Canon/analogues/broader runtime; Attempt 3 uses a different hypothesis plus targeted current official/upstream evidence where relevant. Never repeat the same repair with the same evidence. Runtime Checkpoint persists only Resume Step, stable Blocker code, and Recovery Attempt 0–3. After three distinct failures: `HARD_BLOCKED: RECOVERY_EXHAUSTED`.
 
-- English, Markdown, concise. This file is read at the start of every session — every line spends context budget, so keep it lean and imperative.
-- It holds the operating model and the boot sequence only. Push mechanics into their owning file (Change Request mechanics → `CR_LIFECYCLE.md`; coding detail → `CODING_STANDARDS.md`; state → `manifest.md`) and point to them rather than restating them.
-- Do not add project-specific business rules here; those belong in `PROJECT_CONTEXT.md` and `_ORVION_CANONICAL/`.
+Before `OWNER_DECISION_REQUIRED`, exhaust in order: Canon; ADRs; implementation; analogous ORVION code; tests/runtime; Git history; current authoritative external sources; established industry practice. If one answer follows from approved architecture, decide and continue. Escalate only business preference, commercial policy, legal/compliance acceptance, irreversible strategy, owner value judgment, or genuinely new architecture. Complete independent work first and report one exact question, why not derivable, evidence exhausted, real options, recommendation, reversibility, blocked step, and completed independent work.
+
+After recovery ask whether the failure class recurs. If executable, add one guard/test; if architectural, use the ADR system; if domain truth, Canon; if operational, its existing procedure; if integration-specific, the integration authority. Do not add every lesson here.
+
+### Measurement integrity
+
+Owned by `ENGINEERING_METHOD.md §3 "Measurement integrity"`: no vacuous security tests, a green guard proving only what it measures, attacking every detector in both directions, testing both doors, never manufacturing an exemption, the four states a finding must reach, and external credentials never passing through the agent.
+
+Read it before writing or quoting any test, guard, or measurement. The kernel keeps the principle it rests on — Test Before Trust, §2 — and the detail lives with the method.
+
+## 7. Governance and tooling boundaries
+
+Governance changes follow `GOVERNANCE.md §15` and owner authorization. Protected Canon, ADR, frozen baselines, schema, business rules, credentials, and external production systems require their owning authority. Tools and client hooks are adapters only; repository scripts/contracts + Git + CI own correctness. Skills may help but are never mandatory for correctness. Do not create parallel authorities, nested `AGENTS.md`, RAG/vector databases, knowledge graphs, context daemons/watchers, or generic semantic/dependency engines without separate owner-approved architecture. The on-demand run and CI watchers (`scripts/run_timed.ps1`, `scripts/watch_run.ps1`, `scripts/watch_ci.ps1`; owner-approved 2026-10-09) are reporting adapters inside this rule: started for one run and never resident, they write only the local timing history, which the evaluator also appends to (`SPEC-283`), never retry, rerun, dismiss or approve anything, never classify a failure's cause - a finding is labelled only by what its evidence supports - and never replace `-Finish` or `-Certify`.
+
+Reports are durable only when they own evidence not better represented in CR/Git/tests/Canon/ADR: forensic/audit work, substantial research, architectural decisions, phase/capability boundaries, or a failure investigation that cannot be encoded more strongly. Historical reports are immutable. Ordinary checkpoints do not require a new report.
+
+**HANDOFF rule (owner-ratified 2026-09-05, authority restored 2026-09-11).** When a session report *is* written, it opens with a HANDOFF block carrying all seven fields — INHERITED · PROVEN · UNPROVEN · CHANGED · REMAINING · DO NOT TOUCH · NEXT — so a fresh session with no conversational memory inherits from the repository rather than from chat. Check 23 of `scripts/check_repository_consistency.ps1` enforces this forward-only; history is immutable and is never retrofitted. This rule was enforced by that check while this statement of it was absent, which is the defect class a guard must never be left in.
+
+Delegation is not default and must earn its cost. Use the fewest non-overlapping specialists, only when work is genuinely parallel, requires distinct expertise/evidence, and improves total quality/time; choose the smallest model capable of the required quality; independently verify returned evidence rather than trusting the report that accompanies it; the governing agent retains final responsibility for everything it accepts. A task may forbid delegation.
+
+## 8. Definition of done and maintenance
+
+Done means approved scope implemented; exact acceptance criteria and Review Gate proven against live state; derived profiles pass; cross-path impact handled when triggered; repository and generated artifacts synchronized; CR Runtime Checkpoint `DONE`; no unresolved blocker; working tree clean; committed and published as a candidate for the owner's promotion (`CR_LIFECYCLE.md` §9, `Complete`); relevant CI verified. Never call UNPROVEN a pass.
+
+Token efficiency never authorizes semantic loss. Keep automatic bootstrap context as small as practical through routing and just-in-time reading, but never delete, weaken, or relocate an owner-ratified rule merely to satisfy a byte budget.
+
+Put mechanics in their owning authority and keep compatibility anchors instead of rewriting immutable history. Every structural change must pass Earn-It and One Authority. The repository consistency guard must remain CLEAN; if it reveals drift, fix only within approved scope or report the blocker.

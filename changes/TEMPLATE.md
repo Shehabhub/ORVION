@@ -11,7 +11,16 @@
 Allowed values are exactly these five. Do not use any other status word (for example
 "Ready", "Implemented", or "Rejected") anywhere in a Change Request.
 
----
+**This document's sections are mechanically enforced (`CR_LIFECYCLE.md §8`).** Once a Change
+Request is Approved, `Objective`, `Business Reason`, `Risks`, `Supersedes / Depends On`,
+`Write Scope`, `Out of Scope`, `Required Reading`, `Required Capabilities`,
+`Additional Verification` and `Implementation Steps` are FROZEN — the Gate compares each one
+against its Git baseline and rejects any difference, so an executing agent cannot widen its own
+authority. Only `Status` (along the §4 transition matrix), `Runtime Checkpoint`, the checkbox
+state of `Acceptance Criteria` and `Review Gate`, and appends to `Execution Log` and
+`Verification Notes` may change. Every section below except the optional `Notes` must be present,
+and the section set is required only of the *governing* Change Request — historical Change Requests
+keep their own original format and are never retrofitted.
 
 ## Objective
 
@@ -19,23 +28,17 @@ Allowed values are exactly these five. Do not use any other status word (for exa
 Context, rationale, and anything that does not fit in one sentence belongs in Business Reason
 or Notes below, not here.]
 
----
-
 ## Business Reason
 
 [Why this task exists, in business or architectural terms. This section is for human reviewers
 evaluating whether to approve the task — the execution agent is not required to read or act on
 it. One short paragraph or a short bullet list.]
 
----
-
 ## Risks
 
 [What could go wrong if this task is approved and executed, and how severe. For human reviewers
 only, same as Business Reason. If there is no material risk, state that explicitly rather than
 leaving the section blank.]
-
----
 
 ## Supersedes / Depends On
 
@@ -44,47 +47,131 @@ completed. Write "None" if not applicable. A Change Request that supersedes anot
 explicitly here, and the superseded file's Status must be updated to Cancelled with a note pointing
 to the new file — never leave two files describing overlapping work both marked Draft or Approved.]
 
----
+## Write Scope
 
-## Scope — Files Allowed to Modify
-
-[List every file that MAY be read or modified during this task. Exact paths only. No wildcards.]
+[List every file that MAY be created, modified, or deleted during this task. Exact paths only.
+Repository reading/search is unrestricted and never grants write authority.]
 
 -
-
----
 
 ## Out of Scope — Files Forbidden to Modify
 
 [List every file that must NOT be touched. Include files the agent might reasonably assume are in
-scope. Scope above is exhaustive for engineering artifacts: any engineering file not listed in
-Scope is out of scope by default, with no exceptions, whether or not it is separately listed here.
+scope. Write Scope above is exhaustive for engineering artifacts: any engineering file not listed in
+Write Scope is out of scope by default, with no exceptions, whether or not it is separately listed here.
 This section exists to call out specific files that pose a realistic risk of being assumed
 in-scope (adjacent files in the same folder, related governance files, the changes/ folder
 itself) — it is not required to enumerate the entire repository, but every file it does name must
 be an exact path, never a category or a wildcard.
 
 Exception: this Change Request's own file is always implicitly in scope for synchronization, as
-defined in `CR_LIFECYCLE.md` §8. Updating it in that sense is never a Scope
+defined in `CR_LIFECYCLE.md` §8. Updating it in that sense is never a Write Scope
 violation; this exception is defined once, there, and is not restated here.]
 
 -
 
----
+## Required Reading
 
-## Minimum Reading List
-
-[List only the files the agent must read to complete this task. No additional files may be read.]
+[List the minimum starting context. Additional repository reading/search is always allowed for
+evidence, dependency tracing, impact verification, or current-state verification. Reading never
+grants write authority.]
 
 -
 
----
+## Runtime Checkpoint
+
+Resume Step: 1
+Blocker: None
+Recovery Attempt: 0
+
+## Required Capabilities
+
+[List only capabilities actually required by this task, one per bullet, or write `None`.]
+
+None
+
+## Additional Verification
+
+[Write `None` or exact executable repository-root PowerShell/shell command lines, one bullet per
+command. This section may add checks; it may never subtract a mandatory profile. Prose instructions
+such as "Prove that..." or "Verify that..." are invalid for new Change Requests.]
+
+None
+
+## Pre-Approval Evidence
+
+[Bounded evidence that must be sufficient BEFORE Approval freezes authority. Semantics are owned by
+the `### Pre-Approval evidence sufficiency` rule in `ENGINEERING_METHOD.md`, whose closing paragraph,
+"Reduce uncertainty before freezing", says how to isolate an experiment and how to measure a mandatory
+command that can change shared state; admissibility is owned by
+`CR_LIFECYCLE.md §5`. Every predicate resolves to PASS, FAIL, or INDETERMINATE — there is no score.
+Only PASS permits the human Draft-to-Approved decision. `Change Class` is descriptive input and can
+never exempt work that repository evidence makes applicable.
+
+The Gate derives applicability PER PREDICATE from Write Scope and the profiles it derives, and
+derives Write Scope closure for artifacts a mandatory verification regenerates and byte-compares.
+Do not restate machine truth here; a subsection the Gate does not derive as applicable may be
+omitted whole. Volunteering `Applicability: APPLICABLE` adds that obligation and is always legal —
+declaring `NOT APPLICABLE` against the derivation is INDETERMINATE. SPEC identity is not recorded
+here at all: `Validate-SpecAllocation` is its sole authority (`CR_LIFECYCLE.md` §4).
+This section is frozen at Approval.]
+
+Change Class: [Routine | Significant | Owner-Decision]
+
+### Consumer Closure
+
+Applicability: [APPLICABLE / NOT APPLICABLE]
+
+| Changed fact or surface | Relevant consumer | Disposition | Evidence / preserved behavior |
+| --- | --- | --- | --- |
+| [changed fact, not a file list] | [consumer] | [WRITE / VERIFY / UNAFFECTED] | [evidence] |
+
+Unresolved Material Consumers: [None / named consumer]
+
+### Execution-Boundary Satisfiability
+
+Applicability: [APPLICABLE / NOT APPLICABLE]
+
+Irreversible Action Step: [NONE / step reference]
+
+| Invariant | Required At | Red Opens After Step | Restored By Step | Mandatory Gate Before Step |
+| --- | --- | --- | --- | --- |
+| [invariant] | [BEFORE_IMPLEMENTATION / BEFORE_IRREVERSIBLE_ACTION / AFTER_IRREVERSIBLE_ACTION / BEFORE_COMPLETION] | [NONE / step] | [NONE / step] | [step] |
+
+### Permanent-Control Admission
+
+[Derived applicable only where a control that runs FOREVER lives: `scripts/check_*`,
+`scripts/verify_*`, `scripts/test_*`, `scripts/*_surface.sql`, `supabase/tests/`, `.githooks/`,
+`.claude/hooks/`, `.github/workflows/`. Omit this subsection otherwise — nine invented obligations
+about a control the contract is not adding are not evidence.]
+
+Applicability: [APPLICABLE / NOT APPLICABLE]
+
+Existing Mechanism Reusable: [YES / NO]
+
+Existing Mechanism: [what already exists and why it is or is not sufficient]
+
+Added Property: [the distinct property this control adds]
+
+Causal Negative: [the ALREADY REPRODUCED counterexample]
+
+Positive Test Design: [allowed behavior that must keep working]
+
+Negative Test Design: [forbidden behavior that must fail, and with which evidence]
+
+Non-Empty Population Obligation: [the population that must be proven non-empty]
+
+Mutation Obligation: [each load-bearing predicate that must be independently mutation-killed]
+
+Post-Implementation Proof Obligation: [what the certified suite must prove before Complete]
 
 ## Implementation Steps
 
 [Number each step. Each step must be deterministic. Each step must identify exactly what to change,
 exactly where to change it, and exactly what must remain untouched. No step may require inference,
 judgment, or improvisation. If a step cannot be written deterministically, stop and escalate.
+A step never runs a command `-Finish` already runs (a derived profile command or an Additional
+Verification command), and `Resume Step: DONE` is committed before `-Finish` (`CR_LIFECYCLE.md §9`).
 
 Every step must begin with a verification check: the exact string or heading to search for that
 proves the step has already been applied. If the check matches, the step is skipped and recorded
@@ -97,17 +184,28 @@ is correct.]
 
 1.
 
----
-
 ## Acceptance Criteria
 
 [Binary. Every item must be verifiable by reading the repository after the task completes.
 No subjective criteria. Prefer one criterion per Implementation Step over a small number of
-broad criteria — this makes partial completion and partial failure both individually visible.]
+broad criteria — this makes partial completion and partial failure both individually visible.
+
+Where an item states a repository fact, end it with a check the Gate evaluates:
+`check: same <path>[#<line key>] @<commit>`, `check: has <path>[#<line key>] "<text>"`,
+`check: lacks <path>[#<line key>] "<text>"` or `check: blob <path> <sha1>`. A check that can never
+hold refuses Approval, and every check must hold at Complete, in the hook and in CI. An item without
+a check is judged by Review alone, and the Gate reports it as such.
+
+Assert LOCAL evidence ONLY (`CR_LIFECYCLE.md §8`). A criterion naming remote workflow results on
+the completion commit's own SHA cannot be true when it is ticked, because that commit does not
+exist yet. POST_PUSH evidence belongs to `check_agent_continuity.ps1 -Certify` after the push, and
+EXTERNAL evidence is declared, never self-asserted.
+
+Do not write a criterion asserting that local verification ran. That is proven by the certification
+receipt `-Finish` writes, which the Gate checks directly; a checkbox claiming it would be the very
+self-assertion the receipt exists to replace. Assert what the work produced, not that you checked it.]
 
 - [ ]
-
----
 
 ## Execution Log
 
@@ -131,8 +229,6 @@ Blocker: <only present if Outcome is Blocked or Failed. One factual paragraph de
 exactly which verification check produced an unanticipated result and where. Do not propose
 or apply a guessed resolution.>
 
----
-
 ## Verification Notes
 
 [Appended by the reviewing agent after independently re-checking the Execution Log
@@ -147,8 +243,6 @@ Findings: <what was independently re-checked, and what was found>
 Recommendation to human: Set Status to Complete | Set Status to Cancelled | Approve corrective
 Change Request `changes/SPEC-00N-*.md`
 
----
-
 ## Review Gate
 
 [Completed by whoever performs the Review — the executing agent under autonomous completion
@@ -157,15 +251,13 @@ is checked.]
 
 - [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as
       Already Applied per its verification check.
-- [ ] No file outside the Scope list was modified or created.
+- [ ] No file outside Write Scope was modified, created, or deleted.
 - [ ] No section was added, removed, or restructured outside the approved steps.
 - [ ] Every Acceptance Criteria item is confirmed true.
 - [ ] Any step that could not be resolved deterministically was reported, not guessed.
 - [ ] If this Change Request's Supersedes / Depends On section names another file, that file's
       Status has been updated accordingly.
 - [ ] The repository is in a clean, releasable state.
-
----
 
 ## Notes
 

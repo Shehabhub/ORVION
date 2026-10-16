@@ -2,7 +2,13 @@
 
 Status: **Permanent cumulative decision ledger.** Never recreate; evolve. This is the ARB's decision-tracking overlay; the **authoritative ADR log remains `architecture-decision-records.md`**. This file tracks: (a) accepted ADRs and any ARB-proposed amendments, and (b) decisions the ARB proposes but the **owner has not yet ratified** (proposed ADRs must be recorded per the owner policy — design is not withheld). No canonical/ADR file is modified until the owner approves.
 
-Last updated: 2026-08-10 (Decision-reconciliation pass — corrected item 11 (A3)'s stale ADR-0022 reference to sequential-at-ratification numbering; superseded item 15 (DC-15) with the verified per-class least-privilege model. No ADR ratified, no grant/role/RPC/RLS changed; both remain tracked proposals awaiting owner ratification. Prior 2026-07-15 annotation of item 11 preserved above, not deleted).
+Last updated: 2026-10-15 (**ADR-0009's publication half is superseded by ADR-0031 (SPEC-282).** ADR-0009 published a Change Request by pushing on Complete; publication has been candidate-first since SPEC-184, and ADR-0031 records it. Linear history and the additive-migration rule keep ADR-0009.)
+
+Previously: 2026-09-28 (**item 11 (A3) reconciled — the owner decided it on 2026-09-01 and this overlay still called it open.** The small money-storage ADR the owner asked for is now **ADR-0029** in `architecture-decision-records.md`; nothing else in this overlay changed.)
+
+Previously: 2026-09-05 (**overlay caught up with the ratified log — found by Check 21, STALE-1.** This line read `2026-08-10` while the table below already carried ADR-0024/0025/0026 marked **New (2026-08-31)**, so the header's "No ADR ratified … both remain tracked proposals awaiting owner ratification" — true of the 2026-08-10 pass it describes — was being read as a statement about the file's current content. Chasing it found the larger half: **ADR-0027 and ADR-0028 were ratified on 2026-09-02 and 2026-09-04 and had never been entered here at all**, while §3 of this file promises to track "(a) accepted ADRs". Both added below with their ARB verdict; the authoritative text stays where it belongs, in `architecture-decision-records.md`. Prior entry follows.)
+
+Previously: 2026-08-10 (Decision-reconciliation pass — corrected item 11 (A3)'s stale ADR-0022 reference to sequential-at-ratification numbering; superseded item 15 (DC-15) with the verified per-class least-privilege model. No ADR ratified, no grant/role/RPC/RLS changed; both remain tracked proposals awaiting owner ratification. Prior 2026-07-15 annotation of item 11 preserved above, not deleted).
 
 ## A. Accepted ADRs (authoritative in `architecture-decision-records.md`) — ARB status
 | ADR | Title | ARB verdict |
@@ -15,7 +21,7 @@ Last updated: 2026-08-10 (Decision-reconciliation pass — corrected item 11 (A3
 | 0006 | Status/type codes plain text | **Tighten (N1):** require event_type registry validation for contract-bearing codes |
 | 0007 | FK default restrict/no-action | Reaffirmed |
 | 0008 | updated_at via moddatetime trigger | Reaffirmed |
-| 0009 | Direct-to-main, publish on Complete | Reaffirmed (governs additive-migration rule) |
+| 0009 | Direct-to-main, publish on Complete | Linear history reaffirmed (governs additive-migration rule); publication superseded by ADR-0031 (candidate-first, owner promotion) |
 | 0010 | Reference data natural keys | Reaffirmed |
 | 0011 | users = tenant membership | Reaffirmed |
 | 0012 | Auth artifacts re-home to human identity | Reaffirmed |
@@ -28,6 +34,11 @@ Last updated: 2026-08-10 (Decision-reconciliation pass — corrected item 11 (A3
 | 0019 | Customer-merge dynamic FK discovery | Reaffirmed (extend to party-merge under CDD-1) |
 | 0020 | Finance-approval gate; capability-driven booking perms | Reaffirmed |
 | 0021 | Derived customer_balance primitive | **Amend (INV-1..4):** contract-stable, source-evolving; conditional on DC-1 money fix |
+| 0024 | Every RPC rule must also hold on the table door | **New (2026-08-31)** — ratifies the Foundation programme's enforcement rule; superseded if SEC-1 revokes direct table DML |
+| 0025 | Enforcement layer chosen from the measured surface; session-less exemption for authorization only | **New (2026-08-31)** — resolves the "LESSON 6" citation that had no defined home |
+| 0026 | Scoped access is a predicate, never a coarser grant | **New (2026-08-31)** — owner decision SPEC-154-B; mechanism derived from SPEC-139 `app.item_financials` |
+| 0027 | Capability grants are per-user; the enforcement plane is not rebuilt to get them | **New (2026-09-02)** — a full RBAC rebuild was authorised and **rejected on measurement**: the gap was one missing user→permission edge against 197 sites already delegating to `app.has_permission`. Precedence `deny > user grant > role grant > plan gate` |
+| 0028 | A supplier credit ceiling is an OBSERVATION, not a gate | **New (2026-09-04)** — owner decision SUP-4b. The ceiling WARNS and never refuses, so no override permission and no serialisation exist to get wrong; idempotency is the event ledger, not a status column |
 
 ## B. Proposed ADRs — awaiting owner ratification (design recorded, not withheld)
 Consolidated set (from Baseline/Physical/Synthesis §9, confirmed by ARB):
@@ -43,7 +54,7 @@ Consolidated set (from Baseline/Physical/Synthesis §9, confirmed by ARB):
 10. **Localization** (CDD-11).
 
 ARB-added proposed decisions (new this session):
-11. **Money-storage standard** (DC-1) — `numeric(19,4)`; rounding driven by `currencies.decimal_places`. **⚠️ IMPLEMENTED via SPEC-118** (migration `202607048600`, canon `30`/`31` updated) **without a formal ADR recorded.** Open owner/ADR-process decision (A3): does the money-storage standard warrant a ratified ADR, or is the canon-30/31 convention update sufficient? **Number correction (2026-08-10): the ADR log (`architecture-decision-records.md`) now runs ADR-0001–0023 with no gaps; A3 does not pre-reserve a number — whichever proposed ADR (A3, or DC-27 below) is ratified first receives the next sequential number at that time, and the other receives the number after it.** Still flagged, not decided.
+11. **Money-storage standard** (DC-1) — `numeric(19,4)`; rounding driven by `currencies.decimal_places`. Implemented via SPEC-118 (migration `202607048600`, canon `30`/`31`). **✅ DECIDED by the owner 2026-09-01 (OWNER-1 / A3) and recorded as ADR-0029 (2026-09-28, SPEC-236).** One unexplained divergence, `payments.account_amount numeric(18,4)`, is register row MONEY-3.
 12. **Write-idempotency standard** (DC-2) — idempotency-key table + optional RPC param on all mutating RPCs.
 13. **Concurrency-control standard** (DC-3) — `FOR UPDATE`/advisory locks for oversell-risk RPCs; optimistic guard for concurrent edits.
 14. **Data-lifecycle & privacy** (DC-4/DC-6/DC-14) — pseudonymization erasure boundary; sensitive-read log; tenant export/purge.

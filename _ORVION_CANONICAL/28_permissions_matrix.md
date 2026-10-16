@@ -106,6 +106,8 @@ Platform-level or tenant technical administrator depending on scope.
 
 High-risk authentication required.
 
+**Reserved (SYSADMIN-1, owner decision 2026-09-01).** The role holds no permission in the seed, and ORVION invents none for it. The `Optional` cells in the Organization Permissions table are not grants: a capability reaches a holder of this role only through an explicit per-user grant (ADR-0027). Asserted by `138_reserved_role_holds_no_permission_test.sql`.
+
 ---
 
 # Feature Access By Plan
@@ -190,6 +192,8 @@ Notes:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | CREATE_BOOKING | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | branch/department |
 | CREATE_BOOKING_ITEM | Yes | Yes | Yes | Yes | No | Yes | Assigned only | No | branch/department |
+| REASSIGN_BOOKING_ITEM | Yes | Yes | Yes | Yes | No | No | No | No | branch/department |
+| CORRECT_PASSENGER_MANIFEST | Yes | Yes | Yes | Yes | Yes | No | No | No | branch/department |
 | APPROVE_BOOKING | Yes | Yes | Yes | Yes | No | No | No | No | branch/department |
 | ISSUE_BOOKING | Yes | Yes | Yes | No | Yes | No | No | No | branch/department |
 | CANCEL_BOOKING | Yes | Yes | Yes | No | Yes | No | No | No | branch/department |
@@ -205,6 +209,8 @@ Notes:
 
 - Issuing before full collection requires explicit permission and creates risk flag event.
 - Department Manager does not receive negative balance issuance permission by default.
+- A passenger manifest freezes when its booking item reaches `issued`. A post-issue correction requires `CORRECT_PASSENGER_MANIFEST`, a fresh reason, and server-stamped actor/time; finance managers receive this authority because they already control issue/reissue paths.
+- Moving any occupied booking-item ownership field requires `REASSIGN_BOOKING_ITEM` independently of `CREATE_BOOKING_ITEM`, with a fresh reason and immutable event history. Its role bundle is exactly the existing `REASSIGN_LEAD` population.
 - Booking lifecycle authority is capability-driven (ADR-0020): APPROVE_BOOKING governs the booking-level management approval `pending_approval -> confirmed` ("Required approval granted", 26) and is a management act, distinct from the item-level finance execution approval (APPROVE_FINANCE). ISSUE_BOOKING governs `in_progress -> issued` (issuance) and is finance-consequential (owner/ceo/branch_manager/finance_manager); issuing before full collection additionally requires ALLOW_ISSUE_WITH_NEGATIVE_BALANCE and emits the `booking_item_risk_flag_created` risk event capturing the customer balance snapshot. CANCEL_BOOKING governs the post-approval cancellations (`confirmed/in_progress -> cancelled`) and the void (`issued -> void`) and is finance-consequential (owner/ceo/branch_manager/finance_manager); pre-approval cancels (`draft/pending_approval -> cancelled`) stay under CREATE_BOOKING (discarding not-yet-approved work). Every `cancelled` transition requires a cancellation reason (27). REFUND_BOOKING governs `issued -> refunded` and REISSUE_BOOKING governs `issued -> reissue` (both finance-consequential: owner/ceo/branch_manager/finance_manager); completing a re-issuance (`reissue -> issued`) reuses ISSUE_BOOKING, since every transition into `issued` is issuance and runs the negative-balance risk-flag check. This completes the capability-driven booking lifecycle authority set (Submit/Approve/Issue/Cancel/Refund/Reissue) per ADR-0020.
 
 ---
@@ -214,6 +220,7 @@ Notes:
 | Permission | Owner | CEO | Finance Manager | Branch Manager | Department Manager | Senior Employee | Employee | Scope |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | APPROVE_FINANCE | Yes | Yes | Yes | Optional | No | No | No | tenant/branch |
+| WITHDRAW_FINANCE_APPROVAL | Yes | Yes | Yes | Optional | No | No | No | tenant/branch |
 | EDIT_LOCKED_COST | Yes | Yes | Yes | No | No | No | No | tenant |
 | SET_EXCHANGE_RATE | Yes | Yes | Yes | No | No | No | No | tenant |
 | CREATE_EXCHANGE_RATE_ADJUSTMENT | Yes | Yes | Yes | No | No | No | No | tenant |
@@ -229,6 +236,7 @@ Notes:
 
 - Assigned employee may view financial documents directly related to their lead/booking.
 - Finance approval is required before controlled execution gate.
+- A pending finance requirement may be withdrawn only by the same role population that holds `APPROVE_FINANCE`, through `WITHDRAW_FINANCE_APPROVAL`, with a fresh reason and server-stamped actor/time. Granted, executed, or locked-cost history is never rewritten by withdrawal.
 - Operations cannot edit locked cost.
 - REVIEW_APPROVAL_REQUEST governs `approval_requests` rows whose `approval_type_code` is not `finance_execution_approval` (covered by APPROVE_FINANCE) and not `subscription_approval` (covered by REVIEW_SUBSCRIPTION_PAYMENT) — i.e. `refund_approval`, `discount_approval`, `booking_override`, `manual_price_change`, `sensitive_data_change`. This is a conservative default; per-type role refinement is an open business decision (see `reports/phase-02-prioritized-findings.md`).
 
@@ -248,6 +256,7 @@ Notes:
 
 - Incorrect files are archived, not deleted.
 - Financial documents require stricter visibility.
+- Placing or releasing a document legal hold reuses `MANAGE_TENANT_SETTINGS`. A hold always overrides retention scanning and claiming; both transitions require a reason and emit critical events.
 
 ---
 
@@ -372,6 +381,158 @@ The following permission actions always create events:
 - Subscription approval
 - Document archive
 - Lead reassignment
+
+---
+
+# Read Scope Enforcement
+
+Implemented by SPEC-137 (`202607051400_read_scope_model.sql`). Until then the five scope types above
+were declarative only: every RLS policy resolved to `tenant_id`, and none of the `VIEW_*` permissions
+was enforced anywhere.
+
+A row in a scope-bearing table (`leads`, `bookings`, `booking_items`, `tasks`, `conversations`,
+`complaints`, `service_requests`, `quotations`) is readable when **any** of:
+
+| Scope | Condition |
+| --- | --- |
+| tenant | the caller holds `VIEW_ALL_BRANCHES` |
+| assigned | the caller is one of the row's responsible users |
+| branch | the row's branch is one the caller works in or governs, **and** the caller holds `VIEW_BRANCH_DATA` |
+| department | the row's branch is visible **and** the row's department is one the caller belongs to **and** the caller holds that entity's department-read permission |
+
+Derived children (`conversation_messages`, `quotation_items`, `booking_item_passengers`,
+`lead_interactions`, `lead_assignments`) inherit their parent's scope through an `exists` check; they
+carry no scope columns, so no second source of truth exists to disagree. Financial records
+(`invoices`, `payments`, `receipts`, `refunds`, `payment_allocations`) resolve through
+`VIEW_FINANCIAL_DOCUMENTS` **or** a visible related booking, which is the "assigned employee may view
+financial documents directly related to their lead/booking" rule in the Finance notes above.
+
+`customers` is deliberately **not** branch-scoped — see `05_customer_identity.md` §Customer
+Cross-Branch Awareness. Branch-scoping the master row would prevent a second branch finding a
+returning customer and would produce the duplicate canon 05 forbids. The customer's *activity* is
+branch-scoped, which is that section's "detailed event content from another branch is not shown".
+
+## Amendments ratified with this model (owner directives 2026-08-24 and 2026-09-02)
+
+1. **Department visibility is granted to `employee` and `senior_employee` by default.** The CRM table
+   above marks Employee "No" for `VIEW_DEPARTMENT_QUEUE`. The owner requires that a colleague in the
+   same department can continue serving a customer when the assigned employee is absent, and that
+   assignment must never mean sole visibility. The mechanism remains permission-gated exactly as the
+   note "Department queue visibility requires explicit permission" specifies — only the default grant
+   changed. `trainee` is still excluded, which is what keeps the restricted-user boundary real.
+2. **`VIEW_DEPARTMENT_RECORDS` is added.** Canon names a `VIEW_*` permission for leads, tasks,
+   conversations, complaints and service requests, and none for bookings, booking items or
+   quotations. Rather than stretch `VIEW_DEPARTMENT_QUEUE` (a leads concept) over a booking, this
+   permission is the department-read gate for those three. Granted to the same roles.
+3. **`VIEW_BRANCH_DATA` is granted to `branch_manager`.** The Organization table records "Own branch"
+   for that role, but the seed gave the permission to `owner` and `ceo` only — which would have left
+   a branch manager seeing just their own department. Department managers are still excluded, per
+   "Department Manager manages only their department inside their branch".
+4. **`user_role_assignments.scope_type` is constrained** to `tenant` / `branch` / `department` /
+   `platform`, and a branch- or department-scoped assignment must carry its qualifying id. `assigned`
+   is excluded: it describes a permission's reach over records, not a scope a role can be granted at.
+5. **`MANAGE_SUPPLIER_CREDIT` is added (owner directive 2026-09-02, SUP-3).** Setting a supplier's
+   credit limit was an incidental consequence of `ASSIGN_SUPPLIER`, which canon scopes
+   "branch/department" for ordinary supplier work. The owner ruled that supplier credit-limit
+   management is a Finance authority in its own right, that **`finance_manager` must hold it**, and
+   that it must be **independently grantable and revocable** — the general principle being that every
+   capability should ultimately be representable by its own permission, so it can be granted per user
+   from the administrative dashboard. Granted to **owner, ceo, finance_manager** — the same set this
+   matrix already gives `EDIT_LOCKED_COST`, the nearest restricted financial authority. Plan-gated at
+   `finance_lite`, matching `VIEW_FINANCIAL_DOCUMENTS`, because a plan that entitled the write without
+   the read would reproduce SUP-2 at the plan tier.
+   **The three permissions are orthogonal and none implies another:** `ASSIGN_SUPPLIER` administers
+   the supplier record and not its ceiling; `MANAGE_SUPPLIER_CREDIT` sets the ceiling and nothing
+   else; `VIEW_FINANCIAL_DOCUMENTS` reads the figure and confers no write authority. A statement
+   changing the ceiling **and** another column therefore requires both of the first two. Implemented
+   by `202607059700`; pinned by `supabase/tests/91_supplier_credit_permission_test.sql`.
+   `MANAGE_SUPPLIER_CREDIT` governs **who may set** the limit; whether an operation is refused for
+   **exceeding** it is a separate invariant that does not yet exist (register: **SUP-4**).
+
+6. **`MANAGE_CUSTOMER_CREDIT` is added (owner decision 2026-09-04, CUST-3).** The mirror of item 5 on
+   the receivable side: the owner ruled that ORVION offers a customer credit ceiling, that it is
+   **nullable and tenant-supplied** with no default invented, and that it is **WARNING-ONLY** — no
+   operation is ever refused for exceeding it, and no collection or dunning behaviour exists.
+   Granted to **owner, ceo, finance_manager**, the same set as `MANAGE_SUPPLIER_CREDIT`, and
+   plan-gated at `finance_lite` for the same reason: a plan entitling the write without the read
+   would reproduce SUP-2 at the plan tier.
+   **It is orthogonal to `CREATE_CUSTOMER` in both directions**, and the asymmetry with suppliers is
+   deliberate rather than accidental: `finance_manager` holds neither `CREATE_CUSTOMER` nor any
+   customer-administration permission, so the table-door guard treats a write that TOUCHES the
+   ceiling as satisfiable by `MANAGE_CUSTOMER_CREDIT` **or** `CREATE_CUSTOMER`, while a dedicated
+   guard requires `MANAGE_CUSTOMER_CREDIT` for the credit change itself. A `CREATE_CUSTOMER` holder
+   therefore administers the customer and cannot set its ceiling; a `MANAGE_CUSTOMER_CREDIT` holder
+   sets the ceiling and cannot rename the customer. `VIEW_FINANCIAL_DOCUMENTS` still reads the figure
+   and confers no write authority.
+   Unlike SUP-4b, **exposure held in a currency other than the ceiling's is CONVERTED** into the
+   ceiling's currency at the tenant's latest manual rate, and any currency with no usable rate is
+   REPORTED rather than dropped (register: **SUP-4c**, whose rule this implements). Implemented in
+   `202607060300`.
+
+7. **`VOID_INVOICE` is added (owner decision 2026-09-04, VOID-1).** The owner rejected "draft-only"
+   as a final answer and required a real internal void architecture, cleanly separated from the
+   external Egyptian ETA fiscal lifecycle. Voiding is the counterpart of issuing, so it is granted to
+   the same three roles that hold `CREATE_INVOICE` — **owner, ceo, finance_manager** — and plan-gated
+   at `finance_lite` for the same reason.
+   **It is a bookkeeping act and nothing more.** An internal void asserts nothing about any tax
+   authority and performs no external cancellation; conversely an externally recorded `cancelled`
+   does not void the ORVION invoice, because no mapping between the two is defined and defining one
+   would be inventing tax policy. The single point of contact is a refusal: an invoice the authority
+   has **accepted** cannot be voided internally. **No cancellation window of any length is encoded
+   anywhere in ORVION.**
+   It is refused once payment is ALLOCATED — corrections there go through a refund or a credit note,
+   per canon 07 — and it requires a reason, as archiving does. `voided` is terminal. Implemented in
+   `202607060400`; the machine is canon 26's new Invoice State Machine.
+
+Write authority over identity, organization and configuration tables is enforced by SPEC-138 — see
+`changes/SPEC-138-rbac-write-authority.md`.
+
+---
+
+# Plan Gating Enforcement
+
+Implemented by SPEC-146 (`202607052500_plan_gating.sql`). Until then "Plan denial overrides user role
+permission" was documented and enforced nowhere: the matrix was seeded and nothing read it.
+
+`permissions.required_feature_code` names the feature a permission depends on (NULL = not
+plan-gated), and `app.has_permission` composes `app.plan_allows` after the role check. Because every
+RLS policy and every `app.authorize()` already resolve through that one function, the gate covers the
+RPC path, direct PostgREST reads and writes, future n8n calls and a future UI without any of them
+cooperating.
+
+The plan grants nothing — it only removes. A user still needs the role permission first.
+
+- **Fail-open on absence.** No subscription row, or a feature the matrix does not mention, means no
+  denial: a denial requires a plan that denies. Tenants cannot reach this state deliberately —
+  `subscriptions` writes need `MANAGE_SUBSCRIPTION`, which no role holds.
+- **Terminal states deny.** `suspended` / `cancelled` / `expired` deny every plan-gated permission.
+  `read_only` does not: restricting writes for a read-only tenant is subscription-*state* gating,
+  which `35 §8` keeps as a separate concern.
+- **Ungated on purpose:** `MANAGE_BRANCHES` (Starter excludes `multi_branch` but is entitled to one
+  branch — the `max_branches` ceiling is the right control); `crm` / `customers` / `basic_reporting`
+  (enabled on every plan); `automation` / `integrations` / `offline_conversion` / `ai_dashboard` (no
+  permission exists to attach to).
+- **Capability query.** `app.tenant_capabilities()` returns feature, enabled state and ceiling, so a
+  client asks rather than inferring capability from a failed write.
+- **Ceilings are readable, not enforced.** `app.plan_limit` exposes them; `usage_counters` is empty
+  and counting is a separate additive mechanism.
+
+**Archive authority (SPEC-150).** `ARCHIVE_RECORD` extends this table's `ARCHIVE_DOCUMENT` profile
+— Owner / CEO / Branch Manager / Department Manager / Finance Manager Yes, Employee **No** — to the
+twelve other tables carrying `is_archived`, which canon never enumerated. ORVION grants no DELETE to
+any role, so archiving IS removal; it is governed in both directions, and `archived_at`/`archived_by`
+are stamped by the system rather than typed by the person. `documents` keeps `ARCHIVE_DOCUMENT`.
+
+**Revocation is complete, not partial (SPEC-148).** Because the `assigned` scope is itself
+permission-gated, an employee whose role assignment has expired — or whose role has been
+deactivated — loses sight of their OWN records too, not merely of the department queue.
+Deactivating the user (`users.is_active = false`) cuts `app.current_tenant_id()` at the root and so
+removes access to all 72 tables at once. Expiry (`user_role_assignments.ends_at`), role
+deactivation (`roles.is_active`) and user deactivation are three routes to the same result.
+
+`MANAGE_ROLES` and `MANAGE_PERMISSIONS` have no enforcement point by design: `roles`, `permissions`
+and `role_permissions` grant `authenticated` SELECT only, so no tenant user has a writable surface to
+guard.
 
 ---
 

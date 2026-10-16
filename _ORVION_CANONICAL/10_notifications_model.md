@@ -21,6 +21,8 @@ Future channels may include:
 - Email business alerts
 - External automation through n8n
 
+**Email business alerts — owner-directed 2026-09-04 (SUP-4b), provider decision 2026-09-09 (MAIL-1).** The owner requires an email alert to the Company Owner and the Finance Manager when a supplier's exposure exceeds its credit ceiling. ORVION therefore WRITES that obligation: the in-system notification is created and a matching `notification_deliveries` row is recorded on the `email` channel with status `pending`. **Resend is the technically selected default transactional-email provider; that selection is not production authorization. No email is sent today.** PostgreSQL remains provider-neutral and never calls Resend. A future n8n dispatcher claims the delivery ledger, sends with a stable idempotency key derived from the delivery id, and records the result. Provider credentials belong only in n8n's credential store. Production activation requires owner authorization plus the applicable Egyptian PDPC controller/processor and cross-border-transfer approvals, including the licensed destination. Until then `pending` is the truthful state, and nothing may report an alert as delivered.
+
 ---
 
 # Mandatory Notifications

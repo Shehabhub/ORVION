@@ -1,60 +1,87 @@
-# ORVION Workstation Doctor - read-only verification + diagnostics.
-# Checks tools, key repo files, Docker, tool versions, and GitHub sync (local is disposable -
-# unpushed work is at risk). Changes nothing. Safe to run anytime.
+# ORVION Workstation Doctor - read-only, Windows PowerShell 5.1 compatible, ASCII-only.
 $ErrorActionPreference = "Continue"
 $Root = Split-Path $PSScriptRoot -Parent
 Set-Location $Root
+$Failures = New-Object System.Collections.Generic.List[string]
+$Warnings = New-Object System.Collections.Generic.List[string]
+function Pass($Text) { Write-Host "[ OK ] $Text" }
+function Fail($Text) { Write-Host "[FAIL] $Text"; $Failures.Add($Text) }
+function Warn($Text) { Write-Host "[WARN] $Text"; $Warnings.Add($Text) }
+function Test-RequiredCommand($Name) { $cmd = Get-Command $Name -ErrorAction SilentlyContinue | Select-Object -First 1; if ($cmd) { Pass "$Name -> $($cmd.Path)" } else { Fail "$Name is not on PATH" } }
+function Test-Version($Label, [scriptblock]$Command) { try { $allOutput = & $Command 2>&1; $succeeded = $?; $out = $allOutput | Select-Object -First 1; if ($succeeded -and $out) { Pass "$Label $out" } else { Fail "$Label version command failed" } } catch { Fail "$Label version command failed: $($_.Exception.Message)" } }
 
-function Test-Cmd { param($Name)
-    if (Get-Command $Name -ErrorAction SilentlyContinue) { Write-Host "[ OK ] $Name" } else { Write-Host "[FAIL] $Name" }
+Write-Host ""; Write-Host "========================================="; Write-Host "ORVION WORKSTATION DOCTOR"; Write-Host "========================================="
+Write-Host ""; Write-Host "[Operating environment]"
+$os = Get-CimInstance Win32_OperatingSystem
+Pass "$($os.Caption) build $($os.BuildNumber), $($os.OSArchitecture)"
+Pass "PowerShell $($PSVersionTable.PSVersion) ($($PSVersionTable.PSEdition))"
+foreach ($name in @("git","gh","node","npm","npx","docker","python","pwsh","code","claude","codex")) { Test-RequiredCommand $name }
+if (Get-Command wsl -ErrorAction SilentlyContinue) { wsl --status *> $null; if ($LASTEXITCODE -eq 0) { Pass "WSL 2 available" } else { Fail "WSL installed but not ready" } } else { Fail "WSL is unavailable" }
+
+Write-Host ""; Write-Host "[Versions and capability]"
+Test-Version "git" { git --version }; Test-Version "gh" { gh --version }; Test-Version "node" { node --version }; Test-Version "npm" { npm --version }
+Test-Version "python" { python --version }; Test-Version "docker" { docker --version }; Test-Version "docker compose" { docker compose version }
+Test-Version "pwsh" { pwsh --version }; Test-Version "code" { code --version }; Test-Version "claude" { claude --version }; Test-Version "codex" { codex --version }
+if (Test-Path "node_modules\.bin\supabase.cmd") { Test-Version "supabase" { & "node_modules\.bin\supabase.cmd" --version } } else { Fail "project-local Supabase CLI is missing (run npm ci)" }
+
+Write-Host ""; Write-Host "[Repository dependencies and configuration]"
+foreach ($f in @("README.md","AGENTS.md","GOVERNANCE.md","package.json","package-lock.json","supabase\config.toml",".mcp.json",".vscode\extensions.json",".claude\awareness.json")) { if (Test-Path $f) { Pass $f } else { Fail "$f missing" } }
+$hooksPath = git config --get core.hooksPath 2>$null
+if ($hooksPath -eq '.githooks' -and (Test-Path '.githooks\pre-commit')) { Pass 'Git hooks path -> .githooks' } else { Fail "Git hooks path is '$hooksPath'; run workstation.cmd" }
+npm ls --depth=0 *> $null
+if ($LASTEXITCODE -eq 0) { Pass "npm dependency tree" } else { Fail "npm dependency tree incomplete or invalid" }
+
+Write-Host ""; Write-Host "[Docker]"
+docker info *> $null
+if ($LASTEXITCODE -eq 0) { Pass "Docker Engine ready" } elseif (Get-Command docker -ErrorAction SilentlyContinue) { Fail "Docker installed but engine not ready" }
+
+Write-Host ""; Write-Host "[VS Code extensions]"
+# Read the same authority prepare.ps1 provisions from, so the verifier can never
+# require an extension the provisioner does not install. See .vscode/extensions.json.
+$requiredExtensions = @((Get-Content -Raw ".vscode\extensions.json" | ConvertFrom-Json).recommendations)
+if ($requiredExtensions.Count -eq 0) { Fail ".vscode/extensions.json declares no required extensions" }
+elseif (Get-Command code -ErrorAction SilentlyContinue) { $installed = @(code --list-extensions 2>$null); foreach ($ext in $requiredExtensions) { if ($installed -contains $ext) { Pass $ext } else { Fail "VS Code extension $ext missing" } } }
+
+Write-Host ""; Write-Host "[MCP definitions]"
+# The project MCP inventory is DERIVED from .mcp.json, never restated here: asserting a
+# hardcoded name is present in the file that defines it proves nothing. What is worth
+# proving is that every server the authority declares is actually enumerated by each client.
+$projectMcpNames = @()
+try {
+    $mcp = Get-Content -Raw ".mcp.json" | ConvertFrom-Json
+    $projectMcpNames = @($mcp.mcpServers.PSObject.Properties.Name)
+    if ($projectMcpNames.Count -eq 0) { Fail ".mcp.json declares no project MCP servers" }
+    else { Pass ".mcp.json declares $($projectMcpNames.Count) project MCP server(s)" }
+} catch { Fail ".mcp.json is invalid JSON" }
+if (Get-Command claude -ErrorAction SilentlyContinue) { $claudeMcp = (claude mcp list 2>&1 | Out-String); foreach ($name in $projectMcpNames) { if ($claudeMcp -match "(?m)^$([regex]::Escape($name)):") { Pass "Claude MCP $name enumerated" } else { Fail "Claude MCP $name not enumerated" } } }
+if (Get-Command codex -ErrorAction SilentlyContinue) {
+    $codexMcp = (codex mcp list 2>&1 | Out-String)
+    foreach ($name in @($projectMcpNames + "github")) { if ($codexMcp -match "(?m)^$([regex]::Escape($name))\s") { Pass "Codex MCP $name enumerated" } else { Fail "Codex MCP $name not enumerated" } }
+    if ($codexMcp -match "supabase-primary.*Not logged in") { Warn "Codex supabase-primary configured; OAuth authentication required" }
 }
+# prepare.ps1 sets this when it is absent (manifest.md section 3). Checked here so that a passing doctor
+# means a prepare run has nothing left to change, which the idempotence verifier relies on (OPS-6).
+if ([Environment]::GetEnvironmentVariable("MCP_TIMEOUT", "User")) { Pass "MCP_TIMEOUT is set for this user" } else { Fail "MCP_TIMEOUT is not set for this user; run workstation.cmd" }
+if (-not $env:GITHUB_PAT_TOKEN) { Warn "Codex GitHub MCP configured; GITHUB_PAT_TOKEN is not present in this process" } else { Pass "Codex GitHub MCP credential variable is present (value not inspected)" }
 
-Write-Host ""
-Write-Host "========================================="
-Write-Host "ORVION WORKSTATION DOCTOR"
-Write-Host "========================================="
+Write-Host ""; Write-Host "[Authentication boundaries]"
+gh auth status *> $null; if ($LASTEXITCODE -eq 0) { Pass "GitHub CLI authenticated" } else { Warn "GitHub CLI installed; run gh auth login" }
+claude auth status *> $null; if ($LASTEXITCODE -eq 0) { Pass "Claude Code authenticated" } else { Warn "Claude Code installed; launch claude to authenticate" }
+codex login status *> $null; if ($LASTEXITCODE -eq 0) { Pass "Codex authenticated" } else { Warn "Codex installed; run codex login" }
 
-Write-Host ""
-Write-Host "[Applications]"
-foreach ($c in @("git", "node", "npm", "docker", "python", "claude", "code")) { Test-Cmd $c }
+Write-Host ""; Write-Host "[Claude engineering awareness]"
+& (Join-Path $PSScriptRoot "claude-awareness.ps1") -Verify
+if ($LASTEXITCODE -ne 0) { Fail "Claude awareness wiring incomplete" }
 
-Write-Host ""
-Write-Host "[Repository]"
-foreach ($f in @("README.md", "AGENTS.md", "PROJECT_CONTEXT.md", "GOVERNANCE.md", ".gitignore", ".mcp.json")) {
-    if (Test-Path $f) { Write-Host "[ OK ] $f" } else { Write-Host "[FAIL] $f" }
-}
+Write-Host ""; Write-Host "[GitHub repository]"
+$originUrl = git remote get-url origin 2>$null
+if ($originUrl -match '^https://PlatPlusHub@github\.com/PlatPlusHub/CRM(\.git)?$') { Pass "origin is username-qualified for PlatPlusHub" } else { Fail "origin is not the canonical username-qualified URL" }
+$author = git config user.name 2>$null
+if ($author -eq "PlatPlusHub") { Pass "commit author is PlatPlusHub" } else { Warn "commit author is '$author'; expected PlatPlusHub on the owner workstation" }
+git ls-remote origin HEAD *> $null
+if ($LASTEXITCODE -eq 0) { Pass "GitHub remote reachable" } else { Fail "GitHub remote is not reachable" }
 
-Write-Host ""
-Write-Host "[Docker]"
-docker version *> $null
-if ($LASTEXITCODE -eq 0) { Write-Host "[ OK ] Docker Engine" } else { Write-Host "[WARN] Docker Engine not running (start Docker Desktop)" }
-
-Write-Host ""
-Write-Host "[Versions]"
-foreach ($v in @(
-        @("git", "git --version"), @("node", "node -v"), @("npm", "npm -v"),
-        @("docker", "docker --version"), @("python", "python --version"),
-        @("claude", "claude --version"), @("code", "code --version"))) {
-    if (Get-Command $v[0] -ErrorAction SilentlyContinue) {
-        $out = (& ([scriptblock]::Create($v[1])) 2>$null | Select-Object -First 1)
-        Write-Host ("  {0,-8} {1}" -f $v[0], $out)
-    }
-}
-
-Write-Host ""
-Write-Host "[GitHub sync]  (local is disposable - GitHub is the source of truth)"
-if (Get-Command git -ErrorAction SilentlyContinue) {
-    $branch = git rev-parse --abbrev-ref HEAD 2>$null
-    git rev-parse "@{u}" *> $null
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "[WARN] branch '$branch' has no upstream - push it so GitHub has your work"
-    }
-    else {
-        $ahead = (git rev-list --count "@{u}..HEAD" 2>$null)
-        if ([int]$ahead -gt 0) { Write-Host "[WARN] $ahead local commit(s) not pushed - at risk until 'git push'" }
-        else { Write-Host "[ OK ] in sync with origin/$branch" }
-    }
-}
-
-Write-Host ""
-Write-Host "Doctor completed."
+Write-Host ""; Write-Host "Doctor summary: $($Failures.Count) required failure(s), $($Warnings.Count) warning(s)."
+if ($Warnings.Count -gt 0) { Write-Host "Warnings are authentication, readiness, or owner-workstation boundaries; they are not missing software." }
+if ($Failures.Count -gt 0) { Write-Host "WORKSTATION VERIFICATION: FAILED"; exit 1 }
+Write-Host "WORKSTATION VERIFICATION: PASSED"; exit 0

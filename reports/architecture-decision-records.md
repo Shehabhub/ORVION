@@ -2,7 +2,9 @@
 
 Version: 0.1
 Status: Living document (not a Change Request; preserves the reasoning behind major architectural decisions)
-Convention: append-only. Each ADR is numbered and dated. A superseded ADR is marked Superseded and points to its replacement; it is never deleted (history is the record). New ADRs are added when a genuinely architectural decision is made — routine implementation choices stay in their Change Request.
+Convention: append-only. Each ADR is numbered and dated. A superseded ADR is marked Superseded and points to its replacement; it is never deleted (history is the record). New ADRs are added when a genuinely architectural decision is made — routine implementation choices stay in their Change Request, and an ordinary defect never earns one.
+
+**Record shape (from ADR-0024 onward, owner-directed 2026-08-31).** Earlier records carry Date · Status · Source · Decision · Why · Consequences, and are left as they are. New records add four fields, because those six could not answer the questions a session with no chat history actually asks: **Alternatives rejected** (with why — previously present in 1 of 23 records, which is how the same idea gets re-proposed), **Constraints on future work** (what a later change may not break), **Evidence basis** (PROVEN / INFERENCE, and the test or migration that proves it), and **Revisit trigger** (the condition under which this decision should be reopened). Plus **Class** and **Basis** (owner-ratified vs system-derived), so a reader can tell a business decision from a derived one. No fact with an SSOT elsewhere — live state, schema truth, roadmap, finding status, test results — is copied into an ADR; it is referenced (`GOVERNANCE.md §2`).
 
 ---
 
@@ -55,7 +57,7 @@ Convention: append-only. Each ADR is numbered and dated. A superseded ADR is mar
 - Consequences: the trigger mechanism is enabled before the first trigger; each table adds its trigger in its own migration.
 
 ## ADR-0009 — Git workflow: direct-to-`main`, publish on Complete
-- Date: 2026-07 · Status: Accepted · Source: Governance decision; SPEC-026
+- Date: 2026-07 · Status: Accepted (its last Decision sentence, "Completing a CR pushes to the configured upstream.", is Superseded by ADR-0031; linear history stays in force) · Source: Governance decision; SPEC-026
 - Decision: Change Requests execute as linear commits on the current branch (direct-to-`main` in practice); branch/PR topology is intentionally undefined. Completing a CR pushes to the configured upstream.
 - Why: "Git is the execution history"; the CR lifecycle already provides review gates; a linear history mirrors the state machine. Publishing on Complete removes a separately-remembered manual push.
 - Consequences: no branch/PR governance is defined; a failed push does not invalidate a local Complete.
@@ -120,6 +122,7 @@ Convention: append-only. Each ADR is numbered and dated. A superseded ADR is mar
 - **Architectural rule for future contributors:** *Every new table that references `customers` automatically participates in customer-merge operations unless it is explicitly excluded for a documented reason (added to the merge's exclusion list with a comment).* This makes merge-completeness a property of the platform architecture, not of developer memory — a new referrer cannot silently split a customer's history.
 - Why: `customers(id)` is already referenced by ~14 tables, most in future phases (bookings, invoices, payments, passengers, quotations, complaints, service_requests, conversations, refunds). A static allowlist would become a latent correctness bug the moment any future table adds `customer_id` and is forgotten — producing orphaned/split customer history that is hard to detect and hard to reverse. Catalog-driven discovery stays correct across schema evolution with zero maintenance. Rejected alternatives: static inclusion list (maintenance hazard, silent incompleteness); `SECURITY INVOKER` under RLS (a future restrictive policy could hide rows from the caller and silently skip re-pointing them); physical delete of the source (destroys business history, violates the never-delete principle).
 - Consequences: merges are complete-by-construction and fully auditable (merge row + immutable `customer_merged` event give traceability without needing undo). Escalation trigger: if a future referrer must **not** be blindly re-pointed (e.g. it needs value-level conflict resolution, deduplication, or a merge-time transformation rather than a straight FK swap), add it to the documented exclusion list and handle it explicitly in the merge — do not weaken the default. Implemented by SPEC-070.
+- **Second documented exclusion, 2026-09-29 (SPEC-240, PH8-4):** `customer_consents`. Consent evidence is append-only and is never re-pointed or rewritten, so a merge excludes it, and `app.customer_consent_status` handles it explicitly: it reads the logical customer through `customer_identity_merges` (the survivor and every identity merged into it, however deep) and takes the latest decision by `seq`. A merge therefore neither erases nor hides a decision: a merged identity's newer DENIED still beats the survivor's older GRANTED. A merged identity takes no new decision. The table keeps its tenant-qualified foreign key to `customers`.
 
 ## ADR-0020 — Finance-approval gate: execution-approval slice now; capability-driven booking permissions recorded, minted per-consumer; negative-balance risk flag deferred to Finance Core
 - Date: 2026-07 · Status: Accepted · Source: Owner decision after the Phase-5 Finance Gate Readiness Report (`reports/phase-05-finance-gate-readiness.md`). First Phase-5 ADR.
@@ -180,3 +183,240 @@ Convention: append-only. Each ADR is numbered and dated. A superseded ADR is mar
   6. **Channel-generic boundary:** the claim/ack outbox is not Google-specific — `offline_conversion_deliveries.platform_code` (seeded catalog) keys the destination, so Meta CAPI (Phase 10) reuses the identical mechanism with a different n8n workflow. One delivery model, many platforms.
 - Why: n8n-first was re-evaluated against the existing design (owner directive 2026-07-17): the transport-agnostic adapter boundary survives unchanged — only the *caller* changes from an Edge Function to n8n workflows. The outbox + claim/ack pattern is the standard reliable-delivery design for external orchestrators (at-least-once with idempotent acks); it makes n8n swappable (any orchestrator — or a future Edge Function — can drive the same RPC pair), preserving ORVION-owns-the-truth (PROJECT_CONTEXT §11). Rejected: queue infrastructure (pg_mq/external broker — unearned; the deliveries table IS the queue at ORVION's volume, escalation trigger per ADR-0018 stands); Edge-Function-internal delivery logic (would bury state where the confirmed orchestrator cannot see it); per-platform delivery tables (duplicate structure; platform_code already discriminates).
 - Consequences: Phase 8 implements — conversion mapping (verified outcome → `offline_conversions` row; value = revenue, never profit — margins are not leaked to ad platforms; industry-standard) → the claim/ack RPC pair + integration role → the n8n workflow (Data Manager API + OAuth `datamanager` scope + Consent Mode). GTM/GA4 client-side tagging coexists via Google's unified enhanced-conversions setting. The Integration Catalog (future-backlog, Adopt-Later) seeds with this integration when Phase 8 lands.
+
+## ADR-0024 — Every rule an RPC enforces must also hold on the table door
+- Date: 2026-08-31 · Status: Accepted (owner-ratified 2026-08-31, with the directive to record durable rules as ADRs rather than leave them in migration comments) · Class: SECURITY / AUTHORIZATION · Scope: every write path and every read rule in `public`/`app`.
+- Context: `authenticated` holds direct `INSERT`/`UPDATE`/`SELECT` on tenant tables, so PostgREST publishes each table beside its RPC. A rule implemented only inside an `app.*` function is therefore enforced on one of the two doors a browser client actually has. This is not theory: **BOOK-1** (a cancelled booking still earned revenue and commission), **ADMIN-1**, **FIN-8**, **FIN-10**, **QUO-1**, **TASK-1** (an employee reassigned a task by direct DML, unauthorized and unaudited), **SUP-1** and **SPEC-154-B** were each reproduced by calling the table after the RPC had refused.
+- Decision: a business rule is enforced at a layer BOTH doors traverse — a trigger, a constraint, or an RLS policy — never in the RPC alone. An RPC-only check is treated as incomplete, and a package that adds one is not finished until the table path is proven by an independent negative control.
+- Why: the RPC is a convenience surface, not a security boundary, for as long as direct table access exists.
+- Alternatives rejected: (a) revoke direct DML from `authenticated` and make RPCs the only door — this is **SEC-1**, still an open owner decision; it would make this ADR unnecessary but has not been taken, and designing as though it had been is how the defects above shipped. (b) Rely on code review to catch RPC-only rules — five packages' evidence says it does not.
+- Consequences: every guard is written as a trigger/constraint/policy; `SECURITY DEFINER` + `REVOKE` is used where the guard must read a parent past RLS (**SUP-1**, `app.is_document_responsible`); tests assert both doors.
+- Constraints on future work: do not add a rule to an RPC without asking what the table does with the same write. Do not treat HTTP coverage of an endpoint as coverage of its table.
+- Evidence basis: PROVEN — reproduced per finding in `MASTER_GAP_REGISTER.md`; verification conduct in `AGENTS.md §6`.
+- Basis: system-derived, owner-ratified.
+- Related: SEC-1 (open) · `AGENTS.md §4` step 13, `§6` · ADR-0003, ADR-0013.
+- Revisit trigger: SEC-1 is decided in favour of revoking direct table DML. At that point this ADR is superseded, not deleted.
+
+## ADR-0025 — The enforcement layer is chosen from the measured surface; authorization may exempt session-less paths, integrity may not
+- Date: 2026-08-31 · Status: Accepted (owner-ratified 2026-08-31) · Class: AUTHORIZATION / INTEGRITY · Scope: every new guard.
+- Context: **IDENT-1** and **ADMIN-1** are the same family — an unvalidated argument binding a membership to the wrong human — and landed in **opposite** layers, each chosen on counted evidence about who writes the column and from where. Copying the previous package's answer would have been wrong in one of the two cases. Separately, guards that raise inside `pg_cron` jobs, batch sweeps and `SECURITY DEFINER` system paths have twice aborted processing for every tenant because one tenant was ineligible (**WP-03**).
+- Decision: (1) Before writing a guard, measure the complete write/read surface for the column or rule — which RPCs, triggers, batch paths, scheduled jobs and direct-DML routes touch it — and choose the narrowest layer that covers all of them. (2) A guard that expresses **authorization** may exempt session-less paths (`auth.uid() is null`), because a system job has no session to authorize. (3) A guard that expresses **integrity** may NOT: a fact that must be true of the row is true whoever wrote it.
+- Why: authorization answers "may this actor do this", which is meaningless without an actor; integrity answers "is this row coherent", which is meaningful always.
+- Alternatives rejected: (a) one blanket rule for every privileged function — disproven by inventorying all 13 `SECURITY DEFINER`/`service_role` functions, 5 of which are deliberately cross-tenant by job description (`MASTER_ARCHITECTURE_DECISIONS.md` item 15). (b) Widening an existing capability guard instead of adding a targeted trigger — rejected in **TASK-1**, where the shared guard cannot see WHICH column moved and would have blocked an employee completing their own task.
+- Consequences: guards state their class in their header; session-less exemptions are justified per guard, never inherited.
+- Constraints on future work: never weaken a gate because a system path collided with it — move the eligibility decision into the system path (`AGENTS.md §3` step 5b).
+- Evidence basis: PROVEN — IDENT-1, ADMIN-1, TASK-1, SUP-1, CONV-4, WP-03 in `MASTER_GAP_REGISTER.md`.
+- Basis: system-derived, owner-ratified.
+- Related: ADR-0024 · `AGENTS.md §3` step 5b, `§4` step 13 · canon 35.
+- Revisit trigger: a guard class appears that is neither authorization nor integrity (an availability or rate rule would be the first).
+
+## ADR-0026 — Scoped access is expressed as a predicate, never by granting a coarser permission
+- Date: 2026-08-31 · Status: Accepted (owner-ratified 2026-08-31 as part of the SPEC-154-B decision) · Class: AUTHORIZATION / DATA · Scope: any canon rule of the form "assigned/related only".
+- Context: canon repeatedly scopes a permission to the holder's own work — canon 28 records `VIEW_FINANCIAL_DOCUMENTS` as "Assigned related only" for `employee` and `senior_employee`, and canon 08 grants the responsible employee the financial documents "directly related to that lead or booking" while forbidding them to "browse unrelated finance documents". ORVION's permission model is deliberately binary (`role_permissions`, ADR-0015), so a permission cannot carry a scope. Granting the binary permission to satisfy the canon sentence is measurably unsafe: the `documents` policy's confidential branch carries no link-visibility conjunct, so granting `VIEW_FINANCIAL_DOCUMENTS` to `employee` would expose every confidential financial document in the tenant.
+- Decision: express the scope as a predicate evaluated per row — `has_permission(<coarse permission>) OR <caller is a responsible user of this row's subject>` — and mint nothing. The permission keeps its canonical role set.
+- Why: it satisfies both halves of the canon sentence at once, keeps one authority for which rows appear, and leaves the role model unchanged.
+- Alternatives rejected: (a) grant the binary permission to the scoped roles — unsafe as measured above, and it would make the canon's "Assigned related only" unrepresentable. (b) Mint a second, narrower permission (`VIEW_OWN_FINANCIAL_DOCUMENTS`) — rejected: it doubles the vocabulary for every scoped rule and canon names no such permission. (c) A `SECURITY DEFINER` read that re-implements the row scope — rejected in SPEC-139 because a definer function bypasses RLS and would restate the scope in a second place that eventually disagrees.
+- Consequences: two shipped instances, and they are the pattern to copy — `app.item_financials` (SPEC-139: the money on a booking item) and `app.is_document_responsible` (SPEC-154-B, `202607058700`: the financial document on a booking). Both gate on permission-or-responsibility; neither grants anything.
+- Constraints on future work: a future "assigned only" canon rule is implemented this way. Do not read a canon scope column as a reason to widen a role.
+- Evidence basis: PROVEN — `23_financial_privacy_test.sql`, `82_financial_document_responsibility_test.sql`, and the HTTP door in `verify_storage_end_to_end.ps1`.
+- Basis: owner-decided (SPEC-154-B, 2026-08-31); mechanism system-derived from SPEC-139.
+- Related: ADR-0015 (binary permissions) · ADR-0024 · canon 08 §Document Permissions · canon 28 Finance/Document tables · SPEC-139 · SPEC-154-B.
+- Revisit trigger: the permission model stops being binary (a scope column on `role_permissions`), which would make ADR-0015 the decision to revisit first.
+
+## ADR-0027 — Capability grants are per-user; the enforcement plane is not rebuilt to get them
+- Date: 2026-09-02 · Status: Accepted (owner-directed; the owner relaxed the standing "do not redesign RBAC" constraint and asked for an evidence-based choice between preserve / refactor / rebuild). Implemented by `202607059800`; completed by `202607060000`. **Reconstructed 2026-09-03** — the original ADR was written in the commit that was never committed (**RECOVER-1**), and this record is rebuilt from the migration's own reasoning, which survived inside Primary's ledger.
+- Source: owner directive of 2026-09-02 (every meaningful capability independently grantable and revocable per user, administered from a future dashboard). Register rows: **RBAC-5**, **RBAC-6**. Supersedes nothing; **supersedes RBAC-2's 2026-08-29 conclusion** that `MANAGE_PERMISSIONS` gates a capability ORVION does not offer.
+
+- **The decision.** **REFACTOR THE GRANT MODEL. PRESERVE THE ENFORCEMENT PLANE.** Add a per-user grant/deny edge and change how one function *resolves* authority; change nothing about how anything *enforces* it.
+
+- **The measurement that decided it, and it is decisive rather than suggestive:**
+
+  | What was measured | Value |
+  |---|---|
+  | RLS policies resolving through `app.has_permission` | 60 |
+  | Triggers resolving through it | 61 |
+  | Functions resolving through it | 76 |
+  | Foreign keys into `public.permissions` | **1** (`role_permissions`) |
+
+  Every enforcement site in ORVION already delegates the decision to one function. The owner's end-state is therefore a change to how that ONE function resolves a grant — not to how ~197 sites enforce it.
+
+- **Why REBUILD was rejected.** A rebuild would rewrite every one of those enforcement sites to arrive at the same behaviour, and each rewritten site is an opportunity to lose a rule that was *earned by a defect*: SEC-1b (a ceiling that counted UPDATE-only triggers), SEC-1c (a row you may not create is a row you may not rewrite), PAR-4 (defect injection), BOOK-1 and ADMIN-1 (the table door), FIN-10 (the financial ceiling). Maximum risk, zero security gain. **Rejected on evidence, not on conservatism.**
+- **Why PRESERVE alone was insufficient.** Measured: there is **no path from a user to a permission except through a role**. That one gap makes four owner requirements impossible — per-user grant, per-user revoke, explicit deny, and "a role is a bundle you can override". Preserving would have meant answering the owner's requirement with "create more roles", which is the artificial-role proliferation the directive explicitly rejects.
+
+- **What was built:** `public.user_permission_grants` — one table carrying `effect ∈ {grant, deny}`, because precedence is a property of the *pair* and splitting them across two tables would let the two disagree about which row is live. Composite tenant-qualified FKs (TENANT-1), per-command RLS charging `MANAGE_PERMISSIONS`, `derive_created_by` for actor attribution, time bounds (`starts_at`/`ends_at`/`is_active`), and `permission_granted`/`permission_revoked` events that had been registered vocabulary with no producer since the catalog was seeded. Plus `capability_group` and `action_kind` on `permissions` as **data, not code**, so the owner's dashboard can regroup capabilities without a migration.
+
+- **The resolution order, and why each position:**
+  ```
+  active DENY (user)   -> refused, unconditionally
+  active GRANT (user)  -> held
+  role GRANT           -> held
+  PLAN entitlement     -> applied LAST, to every path
+  ```
+  - **Deny is unconditional** because that is the settled industry rule — AWS IAM evaluates an explicit `Deny` before anything else and returns Deny if even one applies; Azure RBAC deny assignments and Cedar `forbid` policies behave the same way. Verified against AWS's current policy-evaluation documentation rather than assumed. The weaker reading ("a deny only cancels a role grant") cannot express *"this user must never have this"*, which is the owner's emergency-restriction requirement.
+  - **The plan gate stays last, over BOTH paths.** Canon 28: "Plan denial overrides user role permission." This is the one thing a per-user grant must **not** be able to do — a tenant administrator must never be able to grant past a commercial entitlement. Proven: a starter tenant's own owner, holding an explicit direct grant written as `postgres`, still cannot use a `full_finance` capability.
+
+- **Permissions stay OUT of the JWT, and this is a deliberate divergence from Supabase's own RBAC guide.** That guide puts the user's *role* in a custom claim via an auth hook and queries `role_permissions` at request time. ORVION resolves the actor from `public.users` on every statement and puts nothing in the token. The cost is one extra lookup per check (mitigated: `has_permission` is `STABLE`, so PostgreSQL caches it within a statement). The benefit is that **a revocation takes effect on the next statement** — proven over HTTP with the same unexpired token. For an access-control system, a stale *grant* is a nuisance and a stale *revocation* is an incident, so the asymmetry decides it.
+- **No external authorization engine.** OpenFGA and Cedar were considered and rejected: ORVION's decision already composes role grants with tenant, branch/department/assignment scope, plan entitlement and MFA assurance level — an RBAC/ABAC hybrid in the database, at the only place every path must pass through. OWASP's preference for ABAC/ReBAC "where RBAC becomes insufficient" is satisfied by that composition; adding a policy engine would move authorization *out* of the database and create a second place for it to be wrong. Rejected as unearned complexity (`AGENTS.md §3` Earn-It).
+
+- **Capability vs scope stays SEPARATE, deliberately.** A permission answers *what may this actor do*; RLS answers *to which rows*. `EDIT_BOOKING` does not mean `EDIT_ANY_BOOKING` — the read-scope model (`202607051400`) already expresses branch/department/assignment as a predicate, and ADR-0026 settled that scoped access is expressed as a predicate and never by granting a coarser permission. Collapsing the two into one permission key would produce a combinatorial catalog and destroy that separation. **Record/resource scope therefore needs no new grant concept**, and `user_permission_grants` can gain a nullable scope column later without restructuring anything.
+- **Groups are UI metadata, never a security boundary.** `capability_group` groups capabilities for the dashboard and grants nothing. A future "Enable Finance Department" button grants a known bundle of individual capabilities; the capability remains the security unit, exactly as the owner directed.
+- **VIEW vs MANAGE stays as separate permission KEYS.** ORVION's shipped convention is verb-first keys (`VIEW_*`, `MANAGE_*`, `CREATE_*`, `APPROVE_*`, `RECORD_*`), and 60 policies, 61 triggers and 76 functions name those keys as strings. `action_kind` was added as a derived *label* so the dashboard can offer View and Manage independently — it is **not** a second addressing scheme, and introducing `(capability, action_kind)` as the identity would have been a duplicate concept requiring every enforcement site to change.
+
+- Consequences: the owner's model is reachable incrementally — new permissions are data, new groups are data, new role bundles are data, user overrides are data, and none requires editing a policy. `app.effective_permissions` makes an authorization decision explainable ("role ✓ / grant ✗ / deny ✓ / plan ✓ = DENY") and is proven to never disagree with `app.has_permission`. What is NOT built and is deliberately future work: the administration dashboard itself, record-level scope on a grant, and delegated administration (who may grant what to whom, beyond the single `MANAGE_PERMISSIONS` gate).
+- Rejected alternatives: rebuild the enforcement plane (evidence above); a separate `user_permission_denies` table (lets the pair disagree); permissions in JWT claims (stale revocation); an external policy engine (unearned, moves authorization out of the database); making `capability_group` an inheritance mechanism (would make the group the security boundary the owner explicitly forbade); modelling `(principal, action, resource, scope, effect)` as full ABAC tuples now (the scope half has no consumer yet — the table can gain a scope column without migration debt, so building it now would be speculative).
+- Learn-Before-Designing sources (verified 2026-09-03, current at that date): AWS IAM policy evaluation logic (explicit deny overrides explicit allow; default implicit deny); Supabase Custom Claims & RBAC guide (role in claim, permissions queried at request time); OWASP Authorization Cheat Sheet (deny-by-default, enforce server-side on every request, prefer ABAC/ReBAC where RBAC is insufficient, never rely on client-side checks); PostgreSQL Row Security (default-deny with no matching policy; PERMISSIVE combined with OR, RESTRICTIVE with AND).
+- Evidence basis: PROVEN — `92_capability_grant_model_test.sql` (26): grant adds exactly one capability measured as a set difference, deny removes exactly one, deny beats a co-existing grant, revoke and expiry both bind, the plan gate survives a per-user grant, `app.effective_permissions` agrees with `app.has_permission` for EVERY permission, the subject of a grant cannot write the grant table, and a PAR-4 injection removes the deny row and flips the behaviour back. External basis: OWASP Authorization Cheat Sheet (deny-by-default, least privilege, server-side enforcement, role explosion), Supabase RBAC guidance, PostgreSQL row-security and function-security documentation, and the settled deny-override precedent in AWS IAM and Azure RBAC.
+- Basis: owner-directed (2026-09-02); mechanism system-derived from the measured enforcement surface.
+- Related: ADR-0015 (binary permissions — still true: a permission carries no scope; ADR-0026's predicate pattern remains how scope is expressed) · SPEC-138 (per-command MANAGE_* policies on administered identity tables, copied for the new table) · SPEC-146 (plan gating) · RBAC-2 · SUP-3.
+- Revisit trigger: a requirement appears that a capability grant genuinely cannot express — a rule needing environmental attributes (time of day, device, network) or relationship depth beyond ORVION's existing branch/department/assigned scope. That, and only that, is when ABAC/ReBAC earns its cost.
+- RECONCILED 2026-09-03: two sessions diverged from `4b67d3f` without fetching and each wrote this decision up — one as `RBAC-3`, one as `RBAC-5`/`RBAC-6` after a reconstruction from Primary. They are ONE decision, so this is ONE record; the register carries both ids cross-referenced. Both write-ups are preserved in the merged history (`46a0cfc`/`1193643` and `a52b5c7`), and the migration bytes were proven identical by git blob hash.
+
+---
+
+## ADR-0028 — A supplier credit ceiling is an OBSERVATION, not a gate
+
+- Date: 2026-09-04 · Status: Accepted (owner-directed). Implemented by `202607060100`, deployed to Primary. Register row: **SUP-4b**. Residues: **SUP-4c**, **CUST-3**.
+- Source: owner directive of 2026-09-04, quoted rather than paraphrased — *"EXCEEDING the limit MUST NOT block operations"*, *"No new entry/addition/action should be prevented merely because the ceiling has been exceeded"*, *"The intended behavior is WARNING/ALERT, NOT REFUSAL/BLOCKING"*.
+
+- **The decision.** The supplier credit ceiling **warns and never refuses**. It is a measured observation published to the people accountable for it, not an authorization boundary. `CREDIT LIMIT ENFORCED = NO` remains literally true and is now the *chosen* state rather than an unimplemented one.
+
+- **Why this is an ADR and not merely a register row.** It settles the *shape* of every future ceiling in ORVION. The repository already had a blocking-ceiling precedent — `payment_allocations_within_invoice_total` (FIN-10), a DEFERRABLE INITIALLY DEFERRED constraint trigger — and SUP-4b's own row had recorded ADR-0020's override-permission pattern as the likely form. **Both were rejected by the owner's decision**, and a future reader finding those precedents needs to know they were considered and deliberately not copied.
+
+- **What the decision removes, which is the point.** A blocking ceiling would have required: an override permission (canon 28 names none for supplier credit, so one would have been minted); a `risk` event type; and a serialisation story, because `exposure + new <= limit` must lock the rows it sums. A warning requires **none of them**. The concurrency question SUP-4b had carefully deferred is not answered here — it is **dissolved**: a warning cannot wrongly refuse a transaction, so there is nothing for two concurrent writers to race over. Choosing the non-blocking policy removed an entire class of engineering rather than deferring it.
+
+- **Consequences, stated as constraints on future work:**
+  - **No caller may treat `threshold_exceeded` as an authorization result.** It is a display flag behind the existing `VIEW_FINANCIAL_DOCUMENTS` gate. A future UI renders it; nothing refuses on it.
+  - **The alert is bound to a state TRANSITION, not to a state.** Idempotency lives in the event ledger (`supplier_credit_threshold_exceeded` / `_cleared`), deliberately not in a new column or status vocabulary — the owner explicitly declined a colour/status system. Any future consumer must read the latest of that pair, not recompute "is over".
+  - **Recipients are resolved by ROLE (`owner`, `finance_manager`), and that is not an authorization decision.** It answers who is *told*, never who is *allowed*. The `deny > user grant > role grant > plan gate` order is untouched by this ADR, and no permission was minted, granted or widened.
+  - **Exposure is compared per currency and never converted** — ADR-0020/ADR-0021's shipped rule. Cross-currency "equivalence" is **SUP-4c** and is deliberately unanswered: `public.exchange_rates` has **zero readers**, and inventing an FX mechanism to satisfy a threshold is the redesign `AGENTS.md §3` forbids.
+  - **The email obligation is written, not sent.** Canon 10 records the boundary: a `notification_deliveries` row on the `email` channel at status `pending`, because ORVION has no mail provider. Nothing may report this alert as delivered until a dispatcher exists and is proven end to end.
+
+- Revisit trigger: the owner asks for a supplier operation to be *refused* on exposure. That is a different decision, not an extension of this one, and it re-opens the override-permission and concurrency questions this ADR removed.
+
+---
+
+
+## ADR-0029 — Money is stored as `numeric(19,4)` beside its currency; a currency's decimal places govern display, never storage
+
+- Date: 2026-09-28 · Status: Accepted (owner-directed 2026-09-01, OWNER-1 / A3: *"write the small ADR for the money-storage standard"*). This ADR **records** a decision already implemented by SPEC-118 (`202607048600`, DC-1) and canon 30/31; it decides nothing new and adds no financial semantics. Register row: **A3**.
+- **Decision.** Every stored monetary amount is `numeric(19,4)`, never floating point. Its currency is stored beside it as a currency-code column referencing `currencies.code`. `currencies.decimal_places` governs display and rounding per currency, never storage. Exchange rates are `numeric(18,8)`. Scale 4 stores the minor unit of three-decimal currencies (KWD/BHD/OMR/JOD) with headroom to ISO 4217's maximum of four; precision 19 keeps at least 15 integer digits.
+- **Why an ADR.** It is the shape every future money column copies, and it was implemented in 2026-07 without one, which A3 recorded.
+- **Consequences, as constraints on future work:**
+  - a new stored money column is `numeric(19,4)` with its currency beside it;
+  - an amount is a pair; amounts in different currencies are never summed or compared without explicit conversion evidence (already ADR-0020/ADR-0021 and FA-2 — restated, not changed);
+  - amounts computed in views and functions may carry unconstrained `numeric`; they are derived, not stored.
+- **Measured state, 2026-09-28** (`information_schema.columns`, local stack): 22 stored amount columns in `public` are `numeric(19,4)`, and `exchange_rates.rate` is `numeric(18,8)`. **One divergence, which this ADR does not ratify:** `payments.account_amount` is `numeric(18,4)`. FA-2's migration (`20260909131000`) records no reason for it — its reasoning about constrained types concerns the rate — while `payments.amount` beside it is `numeric(19,4)`. It is recorded as **MONEY-3** and classified there. The two non-money numerics are `booking_items.commission_rate` `numeric(5,2)` and `quotation_items.quantity` `numeric(14,2)`.
+- **Alternatives rejected:** `numeric(14,2)`, the pre-SPEC-118 standard, truncated three-decimal currencies (the DC-1 defect); floating point cannot represent money exactly (canon 30).
+- **Evidence basis:** SPEC-118; `03_money_currency_precision_test.sql`; canon 30 § Money Standard; canon 31 § Reference Tables (`currencies`).
+- **Revisit trigger:** a supported currency with more than four minor digits, or a stored amount above 10^15.
+
+## ADR-0030 — Google Ads reporting is read-only: GAQL read inside Google Ads by a repository-held script and delivered to ORVION through n8n; ORVION never modifies Google Ads
+
+- Date: 2026-10-11 · Status: Accepted. The **scope** is the owner's decision D4 of 2026-10-11: read-only Google Ads reporting and configuration visibility are required for the first production release, and every campaign change stays in the official Google Ads interface. The **technical shape** below is derived from that scope, ADR-0023 and current official Google documentation, and is ratified by the owner's approval of the contract that records it. Class: INTEGRATION. Scope: every read of Google Ads data, and the money and attribution rules for using it. Register row: **GADS-1**.
+- **Context.** Before this ADR, ORVION's only Google Ads integration was outbound: offline conversions through the Data Manager API (ADR-0023). `marketing_campaigns` and `campaign_daily_metrics` exist (`202607043000`), but nothing writes the second, so ORVION knows no advertising cost and cannot compare spend with the outcomes it verifies. Google retired developer tokens on 2026-09-09: Google Ads API access levels now belong to the Google Cloud project that owns the OAuth client or service account. Production access needs at least Explorer, which is applied for, and Google rejects Explorer and Basic applications from projects whose billing is not in good standing (free trial, suspended or disabled). Google Ads scripts run inside the account itself, cost nothing and need neither.
+- **Decision:**
+  1. **Read-only, by code and by detection.** No ORVION component calls a mutating Google Ads method, and ORVION builds no approval flow for advertising changes and no campaign editor. The reader is one Google Ads script held in this repository, which the owner installs and authorizes in account `5912383888`. It calls only `AdsApp.search` (GAQL) and `UrlFetchApp`, never a selector, builder or mutate. A script acts with its authorizing user's own access, so here read-only is a property of the script's code, not a Google permission, and it is checked twice:
+     - the implementing contract adds a repository check that refuses the script if it calls anything else;
+     - every run reads `change_event` and reports each change whose `client_type` is `GOOGLE_ADS_SCRIPTS`, which ORVION raises as an alarm, because ORVION's script must never produce one.
+
+     ORVION itself holds no Google credential.
+  2. **Free and available first; the Google Ads API is the upgrade path.** A script needs no Cloud billing, no access application and no developer token. Its limits are far above one account's daily reads: 30 minutes per run, and on a consumer account 20,000 URL fetches a day at up to 50 MB each. The upgrade is a dedicated service account in Cloud project `orvion-data-manager`, added in Google Ads as a **Read only** user, so that Google itself refuses any change. It is taken when the owner's project has billing in good standing and Explorer access, which serves production accounts at 2,880 operations a day against about thirty needed. Only the reader changes: the n8n write side and the RPCs stay. Keyword planning, forecasting, reach planning, audience insights, billing and invoices are outside this decision on either path.
+  3. **Transport: GAQL on a schedule, delivered through n8n, never per page view.** The script runs daily and POSTs its results to one n8n webhook, separate from ADR-0023's workflow and authenticated by a header secret that the owner sets in n8n and in the script. n8n validates the account and the payload shape, and writes only through integration RPCs granted to `orvion_integration`, never to `authenticated`. ORVION's screens read ORVION's tables, so a Google outage leaves the dashboards showing stale data with its "as of" time, not blank ones. Every write is an idempotent upsert keyed by account, report, date and dimensions. Each run re-reads a trailing window, because Google attributes conversions back to the click date and its data is not final when first reported. A run that dies is repaired by the next run.
+  4. **Storage shape (exact DDL belongs to the implementing contract):**
+     - `campaign_daily_metrics` is the **one** advertising-cost fact: campaign × day, in the Google Ads account's currency, with `cost_micros / 1,000,000` converted exactly to `numeric(19,4)` (ADR-0029);
+     - Google-reported conversion metrics are stored under Google's names, never in ORVION's outcome columns. The table's existing `leads_count`, `bookings_count` and `revenue_amount` are not written from Google. ORVION's outcomes are derived from ORVION's own records, and the implementing contract decides whether those three columns are retired;
+     - configuration (campaigns, budgets, bidding strategies, targeting, ad groups, ads, keywords, negatives, assets, conversion actions, policy status) is held as latest-state snapshots refreshed by each run;
+     - analytical reports (keywords, search terms, geography, device, schedule, landing pages, assets) and change history are held for drill-down and are never a money source;
+     - GCLID resolution (`click_view`) links a click to its campaign, ad group and keyword.
+
+     The implementing contract creates the fewest tables these need, and each is born with its adversarial disposition (EC-1).
+  5. **Advertising cost is recognized once.** Management profitability reads advertising cost only from `campaign_daily_metrics`, converted at ORVION's exchange rate for the metric date. A Google invoice or card charge settles that cost and is never entered as a second expense. The difference between the API cost and the amount invoiced (taxes, invalid-activity credits, adjustments) is shown as a reconciliation line, never absorbed silently. How tax on Google's invoices is treated is the accountant's rule.
+  6. **Attribution uncertainty is shown, never resolved by guessing.** ORVION-verified outcomes and Google-reported conversions are separate figures and are never summed. A lead's link to a campaign carries one of four confidence tiers:
+     - `CLICK-MATCHED` — its captured GCLID was resolved by `click_view`;
+     - `CALL-INFERRED` — a `google_ads_call` lead matched to `call_view` by time. `call_view` carries no caller number, and canon 18 makes Google forwarding numbers a secondary model;
+     - `DECLARED` — UTM parameters only;
+     - `UNATTRIBUTED`.
+
+     Every aggregate shows the mix of tiers behind it.
+  7. **Separate from ADR-0023.** Data Manager conversion delivery and Google Ads reporting share n8n, and nothing else: no credential, no table, no workflow.
+- **Why.** The value the owner asked for is the join between what advertising cost and what ORVION verifies — leads, bookings, payments and profit — not a second campaign editor. Reading Google's data into ORVION on a schedule keeps ORVION the system of record (`PROJECT_CONTEXT.md §11`), keeps the quota bounded, and keeps provider credentials out of ORVION entirely. A script with no write code, checked in the repository and watched through Google's change history, makes "ORVION never changes Google Ads" verifiable without a paid or approval-gated dependency; the API upgrade later makes it a permission Google enforces.
+- **Alternatives rejected:**
+  - Campaign management from ORVION — excluded by the owner's decision D4.
+  - A third-party connector (Windsor.ai, which already reads this account) as the production path — a third party would process the account's data, at recurring cost, raising the PDPC cross-border question MAIL-1 already faces, and would become a second source of truth. It is acceptable only as a manual cross-check while the integration is built.
+  - BigQuery Data Transfer Service — adds a warehouse ORVION does not run, and canon 01 excludes data warehousing from the MVP.
+  - Calling the API per page view — exhausts Explorer's quota, puts a provider credential on the request path, and blanks the dashboards during a Google outage.
+  - A Supabase Edge Function scheduler — n8n is the ratified orchestration layer (ADR-0023). The capability needs no Edge Function.
+  - The Google Ads API as the first path — it gives the stronger guarantee, a Read only service account that Google enforces, but it depends on an access application Google may refuse and on Cloud billing in good standing, which the owner's free-first rule does not presume. It is the recorded upgrade path.
+  - A user OAuth credential — the same dependency, a refresh token that expires every 7 days until the OAuth app is verified, and whatever Google Ads access that user holds.
+  - Scheduled reports emailed or saved to Google Sheets — no reliable machine path into ORVION without a second parser and a second credential.
+- **Consequences:**
+  - Nothing is bought or applied for. The owner installs and authorizes the repository-held script and sets the webhook secret (`MASTER_INTEGRATION_CATALOG.md §5.2`). No credential passes through an agent, Git, SQL or a log.
+  - The implementing contracts add the integration RPCs and tables, after Batch 6's exit criteria hold and one migration contract at a time, then the n8n workflow and the script, then the screens.
+  - The capability is a Day-1 function in canon 01, so the readiness gate holds the first production tenant until it is READY.
+- **Constraints on future work:**
+  - Never add a mutating call to the script, or any Google Ads mutate call or write-capable credential elsewhere, without a new owner decision that supersedes D4.
+  - Never send the script's data anywhere but ORVION's webhook.
+  - Never sum Google-reported conversions with ORVION outcomes.
+  - Never read advertising cost for profitability from anywhere but `campaign_daily_metrics`.
+  - Re-verify the API version, fields and limits against current official documentation when the workflow is built.
+- **Evidence basis (official Google documentation, read 2026-10-11):**
+  - developer token sunset and Cloud-project access levels — `developers.google.com/google-ads/api/docs/get-started/dev-token`, updated 2026-10-07;
+  - access levels and Explorer's limits — `.../docs/api-policy/access-levels`, updated 2026-09-30; billing in good standing as a condition of Explorer and Basic — `.../docs/get-started/dev-token` (read 2026-10-12);
+  - Google Ads scripts' limits — `developers.google.com/google-ads/scripts/docs/limits`; URL-fetch quotas — `developers.google.com/apps-script/guides/services/quotas`; `ChangeClientType.GOOGLE_ADS_SCRIPTS` — `.../reference/rpc/v25/ChangeClientTypeEnum.ChangeClientType` (all read 2026-10-12);
+  - operation counting — `.../docs/best-practices/quotas`;
+  - service-account access through a Google Ads user invitation, and the 20-account limit — `.../docs/oauth/service-accounts`, updated 2026-10-06;
+  - the v25 resource list — `.../fields/latest/overview`;
+  - `change_event` limits — `.../docs/change-event`;
+  - Performance Max search terms and channel reporting — `.../docs/performance-max/campaign-reporting` and `.../performance-max/campaign-criterion-reporting`;
+  - unsupported custom columns — `.../docs/conversions/reporting`;
+  - latest version v25.2 of 2026-09-23 — `.../docs/release-notes`.
+- **Basis:** owner decision (scope); system-derived (shape).
+- **Related:** ADR-0023, ADR-0029, GADS-1, MAIL-1, CDD-7 · canon 01, canon 18 · `MASTER_INTEGRATION_CATALOG.md §5`.
+- **Revisit trigger:** any of
+  - a request to change Google Ads from ORVION, which needs a new owner decision;
+  - the owner's Cloud project gaining billing in good standing and Explorer access, which moves the reader to the API service account;
+  - a query a script cannot run, or a script limit reached;
+  - any `GOOGLE_ADS_SCRIPTS` change alarm;
+  - a need for keyword planning, forecasting or invoices, which needs the API at Basic and brand verification;
+  - a second tenant or more Google Ads accounts, which brings in CDD-7's per-tenant configuration and a manager account.
+
+## ADR-0031 — Publication is candidate-first: a Change Request publishes a candidate, and `main` moves only by the owner's promotion of that exact SHA
+
+- Date: 2026-10-15 · Status: Accepted (owner-ratified 2026-10-15). Supersedes the publication half of ADR-0009 ("Completing a CR pushes to the configured upstream"). ADR-0009's linear history stays in force.
+- **Context.** ADR-0009 published a Change Request by pushing on Complete. The repository then built another route, one contract at a time, without recording it as a decision: `SPEC-168` made one acceptance workflow, `orvion-acceptance`, run on the `orvion-preflight` branch; `SPEC-184` added `scripts/publish_candidate.ps1`, which proves the committed range with `-Gate` and pushes the candidate there and nowhere else; ruleset 22950574 requires that check on `main`; `SPEC-281` added `-Gate -Trusted` and `scripts/promote_main.ps1`. The lifecycle text still said `git push`, so an agent that followed it reached a push the ruleset is configured to refuse.
+- **Decision:**
+  1. A completed Change Request is published as a candidate with `scripts/publish_candidate.ps1`, to `orvion-preflight` only. No agent pushes `main`.
+  2. `main` moves only by a fast-forward to one candidate SHA that `orvion-acceptance` accepted, promoted by the owner with `scripts/promote_main.ps1` from a clean checkout of `main`.
+  3. A candidate awaiting promotion is a valid intermediate state. Synchronization and `-Certify` follow promotion.
+  4. The procedure is stated once, in `CR_LIFECYCLE.md` §9 (`Complete`). Other files point to it.
+- **Why.** Admission is judged on the exact SHA that becomes `main`, before it does. ADR-0009's linear history is kept, because promotion is a fast-forward.
+- **Alternatives rejected:**
+  - Keeping ADR-0009's push on Complete: the ruleset is configured to refuse it, and it would move `main` before acceptance.
+  - Pull requests: publication has never used them, and a merge commit is a SHA that acceptance did not judge.
+  - A trusted check run from `main` by `workflow_run`: another workflow can impersonate it without an owner-held GitHub App (`SPEC-281` Notes).
+- **Consequences:**
+  - The completing agent's `HEAD` is ahead of `@{u}` until promotion. That is not a blocker.
+  - Promotion is the owner's action, and so is the GitHub configuration it relies on.
+- **Constraints on future work:**
+  - Never push `main` from an agent, and never add a second publication route.
+  - Never promote a SHA that `orvion-acceptance` did not accept, or one that does not descend from `main`.
+- **Evidence basis:**
+  - PROVEN in the repository: `scripts/publish_candidate.ps1` is exercised by `scripts/test_agent_continuity.ps1`, and `scripts/promote_main.ps1` by `SPEC-281`'s tests 281-R*.
+  - INFERENCE, from configuration read on 2026-10-15: ruleset 22950574 is active on the default branch with `non_fast_forward`, `deletion`, the required status check `orvion-acceptance` and an empty bypass list. That GitHub refuses a direct push of a commit lacking the check is configuration and platform documentation, not behaviour ORVION has observed, and it is deliberately not tested against the live `main`. Whether only the owner can move `main` is CTRL-19 (`MASTER_GAP_REGISTER.md`).
+- **Class:** governance / publication. **Basis:** owner-ratified (directive of 2026-10-15); system-derived (the route `SPEC-168`, `SPEC-184` and `SPEC-281` built).
+- **Related:** ADR-0009 · CTRL-19 · `CR_LIFECYCLE.md` §9 · `scripts/publish_candidate.ps1`, `scripts/promote_main.ps1`.
+- **Revisit trigger:** any of
+  - CTRL-19 closed or changed;
+  - a second publication route proposed, or pull requests adopted;
+  - a change in how GitHub applies a ruleset's required status checks to a push.
+
+## Programme lesson numbering (resolved 2026-08-31)
+
+Migrations `202607058200`, `202607058400` and `202607058600` cite **"LESSON 4"** and **"LESSON 6"** by ordinal, and no file in the repository defined the numbering — a citation a fresh reader could not resolve. The ordinals are retired in favour of the stable homes those rules already had:
+
+- **LESSON 4 — "a comment is a claim."** A shipped comment is evidence of intent, never of behaviour; verify it before relying on it. Home: `AGENTS.md §6` (Measurement is not evidence until the measurement itself has been attacked) and `§4` step 13. Instances: IDENT-1, CM-2, LIC-2, FIN-DOC-1.
+- **LESSON 6 — "authorization may exempt session-less paths; integrity must not."** Home: **ADR-0025** above.
+
+Cite the stable ID from here on. Those three migrations are immutable and keep their ordinals; this note is what resolves them.
+
+- Learn-Before-Designing sources (verified 2026-09-03, current at that date): AWS IAM policy evaluation logic (explicit deny overrides explicit allow; default implicit deny); Supabase Custom Claims & RBAC guide (role in claim, permissions queried at request time); OWASP Authorization Cheat Sheet (deny-by-default, enforce server-side on every request, prefer ABAC/ReBAC where RBAC is insufficient, never rely on client-side checks); PostgreSQL Row Security (default-deny with no matching policy; PERMISSIVE combined with OR, RESTRICTIVE with AND).

@@ -2,7 +2,117 @@
 
 Status: **Permanent cumulative execution plan.** Never recreate; evolve. Batches are ordered by *foundation-reopen risk first*, not by roadmap phase. Implementation timing is the owner's; this plan states the safest order and dependencies so any batch can be executed directly from the Master documents. Cross-reference: `MASTER_GAP_REGISTER.md`, `MASTER_DEPENDENCY_GRAPH.md`.
 
-Last updated: 2026-07-15 (date corrected — the batch statuses below already reflect SPEC-113/114/117/118/119, all post-2026-07-11; content unchanged this sync, only the stale header date).
+Last updated: 2026-10-14 (**CTRL-19 joins the Action registry (SPEC-281).** SPEC-281 fixed CTRL-17 and CTRL-18, and proved that a candidate can certify itself through the required check it defines. The repair is GitHub configuration only the owner can make, so CTRL-19 waits on the owner at `GATE-EVAL`.)
+
+Previously: 2026-10-13 (**OPS-5 and OPS-6 leave the Action registry (SPEC-277).** Both are fixed: `update.ps1` previews before applying and reports a tool its installer manages, and the idempotence verifier no longer provisions the workstation it measures. OPS-7, the bootstrap's refused hand-off on a fresh Windows client, was found and fixed in the same contract and never entered the registry.)
+
+Previously: 2026-10-13 (**CTRL-16 joins the Action registry (SPEC-273).** SPEC-273 found that range mode never applies CR_LIFECYCLE's "only Approved and In Progress carry write authority" to a completed contract's own Draft-phase writes. It closed that gap for cancelled contracts, where a carrying successor would otherwise legalise the write. The general case is a verified defect owned by engineering, to be repaired before `GATE-EVAL`, by a contract that also decides the existing fixtures that commit during Draft.)
+
+Previously: 2026-10-12 (**The readiness gate gains its Action registry (SPEC-269).** Its prose classes become two tables: the boundaries, each with its state, and one row per open id with its class, decider, boundary, what it waits on and its treatment. `scripts/readiness_population.ps1` derives each id's trigger state, and Check 29 fails a guard run that leaves an open member unclassified or a boundary crossed with its items open. PAY-9 is classified, GADS-1 (placed by SPEC-265) is a `REQUIRED CAPABILITY`, and the owner decisions OD-1…OD-9 join. SUB-4's row is pruned, because SPEC-250 closed it. No class changed.)
+
+Previously: 2026-10-11 (**Two members join the readiness gate's closure queue.** GADS-1 joins by the owner's decision D4, which makes read-only Google Ads reporting a Day-1 function in canon 01 while nothing implements it (ADR-0030). PAY-9 was recorded open by SPEC-264, and `scripts/readiness_population.ps1` named it as the one id this section did not classify. No class, order or criterion changed, and the owner's sequence is unchanged.)
+
+Previously: 2026-10-09 (**The readiness gate's population is now derived by `scripts/readiness_population.ps1` (SPEC-249).** Its replay of the first derivation at `523888d` reads every id of a shared register row, as the register's own resolver does, and finds 446 ids with 124 not settled. BF-7, which the first reading left unplaced, is placed with CDD-5/BF-6. No class, order or criterion changed.)
+
+Previously: 2026-10-08 (**The Pre-Production Readiness Closure gate is added below Batch 6's exit criteria, by the owner's 2026-10-08 directive (SPEC-248).** It derives its population from the register's own settled vocabulary, the surface dispositions and the manifest's open-decision line, rather than from a chosen list. Its first derivation gives 439 distinct finding ids, of which 119 are not settled, and classifies each once into five release classes. It orders a closure queue with SUB-4 first, ahead of Batch 6 Slice 35, as the one recorded exception to the selector's ranking. EC-1…EC-11 are unchanged. Every dated entry below is unchanged.)
+
+Previously: 2026-10-07 (**EC-1 now names its surface set instead of a table count.** It read "All **77** tables" while the set it measures — derived from `supabase/migrations/**` and owned by `MASTER_SURFACE_DISPOSITION.md` — had grown to 78 with SPEC-240's `customer_consents`. The criterion means what it meant, and adding a table no longer makes its wording false. Batch 6 resumes at Slice 31 after PH8-9 (SPEC-243), by the owner's 2026-10-07 order recorded in `_ORVION_CANONICAL/32_execution_roadmap.md`; the order inside the batch is still `scripts/batch6_select_target.ps1`'s. Every dated entry below is unchanged.)
+
+Previously: 2026-09-21 (**Batch 6 has advanced through slice 12 — leads, invoices, customers and users — and this plan no longer restates the coverage count.** Per-surface disposition and the live `of 77` figure are owned by `reports/master/MASTER_SURFACE_DISPOSITION.md`; per-finding detail is owned by `reports/master/MASTER_GAP_REGISTER.md`. This plan states order and dependencies only, so EC-1 below now points at its SSOT rather than carrying a number that drifts between sessions. Every dated entry below is unchanged and states what was true on its date. Prior entry follows.)
+
+Previously: 2026-09-08 (**slices 6, 7 and 8 recorded — EC-1 stands at 9 of 77, and the
+measuring layer was audited against the rule the slices kept earning.** `otp_challenges`
+(`202607061600`) closed **OTP-1** by REVOKE; `trusted_devices` (`202607061700`) closed **TD-1**/**TD-2**
+by two DOORS, the deliberate opposite, because its RPCs are SECURITY INVOKER and the grant is the
+sanctioned path; `lead_interactions` (`202607061800`) closed **LI-1**/**LI-2** by revoking an UPDATE
+grant that no function in the database uses. The three together settle a rule the family had been
+groping at: **a write grant is kept exactly where a sanctioned writer needs it** — not
+`202607056100` §3's blanket "ownership IS the capability", which slice 6 disproved. **LI-1 is
+BOOK-5's shape on a second table**, fourteen days after the sixth rule wrote down the question that
+finds it, and nobody had asked it of `guard_lead_interaction_authority`. **The SEVENTH rule is
+recorded below — PROXY-TO-INVARIANT CONFUSION** — and applying it to `batch6_select_target.ps1`
+found the selector's ranking INVERTED (coverage counted file co-occurrence and saturated, so
+exposure-0 reference tables led the Top 12) and its heaviest exposure component detecting controls
+by trigger NAME. Both repaired; `Score` is now a diagnostic and EXPOSURE is the sort key. The
+security-test actor boundary was audited and **no test was changed**: the committed suite is
+structurally immune and fails loudly, proven by two mutations. Prior entry follows.)
+
+Previously: 2026-09-07 (**slice 5 recorded — EC-1 stands at 6 of 77, and the slice found the
+one thing no ceiling can measure.** `booking_items` (`202607061500`) closed **BOOK-3** (carried in
+from slice 4 and re-reproduced WIDER than recorded: not only INSERT — a bare booked service could
+also be re-typed, redenominated, re-owned and moved to another booking, none of which any RPC
+offers), **BOOK-4** (a cross-tenant existence-and-state oracle, PAX-3 one table up), **BOOK-5**,
+**BOOK-6** (the finance execution gate was clearable by anyone who could reach the row) and
+**BOOK-7** (a priced item could be redenominated with no money permission). **BOOK-5 is the sixth
+self-enforcing rule recorded in the loop below** and the most uncomfortable one yet: an
+UNCONDITIONAL guard, charging the right permission on every path, defeated because it asked "is this
+item mine?" of the attacker's own post-image. **BOOK-3's own recorded obstacle was false** — it said
+finance holds `ENTER_COST` without `CREATE_BOOKING_ITEM`; finance holds NEITHER, and measuring that
+rather than inheriting it is what unblocked the slice. Also, and NOT part of the target: **GOV-19**
+(a register row that contradicted itself for fourteen days) and **GOV-16** (**Check 25**) fixed —
+the second measured that SEVEN registered decisions were invisible on the manifest's boot line,
+which named one. Opened: **BOOK-8** (business) and **BOOK-9** (canon).
+**Batch 6 remains NOT COMPLETE**: 71 surfaces at `NOT-RECORDED`. Prior entry follows.)
+
+Previously: 2026-09-07 (**slice 4 recorded — EC-1 stands at 5 of 77, and the slice found the
+ceiling that had been vouching for it.** `booking_item_passengers` (`202607061400`) closed **PAX-1**
+(a `finance_manager` with no `CREATE_BOOKING_ITEM` was refused by the RPC and allowed by the table),
+**PAX-2** (a passenger could be swapped on an existing booking with no capability and no record) and
+**PAX-3** (a SECURITY DEFINER trigger running before the RLS WITH CHECK disclosed a foreign booking
+item's existence and state). **The generalising finding is MEAS-2**, and it is the fifth
+self-enforcing rule recorded in the loop below: all three SEC-1 ceilings CREDITED this table, because
+`guard_passenger_financials` names `has_permission` and returns early when both override amounts are
+null — so the count never moved when the hole was closed. Root-causing that immediately produced
+**BOOK-3 (High, OPEN)**: `booking_items`, the parent, has the identical defect and a bare item was
+INSERTed by an actor without the capability. It is deliberately **not** repaired here — its UPDATE
+arm needs the CUST-3 treatment because finance holds `ENTER_COST` without `CREATE_BOOKING_ITEM` — and
+`booking_items` is **named as the next slice**. Also opened: **PAX-4**, **PAX-5** (owner) and
+**PAX-6** (canon: the swap is now authorized, and still not audited).
+**Batch 6 remains NOT COMPLETE**: 72 surfaces at `NOT-RECORDED`. Prior entry follows.)
+
+Previously: 2026-09-06 (**slices 2 and 3 recorded — EC-1 stands at 4 of 77, and slice 3 found a
+class defect by attacking its own repair.** Slice 2 (`financial_accounts`, `202607061200`) closed
+**FA-1** and **SECDEF-1** and left **FA-2** as an owner question; slice 3 (`company_assets`,
+`202607061300`) closed **CA-1**, **CA-2** and **MONEY-1**. MONEY-1 is the one that generalises:
+PostgreSQL defines `numeric` NaN as greater than every non-NaN value, so **every `>= 0` money CHECK
+in this repository admitted it** — reproduced through the real PostgREST door (HTTP 201) and shown to
+turn `reporting.customer_outstanding.outstanding_balance` into NaN. All 32 numeric columns on public
+base tables now carry a companion no-NaN constraint. **A fourth self-enforcing rule was earned and is
+recorded in the loop below.** Slice 3 also found that slice 1 left `campaign_daily_metrics` able to
+record spend denominated in nothing (**CDM-3**), on a row that already read `AUDITED`.
+**Batch 6 remains NOT COMPLETE**: 73 surfaces at `NOT-RECORDED`. *This header's own previous entry
+was left at "2 of 77" while slice 2 moved it to 3 — same-day, which is exactly the staleness Check 21
+cannot see, and is noted here rather than quietly corrected.* Prior entry follows.)
+
+Previously: 2026-09-05 (**Batch 6's evidence foundation exists, and its first slice is done — EC-1
+is now measurable and the answer is 2 of 77.** `MASTER_SURFACE_DISPOSITION.md` gives every surface a
+recorded disposition with the SET **derived** from `supabase/migrations/**` (Check 22), so the
+coverage denominator cannot drift from the schema. Slice 1 was chosen by measurement — the only two
+tables named in **no** pgTAP file — and `202607061100` closed **CDM-1**, **CDM-2** and **ERA-1**.
+**Batch 6 remains NOT COMPLETE**, and the remaining work is now a number: 75 surfaces at
+`NOT-RECORDED`. Item 7's sweep and these exit criteria are the same programme, and the disposition
+record is what makes the sweep resumable by a session that inherits nothing. Prior entry follows.)
+
+Previously: 2026-09-05 (**P3 recorded, Batch 6 given measurable exit criteria, and the header's own
+staleness fixed by a guard rather than by hand — STALE-1.** Item 4 was re-narrowed on 2026-09-05 when
+the notification delivery lifecycle shipped, and *this line was left at 2026-09-02* — the fourth time
+in this repository that a document's freshness metadata has been found older than its own content, and
+the second time in this very file. **Check 21 now fails the build on it**, on an invariant that is
+semantic rather than age-based: a header may never be OLDER than the newest date its own body carries,
+so a document nobody has touched passes forever and only added-dated-content-without-a-header-update
+fails. Also corrected here: item 7's sweep scope read **75 tables against a live 77**, and Batch 6 —
+still **NOT complete** — now carries the exit criteria that decide when it may be called complete.
+Prior entry follows.)
+
+Previously: 2026-09-02 (**authorization architecture — RBAC-3 / ADR-0027, owner-directed.** A full RBAC rebuild was authorised and rejected on measurement: the gap to the owner's capability-level end-state was one missing user->permission edge, while 197 enforcement sites already delegate to a single function. The grant model was refactored and the enforcement plane left untouched. SUP-4a fixed the ceiling's missing currency; SUP-4b stays open. Prior entry follows.)
+
+Previously: 2026-09-02 (**supplier credit permission — SUP-3, owner decision.** The owner made SUP-3 explicit and authorised implementing it before the next slice: supplier credit management is now its own independently grantable permission. The enforcement half the owner also asked for is recorded as SUP-4 and deliberately not invented — ORVION has an authoritative supplier payable but no authoritative definition of what counts against the limit. Prior entry follows.)
+
+Previously: 2026-09-02 (**supplier credit authority — SUP-2.** The table-by-table audit's next slice, chosen by measuring the writable surface rather than from a list; three candidate classes were discarded by that measurement before the fourth produced a defect. The entry is in Batch 6 below, and the NEXT SLICE pointer was replaced in the SAME edit rather than left to go stale as it did on 2026-09-01. Prior entry follows.)
+
+Previously: 2026-09-01 (**care/conversation re-audit — PARENT-1.** The slice was re-entered from live state and produced a class fix (`202607059400`); the entry is in Batch 6 below. **One staleness corrected while there, and it is the kind this header already warns about:** Batch 6 still carried "NEXT SLICE: ATTR-2" after `202607059300` closed ATTR-2 on 2026-09-01 — the same day this document recorded SEC-1c and SUP-1 and left the pointer alone. A plan that names a finished slice as the next one is worse than a plan that names none. Prior entry follows.)
+
+Previously: 2026-08-29 (**pre-Phase-10 program reconciliation.** Batch 6's open list corrected against live evidence — two items were already closed by later packages and had stayed open (**GOV-6**), and the table-count scopes were refreshed. The header itself had read "2026-07-15" while Batch 6 below runs to 2026-08-29; a plan whose own date is six weeks stale invites a reader to distrust the statuses too. Seven findings this document *defined* rather than referenced — LIC-1, DEAD-1, DEAD-2, BLOCKED-4, BLOCKED-5, CANON-26-1 and A3 — now have rows in `MASTER_GAP_REGISTER.md` per `GOVERNANCE.md §2` (**GOV-3**), and Check 11 enforces it.)
 
 **Guarantee:** once Batch 0 + Batch 1 are designed into canon and implemented, no later batch reopens the foundation. Every later batch is additive new tables/logic.
 
@@ -29,6 +139,1727 @@ invoice_lines + tax (BF-4/CDD-4) · dimension posting (R2/CDD-5) · AP `supplier
 
 ## Batch 5 — Operational domains (pulled on owner demand; each additive)
 Product/Inventory/Allotments (CDD-2) · Groups + **DC-12 passenger_relationships** (BF-2) · Engagement build-out + **DC-17 realtime** (CDD-10/RC-2) · HR/Payroll/commission (BF-5) · Procurement · Fleet/Resources (BF-12) · Franchise-consolidation + **DC-14 offboarding** (CDD-9) · Subscription/billing lifecycle (RC-1) · **RC-4 reporting/dashboard read-model layer** (first views/matviews; BF-11 statements) · Localization build-out · fraud/chargeback (BF-8/9) · **DC-18 pgvector**/AI · FOE modules (assets-depreciation, insurance-claims, workflow-engine, loyalty) as owner scopes them.
+
+---
+
+## Batch 6 — Foundation Completion Programme (owner-directed 2026-08-24 → current)
+*Added 2026-08-27. This batch did not exist when Batches 0–5 were written: it is the owner's
+zero-known-debt programme, executed package-by-package with EARN-IT. It does not supersede Batches
+0–5; it runs ahead of them because each item is a LIVE defect or a day-one blocker rather than
+additive capability.*
+
+**Closed (each EARNED with behavioural proof, see `reports/history/`):**
+
+| Package | Migration | What it actually fixed |
+|---|---|---|
+| WP-00 | `202607053000` | Audit-spine forgery: any employee could INSERT a forged, backdated event blamed on a colleague into an append-only table |
+| WP-03 / SPEC-152 | `202607053100` | Subscription state was INVERTED — `read_only` permitted writes, `suspended`/`expired`/`cancelled` denied reads |
+| WP-03 discovery | `202607053200` | Two cross-tenant aborts the gate introduced: one lapsed tenant aborted the shared SLA run and stalled the n8n conversion cursor |
+| WP-01 | `202607053300` | Four creation events with real producers that never fired; timelines began mid-relationship |
+| WP-02 / SPEC-153 | `202607053400` | Five Class A events + a Finance-visibility defect (`payment_allocation` events were invisible to `finance_manager`) |
+| SPEC-154 | `202607053500`, `202607053600` | The ordinary employee could not quote or book — 15 canon-mandated permissions were never seeded; and `create_booking` was broken on the direct path for every role |
+| SPEC-154-A | `202607053700` | The financial guard authorized by ROLE only, so canon's `assigned` scope on ENTER_COST/ENTER_SELLING_PRICE could not be honoured; guard made scope-aware and both permissions granted |
+| SPEC-155 | `202607053800` | An employee could set the basis of their own commission; commission is now system-derived (10% of gross profit), overwritten on every write path, with commission_amount/company_profit exposed through the existing financial accessor. **Closes BLOCKED-3.** |
+
+**Open, ordered by evidence (highest day-one/business impact first):**
+
+1. **`app.create_booking_item` accepts a `p_commission_rate` parameter that is now silently ignored.**
+   A caller (future UI, n8n) can pass a value, get no error and no effect — a misleading contract.
+   Classified **A / FIX NOW**; separated only because removing a parameter is an integration-contract
+   change that deserves its own package. **DONE 2026-08-27 — SPEC-156 (`202607053900`).** Dropped
+   rather than replaced, so no stale overload survived; guarded in `41_commission_derivation_test.sql`.
+1b. **Subscription lifecycle, trial and platform authority — DONE 2026-08-27, SPEC-157
+   (`202607054000`).** Closes **BLOCKED-1**, **BLOCKED-2** and canon **C5**. Three defects were
+   proven live first: (i) `app.provision_tenant` created **no subscription row**, and
+   `app.subscription_allows_write` fails closed on absence, so **every newly provisioned tenant was
+   unable to write on all 42 gated tables** — day one of a real agency failed; (ii) `ends_at` /
+   `grace_ends_at` / `read_only_started_at` were **decorative** — read by one reporting view,
+   consumed by no logic, advanced by no job, so an expired trial kept write access forever;
+   (iii) `tenants.status` was unconstrained free text nothing read, a second lifecycle competing
+   with the authority canon 35 §8 names. Fixed: 30-day full-feature (Enterprise) trial created at
+   provisioning; write-once trial stamp on `tenants`; dates load-bearing in the gate **and** advanced
+   by a daily `pg_cron` job per canon 26; 5-value `subscription_period` catalog with **lifetime
+   modelled as `ends_at is null`** under CHECK constraints; the 11 subscription event types given
+   their first producers. Platform authority is `service_role`-only functions, **not** a tenant
+   permission — `app.has_permission` is tenant-bound by construction, so `MANAGE_SUBSCRIPTION`
+   remains held by no role and a test now pins that. Guard: `42_subscription_lifecycle_test.sql`.
+1c. **SPEC-158 — tenant license activation credential — DONE 2026-08-27 (`202607054100`).** Closes
+   canon **C4**, open since 2026-07-15, where canon 09 recorded the activation-code idea and said it
+   "requires security review before implementation". That review's outcome: **deliberately not
+   TOTP** — `totp_enrollments` stores no secret by design and canon 34 / ADR-0017 place every
+   authentication factor in Supabase Auth, so a per-tenant TOTP seed would be the first auth secret
+   ORVION ever stored; and TOTP is a *repeating* credential where a *single-use* one is required.
+   Built instead: a single-use, hashed (SHA-256), expiring token whose plaintext is returned once and
+   never persisted, carrying the plan/period/auto-renew terms the Platform Owner fixes at issuance so
+   redemption can apply them but never choose them. Replay closed by consumption, rotation is
+   re-issuance (which revokes the outstanding token), revocation is a platform function.
+   `public.security_events` gained its **first producers** — a gap open since the WP-00 sweep.
+   Guard: `43_license_activation_test.sql`. **Known limitation LIC-1:** a *refused* redemption is not
+   audited — `raise` rolls back its own audit row and PostgreSQL has no autonomous transaction. The
+   first version shipped that INSERT anyway and its own test caught that the row was never written;
+   rather than keep code that looks like auditing and never runs, the limitation is stated in the
+   function body, pinned by an assertion, and classified **BLOCKED BY EXTERNAL DEPENDENCY**
+   (an out-of-transaction audit hop). Successful redemptions *are* audited; replay is closed
+   regardless; a 128-bit token makes guessing infeasible.
+1d. **SPEC-159 — employee performance & earnings report — DONE 2026-08-27 (`202607054300`).**
+   `reporting.my_sales_performance`, a `security_invoker` view scoped by
+   `sales_owner_user_id = app.current_user_id()`. Money comes from
+   `cross join lateral app.item_financials(bi.id)` — `authenticated` cannot SELECT `cost_amount` or
+   `commission_rate` (proven), so a view naming them would fail for every employee; this is what
+   keeps SPEC-139 intact rather than weakened. A colleague's rows are **absent, not masked**: a
+   masked row still discloses that a colleague sold something, to whom, and when. Archived and
+   `cancelled`/`no_show` items are excluded, reusing `app.booking_item_profit`'s existing rule.
+   LEFT joins deliberately, because an item can be the caller's while its parent booking is not
+   visible to them — an inner join would under-report the employee's own commission.
+   **Exactly one view** was added: the employee already reads their own leads, quotations, customers
+   and bookings under RLS, and `reporting.sales_activity` / `lead_performance` already aggregate per
+   owner, so only the money needed a new object. **No EXPORT permission invented** — canon 25 defines
+   none, every listed filter is a WHERE clause over exposed columns, and PostgREST serves the same
+   view as CSV. Airline reporting is `supplier_type_code = 'airline'`; canon 32 defers airline
+   reference tables, so no dimension was invented. Guard: `45_employee_performance_test.sql`.
+1e. **SPEC-159-A — per-passenger financial authority — DONE 2026-08-27 (`202607054200`).**
+   **A prerequisite discovered inside SPEC-159's lineage pass and inserted rather than skipped.**
+   `booking_item_passengers.cost_amount_override` / `selling_amount_override` — the per-passenger
+   fare and cost — had none of the protection their `booking_items` siblings have carried since
+   SPEC-139/145/154-A: the column was **readable by `authenticated`** (proven live, while
+   `booking_items.cost_amount` is not), writable through `link_passenger_to_booking_item` on **any
+   item the caller could see** with only `CREATE_BOOKING_ITEM` and no scope check, and writable by
+   direct DML besides. RLS made it reachable rather than theoretical — department continuity means a
+   colleague's item is visible. It survived four financial packages because
+   `link_passenger_to_booking_item` had **zero test coverage**. Fixed with the same permissions, the
+   same `app.is_my_booking_item` scope test and the same tenant-wide exemption the parent table uses;
+   enforced by a trigger because direct DML was the unguarded path. Guard:
+   `44_passenger_financial_authority_test.sql`. Related open items, both recorded not hidden:
+   **DEAD-1** the override columns still have no reader (kept, not dropped — per-passenger pricing is
+   inevitable in a travel agency and AGENTS.md §3 keeps inevitable structure); **DEAD-2**
+   `refunds.booking_item_id` and `payments.booking_item_id` have no producer, so item-level refund
+   and payment attribution is a genuine gap for the finance package.
+2. **SPEC-154-B — RESOLVED 2026-08-31 (`202607058700`).** The binary gate genuinely could not express
+   canon's "assigned related only", and granting it would have regressed SPEC-139 — so the scope was
+   expressed as a *predicate* instead (`app.is_document_responsible`), minting nothing. Owner adopted
+   Option C. Status and evidence: `MASTER_GAP_REGISTER.md`; the durable rule is **ADR-0026**.
+3. **WP-04 — documents/storage. NEXT.** Discovery pass run 2026-08-27; findings proven live and
+   recorded here so the package starts from evidence rather than from a re-scan:
+   * **`storage.buckets` = 0, `storage.objects` = 0, `pg_policies` in schema `storage` = 0 on
+     Primary**, while `document_versions.storage_path` is **NOT NULL**. Every upload is therefore
+     required to record a path into storage that does not exist.
+   * **DOC-1 / DOC-3 — DONE 2026-08-27 as WP-04-A (`202607054400`).** Re-introspection found DOC-1
+     was wider than first recorded: `app.add_document_version` takes `p_storage_path` too, and
+     `authenticated` holds INSERT/UPDATE on `document_versions` directly — three caller-controlled
+     paths, not one. **DOC-3** (new): nothing forced anyone through the RPC, so a version's
+     `storage_path` could be rewritten by direct DML with no permission check and no event — the
+     WP-00 forgery class in the document domain. Fixed by derivation, not validation:
+     `app.document_storage_path` is the single source of the object key (tenant-first, so storage
+     policy can isolate on segment 1, and provider-independent by design), and a trigger derives
+     `version_number` / `storage_path` / `uploaded_by` on INSERT while freezing a version's identity
+     on UPDATE. Direct DML now costs `CREATE_DOCUMENT_VERSION` — verified safe first: every role
+     holding `UPLOAD_DOCUMENT` already holds it. Guard: `46_document_write_integrity_test.sql`.
+     *Correction recorded:* a partial unique index for "one current version" was attempted and
+     rejected by the database — `202607041900` already created it, so that invariant was never open.
+   * **WP-04-B — DONE 2026-08-27 (`202607054500`).** DOC-2 turned out to be **five** layers, not
+     three: the missing type; `subscription_payment` already a link-target type with no branch in
+     `upload_document`; `document_links.subscription_payment_proof_id` with no producer;
+     `subscription_payment_proofs.status_code` as **unconstrained free text** (no catalog, no FK, no
+     trigger); and no review path, so `REVIEW_SUBSCRIPTION_PAYMENT` governed nothing. Delivered as
+     one capability: `app.upload_subscription_payment_proof` (one transaction, four rows, resolving
+     the circular dependency), `app.platform_review_payment_proof` (service_role only, canon-26
+     pending-only so approval cannot be replayed, optionally activating in the same transaction), the
+     `payment_proof` type added to `app.is_financial_document_type`, the status column given canon
+     26's existing `approval_status_code` family, and **the narrowed gate**: a lapsed tenant may
+     upload a renewal proof and nothing else, which is what canon 28's Read-Only Subscription Mode
+     always said and had never enforced. Guard: `47_payment_proof_lifecycle_test.sql`.
+     *Regression corrected:* `35_subscription_write_gate_test` used `document_type_code = 'other'`
+     titled "Renewal payment proof" as a stand-in — the fixture now uses the real type, and the old
+     one would pass today only because the exemption was blanket.
+     New items: **PP-1** `subscription_payment_proofs.reviewed_by` references `public.users`, which
+     holds only tenant users, so a Platform Owner reviewer cannot be recorded there — left NULL and
+     audited via events; a schema correction is owed but blocked on there being no platform-identity
+     table. **PP-2** `document_links` RLS has no branch for `subscription_payment_proof_id`; the
+     insert works only because `VIEW_ALL_BRANCHES` and `MANAGE_TENANT_SETTINGS` happen to be the same
+     role set — an implicit coupling to be made explicit in WP-04-C when that policy is rewritten.
+   * **WP-04-C — DONE 2026-08-27 (`202607054600`/`4700`/`4800`).** **Provider decided on evidence:
+     Supabase Storage**, on one decisive property and explicitly NOT on being already present —
+     `storage.objects` is a PostgreSQL table with RLS (verified live: `relkind='r'`,
+     `relrowsecurity=true`, 0 policies, i.e. fail-closed), so object authorization and row
+     authorization are the **same mechanism**: an object is visible exactly when its
+     `document_versions` row is visible, with no visibility rule restated. Rejected with reasons:
+     **GCS** — dynamically generated IAM policies are unsupported on GCP and IAM policy size becomes
+     a ceiling as tenants multiply, with a "token vending machine" service as the escape (the second
+     authorization system canon 35 forbids); **Drive/OneDrive/SharePoint** — collaboration products
+     whose per-tenant OAuth, shared quota *pool* and 250 MB Graph PUT cap fight multi-tenant
+     isolation, and all need an external credential. Cost did not decide it. Delivered: a **private**
+     bucket with store-enforced MIME and size limits, read + insert policies keyed on document
+     visibility plus a tenant-prefix defence, and deliberately **no update/delete policy** (documents
+     are versioned; overwriting would defeat the audit trail). **PP-2 closed** — `document_links`
+     gained the `subscription_payment_proof_id` branch it always needed; all nine branches
+     transcribed verbatim and pinned by a structural assertion (§17).
+     **Two defects found by a FAILING assertion in this package's own test — SPP-1/SPP-2:**
+     `subscription_payment_proofs` gated **neither** reads nor inserts while its parent
+     `subscriptions` gated both, so any tenant user could read the agency's whole payment history and
+     **forge a pending proof by direct DML**. Fixed to parity (read → `VIEW_SUBSCRIPTION_STATUS`;
+     insert → `MANAGE_TENANT_SETTINGS`, deliberately not `MANAGE_SUBSCRIPTION`, which no role holds).
+     **This is the third occurrence of the sibling-table class and my own WP-04-B missed it** — that
+     package touched this table without comparing its RLS to its parent. Guards:
+     `48_document_storage_test.sql`, `47_payment_proof_lifecycle_test.sql`.
+   * **WP-04-D — CLOSED 2026-08-27 (`202607054900`, `202607055000`, `202607055100`, `202607055200`).**
+     Delivered on a fact read live before any design: **the database cannot delete a storage object.**
+     `storage.protect_delete()` is a Supabase-installed BEFORE DELETE trigger on `storage.objects` and
+     `storage.buckets` that raises 42501 unless `storage.allow_delete_query` is set, and `pg_net` is
+     not installed on either environment — so the database can neither destroy bytes nor call the
+     Storage API. Setting that GUC in a DEFINER function was rejected twice over: it works around a
+     control the platform installed deliberately, and it would delete only the row while the S3 object
+     survived unnameable — manufacturing the very orphan this package detects. **The architecture is
+     therefore a split: the database owns the DECISION, an external executor owns the BYTES.** Built:
+     `app.document_retention_days()` (NULL = undecided = retain forever, so "delete immediately" is
+     unreachable *by default* rather than by validation); `public.document_storage_findings` (one
+     table, deny-all, `service_role` only); `app.reconcile_document_storage()` (per-tenant,
+     skip-never-raise, idempotent by unique index, re-detection reopens, cross-tenant safety
+     structural via the path prefix); `app.platform_resolve_storage_finding()` (the executor's only
+     way back, and the one path in ORVION that deletes a `document_versions` row, only on a confirmed
+     byte deletion and only after re-checking eligibility); daily cron. Guarded by
+     `49_document_retention_test.sql` (25). **Blocked and recorded, not guessed:** RET-1 (retention
+     period), RET-2 (a departed tenant's data), DEL-1 (the byte executor).
+   * **Also closed by WP-04-D's post-package sweep:** **POL-1** (four policies scoped `to public`
+     rather than `to authenticated` — all four mine, all from one omitted clause;
+     `50_policy_role_scope_test.sql`), **RBAC-1** (ORVION audited privilege grants made through one
+     RPC and nothing else — `user_role_assignments` had *no triggers at all*, so revocation was never
+     recorded, direct-DML grants were unaudited, and the destructive path cost no MFA while the safe
+     one did; fixed on the table, one trigger, single producer;
+     `51_role_change_audit_test.sql`), **CUR-1** (`integration_cursors` grants contradicted its own
+     RLS). **EVT-2** registered: 42 event types remain producerless, now pinned by a `<= 42` ceiling
+     in `07_event_vocabulary_registry_test.sql` so the debt can only shrink.
+   * **WP-04-E — CLOSED 2026-08-27 (`202607055300`, `202607055400`, Edge Function `storage-executor`).**
+     The byte half of WP-04-D's split now exists. **Chosen on one property, as WP-04-C was: the number
+     of new secrets.** The Supabase Edge runtime injects `SUPABASE_SERVICE_ROLE_KEY` itself, so the
+     credential is never created, pasted, stored or passed through an agent — zero new secrets. n8n
+     would require the owner to create a service_role credential by hand (AGENTS.md §6) that must
+     then live somewhere forever; a direct Postgres connection would require the database password.
+     The executor **decides nothing** — `app.claim_storage_actions` answers every eligibility question
+     (retention configured, version still superseded, `current_version_id` agreement, tenant not
+     restricted) before it sees a row, so no second authorization system exists outside the database.
+     **No lease, deliberately**: it marks nothing in flight, so a crash leaves the finding untouched
+     and the next run retries; adding PH8-1's lease would introduce the stranding state that lease
+     exists to escape. Authentication verified live on Primary: no header → 401 from the gateway, a
+     valid **anon** JWT → 403 from the function's own service-key check (the platform's default
+     `verify_jwt` alone would have admitted any visitor to a function that destroys documents).
+     **STORAGE IS NOW PROVEN END TO END** — `scripts/verify_storage_end_to_end.ps1`, 36 assertions with
+     real bytes over real HTTP: upload, cross-tenant and unauthenticated denial, signed URLs,
+     supersession, reconciliation against a populated bucket, retention, byte destruction, audit
+     survival, idempotency. Also closed **FND-1** (a failed storage action was permanently hidden —
+     PH8-1's shape, and mine from the previous day) and **GRANT-1**.
+   * **API-1 — CLOSED 2026-08-28 (`202607055500`).** ORVION stops being unreachable. Executed as a
+     CAPABILITY AUDIT, not a wrapper factory: 137 `app` functions minus 20 triggers, 7 RLS helpers,
+     4 view helpers, 6 platform-only and 14 system/batch left 86 granted to `authenticated`, of which
+     **15 are internal helpers deliberately excluded** — `record_event` above all, the audit spine's
+     sole writer, which "expose the `app` schema" would have published as an endpoint (audit forgery
+     through the front door). **71 capabilities + 8 reporting views** exposed; every wrapper
+     `security invoker` so it adds reachability and precisely zero authority; named-argument
+     delegation so an `app` signature change fails at migration time; all VOLATILE for one uniform
+     POST convention. Deployed by generating identical DDL on Primary and then PROVING equality
+     rather than assuming it — surface hash `731cbd41ce480d714802b3de9a255c7a` on both, 81 objects.
+     Verified on Primary over HTTP with correct arguments: endpoints 401, internal helpers and
+     `platform_*` 404 PGRST202. Guarded by `53_api_surface_test.sql`, which pins the exposed set BY
+     NAME. **Deployment criteria gained a permanent step:** any migration touching a `public`
+     function or view must be followed by `notify pgrst, 'reload schema'`.
+   * **PHASE B FIRST PASS — CLOSED 2026-08-28.** `scripts/verify_api_end_to_end.ps1` (29 assertions)
+     walks the real revenue lifecycle as real JWT-bearing users: customer → lead → assignment →
+     interaction → quotation → pricing → send → booking → booking item → passenger → document →
+     invoice → payment → receipt → personal performance. Gross 6000 → commission 600 → company
+     profit 5400, read from the employee's own report endpoint. Cross-tenant isolation proven against
+     a fully privileged owner of another agency. Found LEAD-2 (no `walk_in` lead source) and
+     confirmed that an employee's inability to assign leads is correct design, not a gap.
+   * **PHASE C FIRST PASS — CLOSED 2026-08-28 (`202607055600`).** Walked the journey branches an
+     agency actually works, over HTTP as real users — 26 assertions covering tasks, conversations,
+     document versioning, complaints, service requests, supplier payment, finance approvals, refunds,
+     cancellation and cross-colleague financial privacy. Found and fixed **FIN-2** (an employee could
+     not REQUEST finance approval: the guard treated writing `finance_approval_status_code='pending'`
+     as APPROVING, so the workflow was dead for the only role that needs it) and **TASK-1** (an
+     employee could create and complete a task but not START one). Fixing TASK-1 did not fix it,
+     which exposed **TRANS-1**: transition permissions live in TWO sources -- the `advance_*` inline
+     lists and `app.status_transitions`, which `enforce_status_transition` reads on both the RPC and
+     direct-DML paths -- so editing one left a live drift. Both corrected; parity is now a permanent
+     guard. Also confirmed a cancelled booking item pays no commission, and that an employee sees
+     their own item's profit while a colleague in the same branch sees none of it.
+   * **RLS-1 — NEW PACKAGE: read scope is write scope on eleven tables.** WHY IT EXISTS: `bookings`,
+     `booking_items`, `leads`, `quotations`, `tasks`, `documents`, `document_links`, `complaints`,
+     `conversations`, `customer_notes` and `service_requests` carry `for ALL` policies whose USING and
+     WITH CHECK both include `app.has_tenant_wide_read()` = `has_permission('VIEW_ALL_BRANCHES')`, so
+     a READ permission confers WRITE authority. DISCOVERY SOURCE: Phase C policy sweep.
+     DEPENDENCIES: none. SCOPE: introduce `app.has_tenant_wide_write()` and use it in WITH CHECK, so
+     the two concepts are separable; behaviour is identical today because only owner and ceo hold
+     VIEW_ALL_BRANCHES and both hold every write permission. NON-GOALS: narrowing what owner/ceo can
+     write; splitting the policies into per-command sets. ACCEPTANCE: no `WITH CHECK` expression
+     references a read predicate. SECURITY CRITERIA: a role holding only VIEW_ALL_BRANCHES must gain
+     no write. TEST CRITERIA: a read-only fixture role proves the denial, with owner as the positive
+     control. CROSS-PATH: direct DML and RPC both re-verified on all eleven tables. DEPLOYMENT:
+     migration to Primary, parity re-proven. REPORTING: the eleven policies listed with before/after.
+   * **PHASE C ROLE JOURNEYS — CLOSED 2026-08-28 (`202607055700`, `202607055800`).** The first
+     role-by-role walk ORVION has had: senior employee, branch manager, department manager, finance
+     manager, CEO, owner and platform owner, each with a positive control proving it can do its job
+     and negatives proving it cannot do someone else's. 27 HTTP assertions. Found **RBAC-4** -- a
+     department manager saw ZERO bookings in the department they manage while every employee under
+     them saw them all, because `VIEW_DEPARTMENT_RECORDS` (canon 28's department-read gate for
+     bookings, booking items and quotations) was granted to employee and senior_employee and not to
+     the manager. Fixed and guarded as a CLASS: a manager may never hold fewer department read gates
+     than their staff, and must still hold no branch-wide read. Closed **TASK-2** on canon evidence:
+     canon 26 lists five task events and no start event, and `app.assign_task` already owns
+     `task_assigned`, so the start transition now emits nothing rather than inflating assignment
+     counts with a falsehood. **TRANS-1 investigated and deliberately left guarded** -- the
+     de-duplication needs an event column on `app.status_transitions` and rewriting nine functions,
+     a larger risk than the guarded duplication.
+   * **SEC-1 — REPRODUCED 2026-08-28, and now the largest open item. OWNER DECISION.** WHY IT EXISTS:
+     RLS scopes which rows a caller reaches; it does not enforce what they may do. Capability lives
+     in the `app.*` RPCs, which direct DML bypasses, and in a partial set of guard triggers covering
+     only archive, status transitions and financial columns. DISCOVERY SOURCE: Phase C -- a role
+     holding only `VIEW_ALL_BRANCHES` and `VIEW_ASSIGNED_LEADS` (CREATE_BOOKING false, CREATE_TASK
+     false) renamed a booking, retitled a task and INSERTED a customer, all by direct DML.
+     MEASURED: 59 tables accept a direct INSERT from `authenticated`; 19 have any permission trigger;
+     **40 have none**. RLS-1 is merged in as its concrete instance. DEPENDENCIES: an owner decision
+     between two architectures. SCOPE (whichever is chosen): either revoke `authenticated`'s table
+     writes and make the RPCs the only door -- which requires converting them to SECURITY DEFINER,
+     a change to the whole authorization model -- or enforce canon 28's matrix on every table with a
+     capability trigger. NON-GOALS: choosing between them without the owner; inventing which
+     permission governs creation for tables canon does not name. ACCEPTANCE: the unguarded count
+     reaches zero, or every remaining table is explicitly justified. SECURITY CRITERIA: a role with
+     read permissions only must write nothing anywhere. TEST CRITERIA: the reproduction above becomes
+     a failing-then-passing test; the ceilings in `10_grant_model_test.sql` drop to 0. CROSS-PATH:
+     RPC, direct DML, batch and system paths re-verified per table. DEPLOYMENT: migration to Primary,
+     parity re-proven. REPORTING: the per-table capability map as the client contract.
+     **Until it is decided, the exposure is capped by assertion so it cannot grow.**
+   * **FIN-3 / FIN-4 — CLOSED 2026-08-28 (`202607055900`).** The SEC-1 inventory revealed that every
+     money table's policy named `VIEW_FINANCIAL_DOCUMENTS` -- a READ permission -- OR'd with a plain
+     visibility test, so the effective rule was "you may write money about anything you can see".
+     REPRODUCED: an employee with no `RECORD_PAYMENT` inserted a 999,999 EGP payment by direct DML.
+     `journal_entries` had required `CREATE_JOURNAL_ENTRY` all along -- the ledger was guarded and the
+     cash was not. Six tables (payments, payment_allocations, receipts, refunds, invoices,
+     quotation_items) now charge EXACTLY the permission their own RPC charges, read out of the
+     functions rather than chosen. FIN-4: `approval_requests.requested_by` is derived from the
+     caller, so a request cannot be opened in a colleague's name. SEC-1's unguarded ceiling FELL from
+     40 to 36. Guarded by `56_financial_write_capability_test.sql` (12).
+   * **SEC-1 INVENTORY — COMPLETE 2026-08-28, decision still owed.** The systematic classification the
+     directive required: 36 `SECURITY DEFINER` vs 81 `SECURITY INVOKER` app functions, of which **56
+     write tables directly** -- so Option A (revoke `authenticated` writes) means converting 56
+     functions to DEFINER, a change to the whole authorization model, not a configuration tweak.
+     `authenticated` holds INSERT/UPDATE on 59 tables and DELETE on none. Enforcement: 19 by
+     capability trigger, 30 by a policy `WITH CHECK` naming a permission, 36 by either, **23 by
+     neither** -- correcting the previously reported 40, which counted triggers only. And "names a
+     permission" proved not to mean "requires the right one": the money tables named a READ
+     permission (FIN-3). The remaining non-money unguarded tables must each be classified against
+     canon before either option is chosen.
+   * **SEC-1 PARTIAL — CLOSED 2026-08-28 (`202607056000`).** FIN-3's rule generalised: for every table
+     `authenticated` may INSERT with no capability enforcement, find every `app.*` function that
+     inserts into it and the permission that function authorizes. ONE RPC/ONE PERMISSION -> guard it.
+     TWO RPCs/TWO PERMISSIONS -> guard the UNION, which is exactly what the code already permits.
+     NO RPC, or an RPC that authorizes nothing -> no evidence-based answer, left to SEC-1 rather than
+     guessed. Nine tables guarded: approval_requests, conversation_messages,
+     customer_contact_methods, customer_identity_signals, customer_identity_merges,
+     internal_supplier_links, offline_conversions, document_links (union), lead_assignments (union).
+     `approval_requests` is INSERT-only -- `review_finance_approval` updates it and `finance_manager`
+     does NOT hold `CREATE_BOOKING_ITEM`, so charging it on UPDATE would have broken FIN-2's
+     workflow; verified before writing. SEC-1's residue: 40 (mis-measured, triggers only) -> 23 ->
+     **13**, now classified individually rather than counted -- 3 auth artifacts already owner-scoped
+     by policy, 5 system-written, 5 whose RPCs authorize nothing. Guarded by
+     `57_write_capability_map_test.sql` (12).
+   * **SEC-1 RESIDUE — CLOSED 2026-08-28 (`202607056100`), one table left.** Counting the thirteen
+     implied they shared an answer. They did not, and the three groups needed opposite actions.
+     **Five are system-owned** (`attribution_clicks`, `notifications`, `notification_deliveries`,
+     `offline_conversion_deliveries`, `usage_counters`): every writer is SECURITY DEFINER and none is
+     executable by `authenticated` (`orvion_integration` / `service_role`), and two have no writer at
+     all -- so the table grant was a second door only direct DML used. REVOKED rather than
+     permissioned, which is the directive's own preference. `notifications` keeps a column-level
+     `update (is_read, read_at)`: dismissing your own notification is a real user act with no RPC, and
+     removing the whole UPDATE would have deleted a capability instead of closing a hole.
+     **Four are tenant configuration** (`branch_business_hours`, `holidays`, `financial_accounts`,
+     `company_assets`) with no writer at all, so direct DML was the only path and it was open to a
+     trainee. Guarded with the permission ORVION already charges for the same object: `branches` ->
+     MANAGE_BRANCHES; `chart_of_accounts` / `journal_entries` -> CREATE_JOURNAL_ENTRY; `holidays`
+     takes the MANAGE_BRANCHES-or-MANAGE_TENANT_SETTINGS union because `branch_id` is nullable and
+     both resolve to {ceo, owner}. **Three are INTENTIONAL, not residue**: canon 34 states that
+     `otp_challenges`, `totp_enrollments` and `trusted_devices` belong to the Human Identity and that
+     row-ownership by `auth.uid()` IS their model -- now proven behaviourally rather than trusted.
+     Left open: **`lead_interactions` only**, where `record_lead_interaction` (SECURITY INVOKER,
+     granted to authenticated) authorizes nothing, so there is no bypass to close -- only an
+     undecided question about what logging an interaction costs. Ceilings 59/27/13 -> **54/18/4**.
+     Guarded by `58_write_grants_and_config_capability_test.sql` (27).
+   * **LIFECYCLE BRANCHES + THE TRAINEE — CLOSED 2026-08-28** (`scripts/verify_lifecycle_branches.ps1`,
+     57 HTTP assertions; no migration). Every journey the last two reports listed as UNPROVEN is now
+     executed over real HTTP: the trainee's full first morning; quotation rejected / revised /
+     expired and both revival paths; booking approved -> issued -> reissue -> issued with the
+     authority split proven at each step; deposit-then-balance payment allocated exactly; the
+     supplier-failure chain (service request parked on `awaiting_supplier`, line cancelled, refund
+     completed, commission gone); document expiry as a real window; and the returning customer with
+     both trips on one 360 timeline. HTTP coverage 118 -> **175** across five scripts.
+     Found: **DOC-EXP-1** — `expiring_documents` works, but the `document_expiry` notification type
+     has no producer, so an expiring passport tells nobody. Pinned as an assertion, recorded as a
+     business decision (who, how far ahead, how often). Also pinned: over-payment is REFUSED, and
+     `upload_document` refuses a passport linked to anything but a passenger.
+     One error of mine worth keeping: the script's tenant slug collided with
+     `32_lifecycle_transition_test`. pgTAP files roll back so tests never collide with each other;
+     the HTTP scripts do not, so a script slug must be unique against every TEST slug too. It
+     surfaced only in the order-independent regime introduced one package earlier. All five scripts
+     were then checked against all 58 test files: no other collision exists.
+   * **TRANS-2 + SEC-1's LAST TABLE — CLOSED 2026-08-28 (`202607056200`).** Begins with a
+     CORRECTION: `202607056100` recorded that `app.record_lead_interaction` "authorizes nothing" and
+     left `lead_interactions` open. It does authorize -- "the assigned handler, OR ASSIGN_LEAD, plus
+     MFA", inline with `app.has_permission` and an explicit raise. The error was in my detector,
+     which searched for `app.authorize('PERM')` and so could not see an assignment-shaped rule.
+     Chasing the rule into `app.status_transitions` found the larger half: eight `leads` rows carry
+     a NULL `permission_key`, and the trigger applied a permission only `if not null` -- so direct
+     DML could walk a COLLEAGUE'S lead from `contacted` to `won` and on to `converted` with no check
+     at all, while every RPC refused anyone but the handler. Reachable, because canon 28 gives
+     `employee` VIEW_DEPARTMENT_QUEUE. Fixed by `app.require_lead_handler`, called from the
+     transition trigger where the permission is null and from a new guard on `lead_interactions`;
+     nothing became stricter than the RPC that walks it. AND THE CLASS: a null permission_key now
+     means "apply this table's named fallback", and a table with neither FAILS CLOSED.
+     TRANS-1 investigated per the directive: no live disagreement (all ten functions vs all 104
+     rows), and an `event` column is NOT proven to be the right home -- the inline lists carry
+     is_closure, sub-status and sometimes a constant permission, so unifying needs a decision on
+     where per-entity extras live. It stays open, narrowed. But its guard was broken:
+     `54_transition_permission_parity_test` was checking ONE function out of ten because its regex
+     matched only advance_booking's tuple shape. Rewritten to parse every function's VALUES block,
+     to fail if any stops parsing, and to check the reverse direction -- which is exactly where
+     TRANS-2 was hiding. Ceilings 54/18/4 -> **54/17/3**, and the three that remain are the canon-34
+     Human Identity tables: **SEC-1 has no unexplained residue left.** The detector in `10` was
+     widened for the same reason the defect existed.
+   * **SCHED-1 — INVESTIGATED, PARTIALLY ADDRESSED 2026-08-28 (`202607056300`).** Three of the four
+     recurring jobs are already scheduled; the storage executor is the fourth and has no scheduler.
+     Three routes exist and all three need ONE owner-placed secret: pg_cron+pg_net+Vault (pg_cron
+     installed, pg_net available but not installed, **supabase_vault IS installed** -- which improves
+     the position from when pg_net was first declined, though installing it still gives the DATABASE
+     outbound HTTP); n8n schedule -> HTTP (keeps HTTP out of the DB, adds an uptime dependency on a
+     core retention path); or a scheduled GitHub Action (couples the data plane to CI). Choosing is a
+     security trade-off, so it stays BLOCKED -- EXTERNAL DEPENDENCY + ARCHITECTURAL DECISION and
+     pg_net was NOT installed to make a metric move. What needed no decision: the gap was SILENT.
+     `app.storage_action_backlog()` reports pending actions, THE AGE OF THE OLDEST, already-failed
+     attempts, last attempt time and unresolved findings, service_role only. It calls
+     `app.claim_storage_actions` rather than restating its rules, and `60_...` (11) asserts the
+     monitor's count EQUALS what the executor would claim -- including under the RET-2 suspension
+     exclusion, where a hand-written monitor would most easily have drifted. HTTP 175 -> **179**.
+   * **ATTR-1 — CLOSED 2026-08-28 (`202607056400`).** Found by sweeping the CLASS rather than
+     tripping over an instance: every table `authenticated` may INSERT was checked for columns
+     naming an actor. `archived_by`, `document_versions.uploaded_by` and
+     `approval_requests.requested_by` are already derived -- `created_by` was NOT, on twenty tables.
+     Every RPC sets it from the session; direct DML did not have to, so any tenant user could create
+     a customer, booking, invoice or payment ATTRIBUTED TO A COLLEAGUE. On `documents` that is worse
+     than misleading: `scope_isolation` reads `created_by = current_user_id()` as a VISIBILITY GRANT.
+     `app.derive_created_by()` applies FIN-4's ratified shape -- DERIVE, DO NOT VALIDATE -- on INSERT
+     and holds it IMMUTABLE on UPDATE, which is safe because no function anywhere updates the column
+     (verified against every body first). Session-less platform paths keep their own attribution.
+     `61_...` (8) pins the class: every insertable table with the column must carry the trigger.
+     Recorded, not swept in: **ATTR-2**, the ACTION attributions (`voided_by`, `reviewed_by`), which
+     are stamped at the moment of the action and need a different trigger shape.
+     Also widened here: `10`'s PUBLIC-EXECUTE guard covered the `app` schema ONLY, leaving `public`
+     -- where API-1 put the 74 endpoints and where `pg_default_acl` grants EXECUTE by default
+     (SPEC-124's class) -- unchecked. It now covers both, excluding extension-owned functions by
+     `pg_depend` rather than by name. Same shape of mistake as the transition guard that covered one
+     function out of ten, found by the same sweep.
+   * **ATTR-2 — CLOSED 2026-08-28 (`202607056500`), 2 of 5, and the other three were not what the
+     name suggested.** Reading the five columns individually rather than as a group split them three
+     ways. DERIVED: `subscription_payment_proofs.uploaded_by` (an INSERT-time attribution that ATTR-1
+     missed only because the column is not called `created_by`) and `approval_requests.reviewed_by`
+     (derived on UPDATE WHEN IT CHANGES, so an unrelated edit to a decided request does not
+     re-attribute the decision to whoever touched it last -- assertion 6 is what justifies that
+     condition). NOT an attribution defect: `invoices.voided_by` / `journal_entries.voided_by`, where
+     NOTHING writes the columns and `app.status_transitions` has no rows for either table -- voiding
+     is unimplemented, recorded as **VOID-1**, and deriving an attribution for an action nobody can
+     perform would dress a missing capability as a solved one. STRUCTURALLY UNFILLABLE:
+     `subscription_payment_proofs.reviewed_by`, whose FK points at the TENANT membership table while
+     the reviewer is the PLATFORM -- recorded as **SPP-3**.
+   * **SEC-2 — RESOLVED 2026-08-29, and it was never one question.** Searching the evidence split it
+     in two. DESCRIPTIVE fields: INTENTIONAL, derived from three independent facts — the permission
+     catalog holds only SPECIFIC mutation permissions (`EDIT_LOCKED_COST`, `UPDATE_BOOKING_ITEM_STATUS`)
+     and no generic `EDIT_<entity>`; not one `app` function updates a descriptive field; canon 28
+     names none. There is no `update_customer` anywhere, so the table endpoint is not a bypass of an
+     intended door -- it IS the door, and RLS scope is the control ORVION chose. CONSEQUENCE-BEARING
+     fields with no guard: DEFECTS, and searching for them found **FIN-6**.
+   * **FIN-6 — CLOSED 2026-08-29 (`202607057100`).** An employee holding CREATE_INVOICE = f and
+     RECORD_PAYMENT = f marked a 50,000 EGP invoice PAID with no payment; changing its AMOUNT was
+     refused in the same transaction, which is what made it conclusive. `guard_financial_capability`
+     charged capability on UPDATE only for MONETARY columns -- right for refunds and quotations,
+     whose status is governed by canon machines, wrong for invoices, where canon defines no machine
+     and `app.status_transitions` has no rows. Status and tax-submission columns now cost the
+     permission the table already charges; finance proven still able to advance an invoice.
+     **FIN-6b** found alongside: the guard mapped `receipts` to a column that does not exist, so its
+     UPDATE branch had been inert since FIN-3 -- the price of the `to_jsonb` comparison that fixed
+     SPEC-159-A. A class assertion now checks every mapped column against the catalog.
+     **FIN-7** recorded: canon defines sixteen state machines and no INVOICE one, so WHICH status
+     changes are legal remains undecided. **DOC-LC-1** recorded: canon's Document Lifecycle machine
+     was never wired into `status_transitions`; derivable, next package.
+   * **API-3 — first instalment paid down (33 → 30).** The lead state machine now has an HTTP walk
+     in `verify_lifecycle_branches.ps1` (57 → 72 assertions): create, assign, contact, qualify,
+     quote, negotiate, win, convert -- plus the discovery that `assigned -> contacted` is owned by
+     `record_lead_interaction` and not `advance_lead` (TRANS-1's documented split; the first draft
+     assumed otherwise and was refused), **TRANS-2's handler rule proven over HTTP for the first
+     time** (the employee can SEE a colleague's lead and cannot advance it), and ATTR-3's acquisition
+     source proven to survive the whole machine.
+   * **API-3 CLOSED — TASK-1 / TASK-2 / SUP-1, 2026-08-30 (`202607058600`).**
+     The final three endpoints (`assign_task`, `financial_documents`, `link_internal_supplier`) now
+     carry HTTP execution evidence: **71 of 71**. **TASK-1 (High):** `app.assign_task` charges
+     ASSIGN_TASK (managers only) while `public.tasks` charged CREATE_TASK, which `employee` also
+     holds — genuinely different role sets, unlike ASSIGN_LEAD/REASSIGN_LEAD. Reproduced in one
+     transaction: the RPC refused an employee, their direct UPDATE returned UPDATE 1, and
+     `task_assigned` events numbered 0. Closed with a trigger firing ONLY on a change of owner,
+     chosen over widening `guard_write_capability` because that guard cannot see which column moved
+     and would have stopped an employee completing their own task. **TASK-2 (Medium):** a THIRD,
+     narrower copy of "current placement" (`ends_at is null`) — a Cairo task handed to Giza staff
+     with a scheduled transfer kept CAIRO. Fixed with PLACE-1's strictly-additive shape.
+     **SUP-1 (Low):** provider pair, derived requester and item lifecycle were all absent from the
+     supplier-link table; all three reproduced. Severity is Low because `internal_supplier_links`
+     has **no consumer** — measured, not assumed — so corrupt rows misstate history and change no
+     behaviour today.
+     **financial_documents produced EVIDENCE, not a fix:** the confidentiality boundary IS enforced
+     (a confidential invoice is invisible to an employee through the table) but a NON-confidential
+     one is readable there while the endpoint refuses them. That breadth is **SPEC-154-B**, which
+     canon 28 frames on both sides at once, so it was pinned by assertion rather than decided.
+     Test 81 (20); HTTP 349 → 360; **API-3 6 → 3 → 0.** `202607058600` verified but **NOT
+     deployed**; Primary stays at 169, now six migrations behind by intent.
+   * **SPEC-154-B — decided by the owner and implemented, 2026-08-31 (`202607058700`).** The pin left
+     by the session above became a rule. Reproduced first with a control that made responsibility the
+     ONLY variable: two `employee`s in the same branch, department, role and permission set, one
+     owning the booking and one not, read the manager-uploaded invoice document identically — the
+     read arriving through the *department* axis, because a visible LINK was the whole test the
+     policy applied. Owner adopted **Option C**; the scope is a predicate, not a grant (**ADR-0026**).
+     `quotation` left `app.is_financial_document_type` on canon evidence, and the measured cost — a
+     `finance_manager` without VIEW_TRAVEL_DOCUMENTS no longer sees quotation *documents* — is
+     asserted rather than left to be discovered. Also **TEST-3**, found in test 80 from the session
+     above: a pgTAP mutation assertion placed last is never counted, because `rollback to savepoint`
+     undoes the temp-table counter — the harness printed `planned 18 but ran 17` and the suite's PASS
+     hid it. Both files now re-assert after the rollback, which is also PAR-4's missing closing move.
+     Test 82 (21); HTTP 360 → 366. **ADR-0024/0025/0026 ratified**, the ADR record shape extended,
+     and the undefined `LESSON 4`/`LESSON 6` ordinals resolved. `202607058700` verified but **NOT
+     deployed**; Primary stays at 169, now seven migrations behind by intent.
+   * **LIC-2 / LIC-3 / PP-4 — API-3 SUBSCRIPTION-LICENSING FAMILY, 2026-08-30**
+     (`202607058400`, `202607058500`). **LIC-2 (High):** the single-use activation code could be
+     redeemed TWICE, concurrently. `redeem_license_token` checked `consumed_at is null` and then
+     updated `where id = ...` -- check-then-act with no guard on the act, so under READ COMMITTED the
+     second redeemer's UPDATE re-evaluates only the id and still matches. **The repository states the
+     opposite twice** -- the function comment and test 43 assertion 11 both say replay is closed --
+     and both are true only in sequence (LESSON 4). Reproduced with TWO LIVE psql sessions:
+     `security_events` recorded **2** redemptions of one token and the subscription activated twice,
+     while the row said consumed once. Closed with a compare-and-swap raising the same generic
+     message, and the FUNCTION is the complete layer here -- measured, not assumed: `authenticated`
+     holds no grant on `tenant_license_activations` and its RLS is `platform_only`, so unlike
+     BOOK-1/ASGN-1/CM-2 there is no second door. The identical experiment after the fix produced one
+     redemption. **LIC-3 (High):** `UPLOAD_DOCUMENT` and `CREATE_DOCUMENT_VERSION` both carry
+     `required_feature_code = documents`, which `starter` disables -- so the entry-level tenant could
+     not file the payment proof canon 09/28 call *the only way back from read_only*. WP-04-B narrowed
+     the SUBSCRIPTION gate for exactly this case; the PLAN gate was never considered. Proven by a
+     discriminating experiment: two tenants identical but for the plan, same role, same claim --
+     professional succeeds, starter is refused. **PP-4 (Medium):** an employee could plant a
+     confidential `payment_proof` document by direct DML (SPP-2 one table over). Both closed by
+     charging `MANAGE_TENANT_SETTINGS` for payment-proof documents -- the permission the RPC already
+     charges, and the only one not gated on the entitlement the tenant is trying to restore:
+     **paying for your plan cannot itself be a plan feature.** The `starter` entitlement was
+     deliberately NOT changed -- plan contents are a commercial decision belonging to the owner.
+     **CAP-1 recorded, not reproducible:** `tenant_capabilities` is the only one of eight subscription
+     readers without "latest row wins", but `provision_tenant` is the sole inserter and no role holds
+     MANAGE_SUBSCRIPTION, so a second row is unreachable. **Two fixture corrections:** test 35 used an
+     `employee` for a block whose subject is the subscription gate (PP-4 correctly refused it), and my
+     first draft of the guard named a record field inside a CASE shared by 21 tables -- the suite
+     caught both. Test 80 (18); HTTP 339 -> 349; **API-3 6 -> 3.** Both migrations verified,
+     **NOT deployed**; Primary stays at 169, now five migrations behind by intent.
+   * **PLACE-1 / CM-1 / CM-2 — API-3 CUSTOMER-DATA FAMILY, 2026-08-30 (`202607058300`).**
+     Every defect here was resolved against a rule the repository had ALREADY written down, which
+     is why none of them needed an owner decision. **PLACE-1 (High):** `app.current_placement()`
+     matched `ends_at is null` only, so an employee with a SCHEDULED transfer — canon 03 provides
+     for exactly that — returned NOTHING. Its **five** consumers (`create_customer`,
+     `create_quotation`, `create_complaint`, `create_service_request`, `start_conversation`) all
+     read it with `SELECT ... INTO`, so empty is not an error but a silent NULL. Reproduced end to
+     end: an owner set `ends_at = now() + 30 days` through the door RLS already permits, the
+     function returned 0 rows, and the next customer was stored with `first_registered_branch_id`
+     NULL — re-creating what `create_customer`'s own comment says it had fixed. The repository
+     already held the better answer: `eligible_lead_handlers` (LEAD-3) tests the full window. The
+     fix is **strictly additive** — ordering prefers the open-ended row, so every answer the old
+     predicate gave is unchanged and only the empty case is filled. **CM-2 (High):**
+     `202607052100` claimed its unique index made the duplicate check hold "on the direct path";
+     it does not, because that index covers the RAW value. Reproduced: the RPC stored
+     `mona@example.com` and a direct INSERT of `'  MONA@example.com  '` succeeded, while the
+     identical value was REFUSED on `customers.primary_email`. The CHECK reuses
+     `normalize_email`/`normalize_phone` (verified IMMUTABLE) rather than restating them.
+     **CM-1 (Medium):** the RPC demoted "primary" across ALL channels while the index encodes one
+     per channel — adding a primary email silently unset the primary phone.
+     **PLACE-2 recorded UNPROVEN:** `current_placement` still omits a `starts_at` test, diverging
+     from `eligible_lead_handlers`; no harm was reproduced and adding it would change behaviour in
+     an unproven case, which is why the fix stayed additive.
+     Test 79 (19); HTTP 328 → 339; **API-3 9 → 6.** `202607058300` is verified but **NOT
+     deployed**; Primary stays at 169, now three migrations behind by intent.
+   * **CONV-4 / CONV-5 / CAMP-1 — API-3 MARKETING-CAMPAIGN FAMILY, 2026-08-30 (`202607058200`).**
+     The family Phase 8's offline-conversion pipeline consumes, and the reason its defects matter
+     more than their row count: `app.claim_conversion_deliveries` returns `conversion_value` and
+     `currency_code` **verbatim** into the payload n8n hands to the Google Data Manager API, and
+     filters only on platform, delivery status and attempt count — so a value that should never
+     have existed is not caught downstream, it is DELIVERED. **CONV-4 (High):** the RPC refuses a
+     negative value; nothing else did. Reproduced as an `owner` with `aal2` over the real
+     `authenticated` role, in the same transaction the RPC had just refused — a direct INSERT
+     stored **-5000.0000 EGP**. **CONV-5 (High):** an amount with NO currency, same door,
+     **7777.0000 / NULL**. **CAMP-1 (Medium):** a campaign INSERTed with no status was permanently
+     unadvanceable while `advance_marketing_campaign` reported "campaign not found in your tenant"
+     about a row that existed. All three closed with **row-level constraints rather than triggers**
+     — each is decidable from the single row, and a constraint cannot be reached around by any door
+     or session-less path. **Every legal writer proven compatible BEFORE the constraint was
+     written:** `payments_amount_nonneg_check` and a NOT NULL currency make the session-less
+     `map_outcomes_to_conversions` structurally incapable of violating either money rule.
+     **H-M4 was investigated and is NOT a defect** — `app.enforce_status_transition` already
+     refuses an illegal campaign transition on the table door, so nothing was changed there.
+     **CAMP-2 recorded UNPROVEN:** INSERT does not constrain which state a row opens in, but no
+     harm was reproduced and the question spans every status-bearing table, not this family.
+     `64_acquisition_lineage_test`'s positive control was corrected (TEST-64): it set an amount
+     with no currency — a row the RPC has always refused — and passed only because nothing
+     enforced the pair. Test 78 (19); HTTP 315 → 328; **API-3 12 → 9.** `202607058200` is verified
+     but **NOT deployed**; Primary stays at 169, now two migrations behind by intent.
+     Next: the customer-data group (`add_customer_contact_method`, `find_customer_duplicates`,
+     `current_placement`).
+   * **LEAD-6 / ASGN-1/2/3 — API-3 LEAD-ROUTING FAMILY, 2026-08-30 (`202607058100`).**
+     Two of the four endpoints had no coverage but a NAME: `assign_lead_round_robin` and
+     `lead_booking_readiness` appeared only in `53_api_surface_test`'s inventory, the CUST-2 shape,
+     and all four had zero HTTP evidence. **LEAD-6 (High):** canon 04 routes round-robin "among
+     ELIGIBLE employees", and LEAD-3 had already resolved "eligible" from the permission matrix
+     (`CLOSE_LEAD`) — but applied it to `process_lead_sla` and nothing else. Round-robin still
+     selected on PLACEMENT, the definition LEAD-3 rejected in writing. Reproduced: the pool
+     returned ONE eligible candidate, round-robin's predicate returned TWO, and it chose the
+     **trainee** — then refused `permission denied: CLOSE_LEAD` on the lead they owned. Fixed by
+     CALLING the DEFINER authority, not inlining it: `user_role_assignments` carries `scope_read`
+     RLS, so the join inside an INVOKER function would be row-filtered and silently wrong. The
+     EXECUTE grant it needed ships with a tenant guard, because a DEFINER function taking
+     `p_tenant_id` would otherwise be a cross-tenant staff-enumeration oracle. **ASGN-1 (High):**
+     two current assignments for one lead by direct DML — closed with a partial unique index after
+     verifying all three legal writers compatible first. **ASGN-2 (High):** `assigned_by` was
+     caller-supplied, recording a manager's act as a subordinate's — ATTR-1's class in a column
+     its twenty tables never reached. **ASGN-3:** a lead legally advanced to `lost` was refused by
+     the RPC and accepted by the table door in the same transaction.
+     Both new guards mutation-tested; **two existing guards caught regressions in this package's
+     own drafts** — `10_grant_model_test` on a function inheriting EXECUTE TO PUBLIC, and **Pass B**
+     on a slug collision with a committed HTTP fixture (TEST-2 class, Pass A green / Pass B dead).
+     **No owner decision created.** Test 77 (22); HTTP 298 → 315; **API-3 16 → 12.** `202607058100`
+     is verified but **NOT deployed** — Primary stays at 169 pending owner approval.
+     Next: the marketing-campaign family, which Phase 8's pipeline consumes.
+   * **ADMIN-1 — API-3 TENANT-ADMINISTRATION FAMILY, 2026-08-30 (`202607058000`).**
+     The group that CREATES the unlinked memberships IDENT-1 exploited and GRANTS the roles it
+     inherited. **ADMIN-1 (High):** `create_tenant_user` accepted `p_auth_user_id` from the caller
+     and validated it against NOTHING — the FK proves an identity exists, not whose it is. Canon 34
+     settles the rule: the Human Identity owns the verified email, the membership owns only what the
+     person may DO. Reproduced — Agency A’s owner bound ‘Alice’ to BOB’S identity from Agency B:
+     actions misattributed, the real Alice PERMANENTLY LOCKED OUT, and Bob’s `my_memberships()`
+     returned both agencies. Fixed with a BEFORE I/U trigger on `users`, **layer chosen by
+     measurement and deliberately unlike IDENT-1’s**: 120 linked rows carry ZERO divergent emails,
+     and `users.scope_update` lets any MANAGE_USERS holder rebind by direct DML, so a function-only
+     check was a half-fix. SECURITY DEFINER is mandatory because `authenticated` cannot read
+     `auth.users` — under INVOKER the guard would allow every divergence.
+     **Proven NOT defects, each by experiment rather than inspection:** zero-owner is unreachable
+     (ADMIN-2 — `emit_role_change` is AFTER and re-checks MANAGE_USERS once the granting row is
+     inactive; real but ACCIDENTAL, so test 76 pins it), 42 unproduced event codes are Fundamental
+     Domain Structure (ADMIN-3), and `one_primary_idx`, the department-name index and the
+     transfer/role events all work. **MEAS-1:** my own ‘no producer’ detector over-reported by 7
+     because generic emitters carry the code in TRIGGER ARGUMENTS — caught by a contradiction with a
+     test I had just run, and corrected before any finding was recorded. **TEST-65:** ten fixture
+     rows modelled impossible humans; the static pre-check missed them and the suite caught them.
+     **No owner decision was needed from this family** — every question was derivable from canon,
+     schema or experiment. Test 76 (23); HTTP 282 → 298; **API-3 20 → 16.**
+     Next: the lead-routing family (`assign_lead_round_robin`, `reassign_lead`, `lead_origin`,
+     `lead_booking_readiness`) — the largest remaining coherent group, and the one carrying
+     acquisition-attribution consequences.
+   * **IDENT-1 / IDENT-4 — API-3 CANON-34 IDENTITY FAMILY, 2026-08-30 (`202607057800`, `202607057900`).**
+     The family SEC-1 called INTENTIONAL because its tables are owned by `auth.uid()` rather than by
+     a tenant permission. That classification was asserted STRUCTURALLY and never tested
+     BEHAVIOURALLY: before this package the family’s entire coverage was a name-existence list in
+     `53_api_surface_test.sql` — the CUST-2 shape, a guard that cannot see what an endpoint does.
+     **IDENT-1 (Critical) was an account takeover.** `activate_membership()` claimed a
+     pre-provisioned membership on an email STRING match, its own comment asserting that an
+     `auth.users` row proves Supabase verified the address. `config.toml` sets
+     `enable_confirmations = false`, and `email_confirmed_at` appeared NOWHERE in the repository.
+     An attacker signing up as the CEO’s address claimed the membership and held APPROVE_FINANCE,
+     VIEW_FINANCIAL_DOCUMENTS and MANAGE_USERS. **Fixed in the FUNCTION, not a trigger** — the
+     alternate paths were measured closed first (direct UPDATE 0 rows, INSERT 42501), and 49 test
+     files create `auth.users` without that column, so a trigger would break all 49 and would also
+     impose confirmation on the ADMIN provisioning path. Banned and soft-deleted identities are
+     refused in the same breath, because a JWT issued before a ban outlives it.
+     **IDENT-4 (Medium), found by continuing after the first fix looked correct:** the claim matches
+     case-INSENSITIVELY while `users_tenant_email_key` is case-SENSITIVE, so two case-variant rows
+     in one tenant locked that human out permanently with a raw 23505. Fixed at the CONSTRAINT
+     layer — a case-insensitive unique index — because the real fault was that two rows for one
+     human existed at all; the failure now lands at provisioning time, where it is actionable.
+     **IDENT-2 and IDENT-3 recorded, not invented into rules.** IDENT-2 (the claim emits no event)
+     is blocked on the same side-effect question as FIN-9/FIN-11, with a specific obstacle:
+     `record_event` validates the tenant against `current_tenant_id()`, which is `limit 1` with no
+     ORDER BY, so a multi-tenant claim would audit one tenant arbitrarily. IDENT-3 records that
+     `otp_challenges`/`totp_enrollments` have zero consumers (MFA runs off the JWT `aal2` claim), so
+     they are Fundamental Domain Structure rather than dead code.
+     Test **75** (24) is the family’s first behavioural test. HTTP 267 → 282. **API-3 25 → 20.**
+     Next: the tenant-administration family (`create_tenant_user`, `assign_user_branch`,
+     `revoke_user_role`, `create_department`) — the group that CREATES the unlinked memberships
+     IDENT-1 exploited and GRANTS the roles it inherited.
+   * **BOOK-1 — API-3 BOOKING/PASSENGER FAMILY, 2026-08-30 (`202607057700`).**
+     **Begins with a correction:** the previous report named this family as the next of API-3's 25
+     uncovered endpoints. It was wrong — all three ALREADY had HTTP evidence and none is among the
+     25. The audit was run regardless, because a 200 is not evidence of a capability, and it found a
+     High-severity money defect behind endpoints that had been "covered" for weeks.
+     **BOOK-1:** both writer RPCs refuse to attach to a closed booking; nothing else did. Reproduced
+     as an ordinary employee holding every permission the RPC charges — RPC refused, direct INSERT
+     succeeded with **selling 5000 on a CANCELLED booking**, `commission_rate` 0.10 derived
+     automatically, and **no event**, so unaudited too. The RLS `WITH CHECK` requires the PARENT TO
+     BE VISIBLE rather than the actor permitted, and the financial guard checks scope against a
+     caller-supplied column.
+     Closed with BEFORE INSERT/UPDATE triggers carrying the RPCs' rules verbatim. Three decisions
+     recorded as decisions: plain BEFORE rather than deferred (this invariant holds at every
+     instant, unlike FIN-8/FIN-10); **no trigger on `bookings`**, because cancelling a booking that
+     already has items is correct behaviour — deliberately asymmetric with FIN-10; SECURITY DEFINER
+     plus a mandatory REVOKE, because under INVOKER the check would be RLS-blind to the parent.
+     **NOT the aggregate-across-rows subclass** — SEC-1's clause-3 filter would not have found it.
+     `10_grant_model_test.sql` caught the first draft leaving EXECUTE to PUBLIC. **BOOK-2** recorded
+     and NOT fixed: the per-passenger overrides are read by nothing, so no invariant is derivable.
+     **API-3 stays at 25.** Next by evidence: the canon-34 identity family (`my_trusted_devices`,
+     `record_trusted_device`, `revoke_trusted_device`, `my_memberships`, `activate_membership`) —
+     SEC-1 found those the ONLY writable tables with no governing trigger, classified INTENTIONAL,
+     and that classification has never been tested over HTTP.
+   * **PAR-3 / PAR-4 — VERIFICATION-METHODOLOGY REVIEW, 2026-08-30. No migration; the database did
+     not change.** The owner asked that ORVION's METHODS of discovery, testing and measurement be
+     reviewed adversarially rather than extended. Done by controlled mutation on local — never on
+     Primary — rather than by reading the scripts.
+     **PAR-3, the finding: the parity guard compared 233 objects out of 3,341.** It proved the
+     migration ledger and the FUNCTION surface, and was blind to triggers, RLS policies, RLS
+     *enablement*, grants, constraints, columns, views, indexes and the `app.status_transitions`
+     rows — which is to say, blind to the deliverable of DOC-LC-1, FIN-8, FIN-10 and QUO-1, every
+     one of which shipped a TRIGGER. Reproduced by dropping `payment_allocations_within_invoice_total`
+     on a clean reset: repository guard CLEAN exit 0, parity guard **CLEAN exit 0**, API contract
+     "matches the live surface", smoke ALL CHECKS PASSED — and only `72_*.sql` failed. **pgTAP runs
+     against LOCAL only**, so nothing could have caught the same drift on Primary.
+     Closed with **Check L4/P4** over ten surfaces, SQL in **`scripts/parity_surface.sql` which BOTH
+     SIDES RUN** (PAR-1a: two hand-copied queries is how two databases agree while differing).
+     `-PrimaryStructureHash` is required for CLEAN, per AUD-05's rule that unmeasured is not passed.
+     **The fix was then attacked and found incomplete** — `DISABLE ROW LEVEL SECURITY` left the hash
+     byte-identical, because `pg_policies` lists policies that cannot fire; RLS enablement added as a
+     tenth surface, and `ordinal_position` added to columns because CUST-1 was positional.
+     **PAR-4:** tests 70/72/73 now prove their own enforcer is load-bearing — drop the named trigger
+     in a savepoint, the violation must SUCCEED, roll back, it must be REFUSED again. Suite 899 → 905.
+     **VER-1** the contract's `http` column restated as a repository fact (audited first: no current
+     false positive; comment lines now excluded). **VER-2 REJECTED on measurement** — a mechanical
+     vacuous-test detector matched 31 sites across 15 of 73 files and its one tightened hit was a
+     false positive, because what makes a test vacuous is whether the actor can SEE the rows it
+     selects, which is not statically decidable. Also rejected: mutation tooling, property-based
+     testing, a contract broker, a runtime coverage file, a second handoff document, and raising the
+     manifest budget Check 5 tripped on this session's own additions.
+     **Deferred with a trigger:** catalog-row parity beyond `status_transitions` (`role_permissions`
+     is the authorization matrix) — not bundled here because it needs its own reproduction.
+     **THE ROADMAP IS UNCHANGED. API-3 remains next, booking/passenger family.**
+   * **SEC-1 EVALUATED 2026-08-29 — ACCEPT WITH REFINEMENT, awaiting owner ratification.** The
+     owner's proposed model was tested against the live system, not judged by opinion, and it is
+     **not a change of direction**: it is what ORVION has already converged on. Measured writable
+     surface — 54 tables, of which 35 carry a capability trigger, 15 are permission-gated in RLS
+     `WITH CHECK`, one is guarded by DOC-3's integrity trigger, and the residual three are the
+     canon-34 Human Identity tables (INTENTIONAL). **Option A (revoke `authenticated` writes) is NOT
+     recommended**: it needs 56 INVOKER functions converted to DEFINER, replacing RLS with 56
+     hand-written tenant checks — the second authorization system canon 35 forbids.
+     **Refinement 1:** clause 3 needs a decision procedure. "Has no business invariant" is not
+     decidable by inspection — FIN-8, FIN-10 and QUO-1 all looked fine. The operational test that
+     actually found them: *a rule comparing an AGGREGATE ACROSS ROWS cannot be a CHECK constraint,
+     so it will live in exactly one function unless deliberately extracted.*
+     **Refinement 2:** authorization guards exempt session-less platform paths (canon 35 principle
+     6); **integrity constraints must not** — now pinned by assertion in three tests.
+   * **FIN-10 + QUO-1 — CLOSED 2026-08-29 (`202607057500`, `202607057600`), the refinement applied.**
+     FIN-10: `record_payment` refuses to over-allocate an invoice and takes an advisory lock doing
+     it — nothing else did, so a `finance_manager` put **1300 against a 1000 invoice** by direct DML.
+     Guarded on BOTH sides of the inequality, since the total can also shrink beneath the
+     allocations. QUO-1: `quotations.total_amount` is DEFINED as the sum of its items and maintained
+     on one path, so an employee left a quotation reading **1000 while its items summed to 6000** —
+     the price offered to a customer. Recomputed rather than refused, because a derived value with
+     no independent source can simply be kept right. **FIN-11** recorded (missing status/event side
+     effect on the direct path — one answer wanted with FIN-9, not two bolted-on producers).
+   * **GOV-7 — the consumer-impact rule, made durable 2026-08-29.** `AGENTS.md §3 5b` gains a SECOND
+     question: *which code consumes, parses or derives from the structure this package changed?*
+     Guarded narrowly rather than broadly — the consumers that change meaning without their own
+     source changing are the catalog-driven ones, ORVION has exactly one, and test 71 pins that set.
+   * **API-3, second instalment — the two named endpoints, and both hid a defect (2026-08-29,
+     `202607057300`/`202607057400`).** The owner's instruction was not to manufacture HTTP
+     assertions but to audit the capability behind each uncovered endpoint. Both delivered.
+     **`create_journal_entry` -> FIN-8**: the double-entry invariant lived only inside the RPC, so a
+     `finance_manager` INSERTed a single 1,000,000-debit line with no credit by direct DML in the
+     same transaction the RPC refused it, emitting no event. `debit_xor_credit` is PER-ROW and
+     cannot express a statement about a SET of rows. Closed with deferred CONSTRAINT triggers
+     carrying the RPC's own three rules, and **no session-less exemption** — integrity, not
+     authorization. **FIN-9** recorded: a transactional client can still create a *valid* entry with
+     no event, and an event trigger would double-emit.
+     **`merge_customer_identity` -> CUST-1**, the more serious of the two: it archived the source,
+     wrote its audit row, emitted a CRITICAL event and **re-pointed nothing** — a silent no-op since
+     2026-08-21, because **TENANT-1's composite FKs turned the loop's first-key-column into
+     `tenant_id`**. A prior fix broke it and nothing noticed. Closed by pairing `conkey` with
+     `confkey`, plus the contact-method collision handling the correct loop immediately exposes
+     (delete an exact duplicate, DEMOTE a colliding primary — the target is the surviving identity).
+     **CUST-2** records why no guard caught it: the only tests naming the function checked its event
+     VOCABULARY and its endpoint's EXISTENCE. **API-3 30 -> 25**; contract regenerated to 46 of 71.
+   * **DOC-LC-1 — CLOSED 2026-08-29 (`202607057200`).** Canon 26's Document Lifecycle machine had
+     never been wired: `app.status_transitions` held zero rows for `documents`, and
+     `enforce_archive_authority` returns early unless `is_archived` changes -- it watches the
+     BOOLEAN, so `lifecycle_status_code` was governed only by the catalog check, which asks whether
+     a code EXISTS and never whether the MOVE is legal. REPRODUCED: a `trainee` with
+     ARCHIVE_DOCUMENT = false, proven to SEE the document first, was refused by the RPC and
+     succeeded by direct DML in the same transaction. Not cosmetic -- both document write paths read
+     `archived` as a refusal condition, so any tenant user could **permanently freeze a colleague's
+     passport**. Two transitions registered (`active`/`superseded` -> `archived`, ARCHIVE_DOCUMENT
+     read out of `archive_document`), and `archived -> active` now refused, which canon lists
+     nowhere. No role gained or lost authority. **`active -> superseded` deliberately NOT
+     registered** -- nothing produces that state (**DOC-LC-2**); supersede is an EVENT about the
+     version pointer, not a document status. **DOC-LC-3** recorded: the `is_archived` boolean and
+     the status column are two representations of one concept and an authorized holder can still
+     split them -- blocked on a canonical contradiction, pinned rather than guessed.
+     Guard: `69_document_lifecycle_test.sql` (19) plus 6 HTTP assertions including
+     `PATCH /rest/v1/documents`, the real attack shape. **API-3 30 -> 29**: `archive_document` had no
+     HTTP evidence at all before this, which was a poor thing to be true of the endpoint that
+     retires a customer's passport. Also repaired here: `54_transition_permission_parity_test`'s
+     final assertion hardcoded `lead_status_code` because every exclusion was a `leads` row when it
+     was written; the status column is now derived per table from `app.status_transitions`.
+   * **PAR-1b — a correction to yesterday's correction.** The API-contract report claimed Primary's
+     `document_retention_days` was restored to the repository's exact text. It was not: I read it out
+     of a LOCAL database that had been hand-modified mid-session, so the "fix" moved Primary away
+     from the repository. Settled by experiment -- the migration file's own statement and a clean
+     `db reset` both produce the 27-character form, which both environments now hold, and the
+     function returns NULL on both, so RET-1 was never at risk. The parity script's header now says
+     that local equals the repository ONLY immediately after a reset.
+   * **API CAPABILITY CONTRACT — DELIVERED 2026-08-29 (API-2).** `MASTER_API_CONTRACT.md`, GENERATED
+     from `pg_catalog` and `app.status_transitions` by `scripts/generate-api-contract.ps1` and kept
+     honest by a new **Check L3** in `check_database_parity.ps1` that regenerates and diffs it
+     (proven to fail on a tampered file and pass when regenerated). It covers the 71 RPC endpoints,
+     the 8 reporting views AND the 71 tenant-reachable TABLES, because PostgREST serves tables too
+     and that is where SEC-1b lived. Platform-wide rules (auth, tenant derivation, MFA step-up, 204
+     on void, error classes, pagination/filter/sort, RLS returning empty rather than 403) are stated
+     once rather than repeated per endpoint. Two defects were found in the GENERATOR before it
+     shipped: a first-match CASE that reported only half of `advance_lead`'s authority model, and an
+     HTTP-coverage column that under-counted 38 as 1. Recorded as **API-3**: 33 of 71 endpoints
+     still have no HTTP evidence, now visible and payable down deliberately rather than assumed.
+   * **Owner recommendations evaluated 2026-08-29 (10 items).** ACCEPT × 9, ACCEPT-with-finding × 1.
+     None changed the execution order; one refined it — the contract must cover the TABLE surface,
+     not only the RPCs. **SEC-2 reproduced and bounded** rather than left abstract: a trainee renamed
+     a lead assigned to them, but could not touch a colleague-owned complaint, so the exposure is
+     descriptive columns within existing read scope and it does NOT block the contract.
+     **CONV-3 recorded**: the WhatsApp/AI data model is ready (nullable customer/owner/sender,
+     external ids, whatsapp catalog values, `orvion_integration` attribution capture) but there is
+     no session-less inbound DOOR; deferred to the integration phase, precedent already in-house.
+   * **COMPLAINTS + CONVERSATIONS OVER HTTP — CLOSED 2026-08-29 (`202607057000`).** Both lifecycles
+     walked end to end over real JWTs: the complaint state machine through all nine transitions
+     including reopen, the conversation machine including the escalate/close authority split, plus
+     tenant isolation and the trainee's scope. New suite `scripts/verify_care_journeys.ps1` (38).
+   * **SEC-1b — SEC-1 was NOT closed, and the ceiling is why.** `10_grant_model_test`'s detector
+     asked whether a table had a trigger MENTIONING app.authorize, never WHEN it fires;
+     `enforce_status_transition` and `enforce_archive_authority` are BEFORE UPDATE ONLY, so thirteen
+     tables were credited for protection on a path they did not have. Corrected predicate: residue
+     3 -> 15. REPRODUCED: a `trainee` holding no write permission inserted a complaint AND a
+     conversation by direct DML in the same transaction that `app.create_complaint` refused, and
+     again over the wire via POST /rest/v1/complaints. Twelve tables now guarded ON INSERT with the
+     permission each one's own creating RPC charges; INSERT only, because charging CREATE_BOOKING on
+     UPDATE would break finance issuing a booking. Detector fixed too — the middle ceiling rose
+     17 -> 18 while exposure fell, and the file explains why. Residual UPDATE axis recorded as
+     **SEC-2**, genuinely underivable: there is no `update_customer` RPC to read a permission from.
+   * **ATTR-4 / CONV-2 / COMP-1.** A conversation message could name any colleague as its sender
+     (reproduced: "Colleague | I never wrote this"), could be rewritten after sending, and could be
+     deleted. All three closed, with `external_message_id` and `metadata` deliberately left writable
+     so the WhatsApp delivery writer is not blocked. And `complaints.resolution_notes` — declared in
+     canon 31, written by nothing — now records the reason given for RESOLVING, that transition only.
+   * **TEST-2 / PAR-1a — two guard-integrity findings the package produced about itself.** Pass B
+     DIED where Pass A was green: the new HTTP suite and the new pgTAP file both used
+     `emp@care.test`, and `auth.users.email` is globally unique with no tenant column to scope by —
+     the one identifier the slug-collision discipline never mentioned. Swept the class: 117 fixture
+     emails, zero other collisions. And the comparison used to close PAR-1 yesterday was itself
+     wrong: `'--[^\n]*'` in a POSIX bracket expression means "not a backslash and not the letter n",
+     so yesterday's "all 228 byte-identical" was true only under a weaker normalization. The guard's
+     own `chr(10)` form found `app.document_retention_days` still differing. Behaviour verified
+     first (both NULL — RET-1 intact), then restored, and the guard header now forbids the pattern.
+   * **SCHEDULED / BACKGROUND EXECUTION AUDIT — CLOSED 2026-08-29 (`202607056900`).** All six
+     background paths inventoried and traced CRON -> FUNCTION -> TABLES -> TRIGGERS -> RLS -> EVENTS
+     -> CURSORS -> RETRIES -> OBSERVABILITY. `reconcile_document_storage` already had per-tenant
+     exception isolation, a persisted failure finding and self-healing; `process_lead_sla`,
+     `process_subscription_lifecycle` and `map_outcomes_to_conversions` had none of the three. The
+     exemplar was in-house, so the fix is that pattern applied where it was missing, not a new one.
+   * **CONV-1 — the finding that was NOT latent.** The mapper filtered restricted tenants out of its
+     set-based INSERT and advanced the cursor past their events anyway. REPRODUCED: a lapsed
+     tenant's conversion was destroyed, and restoring the tenant to good standing recovered nothing
+     on run 2 or run 3. Everywhere else in ORVION "a batch skips a lapsed tenant" means DEFER --
+     `process_lead_sla` retries a minute later, `platform_resolve_storage_finding` leaves the
+     finding open. The mapper was the only place it meant discard, and only because it owns a
+     cursor. Now: the skip is recorded BEFORE the cursor moves, each run reconsiders deferrals whose
+     tenant is writable again, and the cursor still advances so no tenant blocks another. Two
+     alternative fixes were costed and rejected in the register.
+   * **PAR-1 — the parity guard had never compared the function surface.** A full comparison of all
+     228 `app`+`public` functions found SIX whose stored source on Primary differed from the
+     repository -- reformatted, comment-stripped transcriptions from earlier hand-pasted deploys.
+     Behaviour was proven identical FIRST (whitespace-insensitive hashes matched on all 228), so
+     this was documentation loss on the deployed system, not a logic difference. The real defect is
+     that parity had only ever compared the migration-ledger fingerprint plus the functions each
+     package had just changed -- so drift anywhere else was invisible by construction, while every
+     report cited the guard as evidence. Fixed on all three axes: Primary's six restored to the
+     repository's exact text, `check_database_parity.ps1` given `-PrimaryLogicHash` and a
+     full-surface Check L2/P2, and a permanent rule that `apply_migration` receives migration text
+     VERBATIM. Byte-level parity now proven: `4821a18a9bf8193a4bc8c7dea6e345a8` on both sides.
+   * **LEAD-4 — CLOSED the day after it was recorded.** `reassignment_blocked` is now durable in
+     `scheduled_job_findings`, not merely returned to a cron that discards it.
+   * **ATTR-3 / §8 item J — CLOSED 2026-08-29 (`202607056700`).** The owner's ATTRIBUTION BUSINESS
+     RULE requires that reassignment never rewrite acquisition lineage. Item J's question is answered
+     by measurement and now asserted on BOTH paths: `app.reassign_lead` and `app.process_lead_sla`
+     move ownership and touch no lineage column. The STRONGER half of the rule was false —
+     `authenticated` holds UPDATE on `leads` and `scope_isolation` covers the whole department queue,
+     so any employee could re-anchor a lead to a different click, moving a future Google Ads
+     conversion and the revenue credited with it between campaigns. ORVION's own
+     `capture_attribution_click` already stated the rule ("First-touch anchor ... where
+     attribution_click_id is null"); it lived in the RPC and not on the table. One trigger,
+     `app.forbid_acquisition_lineage_rewrite`, now applies first-touch to the named lineage columns
+     of `leads` AND of `offline_conversions` — the revenue end of the same chain, where a ceo or
+     owner could re-point an already-recorded conversion. NO session-less exemption, because the only
+     post-insert writer performs the one transition the guard permits.
+   * **LEAD-3 — RESOLVED AND FIXED 2026-08-29 (`202607056800`).** Filed as an owner decision ("does
+     'another eligible employee' include a manager?"). The permission matrix answers it: CLOSE_LEAD,
+     CREATE_LEAD, CREATE_QUOTATION and VIEW_DEPARTMENT_QUEUE resolve to the same six roles, managers
+     among them — so managers stay. Underneath was a defect, reproduced first: the pool was everyone
+     PLACED in the branch and department, so an SLA-overdue lead was reassigned to a **trainee**
+     (`can_close_lead=f`, `can_quote=f`), and `finance_manager` and `system_administrator` were
+     equally eligible. SEC-1's shape in the one place with no human in the loop — capability by
+     proximity instead of by authority. `app.eligible_lead_handlers` now requires CLOSE_LEAD through
+     an active role assignment; when nobody qualifies the lead STAYS and the pass reports
+     `reassignment_blocked` (**LEAD-4**: nothing consumes that on a cron run yet). The HUMAN path is
+     deliberately untouched and this is settled, not deferred — `verify_lifecycle_branches` already
+     asserts that a trainee may work a lead they are ASSIGNED.
+   * **Business-decision audit 2026-08-29, per the owner's closure directive.** Every BLOCKED —
+     BUSINESS DECISION re-evaluated against canon, live evidence and the accumulated intent. SIX
+     resolved without asking again: **LEAD-2** (canon 25 declares `lead_source` a Tenant-Extendable
+     System Catalog with "Tenant additions: Allowed with admin permission", and
+     `catalog_tenant_insert` enforces exactly that — proven behaviourally, so ORVION must NOT ship
+     `walk_in` as a system default); **LEAD-3**; **RBAC-2** (`roles`/`role_permissions`/`permissions`
+     grant `authenticated` SELECT only — tenant-side role administration does not exist, so
+     MANAGE_ROLES gates nothing BY DESIGN, and attaching it to `assign_user_role` would have
+     mislabelled user administration); **PERM-1** (all three carry a `required_feature_code` and are
+     plan entitlements; API-1's surface is ORVION's OWN data path, so gating it on ACCESS_API_* would
+     disable the product per plan — the answer is no); **TASK-3** (canon 26 names both start
+     transitions and lists five required events, none of them a start — a choice, not a silence);
+     **ORPH-1** (a tenant cannot create an orphan through the API, so an orphan implies platform-side
+     failure — reviewed, never destroyed on sight). TWO narrowed with new evidence: **FIN-5** (six of
+     seven approval types have no producer at all, so the map is EVT-2's class, not a permission
+     decision) and **VOID-1** (canon DOES register a `voided` invoice status; void-vs-credit-note
+     remains an accounting model choice). The rest stay blocked on facts that are genuinely external
+     — a statutory retention period, one owner-placed secret, where platform-operator identity lives.
+   * **GUARD-1 — recorded and mitigated 2026-08-29.** `check_database_parity.ps1` printed "Primary
+     matches the repository" for a fingerprint **I** passed it — the repository's own expected value.
+     `apply_migration` had stamped its own `version` into Primary's ledger, so Primary actually
+     produced `ca253f45...` against the repository's `0c48b1fd...`. Caught by querying Primary
+     independently, not by the guard. The ledger rows were normalised to the repository convention,
+     and the script's success line now carries the caveat its header always had.
+   * **SLA-1 — CLOSED 2026-08-29 (`202607056600`).** canon 04 and canon 10 both require the
+     employee's MANAGER to be notified at 15 minutes and again on reassignment, and canon 10 lists
+     "Manager escalation" among the notifications a user CANNOT MUTE. It had never fired.
+     REPRODUCED first, with a positive control: in the standard configuration -- managers PLACED in
+     the branch through `user_branch_assignments`, holding TENANT-scoped roles, which is exactly what
+     `app.assign_user_role` produces by default -- one SLA pass gave the employee 1 notification and
+     both managers 0, while the same transaction proved they CAN see the lead. Root cause is the
+     recurring shape, this time in the operational layer: the lookup asked
+     `user_role_assignments.branch_id/department_id` ALONE, while ORVION's authoritative definition
+     of governance (`visible_branch_ids` / `visible_department_ids`) is a UNION that also includes
+     PLACEMENT -- the only source populated by default. Second instance in the same function: the
+     reassignment branch had no manager notification at all. Fixed with
+     `app.lead_responsible_managers`, used by BOTH paths so no second copy of the predicate exists,
+     and carrying the `is_active`/`starts_at`/`ends_at` bounds the inline version omitted.
+     NOT changed: which roles escalate, the 15/30 windows, the reassignment pool, the event
+     vocabulary. No existing test caught this -- 34 and 36 assert the EVENT and the tenant isolation,
+     never the recipient. Recorded while proving it: **LEAD-3**, the reassignment pool includes
+     managers and the tie broke to the branch manager; canon 04 says "another eligible employee" and
+     defines neither term, so it is an owner decision and was deliberately left alone.
+   * **TEST-1 — CLOSED 2026-08-28.** `38_class_a_events_test` failed on a composite FK because its
+     fixture read `from public.payments p, public.invoices i limit 1` -- unscoped, running as
+     `postgres` with RLS off, and duly paired this fixture's payment with an invoice
+     `verify_role_journeys.ps1` had left behind. Scanning all 58 files found **40+ fixture subqueries
+     across 11 files** selecting their own rows by a non-unique attribute with no tenant predicate:
+     bounded only by RLS, and only while the actor happens to be `authenticated`. All scoped. The fix
+     is verified by REGIME, not by a green run: the suite is now proven order-independent -- 672
+     assertions, 0 failures, both on a fresh `db reset` and immediately after every HTTP suite has
+     deposited its deliberately non-teardownable residue.
+   * **TABLE-BY-TABLE AUDIT — SLICE 1 DONE 2026-08-31 (`202607058800`, `202607058900`).** The 54
+     tables `authenticated` can write were ranked by guard and test coverage, and the ranking was
+     ATTACKED before it was used: a first pass keyed on `guard_write_capability` scored the finance
+     tables as unguarded, which is false (FIN-3 gave them dedicated triggers under other names).
+     Corrected, it produced three clean results — SPEC-138 covers every identity/organization write
+     with per-command `MANAGE_*` policies; the accounting core requires its exact canon-28
+     permission and journal entries must balance; every FK into `exchange_rates` is tenant-qualified
+     — and four defects. **FX-1** a negative or zero exchange rate was insertable (`rate = -48.5`
+     returned `INSERT 0 1`); **FX-2** its `set_by` was accepted from the caller; **FX-3 (Medium)**
+     `user_role_assignments.assigned_by` — the record of who GRANTED a role — was accepted from the
+     caller, reproduced two-door in one transaction where `app.assign_user_role` recorded the owner
+     who called it and the direct INSERT recorded **the manager being promoted**; **FX-4**
+     `subscription_payment_proofs.reviewed_by`, unreachable today (no role holds
+     REVIEW_SUBSCRIPTION_PAYMENT and the platform path never writes it) and guarded anyway because
+     canon 28 assigns that permission. `otp_challenges`/`totp_enrollments` were found owner-scoped
+     with NO reader and deliberately left alone — inventing a consumer to justify a guard is this
+     audit's stated non-goal. **The durable output is not the migrations.** A hand-written
+     actor-column list reported ONE gap and looked finished; adding `assigned_by` produced FX-3 and
+     `reviewed_by` produced FX-4, so the detector became `83_actor_attribution_test.sql` assertion
+     22, which asks `information_schema` with **no exemption list** and **closes GOV-8**. Test 83
+     (22); HTTP unchanged at 366. No ADR added: all four are instances of ADR-0024/0025.
+   * **CARE/CONVERSATION SLICE — DONE 2026-08-31 (`202607059000`), DEPLOYED.** Four of the five
+     tables clean and checked rather than counted: `complaints` and `service_requests` carry seven
+     triggers each; `conversation_messages` derives its sender and forbids rewriting a sent message;
+     `conversations` lacks two guards its siblings have and has neither `is_archived` nor an actor
+     column for them to apply to. `quotation_items` failed twice, both with the RPC as positive
+     control. **QUO-2 (Medium):** a line could be added to — and repriced on — a quotation already
+     SENT to the customer (a 7,777 line landed; an existing line went 10,000 → 1). The repricing half
+     has **no RPC at all**, so direct DML was the only path, and the rule for it is derived from
+     `add_quotation_item`'s stated reason rather than from a second function. **QUO-3:** the table
+     carried **no CHECK constraints whatsoever** and stored `-5000` and `quantity 0`, while
+     `total_amount` feeds `quotations.total_amount`. **QUO-4 is an OWNER DECISION**, reproduced and
+     deliberately not fixed: canon 28 scopes CREATE_QUOTATION "Assigned only" for `employee` and
+     NEITHER door enforces it — but canon's own scope column reads "assigned/department", so the
+     answer is a business rule, not a derivation. **ATTR-2:** assertion 22 was widened from a
+     hand-written name list to every column ending `_by`, which found **eight** more caller-supplied
+     actor columns. Test 84 (17); HTTP unchanged at 366. No ADR added: QUO-2/QUO-3 are instances of
+     ADR-0024/0025.
+     *(The "NEXT SLICE: ATTR-2" line that stood here was **stale from 2026-09-01**, when
+     `202607059300` closed ATTR-2 — this plan recorded SEC-1c and SUP-1 that day and never replaced
+     the pointer. Corrected 2026-09-01 in the care/conversation re-audit; the entry below is the
+     current one.)*
+   * **CARE/CONVERSATION RE-AUDIT — PARENT-1, DONE 2026-09-01 (`202607059400`), DEPLOYED.** The
+     slice was re-entered from live state rather than from the report above, and the four tables
+     previously recorded as "checked, not counted" were re-measured against the doors the earlier
+     pass had not walked: the status machines (all three governed, every row carrying a
+     `permission_key`, `enforce_status_transition` failing closed on an unregistered transition),
+     resolution attributability, terminal-state immutability, tenant/branch/department scope, and
+     grants. **`conversations` and `complaints`/`service_requests` came back genuinely clean, and
+     this time the reason is recorded rather than the count:** `resolved_at` / `closed_at` /
+     `resolution_notes` have **no consumer anywhere** (no view, no function, no policy — measured),
+     and CREATE_COMPLAINT and RESOLVE_COMPLAINT are held by **identical role sets**, so
+     `guard_write_capability`'s union is behaviour-neutral; `conversations.current_branch_id` /
+     `current_department_id` are written by `start_conversation` and read by nothing (DEAD-1's
+     class); descriptive-field editability is SEC-2's ratified INTENTIONAL half.
+     **`conversation_messages` failed**, and it turned out to be a CLASS — see **PARENT-1** in
+     `MASTER_GAP_REGISTER.md`: four RPCs refuse a write because of the PARENT row's state
+     (`create_booking`, `request_finance_approval`, `add_document_version`,
+     `send_conversation_message`) and **not one of those rules existed on the table door**. Derived
+     from `app.status_transitions` + `pg_proc` + `pg_trigger`, not from a list; twelve candidate
+     pairs reduced to four by READING the function bodies rather than trusting the match. All four
+     reproduced live with the RPC as positive control. Closed by one guard function and four BEFORE
+     INSERT triggers. Test 88 (25) + 5 HTTP; suite 87/1186 → **88/1211**, HTTP 371 → **376**.
+     **QUO-4 remains the only open OWNER decision from this batch** and was not reopened (§10).
+   * **FINANCE PERIPHERY — PAY-1 / JE-1 / DEV-1, DONE 2026-09-01 (`202607059500`), DEPLOYED.** The
+     slice was chosen from the catalog, not from a list: of the 54 tables `authenticated` can write,
+     the ones with no capability guard AND no test **subjectship**. That ranking was ATTACKED before
+     use, twice — counting BEFORE triggers scores `moddatetime` and `emit_*` as protection, and
+     counting test-file mentions scores `branches`/`users`/`tenants` at 60–76 because every test
+     builds a tenant fixture. **Appearance is not subjectship.**
+     **PAY-1 (High):** `app.record_payment` refuses a draft, voided or archived invoice and
+     `payment_allocations` carried neither rule — 1,000 EGP allocated against a **voided** invoice,
+     and FIN-10's ceiling stayed green because it caps the AMOUNT and never reads the STATE.
+     **JE-1:** a line posted to a **retired** chart account; two of the RPC's three line rules were
+     already on the table door and were deliberately not re-added. **DEV-1:** two rows for one
+     device, reproduced **through the RPC alone** with two concurrent sessions — LIC-2's shape —
+     severity Low because `app.mfa_satisfied()` was measured to consult only the JWT.
+     **MEAS-5, the finding about my own guard:** PARENT-1's detector could not see PAY-1, because
+     `invoices` has no `app.status_transitions` rows (FIN-7) — a detector anchored on a catalog of
+     TRANSITIONS was blind to a STATE. Widened to catalog-coded columns read from trigger arguments,
+     narrowed by FK and writability (46 noisy pairs → 9 classified), counterexample-tested both ways.
+     Its residual — boolean-flag state — is stated in the test rather than hidden, and JE-1 is that
+     residual. **JE-2 recorded, NOT fixed:** a 100 USD debit balances a 100 EGP credit, on both
+     doors; canon defines no single-currency rule and DC-11 owns the model.
+     **DEAD-4 recorded:** `campaign_daily_metrics`, `exchange_rate_adjustments` and
+     `financial_accounts` have neither producer nor consumer — measured in both directions.
+     Test 89 (21); suite 88/1211 → **89/1232**, HTTP 376 → **381**.
+     *(The "NEXT SLICE" pointer that stood here is replaced by the entry below rather than left to
+     go stale a second time — the failure this document's own header records.)*
+   * **SUPPLIER CREDIT AUTHORITY — SUP-2, DONE 2026-09-02 (`202607059600`), DEPLOYED.** The slice
+     was chosen by MEASURING the surface rather than from a list, and three candidate classes were
+     discarded by that measurement before a fourth produced a defect: `authenticated` holds **zero
+     DELETE** on all 75 tables, no granted command lacks an RLS policy, and every SECURITY DEFINER
+     function in `app`/`public` already pins `search_path` and is closed to `anon`. What remained was
+     a five-column class — every column `authenticated` cannot SELECT but CAN insert or update. Four
+     carry dedicated column-aware financial guards (SPEC-139/154-A/159-A). **The fifth,
+     `suppliers.credit_limit_amount`, carried only the table's ASSIGN_SUPPLIER charge**, and
+     ASSIGN_SUPPLIER and VIEW_FINANCIAL_DOCUMENTS are held by **different role sets** — so
+     branch_manager, department_manager and senior_employee could SET the ceiling SUP-1 refuses to
+     show them, which for those three defeats the withholding entirely: an actor who sets a value
+     knows it. Reproduced as `senior_employee` on BOTH doors with the refusal established FIRST in
+     the same session, and the writes verified by reading the values back WITH rights.
+     **It survived two packages that both read this exact column**, because each recorded the other
+     as owning the half it skipped — and SEC-1c's proof used a *trainee*, who lacks ASSIGN_SUPPLIER,
+     so it measured "the weakest actor is refused" and never "the authority is sufficient".
+     No permission minted: the floor is forced by SUP-1's own guarantee — the write must cost at
+     least the read. **SUP-3 recorded, NOT decided** — whether `finance_manager` should hold
+     ASSIGN_SUPPLIER is commercial, and SUP-2 is correct under either answer. One existing test
+     CORRECTED rather than re-run: test 85's PAR-4 mutation dropped `suppliers_guard_write_capability`
+     and asserted the write then succeeded, which a second guard on that column would have made
+     measure nothing. Test 90 (15) + 9 HTTP, each with defect injection at its own layer; suite
+     89/1232 → **90/1247**, HTTP 381 → **390**.
+     **CLASSES MEASURED CLEAN in the same pass, recorded so the next slice does not re-measure them
+     without new evidence** (LOCAL RUNTIME on a fresh `db reset`, 2026-09-02): (i) `authenticated`
+     holds **zero DELETE** on all 75 tables — that surface is closed by B5, not merely unexercised;
+     (ii) **no granted command lacks an RLS policy** — zero SELECT/INSERT/UPDATE grants to
+     `authenticated` sit on a table with no matching policy; (iii) all **24** SECURITY DEFINER
+     functions reachable by `authenticated` pin `search_path=""` and **none** is executable by
+     `anon`; (iv) **archive authority is complete** — every table carrying `is_archived` has an
+     `enforce_archive_authority` trigger, with no exceptions; (v) all **8 reporting views are
+     `security_invoker`** and none is a read-door around a withheld column — `supplier_outstanding`
+     takes its money from the gated `app.supplier_balance`, and `booking_item_profit` was proven
+     against a REAL priced item owned by a COLLEAGUE (the first probe returned zero rows and was
+     discarded as vacuous per `AGENTS.md 6`): with the employee's four controls established, the
+     view returned `selling_amount 10000` and **`cost_amount`/`profit` NULL**.
+   * **SUPPLIER CREDIT PERMISSION — SUP-3, OWNER DECISION, DONE 2026-09-02 (`202607059700`), DEPLOYED.**
+     The owner made SUP-3 explicit and authorised implementation ahead of the next slice:
+     `finance_manager` MUST be able to set `suppliers.credit_limit_amount`, and the capability MUST
+     have its own independently grantable permission rather than riding on ASSIGN_SUPPLIER — the
+     stated principle being that every capability should be representable by its own permission so
+     the company owner can grant or revoke it per user from the future admin dashboard.
+     **`MANAGE_SUPPLIER_CREDIT`** was minted by the repository's own precedent (`202607051400` minted
+     VIEW_DEPARTMENT_RECORDS identically; canon 25 heads its list "Initial values"), granted to
+     owner/ceo/finance_manager — the set canon 28 already gives EDIT_LOCKED_COST — and plan-gated at
+     `finance_lite` to match the permission that governs READING the same figure. Recorded in canon 28's
+     ratified-amendments list, where VIEW_DEPARTMENT_RECORDS is recorded, rather than in a new document.
+     **Minting it alone would have silently failed the owner's first rule:** `finance_manager` holds no
+     ASSIGN_SUPPLIER and `guard_write_capability` charges that for ANY write to `suppliers`, so the
+     table guard had to learn that a write touching ONLY the ceiling is a different act. It compares
+     ROW IMAGES rather than a column list, so a column added to `suppliers` later cannot silently
+     widen the relaxation — it makes the write stop being credit-only, which is the safe direction.
+     Orthogonality proven in both directions on both doors, and grant→revoke→regrant proven
+     BEHAVIOURALLY against a role that does not hold the permission, with `has_permission` echoed
+     before each measurement. SUP-2 stays closed. **Test 90 was CORRECTED, not re-run** — its PAR-4
+     mutation targeted a credit-ONLY write, which SUP-3 gave a second charge, so dropping one guard
+     would have measured nothing: the test-85 lesson recurring the moment a second enforcement point
+     appeared. Test 91 (26) + 5 HTTP; suite 90/1247 → **91/1273**, HTTP 390 → **395**.
+     **SUP-4 RECORDED AND NOT INVENTED.** The owner also asked for the ceiling ENFORCEMENT defect to be
+     closed *if* an authoritative exposure definition already exists. It does not, and the measurement
+     is specific: `app.supplier_balance` is an authoritative supplier PAYABLE but returns **one row per
+     currency**, while `credit_limit_amount` is a **currency-less scalar** — reproduced live as
+     `EGP 8000` and `USD 600` against a limit of 10,000, with **zero** USD→EGP exchange rates and
+     `tenants.default_currency_code` read by nothing. Canon names no rule, no Batch-4 spec defines one,
+     and AP `supplier_bills` (BF-7) is unbuilt. Three questions go to the owner (currency of the limit;
+     which operation it refuses; whether it binds on all suppliers). Enforcement was NOT attempted.
+   * **AUTHORIZATION ARCHITECTURE — RBAC-3 (ADR-0027) + SUP-4a, OWNER-DIRECTED, DONE 2026-09-02
+     (`202607059800`, `202607059900`), DEPLOYED.** The owner relaxed the standing "do not redesign
+     RBAC" constraint and authorised a full rebuild if the evidence supported one. **It did not, and
+     the measurement is why:** `role_permissions` is the ONLY foreign key into `public.permissions`,
+     so the entire gap between ORVION and the owner's capability-level end-state was **one missing
+     user→permission edge**; meanwhile `app.has_permission` is resolved by **60 RLS policies, 61
+     triggers and 76 functions**, i.e. the enforcement plane was already unified and already correct.
+     Rebuilding would have rewritten 197 enforcement sites to reach identical behaviour, each one a
+     chance to drop a rule earned by a real defect. **PRESERVE was rejected too** — per-user override
+     and deny were not inconvenient but unrepresentable, so every "this user minus this capability"
+     would have become a new role (OWASP's role explosion). Chosen: **REFACTOR the grant model,
+     PRESERVE the enforcement plane** — not one RLS policy, guard trigger, RPC or grant was touched.
+     Delivered: `user_permission_grants` (per-user grant/deny, `user_role_assignments`' lifecycle
+     columns, SPEC-138 RLS, composite tenant FKs, no DELETE grant); `has_permission` resolving
+     **deny-override > user grant > role grant, then the plan gate** (deny-override ADOPTED from AWS
+     IAM / Azure RBAC, not invented; the plan gate stays last so a tenant admin cannot grant past a
+     commercial entitlement); `capability_group` + `action_kind` DERIVED from canon 28's own section
+     headings and naming convention; `app.effective_permissions` as the explainer, proven to agree
+     with the decision function for EVERY permission. **No privilege expanded** — with the table
+     empty `has_permission` returns exactly what it did before, pinned as an assertion. Permissions
+     were deliberately NOT moved to JWT claims: ORVION resolves the actor from `public.users`, so a
+     revocation binds on the next statement and claims would ADD a staleness window it does not have.
+     Gives `MANAGE_PERMISSIONS` (RBAC-2's dead permission) its first enforcement and
+     `permission_granted`/`permission_revoked` (EVT-2's class) their first producer.
+     **The owner's supplier decision** is expressed as a ROLE grant — `finance_manager` gains
+     ASSIGN_SUPPLIER, which measurably gates only `create_supplier`, `link_internal_supplier` and the
+     two supplier table doors. No VIEW_SUPPLIER was minted: `suppliers` is tenant-readable, so such a
+     permission would be a NEW restriction on every role rather than an expression of this decision.
+     **SUP-4a:** the ceiling was the ONLY money column in ORVION without a currency beside it — canon
+     30's own standard, unapplied to one column, and precisely what made it incomparable to
+     `supplier_balance`'s per-currency payable. Fixed. **SUP-4b remains OPEN**, narrowed from three
+     questions to two: ADR-0020's shipped `advance_booking` precedent settles the FORM (per-currency,
+     never converted, override permission, risk event), leaving only which operation the ceiling
+     refuses, what overrides it, and whether it binds on all suppliers — all commercial.
+     Tests 91 (26) + 92 (26) + 2 in test 90; four class guards (test 10 ceilings, test 14 composite
+     FK, test 35 gate exemptions, test 83 actor classification) each demanded and received explicit
+     justification before they were edited. Suite 91/1273 → **92/1301**; HTTP 395; 76 tables.
+   * **SUP-4b — THE CEILING'S BEHAVIOUR, OWNER-DECIDED 2026-09-04 (`202607060100`), DEPLOYED.** The
+     owner answered the three questions this batch had deliberately left open, and the answer to the
+     first **dissolved** the other two: the ceiling **WARNS and never refuses** (**ADR-0028**), so
+     there is no refusal for an override permission to bypass and nothing for two concurrent writers
+     to race over. The FIN-10 deferred-constraint pattern and ADR-0020's override shape — both
+     recorded here as the likely form — were therefore **considered and deliberately not copied**,
+     which is worth more to a future reader than the code that was written. Delivered: AFTER-row
+     probes on `booking_items` and `payments` (the only two tables `app.supplier_balance` says can
+     move exposure), comparison **in the ceiling's own currency**, two canon-27 event types, and one
+     notification each to the **Company Owner and Finance Manager** resolved by ROLE — who is TOLD,
+     not who is ALLOWED. **No permission was minted, granted or widened, and `app.has_permission` was
+     not touched.** Idempotency is the **event ledger**, not a new column or status vocabulary.
+     `supplier_credit` gained `exposure_amount` + `threshold_exceeded`, one boolean a UI can render
+     red. **Two residues isolated rather than guessed: SUP-4c** (cross-currency "or equivalent" —
+     `exchange_rates` has **zero readers**, so a base currency, a rate source and an as-of rule are
+     all missing) and **CUST-3** (`customers` has zero credit columns, so a customer threshold is new
+     canon). **No email is sent** — the obligation is `pending` on the existing delivery ledger and
+     canon 10 records the boundary. Test 93 (23); suite 92/1303 → **93/1326**; HTTP 414; 76 tables.
+     **The four sibling targets in the same package — TRANS-1, DELIV-1/PH8-2, PLAN-1, QUO-4 — were
+     investigated and left OPEN**, because each is an owner decision the owner did not make; their
+     exact boundaries are in `session-2026-09-04-owner-policy-package.md`.
+     **NEXT SLICE: the remaining Batch-6 tables** — the table-by-table audit below still owns the
+     order. The write-without-read class is now closed on all five of its columns, and the five
+     classes above are measured rather than assumed; a next slice needs a class none of them covers.
+     **Two further classes were measured CLEAN on 2026-09-04 and should not be re-swept:**
+     tenant-composite FK completeness (**195 of 195** intra-tenant FKs carry `tenant_id`; zero
+     exceptions) and RLS forced-vs-enabled (RLS on 76 of 76 public tables, `FORCE` on zero — uniform,
+     i.e. the platform default, already hashed by `parity_surface.sql`, and **not** to be changed:
+     ORVION's SECURITY DEFINER paths depend on owner-bypass semantics).
+     **The standing candidate is the RBAC-6 class** — `app.*` functions granted to `authenticated`
+     with no `public` wrapper (102 executable, 29 unwrapped, 25 intentionally internal, **4 genuine
+     candidates**: `item_financials`, `customer_balance`, `supplier_balance`, `booking_item_profit`).
+     They are **UNPROVEN as defects**; the correct first act is an **HTTP probe, not a migration**.
+   * **PHASE C CONTINUED — the table-by-table audit.** WHY IT EXISTS: every package so far has
+     found defects beside the one it was chartered for, and the remaining surface has never been
+     swept as a whole. DISCOVERY SOURCE: the standing owner directive. SCOPE: all 75 tables and their
+     relationships — schema, FKs, RLS, grants, functions, SECURITY DEFINER, triggers, catalogs,
+     permissions, events and their producers/consumers, reporting views, scheduled jobs,
+     integrations, RPCs, direct-DML surfaces, test families, governance — inspected for BEHAVIOURAL
+     consistency, not existence. Plus the journey branches not yet walked over HTTP: refund,
+     cancellation, complaint, service request, supplier payment, finance approvals, conversations,
+     tasks. NON-GOALS: inventing features to give registered vocabulary a producer; adding reports
+     because mature CRMs have them. ACCEPTANCE: every finding classified PROVEN/UNPROVEN/FAILED/
+     BLOCKED and, if an engineering defect, fixed. TEST CRITERIA: each fix carries positive and
+     negative controls plus the relevant direct-DML/RPC/system/cross-tenant paths. DEPLOYMENT:
+     migrations to Primary, parity re-proven, PostgREST cache reloaded when the surface changes.
+   * *(historical, superseded)* **API-1 as originally scoped: the database is
+     complete and unreachable.** WHY IT EXISTS: proven live against Primary, PostgREST serves only
+     `public` and `graphql_public`, so all 137 `app.*` functions and all 8 `reporting` views return
+     404/406. DISCOVERY SOURCE: WP-04-E, when the executor needed to call its own RPC over HTTP.
+     Invisible for the whole programme because every RPC test speaks SQL, not HTTP — 600 passing
+     assertions coexisted with a completely unreachable API. DEPENDENCIES: none blocking. SCOPE:
+     enumerate the client-facing RPCs and reporting views; wrap each in `public` as **`security
+     invoker`**; grant deliberately per role; prove each **over HTTP**. NON-GOALS: exposing the `app`
+     schema (it would publish every internal helper RLS depends on — a permission-probing oracle and a
+     frozen internal API); wrapping internal helpers; inventing endpoints for capabilities that do not
+     exist. SECURITY CRITERIA: no wrapper is ever `SECURITY DEFINER` (it would check the inner EXECUTE
+     grant against the owner and bridge into the private schema); every wrapper pins `search_path`;
+     no wrapper is executable by `anon` unless deliberately intended. TEST CRITERIA: the class guards
+     in `52_public_api_and_executor_contract_test.sql` plus a per-endpoint HTTP proof with a positive
+     control and a cross-tenant negative. CROSS-PATH CRITERIA: each endpoint must behave identically
+     to its `app.*` function under RLS — the wrapper adds reachability and zero authority. DEPLOYMENT:
+     migrations to Primary, parity re-proven. REPORTING: an endpoint inventory that survives as the
+     client contract. Also decides whether `ACCESS_API_FULL`/`ACCESS_API_READ_ONLY` gate the surface
+     (PERM-1).
+   * *(historical, superseded)* **WP-04-E as originally scoped: the storage executor.** WP-04-D stops at the database boundary because that is
+     where the database's authority stops; the split it establishes is half-built, and
+     `retention_expired` findings accumulate unresolved (safe — nothing is destroyed — but not
+     finished). Acceptance criteria: an executor authenticating as `service_role`, polling open
+     findings, performing exactly the byte operation each finding names through the Storage API,
+     reporting back through the one RPC, idempotent under retry, unable to act on a finding whose
+     tenant is restricted, and never touching an object outside the finding's own tenant prefix. Edge
+     Function vs n8n to be decided on evidence in that package.
+   * *(historical, superseded)* **WP-04-D as originally scoped: document retention, deletion, recovery and orphan reconciliation.** Storage
+     now exists on Primary, so an orphaned object is physically possible from this point: the byte
+     upload happens *after* the metadata transaction and cannot be rolled back by it. Acceptance
+     criteria: a scheduled reconciliation finds metadata without objects and objects without
+     metadata, per-tenant and **skip-never-raise** (the WP-03 shape); archival/deletion are
+     `service_role` lifecycle operations emitting `document_archived`; superseded versions stay
+     retrievable for the retention window; cross-tenant reconciliation proven not to touch another
+     tenant's objects. **The retention period itself is BLOCKED — BUSINESS DECISION** (Egyptian
+     record-keeping obligations for travel documents are not in canon). Should land before any client
+     begins uploading bytes.
+   * *(historical, superseded)* **WP-04-C as originally scoped: storage-provider evaluation, then the object store end to end.** Compare
+     Supabase Storage / GCS / Google Drive / OneDrive-SharePoint on tenant isolation, private
+     objects, signed URLs, versioning, retention, deletion, recovery, backup, encryption, access
+     logging, auditability, size limits, performance, scalability, n8n integration, operational
+     complexity, cost and lock-in — **fact separated from recommendation**, cost a factor and not the
+     decider. Every non-Supabase option carries a genuine **BLOCKED — EXTERNAL DEPENDENCY** step (the
+     owner enters external credentials directly, AGENTS.md §6) which must be weighed openly rather
+     than allowed to decide silently. The object key is already settled and tested
+     (`tenant/document/version`, tenant-first, provider-independent), so the chosen provider inherits
+     a proven security model rather than one invented afterwards. Also carries **PP-2**.
+   * *(historical, superseded by the two entries above)* **DOC-2 as first recorded — three layers.** (i) the `document_type` catalog has no
+     `payment_proof` value; (ii) **`subscription_payment` IS already a `document_link_target_type`
+     but `app.upload_document` has no branch for it**, so it falls through to `else false` and
+     raises; (iii) `document_links.subscription_payment_proof_id` is populated by no code path. A
+     circular dependency (`subscription_payment_proofs.document_id` is NOT NULL while the link needs
+     the proof id) means the fix is a dedicated transactional RPC —
+     `app.upload_subscription_payment_proof` — not another parameter on `upload_document`. Then the
+     platform-side review that transitions the subscription and emits
+     `subscription_payment_approved` / `_rejected`.
+   * **The subscription-gate exemption (owner directive §7) belongs with WP-04-B.** Confirmed live:
+     **zero** gate triggers on `documents` / `document_versions` / `document_links`, so a suspended
+     tenant can create ANY document, not merely a renewal proof. Narrowing it requires
+     `payment_proof` to exist first — that type is the discriminator by which the gate tells a
+     renewal proof from an ordinary document — so sequencing it before DOC-2 would have meant
+     inventing a placeholder.
+   * SPEC-154-B's document-classification boundary is **no longer carried here** — it was decided by
+     the owner and closed on 2026-08-31 by `202607058700`, ahead of this package.
+   * **Provider evaluation is the gate** (owner directive §14): decided on tenant isolation, private
+     objects, signed URLs, versioning, retention, deletion, recovery, backups, size limits,
+     operational simplicity, scalability, auditability and n8n integration — explicitly **not** on
+     cost or on Supabase already being present. Options to compare: Supabase Storage, Google Cloud
+     Storage, Google Drive, OneDrive/SharePoint. One constraint is already evidence, not preference:
+     every non-Supabase option needs an external credential, which AGENTS.md §6 requires the owner to
+     enter directly into its destination — so those options carry a BLOCKED — EXTERNAL DEPENDENCY
+     step that Supabase Storage does not, and the evaluation must weigh that honestly rather than let
+     it silently decide the outcome.
+4. **Notifications — RE-NARROWED 2026-09-05 (P3), verified live before editing; the 2026-08-29 text
+   below had gone stale in BOTH of its remaining claims.** It read "**`notification_deliveries` still
+   has no producer**" and "`app.process_lead_sla` is still the **only** writer of `notifications`".
+   Measured at 199 migrations, three functions write `notifications` — `app.process_lead_sla` plus
+   **both credit evaluators**, which CUST-3 and SUP-4b added on 2026-09-04 — and all three now write
+   `notification_deliveries` as well, the SLA since `202607061000`. **The delivery half is closed**
+   (`DELIV-2`): claim, lease, widening retry, dead-letter and acknowledgement, contracted to
+   `orvion_integration` alone. What remains true is the PRODUCER half, and it is narrower than this
+   item ever stated: an expiring passport notifies nobody (**DOC-EXP-1**, owner-blocked on
+   recipient/lead-time/cadence). Two further genuinely-open items, neither of them this one:
+   **MAIL-1** (the provider, and the Egyptian PDPC cross-border transfer licence that decides which
+   providers are even eligible) and **DELIV-1** (an operator surface over work that has exhausted its
+   retries — now cheap, because `dead_lettered` makes exhaustion a fact rather than an absence).
+5. **Employee / Supplier / Branch 360 primitives.** Customer 360 and Lead 360 exist
+   (`app.customer_timeline`, `app.lead_timeline` — re-verified live 2026-08-29); these three do not.
+6. ~~**`public.security_events` has zero producers.**~~ **OBSOLETE 2026-08-29 (GOV-6).** It has
+   **four**, all added by SPEC-158 on 2026-08-27: `platform_issue_license_token`,
+   `platform_review_payment_proof`, `platform_revoke_license_tokens`, `redeem_license_token`. This
+   item contradicted **item 1c of this same document**, which records SPEC-158 giving the table "its
+   first producers" — an intra-document contradiction that survived because Check 2 could not see
+   modern finding IDs (**GOV-4**) and nothing at all checks prose open-items against the database.
+   Kept struck through rather than deleted: the 13 *authentication* event types are still Supabase
+   Auth events with no ORVION hook, which is **AUTH-1**'s territory, not a producer gap.
+7. **Table/column completeness sweep — NEVER FINISHED, and its scope was understated.** It read
+   "all **75** tables" from 2026-08-27 until 2026-09-05; the live count has been **77** since
+   `document_retention_policies` and `document_storage_findings` were created, so the item was
+   describing a smaller job than it names. Corrected against the catalog, not against another
+   document. The three *historical* "75 tables" figures in the package entries above are left
+   untouched: each records what was measured on its own date and was true then. **Method and exit
+   criteria are below** — the sweep is Batch 6's completeness layer, and until it has a per-table
+   disposition record its coverage is not measurable at all (see EC-1).
+8. ~~**SEC-1 write-path model** — remains the open owner decision~~ — **DECIDED 2026-09-01 (OWNER-1).
+   No longer an owner blocker; struck through rather than deleted because the three forgeries of
+   authoritative history recorded as its evidence are what earned the decision.** The owner ratified
+   the refined architecture: **RLS carries row scope · capability enforcement sits on the actual
+   writable surfaces · business mutation rules stay in the owning RPC · integrity constraints are
+   path-independent.** RPC-only authenticated writes were **rejected** — all 76 public RPCs are
+   `SECURITY INVOKER`, and converting them would replace RLS with 76 hand-written tenant checks, the
+   second authorization system canon 35 forbids. What remains under SEC-1 is *engineering*, not a
+   question: **SEC-1b** closed the INSERT path, **SEC-1c** (`202607059100`) closed the UPDATE path on
+   the thirteen tables that had a capability trigger on one side only, and **SUP-1**
+   (`202607059200`) closed the read half of the supplier-credit case. Status and evidence:
+   `MASTER_GAP_REGISTER.md`.
+
+### Batch 6 — method and exit criteria (added 2026-09-05)
+
+**Batch 6 is NOT complete, and passing a large test suite is not the same claim.** The programme has
+always been the *completeness and assurance* layer over Batches 0–5, and it has no finish line until
+one is written down. This is that finish line. Nothing here reopens a closed package.
+
+### The adversarial loop (strengthened 2026-09-05, slice 2)
+
+**The mindset is hostile, the changes are conservative.** A slice does not ask "does the intended
+operation work?" — it asks *can I make an operation work that should not?* The loop below is the
+shape slices 1 and 2 both ran, written down so a session that inherits nothing can run it again:
+
+> **DISCOVER** the surface from the catalog · **MODEL THE TRUST BOUNDARIES** (which doors exist, who
+> owns them) · **NAME THE ASSUMPTIONS** the surface relies on · **ATTACK** each one · **REPRODUCE**
+> anything that gives · **CLASSIFY** it · **REPAIR** the root cause · **RETEST** · **ATTACK THE
+> REPAIR** · **INJECT THE DEFECT** to prove the test detects it · **GUARD** · **PARITY** ·
+> **EVIDENCE** · **UPDATE THE DISPOSITION** · **SELECT THE NEXT TARGET BY MEASUREMENT.**
+
+**The attack taxonomy is CLOSED, and `=N/A` is a position rather than a gap.** Each slice declares
+the classes it attacked on an `-- ATTACK-CLASSES:` line in its own pgTAP file, beside the assertions
+that earn them; **Check 24 (ADV-1)** parses it and refuses `ADVERSARIAL` for any surface whose test
+file lacks the declaration or carries no negative assertion. The vocabulary is deliberately small so
+slices stay comparable:
+
+| Class | The question it asks |
+|---|---|
+| **AUTH** | vertical and horizontal escalation, permission omission and confusion, temporal grants, revocation, and whether `deny > user grant > role grant > plan gate` survives this door |
+| **TENANT** | foreign tenant/parent/child ids, mixed-tenant relationships, cross-tenant read, write and error leakage — never "RLS exists", always a proven refusal |
+| **DOOR** | does every path enforce the invariant — RPC, table, view, trigger, transition, job, integration — or only the one the application happens to use |
+| **STATE** | can a forbidden or impossible lifecycle state be reached, including through a lower-level write path |
+| **INPUT** | NULL, empty, negative, extreme, malformed, duplicate, stale id, unregistered catalog value |
+| **BUSINESS** | states that are valid SQL and invalid business: money created, history re-denominated, orphaned children, closed objects altered |
+| **CONCURRENCY** | can two legitimate actors combine into an invalid result — counters, balances, leases, claims, single-use tokens |
+| **REPLAY** | can the same operation be repeated for an unintended effect |
+| **PRIVILEGE** | SECURITY DEFINER reachability, `search_path`, owner privileges, RLS bypass, and what a caller-supplied id means inside a definer function |
+| **OBSERVABILITY** | can an invalid operation happen without leaving the evidence it should |
+
+**Four rules the loop enforces on itself**, each earned by a defect in this repository's own
+measuring layer: a repair is not done until a **defect injection** proves the test detects its
+absence (**PAR-4**); an injection assertion must be **re-asserted after the rollback** or it is never
+counted (**TEST-3**); a control found **strong** is recorded and pinned, because proving an
+existing control works is a cheaper and better outcome than adding another one; and — added
+2026-09-06, earned by **MONEY-1** — **attack the repair you are about to write, before you write it,
+against the engine's own documented semantics.** Slice 3's draft fix was `check (amount >= 0)`,
+copied from fifteen columns that already carried it and correct-looking in every review; probing the
+*constraint* rather than the code found that PostgreSQL ranks `numeric` NaN above every non-NaN
+value, so that shape had never excluded NaN anywhere in the repository. A repair inherited from a
+precedent inherits the precedent's blind spots, and the cheapest moment to find that is before the
+migration exists. **A fifth rule was earned 2026-09-07 by MEAS-2, and it is about the ceilings
+themselves: a green ceiling that CREDITS a table is not evidence that the table is guarded on every
+path.** All three SEC-1 ceilings ask whether *some* trigger names `app.authorize`; none can ask
+whether it charges *unconditionally*, because that is behavioural and they are text predicates.
+`booking_item_passengers` was credited by all three while a finance manager wrote its manifest rows
+freely, because `guard_passenger_financials` returns early on null amounts — and **the ceiling did
+not move when the hole was closed**, which is the diagnostic: a number that stays still through a
+real repair was never counting the thing you thought. The standing consequence: when a slice finds a
+defect on a surface a ceiling already credited, **root-cause the ceiling too**, and bound the
+population it cannot judge (assertion 9 of `10_grant_model_test` now names the ten tables whose only
+capability trigger is bespoke). Applying that rule immediately is what found **BOOK-3** on
+`booking_items` — the same defect on the parent table, one hop from the slice.
+
+**A SIXTH rule was earned 2026-09-07 by BOOK-5, and it is the hardest one so far: a guard that
+charges the correct permission, unconditionally, on every path, can still be defeated if it asks its
+question of the row the attacking statement just wrote.** `guard_booking_item_financials` computed
+canon-28's assignment scope as `app.is_my_booking_item(new.owner_user_id, ...)` on UPDATE — so
+`set owner_user_id = <me>, cost_amount = 555` supplied the answer to "is this item mine?" and the
+scope evaporated. The fifth rule says a text ceiling cannot see a CONDITIONAL guard; this one says no
+ceiling of any kind can see a guard that is unconditional and still wrong, because there is nothing
+textual to see: the permission is right, the path coverage is complete, the code reviews clean. The
+standing consequence is a question to ask of every authorization predicate: **does it read `new` to
+decide AUTHORITY, or only to validate CONTENT?** Reading `new` to validate content is correct and
+normal. Reading `new` to decide authority hands the decision to the caller. Both halves of PAX-3 —
+the rejected `new.tenant_id` draft and this live defect — are the same sentence. And the only thing
+that found it was a DISCRIMINATING PAIR: the same statement run twice, one clause apart, with the
+ground truth read as `postgres` rather than through the attacker's own RLS.
+
+The rule found its THIRD occurrence on 2026-09-08 in `leads` (**LEAD-1**), and the third one is the
+widest: `app.guard_write_capability` decided a full bypass of the capability check —
+`if v_relationship_ok then return new` — from `new.assigned_user_id`, a column the attacking
+statement supplies. So naming yourself in the SET list did not merely authorize the assignment, it
+skipped every permission, `app.authorize` call and MFA check for every other column in the same
+statement. Three tables, one sentence: `set owner_user_id = <me>` · `set lead_id = <my lead>` ·
+`set assigned_user_id = <me>`. The distinction to apply, in the words the third occurrence made
+plain: **content validation** asks whether the new value is legal, and reading `new` for it is
+correct; **authority validation** asks whether this actor was permitted to cause the change, and it
+may never be sourced from the attacker's own image.
+
+A FOURTH occurrence followed on 2026-09-08 in `invoices` (**INVOICE-5**) — and it is the first one that
+appears as a *design choice rather than a defect*, which is why it is recorded here. The new rule
+"an invoice's total stops moving once it is no longer a draft" has to ask which state the row is in,
+and asking `new.status_code` would have let one statement set the status back to `draft` and change
+the total under it. It reads `old.status_code`. The habit the rule is trying to build is not "never
+touch `new`" but **write the predicate the safe way the first time**, so the question never has to
+be asked again by someone attacking it.
+
+**A SEVENTH rule was earned 2026-09-08, and unlike the first six it was earned by the measuring
+layer itself rather than by any table: PROXY-TO-INVARIANT CONFUSION — measuring `P` and concluding
+`Q`, where `P` is an implementation-dependent proxy that `Q` does not actually depend on.** The
+prior six rules are all special cases of it, and once the shape was named it turned up in five more
+places on the day it was named. Check 5 measured *line endings* as document size (GUARD-CRLF-1);
+PAX-4 measured *trigger presence* as authorization; slice 6's CI-caught defect measured a
+*platform-managed grant* as repository-controlled writability; slice 7's first attack battery
+measured *owner execution* as actor execution, and two static censuses measured *substring matches
+on trigger arguments* and *a foreign-key sweep* as catalog enforcement. Then, on 2026-09-08:
+`batch6_select_target.ps1` measured *file co-occurrence with `throws_ok` anywhere in the file* as
+negative coverage of a surface, and *a trigger function's NAME* as the presence of a control —
+reporting `trusted_devices` as having no control at all on the very day TD-1/TD-2 fitted it with
+two. **The tell is always the same: the number does not move when the thing it names really
+changes** (the fifth rule's diagnostic, generalised).
+
+The standing consequence is two rules, not one. First: **an assertion that claims a semantic
+invariant must state what it measures AND what it does not** — `107_...` assertion 15 is the worked
+example, rewritten on 2026-09-08 to say plainly that it proves no *database* function, view or
+policy references the table outside a named set, and does **not** prove the table can never *be* a
+gate, since it cannot see an Edge Function or any application-layer check. A tripwire may
+deliberately over-match; a semantic invariant may not overstate. Second: **prove the actor before
+the attack.** `set local role` outside a transaction block is a silent no-op, so an attack battery
+must assert `current_user` and `auth.uid()` as its first statements. Measured 2026-09-08, this is
+**not** a weakness in the committed suite and no test was changed for it: all 107 pgTAP files open
+an explicit transaction before any role switch, and an actor mix-up in one of them fails *loudly*
+rather than silently, because every role-switching file carries at least one assertion that expects
+LESS than a superuser sees — either a `throws_ok`, or a visibility control expecting zero rows
+(verified by neutering the role switches in `48_document_storage_test.sql`, the single file that
+reached the last round of elimination: assertions 7 and 10 fail). The vulnerable artifact is the
+**ad-hoc battery**, where no expectation is encoded and a false result is therefore
+indistinguishable from a true one. That is why this rule lives here, in the method, and not in a
+new guard.
+
+**A THIRD standing consequence, added 2026-09-08 (slice 9) because naming the failure never said
+what a proxy IS allowed to do, and half of this repository's measuring layer is proxies doing it
+legitimately. The line is between two uses, and only the second is forbidden:**
+
+* **DIAGNOSTIC PROXY — allowed, and it needs no apology.** Ranking, suggesting, flagging for review,
+  narrowing an investigation. `batch6_select_target.ps1` still ranks on a file-co-occurrence proxy
+  and that is fine, because its only output is a suggestion a human then verifies. A tripwire that
+  deliberately over-matches (`107_...` 15) is the same thing. What a diagnostic owes the reader is
+  the label: it must say it is one, and it must never be quoted as proof of the property it names.
+* **EVIDENCE OF AN INVARIANT — must observe the state that DEFINES the invariant**, or a formally
+  equivalent state the repository controls. Not something correlated with it, not something that
+  usually accompanies it, not something that happened to be true when the guard was written.
+
+The failure this forbids is one step, always the same one: *"P is correlated with Q"* → *"P proves
+Q."* That step is a class promotion in the `AGENTS.md §5a` evidence table — from **INFERENCE** ("a
+lead worth testing; anything at all until tested") to whatever class the claim wants — and every row
+of that table exists to refuse it. The table stays the single authority on the classes; this says
+which of the two things you are doing when you write a number down.
+
+**Its sharpest application, named 2026-09-08 and immediately load-bearing: INCIDENTAL DEFENSE ≠
+INTENTIONAL CONTROL.** A refusal is a proxy for enforcement. A forbidden operation may fail because
+of a CHECK constraint, an FK, a unique index, an unrelated trigger, or the order two triggers happen
+to fire in — none of which was designed to enforce the invariant in question. **"The attack currently
+fails" and "the intended authorization invariant is enforced" are different claims**, and slice 9 is
+where they came apart: slice 8 recorded the `leads` seize-plus-transition as a VERIFIED NON-DEFECT
+on the strength of a 23514 from `leads_owner_matches_assignee_chk`, and re-running it with the pair
+of columns that constraint actually couples showed the constraint satisfied and the refusal coming
+from `app.require_assignment_history` — a *timeline-completeness* control. Two incidental defences
+stacked, and the authorization model behind them was wide open. The procedure, five steps, and step
+5 is the one that cannot be skipped:
+
+1. verify the behaviour; 2. identify the mechanism that actually refuses; 3. ask whether that
+mechanism was designed to enforce this invariant; 4. if not, classify it as an **incidental
+defense**; 5. **remove or relax it inside a transaction and ask again** — that is the only way to
+learn whether the intended control stands alone. Never weaken a valid constraint in production to
+prove the point; the savepoint is the whole technique, and it is the PAR-4 injection pattern pointed
+at the defences rather than at the guard. An incidental defense may keep the system safe today and
+still be latent debt, because the day someone relaxes it for an unrelated reason nothing announces
+what else it was holding up (`109_...` 15-18 is the worked example).
+
+Slice 10 (`invoices`) supplied two more instances the day after, and neither looked like a
+constraint at all. Detaching an invoice from its booking was refused by an **RLS with-check** — the
+resulting row would have been invisible to that actor — which reads exactly like "you may not move
+this invoice" and is not: re-run onto a *second* booking the same actor owned, the move succeeded.
+And `corrects_invoice_id = id` was refused by `invoices_corrects_not_self_check`, a **coherence
+CHECK** about self-reference; pointing the column at any other invoice was accepted. Visibility
+rules and coherence rules are the two most convincing impostors, because both produce a refusal that
+mentions the row you were trying to change.
+
+**AND THE INVERSE, which slice 10's own suite caught and which the five steps above do not cover:
+MECHANISM SUBSTITUTION.** An incidental defense is an *unintended* mechanism answering for the
+intended one. The mirror image is a *new* mechanism answering for an existing one — and it is
+invisible for the same reason, because the assertion pins an SQLSTATE and both raise it.
+`72_invoice_allocation_ceiling_test` assertion 9 shrinks an invoice below what is already allocated
+and expects `23514`; `202607062000` added a BEFORE trigger that refuses the same statement, with the
+same code, for an entirely different reason. **The assertion kept passing while measuring a
+different guard, and would have gone on passing if the allocation ceiling were dropped tomorrow.**
+The standing consequence: **a package that adds a guard must ask which existing ASSERTIONS now pass
+for a different reason** — the `AGENTS.md §5b` question 2 ("which code consumes, parses or derives
+from the structure this package changed?") applied to the test suite, which derives its meaning from
+the mechanism it names. It is answered the same way it is asked of code: re-run the PAR-4 injection
+and see whether the old enforcer is still the one refusing. Here it was not, and the four probes
+were re-pointed onto the **platform path**, where the ceiling has no session-less exemption (its own
+assertion 2 says so) and is therefore the only thing that can refuse.
+
+**Slice selection is a measurement, not a preference — and on 2026-09-08 the measurement was found
+to have inverted.** `scripts/batch6_select_target.ps1` ranks every surface still at `NOT-RECORDED`
+by **exposure, with coverage only as the tie-break** — money, PII, unguarded write doors, direct
+grants, SECURITY DEFINER writers, RPC count, lifecycle, concurrency shape — and **stores nothing**:
+every number is recomputed from the live catalog and the repository on each run, so it selects the
+next slice without ever owning the truth about a surface. It ranked by `exposure - coverage` until
+the seventh rule was applied to it: coverage is FILE CO-OCCURRENCE and it saturates, so `users`
+scored coverage 450 and `branches` 458 for being in everybody's fixture, and the ranking became
+approximately the inverse of exposure — the old Top 12 opened with `languages`, `nationalities` and
+`countries`, all with exposure **0**, while `leads` at exposure 22 sat near the bottom. `Score` is
+retained as a diagnostic column and is no longer the sort key. It is not a CI gate and has no
+verdict to give; high exposure says *attacking here is most likely to be repaid*, and low exposure
+is never evidence that a surface is safe.
+
+**Standing method per slice** — the shape every closed entry above already followed, stated once so it
+stops being re-derived: **DISCOVER** the surface from the catalog (schema, columns, constraints,
+indexes, FKs, RLS, policies, direct grants, triggers, RPC interactions, lifecycle, catalogs, events,
+auditability, tenant isolation, authorization, integration surface, dependents, canonical references)
+→ **CLASSIFY** every finding as defect / security / authorization gap / data-integrity /
+lifecycle / governance-documentation / **intentional asymmetry** / future enhancement / owner decision
+/ counsel dependency / non-issue → **ADVERSARIALLY TEST** where the surface is security-,
+authorization-, lifecycle- or integrity-sensitive → **REPAIR** verified defects only → **RETEST** with
+evidence the repair works → **RECONCILE** repository = local = Primary → **DOCUMENT** in the canonical
+current-state document that actually changed → **GUARD** the failure mode so the class cannot return.
+Two rules the programme learned the hard way and that stay binding: an **intentional asymmetry is not a
+defect** (`CUST-6` exists precisely so supplier/customer symmetry is not chased for its own sake), and
+"best practice" never substitutes for an owner decision that is genuinely business or compliance
+policy (MAIL-1, RET-1).
+
+**Exit criteria — Batch 6 may be declared complete only when all eleven hold, each by evidence:**
+
+| # | Criterion | How it is measured today |
+|---|---|---|
+| **EC-1** | **Coverage.** Every table in the surface set derived from `supabase/migrations/**` and owned by `MASTER_SURFACE_DISPOSITION.md` carries an explicit recorded audit disposition | **NOW MEASURABLE — `MASTER_SURFACE_DISPOSITION.md`, created 2026-09-05, CI-gated by Check 22 (DISP-1).** The live count is held by that file and is not restated here (One Authority). The surface SET is derived from `supabase/migrations/**`, so a new table turns the build red until it has a row; the disposition and assurance vocabularies are closed so the count means something. The two proxies that read better were rejected on measurement: "all 77 are named in `reports/**`" is saturated, "75 of 77 are named in a pgTAP file" is a floor |
+| **EC-2** | **Authorization.** Every writable surface has a documented authorization rationale; exceptions explicit | Already partly earned and already pinned: `57_write_capability_map_test.sql` and `58_write_grants_and_config_capability_test.sql` carry the 54/17/3 ceilings, and the residual three are the canon-34 Human Identity tables with a stated rationale. Exit = the ceilings hold and every remaining exception names its reason |
+| **EC-3** | **Tenant isolation.** No unresolved tenant-crossing path in scope | Positive+negative HTTP proof exists (`verify_api_end_to_end.ps1` against a fully privileged owner of another agency). Exit = every table in EC-1's record has a stated isolation basis (RLS predicate, structural path prefix, or platform-only) |
+| **EC-4** | **Lifecycle integrity.** No unresolved invalid transition or parent/child contradiction | `54_transition_permission_parity_test` (both directions, all ten functions) and the PARENT-1 class guard in `88_parent_state_on_every_door_test` (seven verified non-defects, each run down against the catalog). Exit = both green with no unexplained entry |
+| **EC-5** | **Data integrity.** Constraints, triggers, RPCs and tests agree with the intended invariant | `verify_database.sql` smoke (`ALL CHECKS PASSED`) plus the per-domain pgTAP files. Exit = no invariant is asserted in only one of the three places |
+| **EC-6** | **Adversarial resilience.** Security- and integrity-sensitive surfaces have targeted NEGATIVE tests | Substantial and uneven. Strong where a defect was found (forgery, tenant crossing, replay under two live sessions for LIC-2, lease/retry races in test 100, defect injection in PAR-4); absent where none was. Exit = every EC-1 surface classified security- or integrity-sensitive has at least one negative test, not merely a positive one |
+| **EC-7** | **Regression protection.** Every material Batch 6 finding has permanent coverage, and every ceiling can only shrink | The programme's strongest area — each closed package above names its guard file. Exit = no finding closed without one, and no ceiling assertion that can silently grow |
+| **EC-8** | **Documentation coherence.** No canonical document contradicts repository or runtime evidence | Checks 1–21, CI-gated. **Check 21 (STALE-1) was the missing one** and is why this section exists |
+| **EC-9** | **Deployment parity.** Repository = local = Primary demonstrated, not asserted | `check_database_parity.ps1` on all three surfaces with Primary values READ FROM Primary (GUARD-1), plus Check 19's carried evidence (RECOVER-1) |
+| **EC-10** | **CI protection.** No important change class can silently bypass its guard | Check 20 (CI-1), a fixed list that states its own ceiling |
+| **EC-11** | **Cleanliness.** No abandoned, duplicate, superseded or orphaned mechanism without a stated reason | Partly earned by deletion-over-refreshment (GOV-5, REG-2). Exit = the sweep in EC-1 also records, per table, whether anything it touches is superseded |
+
+**Two refinements to the criteria as first proposed, made on evidence rather than adopted blind.**
+EC-1 was proposed as "100% of the table inventory audited"; a *count* of audited tables is not
+measurable without a disposition record, so the criterion is the record, and the count is what the
+record then yields. And a criterion was **added**: EC-6's exit is stated as *negative* tests
+specifically, because the suite's 1,476 assertions are overwhelmingly positive controls and a
+positive-only surface is exactly where LIC-2, SPP-2 and FIN-3 were hiding.
+
+**Measured today, and the closest thing to a coverage number that is honest:** 75 of the 77 tables are
+named in at least one pgTAP file; **`campaign_daily_metrics` and `exchange_rate_adjustments` are named
+in none.** Being named in a test is not coverage either — it is a floor, not a ceiling — but a table
+no test mentions at all is definitively unswept, and those two are the only ones that can be asserted
+today without the EC-1 record.
+
+**The assurance classification this batch is allowed to claim, and the two it is not.** The
+repository is **TESTED** and **SUBSTANTIALLY ADVERSARIALLY TESTED** — specific attempts were made to
+violate specific assumptions and the system resisted them (the concurrent double-redemption of a
+single-use licence token, forged audit events, cross-tenant reads by a privileged foreigner of another
+agency, direct-DML capability bypass on 59 tables, trigger bypass, lease expiry and retry races). It
+is **NOT exhaustively adversarially audited**, and no document may say otherwise until EC-1 and EC-6
+both hold: the surfaces that were challenged were the ones a defect led us to, which is a different
+and weaker claim than every surface having been challenged systematically.
+
+**Blocked on commercial decisions (none blocks the above):**
+~~BLOCKED-1 trial plan tier + duration at provisioning~~ — **RESOLVED 2026-08-27**: owner set a
+30-day full-feature trial; "full feature" resolved to the Enterprise plan on evidence (it is the only
+plan with all 22 entitlements enabled), implemented in SPEC-157.
+~~BLOCKED-2 what `MANAGE_SUBSCRIPTION` "Limited" means for Owner/CEO~~ — **RESOLVED 2026-08-27**, and
+resolved in the opposite direction to the obvious reading: it is granted to **neither**. Platform
+authority cannot be a tenant permission at all, because `app.has_permission` resolves the caller
+through `public.users` joined on `current_tenant_id()` — every role holder is inside exactly one
+tenant by construction. SPEC-157 places it on `service_role` instead.
+~~BLOCKED-3 who may set `commission_rate`~~ — **RESOLVED 2026-08-27** by owner rule (10% of gross
+profit, system-derived), implemented in SPEC-155.
+**New, and none blocks current work:** **BLOCKED-4** — once booking-item ownership becomes
+transferable (it is not today: `create_booking_item` sets all three ownership fields to the creator
+and no reassignment path exists), does commission follow the new sales owner or stay with the
+original seller? Pure compensation policy. **BLOCKED-5** — may the Platform Owner ever deliberately
+re-grant a trial? Implemented conservatively as never (write-once stamp). **CANON-26-1** — canon 26
+admits `suspended` only from `read_only`, so an active tenant cannot be suspended in one step;
+`active -> cancelled` is available. Encoded as canon states rather than widened by assumption.
+
+**Standing method for this batch** (`AGENTS.md §3 5b`, §6): every package ends with a cross-path
+impact sweep classifying each affected execution path, and no security test may pass vacuously.
+
+---
+
+## Pre-Production Readiness Closure gate (owner directive 2026-10-08)
+
+*Added 2026-10-08 by SPEC-248, from the owner's directive of the same date (GitHub issue 3). It extends Batch 6's exit criteria and weakens none of EC-1…EC-11. It opens no audit programme and creates no second inventory: `MASTER_GAP_REGISTER.md` keeps owning every finding's status and evidence, `MASTER_SURFACE_DISPOSITION.md` every surface, `_ORVION_CANONICAL/01_mvp_scope.md` the Day-1 business functions, and `MASTER_CERTIFICATION_STATUS.md` the launch-readiness verdict. This section owns only the gate, the rule that derives its population, and the order of its closure queue.*
+
+**What READY means.** No document may call ORVION, or any workflow or integration in it, ready for production until this gate has evaluated READY for that scope. Zero defects is never claimed. The gate demands evidence-based readiness, an explicit disposition for every residual risk, and every unsupported path disabled rather than described. **No known material defect affecting an enabled Day-1 workflow may be deferred silently or marked launch-ready.**
+
+**When it is evaluated:**
+1. once Batch 6's EC-1…EC-11 hold, before the first production tenant;
+2. again before enabling each workflow or integration — the n8n delivery workflow, email, a client application, and each booking, finance and subscription workflow — for the members whose boundary that enablement crosses.
+
+A verdict is never carried forward. Each evaluation re-derives its population from the documents as they then stand.
+
+**The population is derived, never chosen.** It is the union of:
+- every finding in `MASTER_GAP_REGISTER.md`, table row or `###` block, whose id matches the finding pattern of `scripts/check_repository_consistency.ps1` and whose status does not open with the settled vocabulary that script declares once for Checks 2, 14 and 25;
+- every surface `MASTER_SURFACE_DISPOSITION.md` records as `AUDITED-OPEN` or `PARTIAL`;
+- every id on the manifest's open-decision line.
+
+A hand-picked or remembered list is not an evaluation. `scripts/readiness_population.ps1` executes this rule. It reads the finding pattern, both vocabularies and the register resolver from `scripts/check_repository_consistency.ps1` itself, and names every derived id this section does not classify; `scripts/readiness_selftest.ps1` proves it.
+
+**Each member receives exactly one class.** Each nonterminal member also names an owner, an exact trigger or dependency, and either a bounded fix unit or a fail-closed release condition. An UNPROVEN candidate is held with the class its scheduled proof would confirm, and it blocks READY in its scope until that proof confirms or dismisses it.
+
+| Class | Meaning | Release consequence |
+|---|---|---|
+| **VERIFIED DEFECT** | reproduced, with severity and impact measured | closed by a bounded fix unit before its boundary is enabled |
+| **BUSINESS POLICY** | the remedy needs a business rule that canon cannot derive | owner decision, or the dependent path stays disabled |
+| **EXTERNAL / LEGAL** | needs an outside authority: a licence, counsel, a provider, or platform evidence | the dependent feature stays disabled and is not claimed operational |
+| **ACCEPTED RESIDUAL** | proven intentional, or bounded by measurement with stated containment | reason and containment recorded; its trigger reopens it |
+| **FUTURE-ONLY** | not built, and not a Day-1 function in canon 01 | no runtime path exists; a trigger and a disabled boundary |
+
+**READY holds for the evaluated scope only when all five hold:**
+1. the population was re-derived on the evaluation date and every member is classified;
+2. no VERIFIED DEFECT whose boundary lies in the evaluated scope is still unrepaired;
+3. every BUSINESS POLICY and EXTERNAL / LEGAL member in scope is decided, or its feature is disabled and not claimed;
+4. every enabled Day-1 journey — the user journeys, finance, subscription, consent, tenant isolation, audit, integrations and operational recovery — carries end-to-end and adversarial proof;
+5. at the first evaluation, EC-1…EC-11 hold; at every evaluation, repository = local = Primary (EC-9).
+
+### First derivation — 2026-10-08, at `523888d`
+
+The register holds **439 distinct finding ids**. **320** open with the settled vocabulary; **119** do not:
+- 101 open with the open vocabulary;
+- 8 open with a form outside both vocabularies;
+- 10 exist only as `###` blocks.
+
+Twenty-one surfaces are `AUDITED-OPEN` (18) or `PARTIAL` (3). The manifest's open-decision line names MAIL-1, RET-1 and PH8-10. Every one of the 119 is placed below exactly once, and RET-1 joins from the manifest line. The classes are a dated reading of the register, never a second status: where this section and the register differ, the register wins and this reading is stale.
+
+**Corrected 2026-10-09 (`SPEC-249`).** `scripts/readiness_population.ps1` replayed this derivation at `523888d`. It reads a shared row such as `CDD-5/BF-6/BF-7` as one finding per id, as the register's resolver does, and finds **446** ids: **322** settled and **124** not (106 open vocabulary, 8 other, 10 block only). The surfaces and the decision line are unchanged. Of the five additional members, B3, BF-3, CDD-4 and BF-6 were already placed below beside their row siblings. **BF-7** had been left unplaced and is now placed with CDD-5/BF-6.
+
+### Action registry (SPEC-269, 2026-10-12)
+
+This is ORVION's one list of open obligations. It answers, for every member of the derived population: what is open, what class it is, who decides, the latest safe boundary, what it waits on, and how it closes. It holds no status. A finding's status, severity, title and evidence stay in `MASTER_GAP_REGISTER.md`, and each surface's disposition stays in `MASTER_SURFACE_DISPOSITION.md`. A row here is a classification of an id, so where the two disagree the register wins and the row is stale.
+
+**How to read it.** `pwsh -NoProfile -File scripts/readiness_population.ps1 -Registry` joins each id to its register row and prints one line per open member with its trigger state; `-Tsv <file>` writes the same join. Check 29 of `scripts/check_repository_consistency.ps1` runs that derivation, so every Boot, Gate, `-Finish` and CI run of the guard fails when the registry is incomplete, contradictory or overdue.
+
+**Trigger state is derived, never typed.** For each id, the first rule that applies decides it:
+1. **COMPLETED**: the register settles the id and the manifest's open-decision line does not name it. It is never new work. Its row is pruned at the next edit of this section.
+2. **OVERDUE**: its boundary below is `REACHED` and the id is still open. This fails the guard: a boundary was crossed with the obligation unmet.
+3. **BLOCKED**: class BUSINESS POLICY or EXTERNAL / LEGAL. It waits on the named decider, and its feature stays disabled until then.
+4. **ACCEPTED RESIDUAL** or **FUTURE-ONLY**: the class itself. Its own trigger, recorded in its register row or its boundary, reopens it.
+5. **DUE NOW**: its boundary is `NEXT`.
+6. **NOT DUE**: anything else.
+
+The guard also fails on any of these:
+- an open member that no row classifies;
+- an id that two rows classify;
+- a row naming an id the register, the disposition record and the decision line do not know;
+- a class or a boundary outside the vocabularies below;
+- a row with an empty Decides or Treatment cell.
+
+**DUE NOW is a deadline, not a work order.** It means "due before the `NEXT` boundary is crossed". The next executable task is always the manifest's `Next capability`, which inside Batch 6 is the first row `scripts/batch6_select_target.ps1` ranks. Only OVERDUE means a crossed boundary. Each of EC-1…EC-11 stays required for `B6-EXIT`; the guard derives EC-1 alone, and the gate's evaluation judges the rest.
+
+**Two kinds of member need no row (`SPEC-270`).** Their state comes from a boundary alone: `REACHED` is OVERDUE and fails the guard, `NEXT` is DUE NOW, and anything else is NOT DUE.
+- **Every surface `MASTER_SURFACE_DISPOSITION.md` still records as `NOT-RECORDED`** is a member at `B6-EXIT`, by EC-1. `-Registry` lists the whole remaining programme, and `B6-EXIT` cannot be recorded `REACHED` while one is unaudited. A row that classifies such a surface explicitly wins.
+- **Every row of `reports/future-backlog.md`'s Live deferred items table** names its own boundary there. A row with no known boundary also fails. The backlog keeps owning the items; this section only lends them its boundaries.
+
+**Completion evidence is uniform.** An item closes when its register status opens with the settled vocabulary, citing the contract and the tests that prove it. A surface closes when its disposition leaves `AUDITED-OPEN` or `PARTIAL`. A decision closes when the owner's answer is recorded in its authority and the id leaves the manifest's decision line.
+
+**Capture.** A new open finding, a new owner decision or a new surface obligation enters this table in the same change that registers it. The guard refuses the change otherwise. `ENGINEERING_METHOD.md` §3 "Measurement integrity" owns the capture rule.
+
+**Boundaries.** A row's latest safe boundary is one of these keys. Only a Change Request moves a state. `REACHED` carries its date and the evidence that it was crossed.
+
+| Boundary | Crossed when | Roadmap link | State |
+|---|---|---|---|
+| `B6-EXIT` | Batch 6's EC-1…EC-11 hold; inside it `scripts/batch6_select_target.ps1` chooses each slice | Batch 6, this plan | NEXT |
+| `GATE-EVAL` | this gate is first evaluated, before the first production tenant | this section | NOT REACHED |
+| `FIRST-TENANT` | the first production tenant is provisioned on Primary | `32` go-live | NOT REACHED |
+| `FIRST-SUBSCRIPTION` | the first production subscription | `32` Phase 3 | NOT REACHED |
+| `FIRST-PERSONAL-DATA` | the first production personal data is stored | `32` Phase 4 | NOT REACHED |
+| `FIRST-BOOKING` | the first production booking | `32` Phase 5 | NOT REACHED |
+| `FIRST-PAYMENT` | the first production payment | `32` Phase 6 | NOT REACHED |
+| `FIRST-JOURNAL-ENTRY` | the first production journal entry | `32` Phase 6 | NOT REACHED |
+| `ENABLE-CRM` | the CRM workflow is enabled for staff | `32` Phase 4 | NOT REACHED |
+| `ENABLE-INVOICING` | the invoice, allocation or collections workflow is enabled | `32` Phase 6 | NOT REACHED |
+| `ENABLE-REFUNDS` | the refund workflow is enabled | `32` Phase 6 | NOT REACHED |
+| `ENABLE-SURFACE-WORKFLOW` | the workflow of the finding's own surface is enabled | per surface | NOT REACHED |
+| `ENABLE-CLIENT-WRITES` | a client application first writes | frontend, OD-9 | NOT REACHED |
+| `ENABLE-INVENTORY` | inventory ships | Batch 5 | NOT REACHED |
+| `ENABLE-EMAIL` | email dispatch is enabled | `32` Phase 10 | NOT REACHED |
+| `ENABLE-CONVERSION-DELIVERY` | the n8n Data Manager delivery workflow is enabled | `32` Phase 8 | NOT REACHED |
+| `ENABLE-RETENTION` | any retention destroys a record | `32` Phase 7 | NOT REACHED |
+| `ENABLE-TAX-DOCUMENTS` | an ORVION invoice is claimed as a tax document | `32` Phase 6, VOID-1 | NOT REACHED |
+| `OWN-TRIGGER` | the trigger recorded in the item's own register row | the row | PER ITEM |
+
+**Classification.** Class is one of the five release classes above, or one of three labels:
+- `REQUIRED CAPABILITY`: a Day-1 function that canon or a ratified ADR requires and nothing implements. It is a missing build, not a reproduced defect, so it is never claimed until built, and its boundary works like a defect's.
+- `TERMINAL IN SUBSTANCE`: register hygiene, not release work.
+- `SURFACE`: an open disposition that follows its findings. The rows keep the 2026-10-08 reading and its corrections. SUB-4, queue item 1 of that reading, was closed by SPEC-250, and its row is pruned.
+
+| Ids | Class | Decides | Boundary | Waits on | Treatment |
+|---|---|---|---|---|---|
+| USR-3 | VERIFIED DEFECT | engineering | `FIRST-TENANT` | — | High. An `aal1` `ceo` self-granted a permission and self-assigned a branch at the table door. Fixed by the Batch 6 slice of `user_permission_grants` or `user_branch_assignments`, whichever the selector reaches first; it is the strongest candidate for the next justified exception |
+| BOOK-11, BOOK-12 | VERIFIED DEFECT | engineering | `FIRST-BOOKING` | BOOK-12: the rule for when a booking's customer freezes, derived from canon and escalated to the owner only if not derivable | Medium. Door cancellation leaves no reason, stamp or event; the customer can be rebound before issuance |
+| PAY-9 | VERIFIED DEFECT | engineering | `FIRST-BOOKING` | BOOK-12's rule, a consumer of the same balance | Medium. A booking paid through `app.record_payment` still owes its invoice in the booking-scoped balance, so issuing it would charge the negative-balance override. One balance-model unit that counts a payment through its allocation |
+| PAY-5, FIN-11 | VERIFIED DEFECT | engineering | `ENABLE-INVOICING` | — | Low. A door allocation leaves the invoice's status unchanged and records no event. One unit: a single authority derives invoice status and its event on both doors, as `app.record_payment` does |
+| RFD-3 | VERIFIED DEFECT | engineering | `ENABLE-REFUNDS` | — | Medium. Legal direct refund writes move customer balance with no refund events. Refund event authority on both doors, without duplicating the RPC's emission |
+| PAY-4 | VERIFIED DEFECT | engineering | `FIRST-PAYMENT` | — | Low. The table accepts a zero-value payment coded as a customer refund. A payment entry-shape rule derived from the sanctioned RPCs |
+| JE-2, DC-11 | VERIFIED DEFECT | engineering | `FIRST-JOURNAL-ENTRY` | the finance model (OD-1) | Medium. An entry can balance across two currencies. Decide DC-11, or contain the gap fail-closed by refusing a mixed-currency entry until the model is decided; launch never presents a false balance |
+| ARCH-2, ENTRY-1, CAMP-2, STEPUP-1, PAX-4 | VERIFIED DEFECT | engineering | `B6-EXIT` | each listed table's slice | Medium for ARCH-2 and ENTRY-1; CAMP-2 is ENTRY-1's question and is answered with it. STEPUP-1 and PAX-4 are UNPROVEN class candidates held here until each table's slice proves or dismisses its member; they never count as proven (EC-1) |
+| LI-3 | VERIFIED DEFECT | engineering | `ENABLE-CRM` | FIN-9 and FIN-11's single answer on where side effects belong | Medium. A contact made at the door leaves the lead reading as never contacted. Decide whether a bare table insert may advance a lead's lifecycle |
+| CHAT-2, CAMP-4, BRANCH-1, BRANCH-2, PAX-8 | VERIFIED DEFECT | engineering | `ENABLE-SURFACE-WORKFLOW` | — | Low. Audit and timeline evidence is missing at a table door, and each finding's measured bound is that nothing reads it. At the gate the bound is re-measured: if it holds, the item becomes an explicit accepted residual; otherwise it is repaired. Never deferred silently |
+| APP-1 | REQUIRED CAPABILITY | engineering | `FIRST-TENANT` | OD-9 (whether it runs beside Batch 6), OD-5 (staff login) | No client application exists, while ADR-0014 chose a server-rendered web app as ORVION's client. Treatment: FE-0, the web foundation and the first read-only journey (`delivery-assessment-2026-10-11.md` §7) |
+| GADS-1 | REQUIRED CAPABILITY | engineering, then owner | `FIRST-TENANT` | Batch 6's exit criteria; the owner installs and authorizes the repository-held script in Google Ads (`MASTER_INTEGRATION_CATALOG.md §5.2`) | High. Read-only Google Ads reporting is a Day-1 function by the owner's decision D4 (canon 01, ADR-0030), and nothing provides it. Treatment: ADR-0030's contracts in order: the integration RPCs and tables, then the n8n receiving workflow and the script, then the screens. Nothing is bought or applied for |
+| CTRL-11 | ACCEPTED RESIDUAL | engineering | `GATE-EVAL` | — | A boundary's state is recorded by a contract, never observed: the guard cannot read Primary. Containment: provisioning a tenant needs `service_role`, and READY requires this gate's evaluation. At `GATE-EVAL`, and in every contract that enables a boundary, each boundary state is confirmed against Primary's business counts. A non-zero count under a `NOT REACHED` boundary is repaired before anything else |
+| CTRL-19 | VERIFIED DEFECT | owner | `GATE-EVAL` | the owner's GitHub configuration: the agent as a separate Write collaborator in its own OS account, and `main` updatable only by the owner's account | High. Until the owner acts, a candidate can certify itself through the check it defines. `scripts/promote_main.ps1`, run by the owner from a `main` checkout, is the promotion that does not trust the candidate |
+| OPS-1 | BUSINESS POLICY | owner | `FIRST-TENANT` | the owner's RPO and RTO | Engineering then documents them and proves a restore. Proposed default (2026-10-11, not decided): Supabase point-in-time recovery, an RTO of 4 hours, web hosting in Primary's EU region; a cost approval |
+| DC-12 | BUSINESS POLICY | owner | `FIRST-TENANT` | the owner's release scope | Canon 01 lists family or related travellers; until the owner decides, the first release does not claim them |
+| DC-10, DC-28 | BUSINESS POLICY | owner | `FIRST-TENANT` | the owner's legacy-data decision | No import path exists, so a tenant starts empty until the owner decides. Proposed default (2026-10-11, not decided): start clean, enter open customer and supplier balances as opening items, enter in-flight bookings by hand |
+| OD-1, OD-2, OD-3, OD-5, OD-8 | BUSINESS POLICY | owner | `FIRST-TENANT` | the owner | Launch scope, revenue policy, reporting currency, staff login without email, and salary visibility. Each register row carries the proposed default; `delivery-assessment-2026-10-11.md` carries the analysis. On answers: FIN-0 (the profitability model) and the canon 01/20 amendments |
+| OD-9 | BUSINESS POLICY | owner | `B6-EXIT` | the owner | Whether frontend, finance design, Google access and counsel work run in parallel with Batch 6, and the app's check profile. On approval: FE-0 (the web foundation) as a Draft |
+| MAIL-1 | EXTERNAL / LEGAL | owner + counsel | `ENABLE-EMAIL` | the provider, and the PDPC cross-border licence naming its destination | Email stays disabled and unclaimed until it closes |
+| RET-1 | EXTERNAL / LEGAL | counsel | `ENABLE-RETENTION` | counsel's retention periods | No policy is seeded and nothing is destroyed until then |
+| PH8-10, CONV-9 | EXTERNAL / LEGAL | Google evidence, verified by the owner | `ENABLE-CONVERSION-DELIVERY` | Google's evidence that click-less phone conversions are attributed | CONV-9 reopens with PH8-10 |
+| PH8-7, PH8-8 | EXTERNAL / LEGAL | Google | `ENABLE-CONVERSION-DELIVERY` | Google's Data Manager contract | Corrections applied when the n8n workflow is built, and checked before it is enabled |
+| DC-4 | EXTERNAL / LEGAL | counsel | `FIRST-PERSONAL-DATA` | counsel's reading of PDPL erasure obligations | — before the first production personal data |
+| DC-22 | EXTERNAL / LEGAL | counsel | `FIRST-PERSONAL-DATA` | the confirmed jurisdiction | Data residency |
+| R3, BF-4, CDD-4 | EXTERNAL / LEGAL | counsel + tax authority | `ENABLE-TAX-DOCUMENTS` | tax and ETA e-invoicing obligations | Until then an ORVION invoice is an internal record and is never claimed as a tax document (VOID-1) |
+| FIN-9 | ACCEPTED RESIDUAL | engineering | `GATE-EVAL` | — | The residual writer is only the platform writer; the gate re-checks that the platform's operational write path uses the RPC |
+| JE-6 | ACCEPTED RESIDUAL | engineering | `OWN-TRIGGER` | — | Reopened by the first reader of `source_entity_id` |
+| CONV-10 | ACCEPTED RESIDUAL | engineering | `ENABLE-CLIENT-WRITES` | — | No client exposes the manual door, and it must not be exposed before the item is repaired |
+| MONEY-3, CUST-6, USR-4, ORIG-1, PLACE-2, CAP-1, DEAD-3, DEAD-4 | ACCEPTED RESIDUAL | engineering | `OWN-TRIGGER` | — | CUST-6 is proven intentional; the others are latent or unproven, each with its trigger |
+| DC-15 | ACCEPTED RESIDUAL | engineering | `OWN-TRIGGER` | — | `service_role` is never a client credential, and integrations use `orvion_integration` |
+| GOV-9, GOV-15, GOV-20, GUARD-1, SYNC-1, PAR-7, CTRL-3, DC-27, CTRL-5, CI-2, TEST-4, PERF-2, CTRL-6 | ACCEPTED RESIDUAL | engineering | `OWN-TRIGGER` | — | Control plane and governance, none a Day-1 business function. The control-plane chapter is closed, and each reopens only on its own trigger |
+| OPS-2, RLS-1, API-2, TAX-1, FIN-DOC-1 | TERMINAL IN SUBSTANCE | engineering | `GATE-EVAL` | — | Each carries a terminal verdict outside the settled vocabulary: implemented, merged, delivered, retracted, closed. Re-worded to settled at the first evaluation |
+| N1, DC-5, RC-4, R8, B3, RC-1 | TERMINAL IN SUBSTANCE | engineering | `GATE-EVAL` | — | Still `DESIGN-READY` although shipped migrations implement them in whole or part: `202607049100`, `202607054600`, `202607048900`, `202607048800`, and the subscription lifecycle. Re-verified and settled at the first evaluation |
+| R1, R2, R4, DC-7, R6, INV-1, N5, CDD-1, BF-3, CDD-2, CDD-3, CDD-5, BF-6, BF-7, CDD-6, CDD-7, CDD-9, CDD-10, CDD-11, BF-1, BF-2, BF-5, BF-8, BF-9, BF-10, BF-11, BF-12, RC-2, FOE-4, FOE-5, FOE-6, FOE-8, DEAD-2, AUDIT-5, CONV-3 | FUTURE-ONLY | engineering | `OWN-TRIGGER` | its batch | Design-accepted builds with their batch; none is a Day-1 function in canon 01 |
+| DC-6, DC-8, DC-9, DC-13, DC-14, DC-17, DC-18, DC-19, DC-20, DC-21, DC-23, DC-24, DC-25, DC-26, DC-29, B1, B2, B6, B7, B8 | FUTURE-ONLY | engineering | `OWN-TRIGGER` | evidence | Hardening, optional or evidence-gated. DC-9: the SLA is elapsed-time and reads no business hours today |
+| DC-2 | FUTURE-ONLY | engineering | `ENABLE-CLIENT-WRITES` | — | Write idempotency must exist before the first client application writes |
+| DC-3 | FUTURE-ONLY | engineering | `ENABLE-INVENTORY` | — | Concurrency control before inventory ships |
+| RPC-1 | FUTURE-ONLY | engineering | `B6-EXIT` | EC-2 | Its remaining permissions are re-measured under EC-2 |
+| `booking_item_passengers`, `booking_items`, `financial_accounts` | SURFACE | engineering | `GATE-EVAL` | — | Still `AUDITED-OPEN` for decisions the register has since settled (PAX-5, PAX-6, BOOK-8, BOOK-9, FA-2); re-dispositioned at the first evaluation (EC-8) |
+| `trusted_devices` | SURFACE | engineering | `OWN-TRIGGER` | — | Open by design, under its pinned bound |
+| `documents`, `quotations` | SURFACE | engineering | `GATE-EVAL` | — | `PARTIAL`: door-created event parity (the family of CHAT-2's row) and a caller-writable `created_at` read only by `app.financial_documents`' listing are re-swept at the first evaluation |
+| `offline_conversions` | SURFACE | engineering | `ENABLE-CONVERSION-DELIVERY` | the Phase-8 workflow | `PARTIAL`; evaluated before that enablement |
+| `bookings`, `branches`, `conversations`, `journal_entries`, `journal_entry_lines`, `lead_interactions`, `marketing_campaigns`, `otp_challenges`, `passengers`, `payment_allocations`, `payments`, `refunds`, `subscription_payment_proofs`, `suppliers`, `tasks`, `totp_enrollments`, `users` | SURFACE | engineering | `B6-EXIT` | their open findings above | `AUDITED-OPEN`; each closes when its open findings do, and carries no separate class |
+**The order stays the owner's.** Batch 6 → bounded Phase-8 revalidation → n8n and Data Manager → the Direct Call Quality Feedback Loop → PH8-10 → the Smart Bidding decision → Phase-8 closure (`_ORVION_CANONICAL/32_execution_roadmap.md`). Inside Batch 6, `scripts/batch6_select_target.ps1` keeps choosing the slice. This registry reorders nothing silently: a `DUE NOW` state never overrides the selector, and an item taken ahead of it is an explicit, recorded exception with its reason. SUB-4 (SPEC-250) and SPP-6 (SPEC-261) are the exceptions taken so far.
 
 ---
 
