@@ -113,7 +113,7 @@ The list above is not exhaustive; every engineering artifact outside Write Scope
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -264,6 +264,8 @@ Post-Implementation Proof Obligation: One fresh timed and watched native Finish 
 None.
 
 2026-10-17 — Owner Human Gate 1 recorded through native admission: origination f4f2e0c00f1ca68c13de767ccb39f575baaa2928 committed the exact approved Draft (SHA-256 574067ffee37576735fee86dc44ff03610e3bfa57c4bcc3b7ba76048a3c27926, blob f4bf8e3516cb257d9b1ed59c1a67c10e726ac78d); approval 44d1b272eb020aac467a89f0c180068784bf272d passed the real pre-commit Gate with APPROVAL_EVIDENCE: PASS. Revalidated before admission: cancelled predecessor at ea4feb4ae1e168b31a27eca3ef694c5d1dd1987f, SPEC-288 unreserved in history, protected sources byte-identical to c362e417eca5496d4235bb0232f7fab9cfd5ac17, remote Founder main unchanged, Platinum checkout clean. Enter In Progress; Steps 1-6 follow on branch spec-288-founder-independence-completion.
+
+2026-10-17 — Steps 1-6. Step 1: Already Applied for the carried payload; SPEC-287 records Cancelled and all 38 carried paths other than the seven named exclusions are byte-identical to b7eaac0f8d20c8fa37f3c22f5c45346e35933211 (git diff --quiet exit 0). Step 2: Applied, the two E-section expectations now read Founder; no other line changed. Step 3: Applied, both source reads end with the CRLF-to-LF normalization; no assertion changed. Step 4: Applied, the single method occurrence now reads DISABLED. Step 5: Applied, the five Write(...) ask entries removed; ask holds the five Edit rules in order, the 11 deny rules, hooks and comments unchanged. Edited blobs equal the prototype-proven bytes (cold-start b849aa7839291ef2187a000dcbdd67d6806f9e76, Founder environment 33aa0745582bc3bd2153f1ac69cbc17c13c22a36), which inform but do not certify. Step 6: generator run, -Check exit 0, every changed path is in Write Scope. Runtime Checkpoint DONE requests Finish; it claims no Finish, Review or Complete result.
 
 ## Verification Notes
 

@@ -293,13 +293,13 @@ try {
     $out = & pwsh -NoProfile -File $sandboxGuard -RepoRoot $sandbox 2>&1 | Out-String
     $code = $LASTEXITCODE
     Check 'E-CONTROL: with the delegated guard exiting 0, the parent does not report a ledger failure' `
-        ($code -eq 0 -and $out -notmatch 'Primary ledger evidence is ABSENT') "exit=$code"
+        ($code -eq 0 -and $out -notmatch 'Founder ledger evidence is ABSENT') "exit=$code"
 
     Write-S $LEDGER "Write-Host 'STUB LEDGER GUARD: deliberate failure'`nexit 3`n"
     $out = & pwsh -NoProfile -File $sandboxGuard -RepoRoot $sandbox 2>&1 | Out-String
     $code = $LASTEXITCODE
     Check 'E1 MUTATION: a NON-ZERO exit from the delegated guard makes the parent report it' `
-        ($out -match 'Primary ledger evidence is ABSENT, STALE or DISAGREES')
+        ($out -match 'Founder ledger evidence is ABSENT, STALE or DISAGREES')
     Check 'E1 MUTATION: ...and makes the PARENT exit non-zero -- the failure is not swallowed by the wrapper' `
         ($code -ne 0) "exit=$code"
 

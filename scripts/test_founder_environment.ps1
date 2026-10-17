@@ -103,7 +103,7 @@ try {
     $r=Run-Guard;Check 'missing evidence refused' ($r.Exit -ne 0 -and $r.Text -match 'MISSING')
     Write-Record $record;$r=Run-Guard;Check 'valid population still accepted after all negatives' ($r.Exit -eq 0)
     # Execute the actual first target predicate, not a copied model of its decision.
-    $controller=[IO.File]::ReadAllText((Join-Path $PSScriptRoot 'check_agent_continuity.ps1'))
+    $controller=[IO.File]::ReadAllText((Join-Path $PSScriptRoot 'check_agent_continuity.ps1')).Replace("`r`n","`n")
     $parseErrors=$null;$parseTokens=$null
     $ast=[Management.Automation.Language.Parser]::ParseInput($controller,[ref]$parseTokens,[ref]$parseErrors)
     if($parseErrors.Count){throw 'CONTROLLER_PARSE_ERROR'}
@@ -135,7 +135,7 @@ try {
         Check 'Doctor accepts matching project override' ($verdict -eq 'ACCEPT')
     } finally {$env:SUPABASE_PROJECT_ID=$priorOverride}
     foreach($name in @('verify_api_end_to_end.ps1','verify_storage_end_to_end.ps1','verify_role_journeys.ps1','verify_lifecycle_branches.ps1','verify_journey_branches.ps1','verify_care_journeys.ps1')) {
-        $httpSource=[IO.File]::ReadAllText((Join-Path $PSScriptRoot $name))
+        $httpSource=[IO.File]::ReadAllText((Join-Path $PSScriptRoot $name)).Replace("`r`n","`n")
         $httpAst=[Management.Automation.Language.Parser]::ParseInput($httpSource,[ref]$parseTokens,[ref]$parseErrors)
         $httpIf=@($httpAst.FindAll({param($n) $n -is [Management.Automation.Language.IfStatementAst] -and $n.Extent.Text -match "throw 'FOUNDER_LOCAL_API_TARGET_MISMATCH'"},$true))
         if($httpIf.Count -ne 1 -or $parseErrors.Count){throw "HTTP_TARGET_GUARD_MOVED:$name"}

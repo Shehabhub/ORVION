@@ -16,15 +16,10 @@
   "permissions": {
     "ask": [
       "Edit(AGENTS.md)",
-      "Write(AGENTS.md)",
       "Edit(GOVERNANCE.md)",
-      "Write(GOVERNANCE.md)",
       "Edit(README.md)",
-      "Write(README.md)",
       "Edit(CR_LIFECYCLE.md)",
-      "Write(CR_LIFECYCLE.md)",
-      "Edit(_ORVION_CANONICAL/**)",
-      "Write(_ORVION_CANONICAL/**)"
+      "Edit(_ORVION_CANONICAL/**)"
     ],
     "deny": [
       "mcp__claude_ai_Supabase__apply_migration",
