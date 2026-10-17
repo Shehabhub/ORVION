@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -72,7 +72,7 @@ All source writes are confined to the independent SECONDARY clone. No PRIMARY ch
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: 2
 Blocker: None
 Recovery Attempt: 0
 
@@ -205,7 +205,12 @@ Post-Implementation Proof Obligation: all derived CONTROL/REPOSITORY and Additio
 
 ## Execution Log
 
-None.
+### Step 1 — exact owner approval and baseline revalidation
+
+- Owner approved implementation only of frozen SHA-256 `75E462100CFB8CEC8D72D639A73C44C30D0D53A46665FD8032E8103317CB10C7` against `d429e4295f020c5231af82d093fad1c2536b0391`.
+- Fresh pre-approval source anonymous certification READY; unchanged allocator selected 286; ten anchors, ordered parents, both retained histories, original checkouts and protected receipt/launcher hashes passed.
+- Actual Draft and Approved commits replace no rehearsal history. Independent execution clone has push disabled; no shared refs/objects. No publication or promotion authorized.
+- Evidence: external `spec-286-implementation-2026-10-17/preapproval-validation.json` and `owner-gate1-authorization.json`. CTRL-19 remains OPEN.
 
 ## Verification Notes
 
