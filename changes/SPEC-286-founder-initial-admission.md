@@ -194,14 +194,14 @@ Post-Implementation Proof Obligation: all derived CONTROL/REPOSITORY and Additio
 
 ## Acceptance Criteria
 
-- [ ] Initial admission is confined to the exact founder context and first recovery contract, with no ordinary range or Trusted behavior changed.
-- [ ] The source and both founder histories, all founder-only entries and every terminal CR remain intact.
-- [ ] Every post-adoption transition is judged by the existing lifecycle, frozen scope, allocation and receipt authorities.
-- [ ] Required acceptance executes the new positive, negative and mutation suite and cannot hide its failure.
-- [ ] Unchanged source certification, inherited evidence, exact SHA, branch, event, current attempt, expected workflow and literal success remain the sole evidence judgments.
-- [ ] Normal publisher/promoter and installed CRM launchers remain unchanged; initial owner release remains separately gated.
-- [ ] Founder profile, downstream release and hosted runtime readiness are explicitly unproven by this bootstrap.
-- [ ] Boot routes a fresh session to the founder recovery prerequisite authority; both corresponding pins agree and all consumers remain closed.
+- [x] Initial admission is confined to the exact founder context and first recovery contract, with no ordinary range or Trusted behavior changed.
+- [x] The source and both founder histories, all founder-only entries and every terminal CR remain intact.
+- [x] Every post-adoption transition is judged by the existing lifecycle, frozen scope, allocation and receipt authorities.
+- [x] Required acceptance executes the new positive, negative and mutation suite and cannot hide its failure.
+- [x] Unchanged source certification, inherited evidence, exact SHA, branch, event, current attempt, expected workflow and literal success remain the sole evidence judgments.
+- [x] Normal publisher/promoter and installed CRM launchers remain unchanged; initial owner release remains separately gated.
+- [x] Founder profile, downstream release and hosted runtime readiness are explicitly unproven by this bootstrap.
+- [x] Boot routes a fresh session to the founder recovery prerequisite authority; both corresponding pins agree and all consumers remain closed.
 
 ## Execution Log
 
@@ -227,18 +227,30 @@ Post-Implementation Proof Obligation: all derived CONTROL/REPOSITORY and Additio
 - All derived mandatory CONTROL/REPOSITORY commands and both Additional Verification suites remain to be freshly executed by the timed/watched Finish. CI evidence remains POST_PUSH, not local success.
 - Runtime checkpoint DONE means ready for VERIFY; it does not assert successful Finish, Review or Complete.
 
+
+### Final verification — fresh execution
+
+- Timed Finish and concurrent watcher exited 0 on implementation head `fc6a3e90e1056dc657bfee939cb43fb2366be2a3`; LOCAL_CERTIFY: READY.
+- All five CONTROL suites, repository consistency, git diff --check and both Additional Verification suites executed freshly and passed. No pre-approval fixture result substituted for final execution.
+- Evidence: external `spec-286-implementation-2026-10-17/finish-control.log`, `finish-result.json` and `independent-review.json`. CI remains POST_PUSH and unexecuted; no hosted release or full founder readiness asserted.
+
 ## Verification Notes
 
-None.
+Verdict: Confirmed Complete
+
+- Independent review evaluated the frozen contract, actual Git changes, final receipt and nine freshly successful verification commands, not the Execution Log alone.
+- Unchanged source evaluator outside the candidate judged the exact adopted-to-implementation range READY without executing candidate code. Source comparison confirms 106 existing functions unchanged, pending predicates preserved after only the enumeration-input change, and unchanged public reader.
+- Exact scope, ten baseline anchors, source/founder histories, hook mode and body, both authority pins and generated projections match the approved design. YAML parsing proves existing workflow semantics unchanged except the enforced new suite step.
+- No discrepancy found. Founder workstation/profile, hosted runtime and downstream readiness remain unproven prerequisites. Publication/promotion are separate owner gates; CTRL-19 remains OPEN.
 
 ## Review Gate
 
-- [ ] Every change matches the frozen steps.
-- [ ] No file outside Write Scope changed.
-- [ ] Every Acceptance Criterion is true.
-- [ ] Required checks and final certification are observed, never inferred.
-- [ ] Repository state and generated artifacts are synchronized.
-- [ ] Owner release boundaries and CTRL-19 OPEN are preserved.
+- [x] Every change matches the frozen steps.
+- [x] No file outside Write Scope changed.
+- [x] Every Acceptance Criterion is true.
+- [x] Required checks and final certification are observed, never inferred.
+- [x] Repository state and generated artifacts are synchronized.
+- [x] Owner release boundaries and CTRL-19 OPEN are preserved.
 
 ## Notes
 
