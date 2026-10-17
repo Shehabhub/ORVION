@@ -109,8 +109,8 @@ The list above is not exhaustive; every engineering artifact outside Write Scope
 ## Runtime Checkpoint
 
 Resume Step: 1
-Blocker: None
-Recovery Attempt: 0
+Blocker: MISSING_REQUIRED_CAPABILITY
+Recovery Attempt: 1
 
 ## Required Capabilities
 
@@ -271,6 +271,8 @@ Post-Implementation Proof Obligation: Fresh timed/watched native Finish with eve
 ## Execution Log
 
 None.
+
+2026-10-17 — Owner-directed Gate 1 execution. Exact frozen Draft SHA-256 4a01717c3c139ade9e13ee6c5def1ee8dcd161d9c3a36a8e2195fa1e8ff9d27d, Git blob 1e70d95d5413536f0251c239cfe2ebede8802a4a, patch fd29e70bce884da4936213a2a1356bf2ece27962a5b0c61d96c60bc43d92cd90, all 43 baseline anchors and patch paths, remote Founder baseline, adopted parents, protected source/receipt/launcher identities and clean original checkouts revalidated. Native allocator cursor 286, next 287, not reserved. Native Draft origination Gate and real pre-commit hook passed; origin commit 6f09689b34a09d65e5393d42facee082ac02b060. Actual approval admission via timed check_agent_continuity.ps1 -Gate exited 1 after 00:00:36: MISSING_REQUIRED_CAPABILITY:github:PUBLIC_READ:TRANSPORT_UNREADABLE. Log: C:/Users/My Lab/Documents/ORVION-Owner-Review/spec-287-implementation-2026-10-17/approval-gate.log. Transport cause UNPROVEN; no authenticated fallback, guard or credential change. Per explicit owner stop condition, no approval commit, In Progress transition, patch application, hosted database read/write, Finish or publication occurred. Only this attempt's uncommitted transition/manifest/projection edits were returned byte-for-byte to their pre-transition state. Status remains Draft; exact approved frozen bytes remain in the origination commit and frozen packet. Resume: re-establish anonymous GitHub capability and retry native approval admission against the same owner-approved contract after revalidation; prior isolated admission does not substitute. Initial diagnostic allocator invocation used 287 rather than SPEC-287 and was corrected before any repository mutation; actual native allocator confirmed 287 available. Platinum and all protected originals remain unchanged.
 
 ## Verification Notes
 
