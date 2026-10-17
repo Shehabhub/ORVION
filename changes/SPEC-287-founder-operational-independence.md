@@ -4,9 +4,9 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
+[ ] In Progress
 [ ] Complete
-[ ] Cancelled
+[x] Cancelled
 
 ## Objective
 
@@ -108,9 +108,9 @@ The list above is not exhaustive; every engineering artifact outside Write Scope
 
 ## Runtime Checkpoint
 
-Resume Step: DONE
-Blocker: None
-Recovery Attempt: 0
+Resume Step: 5
+Blocker: MANDATORY_VERIFICATION_FAILED
+Recovery Attempt: 1
 
 ## Required Capabilities
 
@@ -283,9 +283,16 @@ None.
 
 2026-10-17 — Implementation is stable and enters VERIFY; setting Runtime Checkpoint DONE requests verification and does not claim Finish, Review or Complete success. Pinned CLI start after actual Founder target assertion passed (local-start.log, 0.559 minutes), API 57421 and DB 57422 verified; no hosted link, all approved local ports initially free, other ORVION containers retained. Actual repository awareness prerequisites already present. Native .githooks enabled only in this execution checkout through its existing Git mechanism; no global Git/credential/installed launcher change. WORKSTATION verification uses a credential-free isolated CODEX_HOME containing the existing tested Founder definitions; owner profile adoption is not performed. Full timed/watched native Finish is next and must execute every mandatory profile and Additional Verification. No preliminary duplication of its costly suites.
 
+
+2026-10-17 — Final verification STOPPED at a mandatory failure; official Status remains In Progress. First Finish attempt failed the genuine anonymous GitHub capability before running any suite (finish-final.log, exit 1, native 00:00:34). Bounded diagnostics then observed curl HTTP 200 for repository metadata and exact-head runs, remaining rate capacity 46/45, unchanged .NET HTTP 200 for both endpoints, and actual native Test-OrvionPublicGithub PASS in the identical Finish environment (recovery-native-finish-env.log, exit 0, 0.035 minutes); transport root cause remains UNPROVEN and no reader/environment/security correction occurred. One justified Finish retry entered real verification: scripts/test_agent_continuity.ps1 PASS in 00:33:24; scripts/test_cold_start_state_guard.ps1 FAILED, 41 passed / 1 failed in 00:05:04. Native Finish exited 1 after 00:38:45; logs finish-final-retry1.log and cold-start-final.log under C:/Users/My Lab/Documents/ORVION-Owner-Review/spec-287-implementation-2026-10-17. No final receipt was written. Remaining CONTROL commands, DATABASE, WORKSTATION, REPOSITORY profile commands and all Additional Verification were NOT REACHED; none is claimed PASS. Final independent Review, Complete, candidate preparation and publication were not performed. Exact source diagnosis and proposed owner-only recovery are in Verification Notes. Only the temporary Founder stack was stopped using the pinned CLI, actual target assertion, explicit project and workdir, with volumes preserved; all unrelated Docker IDs/names/states equal the before snapshot. Platinum stays clean at its expected HEAD; protected source receipts and installed launchers match retained hashes. No hosted write, credential change, Ruleset change, or historical-contract edit occurred. CTRL-19 OPEN.
+
+2026-10-17 — Human-directed cancellation under the owner's 2026-10-17 SPEC-287 recovery directive, whose conditions held before this commit. In disposable push-disabled clones of b7eaac0f8d20c8fa37f3c22f5c45346e35933211 the proposed cold-start correction (SHA-256 57ce24fd42138c86baa86adcc993c470cada96041a63e8e2325c921be5b1c352) gave scripts/test_cold_start_state_guard.ps1 42 passed / 0 failed; a swallowed delegated exit failed both E1 assertions and an unconditional Founder diagnostic with exit 0 failed E-CONTROL. Preflight of the commands Finish never reached found a second stale consumer inside this frozen payload: scripts/test_founder_environment.ps1 asserts LF adjacency against this checkout's CRLF working files (146 passed / 7 failed; 153 / 0 after normalizing its two source reads). ENGINEERING_METHOD.md tells sandboxes to use push URL none, which the Founder ledger guard refuses; it accepts only DISABLED. These corrections are not stated by this contract's frozen steps and the cold-start test is outside its Write Scope, so none can be absorbed here. The native cancellation and the successor's full lifecycle and publication range were rehearsed in a disposable clone before this commit. Implemented commits 6f09689b34a09d65e5393d42facee082ac02b060 through b7eaac0f8d20c8fa37f3c22f5c45346e35933211 stay unchanged and reachable; no reset, amend, rebase, squash or force operation occurred. This contract has no Finish receipt, Review verdict or Complete claim, and none is created. The Founder operational independence completion successor names this file in Supersedes / Depends On and carries the implemented payload forward to one fresh full Finish. Platinum, both hosted databases, credentials, installed launchers and protected receipts are untouched. CTRL-19 OPEN.
+
 ## Verification Notes
 
 None.
+
+2026-10-17 — Mandatory verification finding; this is not final independent Review. The frozen implementation changes check_repository_consistency.ps1 Check 19 to report "Founder ledger evidence is ABSENT, STALE or DISAGREES". The unmodified dependent test scripts/test_cold_start_state_guard.ps1 still matches "Primary ledger evidence is ABSENT, STALE or DISAGREES" at E1. Its separate parent-nonzero-exit assertion PASSED, as did deletion failure and both valid controls; the observed failure is the diagnostic consumer mismatch, not swallowed failure propagation. This consumer was omitted from the frozen 43-path scope. Minimal proposed correction: change only E-CONTROL's negative message expectation and E1's positive message expectation from Primary to Founder; retain all exit-code and missing-guard assertions. Proposal only: spec-287-implementation-2026-10-17/proposed-cold-start-compatibility.patch, SHA-256 57ce24fd42138c86baa86adcc993c470cada96041a63e8e2325c921be5b1c352; git apply --check succeeded; patch is NOT APPLIED and corrected tests are NOT EXECUTED. The original frozen Draft/patch identities and implementation bytes remain unchanged except approved dynamic fields. Editing this test is outside Write Scope; changing the frozen payload or widening an Approved contract cannot be silently admitted. Proposed owner decision: cancel this blocked contract and authorize preparation of a corrected successor with the missing consumer included, preserving all legal history and observed evidence. Do not re-request the already recorded original Gate 1 or treat this proposal as new approval. Resume Step 5 is blocked pending that decision. Native check_agent_continuity.ps1 throws RUNTIME_BLOCKED for an In Progress contract with a non-None Runtime Checkpoint blocker, so this accurate blocked workflow checkpoint cannot be committed through the unchanged hook; leave this sole authorized CR edit on disk rather than bypass the hook or falsely record Blocker None.
 
 ## Review Gate
 
