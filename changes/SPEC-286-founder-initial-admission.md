@@ -72,7 +72,7 @@ All source writes are confined to the independent SECONDARY clone. No PRIMARY ch
 
 ## Runtime Checkpoint
 
-Resume Step: 4
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -219,6 +219,13 @@ Post-Implementation Proof Obligation: all derived CONTROL/REPOSITORY and Additio
 - Same initial context supplies range and local pending enumeration. Trusted judgment and all subsequent receipt predicates remain unchanged.
 - Appended ADR-0032, synchronized both exact manifest priority lines and GOVERNANCE pins, and regenerated projections. Hook mode is already the certified 100755 in the approved adopted context; hook body unchanged.
 - Next: finish scope checks, commit DONE, run fresh timed/watched Finish and both Additional Verification suites. No final verification is asserted yet.
+
+
+### Step 4 — ready for final verification
+
+- Exact scope and clean committed implementation checked. Deterministic projections generated; commit Gate passed.
+- All derived mandatory CONTROL/REPOSITORY commands and both Additional Verification suites remain to be freshly executed by the timed/watched Finish. CI evidence remains POST_PUSH, not local success.
+- Runtime checkpoint DONE means ready for VERIFY; it does not assert successful Finish, Review or Complete.
 
 ## Verification Notes
 
