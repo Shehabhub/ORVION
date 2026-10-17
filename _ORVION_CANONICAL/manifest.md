@@ -25,7 +25,7 @@ Current state only. `Last Completed` names the single most recent capability —
 
 Current Phase: **Phase 8 (Offline Conversion) — IN PROGRESS**. Execution order 7→9→8→10 (`32`). Phases 2–7 + 9 COMPLETE. Supabase-native backend (ADR-0014); transport ADR-0023. **Phase 10 is NOT ready** — evidence in `32` under Phase 10; blocker is Phase 8's unbuilt n8n workflow, gated behind the Foundation Completion Programme.
 
-Current Module: Foundation Completion Programme Batch 6 (owner's 2026-10-07 order, `32` Phase 8); its next slice is the first row `scripts/batch6_select_target.ps1` ranks; the n8n workflow follows Batch 6 and stays governed by `MASTER_INTEGRATION_CATALOG.md §2/§2a/§2b`; the real-GCLID test stays on hold until genuine ad-click traffic exists.
+Current Module: Founder ownership recovery — prerequisites and stop boundaries are owned by ADR-0032 in `reports/architecture-decision-records.md`; the product capability sequence is unchanged.
 
 Deployment topology (owner-ratified 2026-08-20, permanent): `PlatPlusHub/CRM` deploys to **Primary `vrvtsxexkiiiivlkdxzp` only**. Secondary `brplkqmbzffpxqgkkdzo` is the `Shehabhub/ORVION` environment and is never a CRM target; differences between the two are expected and valid. Detail: `MASTER_INTEGRATION_CATALOG.md §0/§4`.
 
@@ -45,7 +45,7 @@ Current session blocker: **None.**
 
 **What is open, due, blocked or waiting, and why: the Action registry in `MASTER_EXECUTION_PLAN.md` (`scripts/readiness_population.ps1 -Registry`).** Other open work is owned elsewhere and is never restated as the next action: that plan owns Batch 6 order, the Phase-10 Meta-ecosystem Learn-Before-Designing research and the communications-domain Design Challenge; `MASTER_INTEGRATION_CATALOG.md §2/§2a` owns the preserved n8n workflow build steps.
 
-Next capability: **Foundation Completion Programme — Batch 6**: the next slice is the first row of `scripts/batch6_select_target.ps1` (local stack), never a copy of it here. Batch 6 runs until EC-1…EC-11 hold, then the readiness gate (`MASTER_EXECUTION_PLAN.md`); then the Phase-8 order in `32` resumes: bounded boundary revalidation → n8n workflow → Direct Call Quality Feedback Loop → PH8-10 evidence → Smart Bidding handoff when earned. **The control-plane optimization chapter is CLOSED** — reopening it requires newly earned evidence (a real incident, a false green or false red, a measured material cost, or a proven safety/governance gap), never a further search for theoretical optimizations.
+Next capability: Follow the next unmet founder recovery prerequisite in ADR-0032 (`reports/architecture-decision-records.md`). Ordinary product work waits for that sequence; resumed Batch 6 selection remains owned by `scripts/batch6_select_target.ps1`.
 
 ---
 

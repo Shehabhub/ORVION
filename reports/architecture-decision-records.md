@@ -410,6 +410,17 @@ Convention: append-only. Each ADR is numbered and dated. A superseded ADR is mar
   - a second publication route proposed, or pull requests adopted;
   - a change in how GitHub applies a ruleset's required status checks to a push.
 
+## ADR-0032 — One exact founder initial-admission context
+
+- **Status:** accepted owner decision for one-time SECONDARY recovery; production publication and promotion remain separate owner actions.
+- **Date:** 2026-10-17.
+- **Decision:** preserve certified product source `fd118fae6c76271100d67fdb44923bb0b406c986` and founder snapshot `35865ca63539f74bbaaf7fa624366defcd784d4b` as the ordered parents of exact adopted context `d429e4295f020c5231af82d093fad1c2536b0391`. Preserve all certified source entries and modes and all eight founder-only files. No force push, deletion, replacement or historical CR correction is authorized.
+- **Authority boundary:** on Shehabhub/ORVION only, the first recovery range may begin at that adopted context, solely for changes/SPEC-286-founder-initial-admission.md. Ordinary historical replay still fails; its failure is neither excused nor reclassified as PASS. The unchanged allocator and all normal post-context contract, scope and receipt judgments apply.
+- **Initial owner release:** an independently frozen owner bootstrap preparation verifies exact physical main, both histories, unchanged source Certify-Remote, complete authenticated protection metadata and unchanged outside-candidate Trusted judgment before any exact-SHA publication or initial promotion. The existing Ruleset must admit that exact candidate's acceptance check. The ordinary promoter intentionally still refuses the old historical range; its one-time physical handover is an explicit owner action, never a new permanent publication route. Normal publisher/promoter and installed CRM launchers remain unchanged.
+- **Founder recovery prerequisite sequence:** first admit and remotely certify this exact history bootstrap; then close the SECONDARY-bound workstation, capability, ledger/parity and owner-release consumers through their approved contract; declare founder operational authority and resume ordinary product work only after those prerequisites are proven. The manifest points to this sequence and never silently routes a fresh session past it. Existing Batch 6 business ordering remains unchanged.
+- **Limits:** this is a single initial history-adoption exception to ordinary ADR-0009/ADR-0031 range preparation, not a reusable import system, source-history certification, workstation/profile migration or downstream customer acceptance. Future ranges receive no substituted boundary. Primary systems are untouched. CTRL-19 remains OPEN.
+- **Recovery:** retain the verified founder Git bundle and all original receipt-bearing checkouts. Before owner main promotion the remote original main is intact; discard only disposable preparation if rejected. After promotion, never force main backwards: use a separately approved forward correction if necessary. Database recovery is independent; no database write occurs here.
+
 ## Programme lesson numbering (resolved 2026-08-31)
 
 Migrations `202607058200`, `202607058400` and `202607058600` cite **"LESSON 4"** and **"LESSON 6"** by ordinal, and no file in the repository defined the numbering — a citation a fresh reader could not resolve. The ordinals are retired in favour of the stable homes those rules already had:

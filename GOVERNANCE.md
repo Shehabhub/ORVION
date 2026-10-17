@@ -203,9 +203,9 @@ Normal CR execution and routine checkpoints do not require a session report. CR 
 
     | File | Line | Value owned by | SHA-256 of the line |
     |---|---|---|---|
-    | `_ORVION_CANONICAL/manifest.md` | `Current Module` | `scripts/batch6_select_target.ps1` | `63c303fb1bcfde20de5d8f6c9f16ab38436e451c6bf8795cb93d7da97114ca77` |
+    | `_ORVION_CANONICAL/manifest.md` | `Current Module` | `reports/architecture-decision-records.md` | `6439b6e8bbcd28a38197484f00daa7fd45b0f1ae00b35f50331ca9303f39840b` |
     | `_ORVION_CANONICAL/manifest.md` | `Batch 6 surface coverage` | `reports/master/MASTER_SURFACE_DISPOSITION.md` | `166b2f42e10851e6c13be8d578229e72ff22865d6761bfb2a2d8f78296ce8a16` |
-    | `_ORVION_CANONICAL/manifest.md` | `Next capability` | `scripts/batch6_select_target.ps1` | `90b037bb396498533eb9209c81d73278a5da8ad481562a02941440a3219557ee` |
+    | `_ORVION_CANONICAL/manifest.md` | `Next capability` | `reports/architecture-decision-records.md` | `316c22cf93727281371b02f88743438d694a46fe0d5b98f1393a8bcafc12c64f` |
 
 ---
 

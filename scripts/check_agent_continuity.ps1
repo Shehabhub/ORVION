@@ -1744,11 +1744,29 @@ function Receipt-AlreadyPromoted($Receipt){
     }
     return $true
 }
+function Get-InitialAdmissionBase([string]$Base,[string]$Head){
+    if($Trusted){return $Base}
+    $physical=$Base
+    if($physical-cnotmatch'^[0-9a-f]{40}$'){
+        $resolved=@(git -C $Root rev-parse --verify "$Base^{commit}" 2>$null)
+        if($LASTEXITCODE-ne0-or$resolved.Count-ne1){$global:LASTEXITCODE=0;return $Base}
+        $physical="$($resolved[0])".Trim()
+    }
+    if($physical-cne'35865ca63539f74bbaaf7fa624366defcd784d4b'-and$physical-cne('0'*40)){return $Base}
+    if((Get-OrvionPublicRepo -Root $Root)-ne'Shehabhub/ORVION'){return $Base}
+    $headSha="$(git -C $Root rev-parse --verify "$Head^{commit}" 2>$null)".Trim()
+    if($LASTEXITCODE-ne0){throw 'INITIAL_ADMISSION:HEAD_UNREADABLE'}
+    $initial=@(& pwsh -NoProfile -File (Join-Path $PSScriptRoot 'resolve_initial_admission.ps1') -Root $Root -BaseRef $physical -HeadRef $headSha)
+    if($LASTEXITCODE-ne0-or$initial.Count-ne1-or"$($initial[0])"-cne'd429e4295f020c5231af82d093fad1c2536b0391'){throw 'INITIAL_ADMISSION:BOUNDARY_REFUSED'}
+    "$($initial[0])"
+}
+
 function Protect-PendingCertifications($c,[string]$Rel){
     $upstream=git -C $Root rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>$null
     if($LASTEXITCODE-ne0){throw 'GIT_UPSTREAM_MISSING'}
     $saved=@()
-    foreach($pending in @(Pending-Completions ("$upstream").Trim())){
+    $pendingBase=Get-InitialAdmissionBase ("$upstream").Trim() HEAD
+    foreach($pending in @(Pending-Completions $pendingBase)){
         if($pending.Rel-ceq$Rel){continue}
         try{
             $record=Read-CandidateReceipt $pending.Sha $pending.Rel -Historical
@@ -1981,6 +1999,7 @@ function Get-ControlSurface {
         '.cursor/rules/orvion.mdc','.github/copilot-instructions.md',
         'scripts/check_agent_continuity.ps1','scripts/test_agent_continuity.ps1',
         'scripts/github_public_read.ps1','scripts/test_github_public_read.ps1',
+        'scripts/resolve_initial_admission.ps1','scripts/test_initial_admission.ps1',
         'scripts/check_repository_consistency.ps1',
         '.githooks/','.claude/hooks/','.github/workflows/agent-control.yml'
     )
@@ -2469,6 +2488,9 @@ try{try{
         if($HeadRef-cne("$(git -C $Root rev-parse HEAD)").Trim()){throw 'RECEIPT_SHA_MISMATCH'}
         if(@(git -C $Root status --porcelain).Count){throw 'RECEIPT_DIRTY_TREE'}
     }
+    # One bounded context for both initial range judgment and local pending enumeration.
+    # Trusted evaluation never executes candidate code or substitutes its range.
+    if($BaseRef-and-not$Trusted){$BaseRef=Get-InitialAdmissionBase $BaseRef $HeadRef}
     if($BaseRef){Assert-Ref $BaseRef;Assert-Ref $HeadRef}
     # SPEC-281. A candidate's own CI runs the candidate's own evaluator, so a candidate that edits
     # it, or its workflow, certifies itself; GitHub also counts a skipped required check as passing.

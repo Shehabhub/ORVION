@@ -71,6 +71,12 @@ jobs:
       # Repository Consistency is deliberately NOT a separate step: the Gate already
       # invokes it through Repo-Guard, and running it twice would buy a second report
       # of the same evidence rather than a second trust boundary.
+      - name: Attack the exact initial-admission boundary
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File scripts/test_initial_admission.ps1
+          if ($LASTEXITCODE -ne 0) { throw "initial admission suite FAILED (exit $LASTEXITCODE)" }
+
       - name: Agent Control Gate over the candidate range
         shell: pwsh
         run: ./scripts/check_agent_continuity.ps1 -Gate -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA

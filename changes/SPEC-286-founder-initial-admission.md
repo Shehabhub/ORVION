@@ -72,7 +72,7 @@ All source writes are confined to the independent SECONDARY clone. No PRIMARY ch
 
 ## Runtime Checkpoint
 
-Resume Step: 2
+Resume Step: 4
 Blocker: None
 Recovery Attempt: 0
 
@@ -211,6 +211,14 @@ Post-Implementation Proof Obligation: all derived CONTROL/REPOSITORY and Additio
 - Fresh pre-approval source anonymous certification READY; unchanged allocator selected 286; ten anchors, ordered parents, both retained histories, original checkouts and protected receipt/launcher hashes passed.
 - Actual Draft and Approved commits replace no rehearsal history. Independent execution clone has push disabled; no shared refs/objects. No publication or promotion authorized.
 - Evidence: external `spec-286-implementation-2026-10-17/preapproval-validation.json` and `owner-gate1-authorization.json`. CTRL-19 remains OPEN.
+
+
+### Steps 2–3 — bounded admission and consumer synchronization
+
+- Installed the exact hash-checked prepared helper, boundary/pending suite, narrow evaluator consumers and required acceptance step. No prior simulated lifecycle or receipt was copied.
+- Same initial context supplies range and local pending enumeration. Trusted judgment and all subsequent receipt predicates remain unchanged.
+- Appended ADR-0032, synchronized both exact manifest priority lines and GOVERNANCE pins, and regenerated projections. Hook mode is already the certified 100755 in the approved adopted context; hook body unchanged.
+- Next: finish scope checks, commit DONE, run fresh timed/watched Finish and both Additional Verification suites. No final verification is asserted yet.
 
 ## Verification Notes
 
