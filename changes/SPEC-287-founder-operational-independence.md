@@ -108,7 +108,7 @@ The list above is not exhaustive; every engineering artifact outside Write Scope
 
 ## Runtime Checkpoint
 
-Resume Step: 5
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -279,6 +279,9 @@ None.
 
 
 2026-10-17 — Actual native approval Gate passed APPROVAL_EVIDENCE: PASS, exit 0 (approval-gate-recovery.log; native elapsed 00:00:17). Approval commit 5c971c039d418ba58def23553f5b6707170f3113 and In Progress commit c3258208c46932dd4e0a0f969dfcd6df493758eb both passed the real pre-commit Gate. Steps 1–4: applied the exact approved static patch once after successful git apply --check, excluding ai-map.json and repository-index.md and regenerating both through the existing generator. All 43 paths and static payload blobs matched; active CR pointer preserved. No Already Applied shortcut used. Step 2 fresh authenticated supabase-secondary get_project_url before and after atomic BEGIN READ ONLY observation verified brplkqmbzffpxqgkkdzo; complete ledger 253 / b144bdf0f5a31ac66a0f0a723fb009bc, functions 332 / 2cd20c3fea8247598eb9b2bbb559f2ca, structure 3136 / 56625ae4118e1ddc85bab99114b17899, every ledger identity and surface row matched the expected Founder record. Recorded actual provenance at ancestor c3258208c46932dd4e0a0f969dfcd6df493758eb in the sole Founder evidence file; historical Platinum evidence remains byte-identical. Root/config/workdir guard and enumerated local consumers match frozen payload. Current ADR-0033 authority, both pins, product roadmap and generated projections synchronized. R1–R12 remain bounded to their measured evidence classes; owner workstation adoption, bare Windows recovery, credential isolation, backups and external production integrations are not claimed. Step 5 remains pending: stable implementation must undergo one fresh timed/watched native Finish with all derived profiles and 11 Additional Verification commands; earlier preparation results are historical only.
+
+
+2026-10-17 — Implementation is stable and enters VERIFY; setting Runtime Checkpoint DONE requests verification and does not claim Finish, Review or Complete success. Pinned CLI start after actual Founder target assertion passed (local-start.log, 0.559 minutes), API 57421 and DB 57422 verified; no hosted link, all approved local ports initially free, other ORVION containers retained. Actual repository awareness prerequisites already present. Native .githooks enabled only in this execution checkout through its existing Git mechanism; no global Git/credential/installed launcher change. WORKSTATION verification uses a credential-free isolated CODEX_HOME containing the existing tested Founder definitions; owner profile adoption is not performed. Full timed/watched native Finish is next and must execute every mandatory profile and Additional Verification. No preliminary duplication of its costly suites.
 
 ## Verification Notes
 
