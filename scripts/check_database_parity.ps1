@@ -1,3 +1,5 @@
+# Current target: Founder brplkqmbzffpxqgkkdzo via supabase-secondary.
+# Imported Primary incident comments below are historical provenance; parameter spellings remain compatible.
 # Database parity gate -- deliberately SEPARATE from check_repository_consistency.ps1.
 #
 # Why this exists (incident 2026-08-26): the repository held 118 migrations, the manifest claimed
@@ -47,7 +49,7 @@
 #
 # Exit 0 = parity proven. Exit 1 = drift, unreachable, or unproven.
 param(
-    [string]$Container = 'supabase_db_ORVION',
+    [string]$Container = 'supabase_db_ORVION_FOUNDER',
     [string]$PrimaryFingerprint = '',
     [string]$PrimaryLogicHash = '',
     [string]$PrimaryStructureHash = ''
@@ -99,42 +101,42 @@ if ($LASTEXITCODE -ne 0) {
 # 3. Primary, only if its fingerprint was supplied by a caller that can reach it.
 #
 # RECOVER-1 (2026-09-03) added a DURABLE record of Primary's ledger at
-# `reports/evidence/primary-ledger-evidence.json`, enforced by Check 19 of
+# `reports/evidence/founder-ledger-evidence.json`, enforced by Check 19 of
 # check_repository_consistency.ps1. This guard now cross-checks the pasted value against that record.
 # The point is narrow and worth stating exactly: it does NOT make a pasted value authoritative, and
 # it does not turn recorded evidence into a live read. It catches the case where the two DISAGREE --
 # a mistyped, stale, or copied-from-the-wrong-terminal fingerprint -- which is a contradiction the
 # repository can detect on its own and previously could not.
-$evidenceFile = Join-Path (Split-Path -Parent $PSScriptRoot) 'reports/evidence/primary-ledger-evidence.json'
+$evidenceFile = Join-Path (Split-Path -Parent $PSScriptRoot) 'reports/evidence/founder-ledger-evidence.json'
 $recordedPrint = $null
 if (Test-Path $evidenceFile) {
     try { $recordedPrint = (Get-Content $evidenceFile -Raw | ConvertFrom-Json).ledger_fingerprint } catch { $recordedPrint = $null }
 }
 
-Write-Host "== Check P1: primary database ledger ==" -ForegroundColor Cyan
+Write-Host "== Check P1: Founder database ledger ==" -ForegroundColor Cyan
 if (-not [string]::IsNullOrWhiteSpace($PrimaryFingerprint) -and $recordedPrint -and $PrimaryFingerprint -ne $recordedPrint) {
-    Write-Host "  EVIDENCE CONTRADICTION: the -PrimaryFingerprint passed to this run ($PrimaryFingerprint)" -ForegroundColor Red
-    Write-Host "  disagrees with the recorded Primary ledger evidence ($recordedPrint)." -ForegroundColor Red
-    Write-Host "  One of them is stale. Re-read Primary and refresh reports/evidence/primary-ledger-evidence.json." -ForegroundColor DarkGray
+    Write-Host "  EVIDENCE CONTRADICTION: the -FounderFingerprint passed to this run ($PrimaryFingerprint)" -ForegroundColor Red
+    Write-Host "  disagrees with the recorded Founder ledger evidence ($recordedPrint)." -ForegroundColor Red
+    Write-Host "  One of them is stale. Re-read Founder and refresh reports/evidence/founder-ledger-evidence.json." -ForegroundColor DarkGray
     $issues++
 }
 if ([string]::IsNullOrWhiteSpace($PrimaryFingerprint)) {
-    Write-Host "  NOT CHECKED: no -PrimaryFingerprint supplied. Primary parity is UNPROVEN by this run." -ForegroundColor Yellow
+    Write-Host "  NOT CHECKED: no -FounderFingerprint supplied. Founder parity is UNPROVEN by this run." -ForegroundColor Yellow
     if ($recordedPrint) {
-        Write-Host "  (a recorded Primary ledger reading DOES exist and is enforced by Check 19 of" -ForegroundColor DarkGray
+        Write-Host "  (a recorded Founder ledger reading DOES exist and is enforced by Check 19 of" -ForegroundColor DarkGray
         Write-Host "   check_repository_consistency.ps1 -- but recorded evidence is not a live read, so" -ForegroundColor DarkGray
-        Write-Host "   this run still cannot report Primary parity.)" -ForegroundColor DarkGray
+        Write-Host "   this run still cannot report Founder parity.)" -ForegroundColor DarkGray
     }
 } elseif ($PrimaryFingerprint -ne $expectedPrint) {
-    Write-Host "  PRIMARY DRIFT: Primary reports $PrimaryFingerprint, repository produces $expectedPrint" -ForegroundColor Red
+    Write-Host "  FOUNDER DRIFT: Founder reports $PrimaryFingerprint, repository produces $expectedPrint" -ForegroundColor Red
     $issues++
 } else {
-    Write-Host "  Primary matches the repository ($PrimaryFingerprint)" -ForegroundColor Green
+    Write-Host "  Founder matches the repository ($PrimaryFingerprint)" -ForegroundColor Green
     # The value is CALLER-SUPPLIED and this script cannot verify where it came from. Passing the
     # repository's own expected fingerprint makes this check agree with itself, which is not the
     # same as agreeing with Primary -- a real near-miss on 2026-08-29, caught only by querying
     # Primary independently. The caveat belongs in the OUTPUT, not only in the header.
-    Write-Host "  (caller-supplied: this proves Primary parity only if that value was READ FROM Primary)" -ForegroundColor DarkGray
+    Write-Host "  (caller-supplied: this proves Founder parity only if that value was READ FROM Founder)" -ForegroundColor DarkGray
 }
 
 # 4. The function surface. This is what the ledger fingerprint cannot see.
@@ -149,15 +151,15 @@ if ($LASTEXITCODE -ne 0) {
     $lparts = ($localLogic | Select-Object -Last 1).Trim() -split '\|'
     Write-Host "  local: $($lparts[1]) functions, logic hash $($lparts[0])"
     if ([string]::IsNullOrWhiteSpace($PrimaryLogicHash)) {
-        Write-Host "  NOT CHECKED: no -PrimaryLogicHash supplied. Primary's FUNCTION SURFACE is UNPROVEN by this run." -ForegroundColor Yellow
-        Write-Host "  Run the same query on Primary and pass its result -- see PAR-1 in the header." -ForegroundColor DarkGray
+        Write-Host "  NOT CHECKED: no -FounderLogicHash supplied. Founder's FUNCTION SURFACE is UNPROVEN by this run." -ForegroundColor Yellow
+        Write-Host "  Run the same query on Founder and pass its result -- see PAR-1 in the header." -ForegroundColor DarkGray
     } elseif ($PrimaryLogicHash -ne $lparts[0]) {
-        Write-Host "  PRIMARY FUNCTION DRIFT: Primary reports $PrimaryLogicHash, local produces $($lparts[0])" -ForegroundColor Red
+        Write-Host "  FOUNDER FUNCTION DRIFT: Founder reports $PrimaryLogicHash, local produces $($lparts[0])" -ForegroundColor Red
         Write-Host "  The ledgers may still agree -- that is exactly the PAR-1 blind spot." -ForegroundColor DarkGray
         $issues++
     } else {
-        Write-Host "  Primary's function surface matches local ($PrimaryLogicHash)" -ForegroundColor Green
-        Write-Host "  (caller-supplied, as above: it proves parity only if READ FROM Primary)" -ForegroundColor DarkGray
+        Write-Host "  Founder's function surface matches local ($PrimaryLogicHash)" -ForegroundColor Green
+        Write-Host "  (caller-supplied, as above: it proves parity only if READ FROM Founder)" -ForegroundColor DarkGray
     }
 }
 
@@ -192,17 +194,17 @@ if (-not (Test-Path $surfaceFile)) {
         } else {
             Write-Host "  local: $localTotal objects, structure hash $localCombined"
             if ([string]::IsNullOrWhiteSpace($PrimaryStructureHash)) {
-                Write-Host "  NOT CHECKED: no -PrimaryStructureHash supplied. Primary's STRUCTURE is UNPROVEN by this run." -ForegroundColor Yellow
-                Write-Host "  Run scripts/parity_surface.sql on Primary (supabase-primary MCP) and pass its _combined value." -ForegroundColor DarkGray
+                Write-Host "  NOT CHECKED: no -FounderStructureHash supplied. Founder's STRUCTURE is UNPROVEN by this run." -ForegroundColor Yellow
+                Write-Host "  Run scripts/parity_surface.sql on Founder (supabase-secondary MCP) and pass its _combined value." -ForegroundColor DarkGray
             } elseif ($PrimaryStructureHash -ne $localCombined) {
-                Write-Host "  PRIMARY STRUCTURE DRIFT: Primary reports $PrimaryStructureHash, local produces $localCombined" -ForegroundColor Red
+                Write-Host "  FOUNDER STRUCTURE DRIFT: Founder reports $PrimaryStructureHash, local produces $localCombined" -ForegroundColor Red
                 Write-Host "  The ledger and the function surface can both still agree -- that is the PAR-3 blind spot." -ForegroundColor DarkGray
                 Write-Host "  Remedy: run scripts/parity_surface.sql on BOTH sides and compare the per-surface rows above" -ForegroundColor DarkGray
                 Write-Host "  to find which surface moved, then reconcile from supabase/migrations (never from a database)." -ForegroundColor DarkGray
                 $issues++
             } else {
-                Write-Host "  Primary's structural surface matches local ($PrimaryStructureHash)" -ForegroundColor Green
-                Write-Host "  (caller-supplied, as above: it proves parity only if READ FROM Primary)" -ForegroundColor DarkGray
+                Write-Host "  Founder's structural surface matches local ($PrimaryStructureHash)" -ForegroundColor Green
+                Write-Host "  (caller-supplied, as above: it proves parity only if READ FROM Founder)" -ForegroundColor DarkGray
             }
         }
     }
@@ -255,7 +257,7 @@ if (-not (Test-Path $mfPath)) {
     }
     if ($mfIssues -gt 0) {
         Write-Host "  Remedy: update manifest.md's 'Live state' line. It is what a fresh session reads to answer" -ForegroundColor DarkGray
-        Write-Host "  'is Primary synchronized?', so a wrong value there is worse than no value." -ForegroundColor DarkGray
+        Write-Host "  'is Founder synchronized?', so a wrong value there is worse than no value." -ForegroundColor DarkGray
         $issues += $mfIssues
     } else {
         Write-Host "  manifest's published function and structural hashes match this database" -ForegroundColor Green
@@ -311,16 +313,16 @@ if ($issues -gt 0) {
     Write-Host "DATABASE PARITY: $issues issue(s) found" -ForegroundColor Red
     exit 1
 } elseif (-not $primaryProven) {
-    Write-Host "DATABASE PARITY: UNPROVEN -- local matches the repository, but PRIMARY WAS NOT CONTACTED." -ForegroundColor Yellow
-    Write-Host "  primary ledger    : $(if ($PrimaryFingerprint) { 'proven' } else { 'NOT CHECKED' })" -ForegroundColor Yellow
+    Write-Host "DATABASE PARITY: UNPROVEN -- local matches the repository, but FOUNDER WAS NOT CONTACTED." -ForegroundColor Yellow
+    Write-Host "  Founder ledger    : $(if ($PrimaryFingerprint) { 'proven' } else { 'NOT CHECKED' })" -ForegroundColor Yellow
     Write-Host "  primary functions : $(if ($PrimaryLogicHash) { 'proven' } else { 'NOT CHECKED' })" -ForegroundColor Yellow
     Write-Host "  primary structure : $(if ($PrimaryStructureHash) { 'proven' } else { 'NOT CHECKED' })" -ForegroundColor Yellow
-    Write-Host "  This is NOT a pass. Read all three values live from Primary (supabase-primary MCP) and re-run" -ForegroundColor DarkGray
-    Write-Host "  with -PrimaryFingerprint / -PrimaryLogicHash / -PrimaryStructureHash (the last from" -ForegroundColor DarkGray
+    Write-Host "  This is NOT a pass. Read all three values live from Founder (supabase-secondary MCP) and re-run" -ForegroundColor DarkGray
+    Write-Host "  with -FounderFingerprint / -FounderLogicHash / -FounderStructureHash (the last from" -ForegroundColor DarkGray
     Write-Host "  scripts/parity_surface.sql). Never report this run as parity CLEAN." -ForegroundColor DarkGray
     exit 2
 } else {
-    Write-Host "DATABASE PARITY: CLEAN (local proven; primary ledger, functions and structure proven)" -ForegroundColor Green
-    Write-Host "  (all three primary values are CALLER-SUPPLIED -- this is parity only if they were READ FROM Primary; GUARD-1)" -ForegroundColor DarkGray
+    Write-Host "DATABASE PARITY: CLEAN (local proven; Founder ledger, functions and structure proven)" -ForegroundColor Green
+    Write-Host "  (all three Founder values are CALLER-SUPPLIED -- this is parity only if they were READ FROM Founder; GUARD-1)" -ForegroundColor DarkGray
     exit 0
 }

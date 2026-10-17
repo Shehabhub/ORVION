@@ -9,16 +9,8 @@ $Removed = [System.Collections.Generic.List[string]]::new()
 
 Write-Host ""
 Write-Host "[Retired-experiment env vars]"
-foreach ($name in @("GEMINI_API_KEY", "OLLAMA_API_BASE")) {
-    if ([Environment]::GetEnvironmentVariable($name, "User")) {
-        [Environment]::SetEnvironmentVariable($name, $null, "User")
-        Remove-Item "Env:$name" -ErrorAction SilentlyContinue
-        Write-Host "[DONE] $name"; $Removed.Add("env:$name")
-    }
-    else { Write-Host "[SKIP] $name (not set)" }
-}
+Write-Host '[NOTE] Shared user environment and credentials are preserved.'
 
-Write-Host ""
 Write-Host "[Transient workstation logs] (gitignored generated captures only)"
 # Only the regenerated, gitignored logs - NOT the curated committed reports/*.md.
 $patterns = @(".workstation\reports\*.txt", ".workstation\reports\*.log", ".workstation\reports\mcp\*.txt", ".workstation\reports\tools\*.txt")

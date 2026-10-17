@@ -1,6 +1,6 @@
 # ORVION Execution Roadmap
 
-Version: 0.2
+Version: 0.3
 Status: Draft
 Canonical: Yes
 
@@ -221,7 +221,7 @@ Outputs:
 
 Status: **In Progress — CURRENT phase** (started 2026-07-17 after Phase 9 Tier A completed). Re-verified against live systems 2026-08-29 during the pre-Phase-10 reconciliation; **it is NOT complete, and the single reason is precise.**
 
-**Done:** the ORVION-side pipeline (capture→map→claim→ack, migrations 049200/049300/049400), the SPEC-123 delivery lease, the in-DB consent gate, and the Integration Catalog workflow contract. All deployed to **Primary `vrvtsxexkiiiivlkdxzp`**, this repository's sole Supabase deployment target (`MASTER_INTEGRATION_CATALOG.md §0`); Secondary `brplkqmbzffpxqgkkdzo` is the separate `Shehabhub/ORVION` environment and is **never a CRM deployment target**. Migration parity between the two was **permanently revoked** (owner-ratified 2026-08-20) — differences are valid, never a defect to reconcile. *(Live migration/fingerprint state is not restated here — `manifest.md` owns it, proven by `scripts/check_database_parity.ps1`. This paragraph carried "Primary carries 90 migrations" until 2026-08-29, seventy migrations stale: **GOV-5**.)*
+**Done:** the ORVION-side pipeline (capture→map→claim→ack, migrations 049200/049300/049400), the SPEC-123 delivery lease, the in-DB consent gate, and the Integration Catalog workflow contract. The recorded deployment to **Primary `vrvtsxexkiiiivlkdxzp`** is historical Platinum source evidence. This Founder repository owns Secondary `brplkqmbzffpxqgkkdzo` only; current target ownership is `MASTER_INTEGRATION_CATALOG.md §0`, and current Founder evidence is the manifest's. History import does not certify a Founder integration. Migration parity between the two was **permanently revoked** (owner-ratified 2026-08-20) — differences are valid, never a defect to reconcile. *(Live migration/fingerprint state is not restated here — `manifest.md` owns it, proven by `scripts/check_database_parity.ps1`. This paragraph carried "Primary carries 90 migrations" until 2026-08-29, seventy migrations stale: **GOV-5**.)*
 
 **Not done — the whole of what remains:** the **n8n workflow itself**. Verified live 2026-08-29: the n8n instance holds **zero workflows**. Nothing delivers a conversion to Google Ads, so the founding feedback loop this phase exists to close is open. *(2026-10-07: the remaining conditions are `MASTER_INTEGRATION_CATALOG.md §2b`'s, in the order below.)*
 

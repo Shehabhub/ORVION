@@ -5,7 +5,7 @@ import threading
 import time
 import uuid
 
-PSQL = ["docker", "exec", "-i", "supabase_db_ORVION", "psql", "-X", "-U", "postgres",
+PSQL = ["docker", "exec", "-i", "supabase_db_ORVION_FOUNDER", "psql", "-X", "-U", "postgres",
         "-d", "postgres", "-q", "-t", "-A", "-v", "ON_ERROR_STOP=1", "-f", "-"]
 
 

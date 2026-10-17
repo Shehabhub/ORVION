@@ -30,17 +30,19 @@ jobs:
         run: npm ci
 
       - name: Start local Supabase stack
-        run: node_modules/.bin/supabase start
+        run: pwsh -NoProfile -Command '. ./scripts/assert_founder_local.ps1; Assert-FounderLocalTarget -Root $env:GITHUB_WORKSPACE | Out-Null' && node_modules/.bin/supabase start --workdir "$GITHUB_WORKSPACE"
 
       - name: Apply all migrations on a clean database
-        run: node_modules/.bin/supabase db reset
+        run: pwsh -NoProfile -Command '. ./scripts/assert_founder_local.ps1; Assert-FounderLocalTarget -Root $env:GITHUB_WORKSPACE | Out-Null' && node_modules/.bin/supabase db reset --local --workdir "$GITHUB_WORKSPACE"
 
       - name: Run pgTAP invariant tests
-        run: node_modules/.bin/supabase test db
+        run: pwsh -NoProfile -Command '. ./scripts/assert_founder_local.ps1; Assert-FounderLocalTarget -Root $env:GITHUB_WORKSPACE | Out-Null' && node_modules/.bin/supabase test db --local --workdir "$GITHUB_WORKSPACE"
 
       - name: Run database smoke-test (verify_database.sql)
-        run: docker exec -i supabase_db_ORVION psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f - < scripts/verify_database.sql
+        run: docker exec -i supabase_db_ORVION_FOUNDER psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f - < scripts/verify_database.sql
 
       - name: Stop local Supabase stack
         if: always()
-        run: node_modules/.bin/supabase stop || true
+        run: |
+          pwsh -NoProfile -Command '. ./scripts/assert_founder_local.ps1; Assert-FounderLocalTarget -Root $env:GITHUB_WORKSPACE | Out-Null' || exit $?
+          node_modules/.bin/supabase stop --project-id ORVION_FOUNDER --workdir "$GITHUB_WORKSPACE" || true

@@ -76,7 +76,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path -Parent $PSScriptRoot
 $cap  = if ($Full) { [int]::MaxValue } else { 25 }
-$container = 'supabase_db_ORVION'   # supabase/config.toml project_id; same container AGENTS.md §5 uses
+$container = 'supabase_db_ORVION_FOUNDER'   # supabase/config.toml project_id; same container AGENTS.md §5 uses
 
 # ---------------------------------------------------------------------------------------------
 # Input validation. Also the injection boundary: nothing outside this class ever reaches psql.

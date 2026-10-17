@@ -7,21 +7,17 @@
         "@upstash/context7-mcp"
       ]
     },
-    "postgres-local": {
+    "supabase-secondary": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=brplkqmbzffpxqgkkdzo"
+    },
+    "postgres-founder": {
       "command": "npx",
       "args": [
         "-y",
         "@modelcontextprotocol/server-postgres",
-        "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+        "postgresql://postgres:postgres@127.0.0.1:57422/postgres"
       ]
-    },
-    "supabase-primary": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=vrvtsxexkiiiivlkdxzp"
-    },
-    "n8n": {
-      "type": "http",
-      "url": "https://plat.app.n8n.cloud/mcp-server/http"
     }
   }
 }

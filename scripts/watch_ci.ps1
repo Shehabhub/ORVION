@@ -38,11 +38,13 @@ param(
     [double]$MissingMinutes = 10,
     [int]$PollSeconds = 30,
     [double]$QuietMinutes = 5,
-    [string]$Repo = 'PlatPlusHub/CRM',
+    [string]$Repo = '',
     [string]$RepoRoot = (Split-Path $PSScriptRoot -Parent)
 )
 
 . (Join-Path $RepoRoot 'scripts/github_public_read.ps1')
+if (-not $Repo) { $Repo = Get-OrvionPublicRepo $RepoRoot }
+if ($Repo -cne 'Shehabhub/ORVION') { throw 'FOUNDER_REPOSITORY_MISMATCH' }
 
 # ---- the contract: the authority's own deriver, applied to the workflow files at the SHA --------------
 # Read from the authority's AST and defined here, never copied: a copy would drift from what -Certify judges.

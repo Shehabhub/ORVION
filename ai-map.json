@@ -12,7 +12,7 @@
     "phase": "**Phase 8 (Offline Conversion) — IN PROGRESS**. Execution order 7→9→8→10 (`32`). Phases 2–7 + 9 COMPLETE. Supabase-native backend (ADR-0014); transport ADR-0023. **Phase 10 is NOT ready** — evidence in `32` under Phase 10; blocker is Phase 8's unbuilt n8n workflow, gated behind the Foundation Completion Programme.",
     "active_change_request": "changes/SPEC-287-founder-operational-independence.md",
     "last_completed": "**SPEC-286: bounded founder initial admission — fresh local verification and independent Review complete; owner publication, initial promotion and exact-SHA remote certification remain separate gates. Founder profile/runtime prerequisites remain; CTRL-19 remains OPEN.**",
-    "next_capability": "Follow the next unmet founder recovery prerequisite in ADR-0032 (`reports/architecture-decision-records.md`). Ordinary product work waits for that sequence; resumed Batch 6 selection remains owned by `scripts/batch6_select_target.ps1`."
+    "next_capability": "Follow the next unmet engineering prerequisite in ADR-0033 (`reports/architecture-decision-records.md`). Product work waits for that sequence; resumed Batch 6 selection remains owned by `scripts/batch6_select_target.ps1`."
   },
   "authority": {
     "execution_conduct": "AGENTS.md",
@@ -27,9 +27,9 @@
     "file_index": "repository-index.md"
   },
   "verify": {
-    "start": "npx supabase start",
-    "reset": "npx supabase db reset",
-    "smoke": "docker exec -i supabase_db_ORVION psql -U postgres -d postgres -f - < scripts/verify_database.sql  (expect: ALL CHECKS PASSED)",
+    "start": ". ./scripts/assert_founder_local.ps1; $founderRoot = Assert-FounderLocalTarget -Root (Get-Location).Path; npx supabase start --workdir \"$founderRoot\"",
+    "reset": ". ./scripts/assert_founder_local.ps1; $founderRoot = Assert-FounderLocalTarget -Root (Get-Location).Path; npx supabase db reset --local --workdir \"$founderRoot\"",
+    "smoke": "docker exec -i supabase_db_ORVION_FOUNDER psql -U postgres -d postgres -f - < scripts/verify_database.sql  (expect: ALL CHECKS PASSED)",
     "impact": "pwsh -NoProfile -File scripts/impact.ps1 -Target <name>  (query, not a guard: what consumes/derives from a structure -- AGENTS.md 5b question 2)"
   },
   "canonical_docs": [
@@ -227,7 +227,7 @@
     },
     {
       "path": "_ORVION_CANONICAL/32_execution_roadmap.md",
-      "version": "0.2",
+      "version": "0.3",
       "status": "Draft",
       "layer": "schema/database"
     },

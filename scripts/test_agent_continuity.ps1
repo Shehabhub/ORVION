@@ -546,6 +546,8 @@ try{
     # sandbox needs every file it reads and a project-local CLI for the
     # `supabase-local` probe. Real Supabase and Docker are replaced by stubs below.
     Put 'supabase/migrations/20260101_fixture.sql' 'select 1;'
+    # Target assertion is fixture-only here; actual target proof is test_founder_environment.
+    Put 'scripts/assert_founder_local.ps1' 'function Assert-FounderLocalTarget { param($Root) $Root }'
     Put 'scripts/verify_database.sql' 'select 1;'
     Put 'scripts/verify_fixture.ps1' 'Add-Content -LiteralPath $env:ORVION_STUB_LOG -Value "verify_fixture ran";exit 0'
     Put 'scripts/check_database_parity.ps1' 'exit 0'
@@ -1313,15 +1315,15 @@ try{
     # protocol can succeed. Titled as reachability, it stayed green across nineteen contracts while
     # the real parity command was structurally incapable of returning 0 (`PAR-6`). Real reachability
     # of the parity step is proven by 103d-103k, which run the actual adapter.
-    Assert '103 MUST-ACCEPT ORCHESTRATION: -Finish runs the DATABASE protocol in order and certifies when every (fixture) command exits 0' ($r.Code-eq0-and$r.Text-match'PASS: npx supabase db reset'-and$r.Text-match'PASS: pwsh -NoProfile -File scripts/check_database_parity_evidence\.ps1'-and$r.Text-match'LOCAL_CERTIFY: READY'-and$null-ne(ReceiptJson)) $r.Text
+    Assert '103 MUST-ACCEPT ORCHESTRATION: -Finish runs the DATABASE protocol in order and certifies when every (fixture) command exits 0' ($r.Code-eq0-and$r.Text-match'PASS: [^\r\n]*npx supabase db reset --local'-and$r.Text-match'PASS: pwsh -NoProfile -File scripts/check_database_parity_evidence\.ps1'-and$r.Text-match'LOCAL_CERTIFY: READY'-and$null-ne(ReceiptJson)) $r.Text
 
     # ---- Primary evidence: reuse the existing validator, claim only what it proves ----
-    Reset-Fixture;Rebase (ContractText -Resume DONE -Scope 'allowed.txt;scripts/check_primary_ledger.ps1' -Capabilities 'supabase-primary')
+    Reset-Fixture;Rebase (ContractText -Resume DONE -Scope 'allowed.txt;scripts/check_primary_ledger.ps1' -Capabilities 'supabase-secondary')
     Put 'scripts/check_primary_ledger.ps1' "Write-Output 'UNATTRIBUTABLE: evidence belongs to another history';exit 1";$r=Run Finish
-    Assert '103b a declared supabase-primary with stale or unattributable evidence is not certified' ($r.Code-ne0-and$r.Text-match'FAILED: .*check_primary_ledger\.ps1'-and$r.Text-notmatch'LOCAL_CERTIFY: READY') $r.Text
+    Assert '103b a declared supabase-secondary with stale or unattributable evidence is not certified' ($r.Code-ne0-and$r.Text-match'FAILED: .*check_primary_ledger\.ps1'-and$r.Text-notmatch'LOCAL_CERTIFY: READY') $r.Text
 
-    Reset-Fixture;Rebase (ContractText -Resume DONE -Scope 'allowed.txt' -Capabilities 'supabase-primary');$r=Run Finish
-    Assert '103c MUST-ACCEPT: valid recorded Primary evidence certifies, and is never called a live read' ($r.Code-eq0-and$r.Text-match'PASS: pwsh -NoProfile -File scripts/check_primary_ledger\.ps1'-and$r.Text-match'CAPABILITY: supabase-primary EXTERNAL_EVIDENCE'-and$r.Text-match'recorded'-and$r.Text-match'LOCAL_CERTIFY: READY') $r.Text
+    Reset-Fixture;Rebase (ContractText -Resume DONE -Scope 'allowed.txt' -Capabilities 'supabase-secondary');$r=Run Finish
+    Assert '103c MUST-ACCEPT: valid recorded Primary evidence certifies, and is never called a live read' ($r.Code-eq0-and$r.Text-match'PASS: pwsh -NoProfile -File scripts/check_primary_ledger\.ps1'-and$r.Text-match'CAPABILITY: supabase-secondary EXTERNAL_EVIDENCE'-and$r.Text-match'recorded'-and$r.Text-match'LOCAL_CERTIFY: READY') $r.Text
 
     # ---- PAR-6: the DATABASE profile's parity command is satisfied from RECORDED evidence ----
     # The deadlock this closes was reproduced on the real repository: every local DATABASE
@@ -1333,7 +1335,7 @@ try{
     # evidence handling rather than borrowed from a neighbouring guard.
     $realAdapter = [IO.File]::ReadAllText((Join-Path $sourceRoot 'scripts/check_database_parity_evidence.ps1'))
     function EvidenceJson([hashtable]$Override=@{}){
-        $o=[ordered]@{project_ref='vrvtsxexkiiiivlkdxzp';read_at='2026-09-20T08:05:00Z';repository_head='HEAD_PLACEHOLDER'
+        $o=[ordered]@{project_ref='brplkqmbzffpxqgkkdzo';read_at='2026-09-20T08:05:00Z';repository_head='HEAD_PLACEHOLDER'
                       migration_count=1;ledger_fingerprint='0123456789abcdef0123456789abcdef';ledger=@('20260101_fixture')
                       function_surface_hash='f791acdba3e91462b1625ab8a723db4d';function_count=298
                       structural_surface_hash='0c77972ecf1b45096cda327943a45c00';structural_object_count=3029}
@@ -1348,28 +1350,28 @@ try{
         Put 'scripts/check_primary_ledger.ps1' $LedgerStub
     }
 
-    ArmAdapter;Put 'reports/evidence/primary-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
-    Assert '103d MUST-ACCEPT: well-formed Primary evidence reaches the parity engine and returns its 0' ($r.Code-eq0-and$r.Text-match'PRIMARY PARITY EVIDENCE: CLEAN'-and$r.Text-match'never contacts Primary') $r.Text
+    ArmAdapter;Put 'reports/evidence/founder-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
+    Assert '103d MUST-ACCEPT: well-formed Primary evidence reaches the parity engine and returns its 0' ($r.Code-eq0-and$r.Text-match'FOUNDER PARITY EVIDENCE: CLEAN'-and$r.Text-match'never contacts Founder') $r.Text
 
     ArmAdapter;$r=RunAdapter
-    Assert '103e missing Primary evidence is refused, never treated as proven' ($r.Code-ne0-and$r.Text-notmatch'PRIMARY PARITY EVIDENCE: CLEAN') $r.Text
+    Assert '103e missing Primary evidence is refused, never treated as proven' ($r.Code-ne0-and$r.Text-notmatch'FOUNDER PARITY EVIDENCE: CLEAN') $r.Text
 
-    ArmAdapter;Put 'reports/evidence/primary-ledger-evidence.json' (EvidenceJson @{project_ref='brplkqmbzffpxqgkkdzo'});$r=RunAdapter
-    Assert '103f evidence naming Secondary is refused by IDENTITY, not by hoping the hashes differ' ($r.Code-eq1-and$r.Text-match'WRONG PROJECT'-and$r.Text-match'brplkqmbzffpxqgkkdzo') $r.Text
+    ArmAdapter;Put 'reports/evidence/founder-ledger-evidence.json' (EvidenceJson @{project_ref='vrvtsxexkiiiivlkdxzp'});$r=RunAdapter
+    Assert '103f evidence naming Secondary is refused by IDENTITY, not by hoping the hashes differ' ($r.Code-eq1-and$r.Text-match'WRONG PROJECT'-and$r.Text-match'vrvtsxexkiiiivlkdxzp') $r.Text
 
-    ArmAdapter;Put 'reports/evidence/primary-ledger-evidence.json' (EvidenceJson @{function_surface_hash=$null});$r=RunAdapter
+    ArmAdapter;Put 'reports/evidence/founder-ledger-evidence.json' (EvidenceJson @{function_surface_hash=$null});$r=RunAdapter
     Assert '103g a MISSING Primary surface hash is UNPROVEN, and unproven is not clean' ($r.Code-eq1-and$r.Text-match"no 'function_surface_hash'") $r.Text
 
-    ArmAdapter;Put 'reports/evidence/primary-ledger-evidence.json' (EvidenceJson @{structural_surface_hash='NOTAHASH'});$r=RunAdapter
+    ArmAdapter;Put 'reports/evidence/founder-ledger-evidence.json' (EvidenceJson @{structural_surface_hash='NOTAHASH'});$r=RunAdapter
     Assert '103h a malformed Primary surface hash is refused before it reaches the engine' ($r.Code-eq1-and$r.Text-match'MALFORMED') $r.Text
 
-    ArmAdapter -LedgerStub "Write-Output 'STALE/FOREIGN: not an ancestor';exit 1";Put 'reports/evidence/primary-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
+    ArmAdapter -LedgerStub "Write-Output 'STALE/FOREIGN: not an ancestor';exit 1";Put 'reports/evidence/founder-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
     Assert '103i the ledger authority is COMPOSED: its refusal refuses the whole parity claim' ($r.Code-eq1-and$r.Text-match'not usable') $r.Text
 
-    ArmAdapter -ParityStub 'exit 1';Put 'reports/evidence/primary-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
+    ArmAdapter -ParityStub 'exit 1';Put 'reports/evidence/founder-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
     Assert '103j a DRIFT verdict from the engine is propagated, never swallowed' ($r.Code-eq1-and$r.Text-match'parity engine exited 1') $r.Text
 
-    ArmAdapter -ParityStub 'exit 2';Put 'reports/evidence/primary-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
+    ArmAdapter -ParityStub 'exit 2';Put 'reports/evidence/founder-ledger-evidence.json' (EvidenceJson);$r=RunAdapter
     Assert '103k UNPROVEN (2) is propagated EXACTLY, not laundered into 1 or 0' ($r.Code-eq2-and$r.Text-match'parity engine exited 2') $r.Text
     # ---- DEFECT C: -Certify must prove REQUIRED runs, not merely observed ones (SPEC-164) ----
     # The old logic asked only "did anything fail?". A required workflow that silently

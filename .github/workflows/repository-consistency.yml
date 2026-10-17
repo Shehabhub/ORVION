@@ -15,6 +15,7 @@ on:
       # it. Every file the guard reads or executes belongs in these lists.
       - "scripts/check_primary_ledger.ps1"
       - "reports/evidence/primary-ledger-evidence.json"
+      - "reports/evidence/founder-ledger-evidence.json"
       # The same rule, applied to the three INPUTS the guard reads that are not Markdown and not one
       # of its own scripts. Measured in the guard's source rather than assumed:
       #   Check 1  (GOV-13)  resolves pgTAP test references against `supabase/tests/`
@@ -59,6 +60,7 @@ on:
       - "scripts/check_repository_consistency.ps1"
       - "scripts/check_primary_ledger.ps1"
       - "reports/evidence/primary-ledger-evidence.json"
+      - "reports/evidence/founder-ledger-evidence.json"
       - "supabase/migrations/**"
       - "supabase/tests/**"
       - "ai-map.json"

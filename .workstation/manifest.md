@@ -1,7 +1,7 @@
 # ORVION Workstation Manifest
 
 Status: Living-Authoritative
-Last curated: 2026-10-09
+Last curated: 2026-10-17
 Platform: Current supported Windows 11, x64
 
 This file is the single source of truth for what the ORVION engineering workstation needs and why.
@@ -57,16 +57,15 @@ extensions are neither installed nor removed by bootstrap.
 by restating it — because Codex uses user configuration rather than importing `.mcp.json`.
 `doctor.ps1` likewise derives the names it verifies from that file. A mismatching Codex definition is
 reported, never silently overwritten. The table below restates the inventory for rationale only;
-Check 28 of `scripts/check_repository_consistency.ps1` fails if the two disagree. `github` is the one
+Check 28 of `scripts/check_repository_consistency.ps1` fails if the two disagree. `github-secondary` is the one
 row that is deliberately not a project server: it is absent from `.mcp.json` and is workstation-specific.
 
 | Server | Clients | Connection/runtime | Authentication | Bootstrap status |
 |---|---|---|---|---|
 | `context7` | Claude, Codex | stdio `npx -y @upstash/context7-mcp`; a Codex already signed in to Context7's remote `https://mcp.context7.com/mcp/oauth` keeps it as the same server | None (stdio); OAuth (remote) | Defined, registered, enumerated |
-| `postgres-local` | Claude, Codex | stdio Node MCP to local port 54322 | Local-dev credentials only | Defined, registered, usable with stack |
-| `supabase-primary` | Claude, Codex | official remote MCP scoped to Primary ref | Browser OAuth; no PAT in repo | Defined and registered; auth separate |
-| `n8n` | Claude, Codex | `https://plat.app.n8n.cloud/mcp-server/http` | OAuth/account authorization | Defined and registered; auth separate |
-| `github` | Codex; shell uses `gh` | GitHub Copilot MCP endpoint | `GITHUB_PAT_TOKEN` env name; value external | Registered; variable presence checked |
+| `postgres-founder` | Claude, Codex | stdio Node MCP to Founder local port 57422 | Local-dev credentials only | Defined, registered, usable with stack |
+| `supabase-secondary` | Claude, Codex | official remote MCP scoped to Founder ref | Browser OAuth; no PAT in repo | Defined and registered; auth separate |
+| `github-secondary` | Codex; shell uses `gh` | GitHub Copilot MCP endpoint | `GITHUB_SECONDARY_PAT_TOKEN` env name; value external | Registered; variable presence checked |
 
 **Startup timeout (2026-10-09).** Claude Code waits 30 s by default for a stdio server to start, and `MCP_TIMEOUT` (milliseconds) changes that wait. A cold `npx -y` start of `context7` and `postgres-local` measured 51.6 s, so both failed to connect at session start; warm starts measured 14–22 s. In a fresh `claude mcp list`, `MCP_TIMEOUT=5000` made both fail while `90000` and the default let both connect, so the variable is honoured. `prepare.ps1` therefore sets the user variable `MCP_TIMEOUT=90000` when it is absent, and reports a different value without overwriting it; `doctor.ps1` fails while it is absent. A client reads the variable only when it starts, so VS Code and the CLI are restarted after the first setting.
 

@@ -2095,15 +2095,15 @@ function Get-ProfileEvidence([string]$Profile){
         # on a clean database, and Pass B re-proves them after the HTTP suites have
         # written through the API. Only Pass B can catch a suite that corrupts state.
         'DATABASE'{[pscustomobject]@{Local=@(
-            'npx supabase db reset',
-            'npx supabase test db',
+            '. ./scripts/assert_founder_local.ps1; $founderRoot = Assert-FounderLocalTarget -Root (Get-Location).Path; npx supabase db reset --local --workdir "$founderRoot"',
+            '. ./scripts/assert_founder_local.ps1; $founderRoot = Assert-FounderLocalTarget -Root (Get-Location).Path; npx supabase test db --local --workdir "$founderRoot"',
             $script:HttpSuiteSlot,
-            'npx supabase test db',
+            '. ./scripts/assert_founder_local.ps1; $founderRoot = Assert-FounderLocalTarget -Root (Get-Location).Path; npx supabase test db --local --workdir "$founderRoot"',
             # Expressed as a PowerShell pipeline: `<` input redirection is reserved and
             # not valid PowerShell, so the shell form documented for bash cannot run here.
-            'Get-Content -Raw scripts/verify_database.sql | docker exec -i supabase_db_ORVION psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f -',
+            'Get-Content -Raw scripts/verify_database.sql | docker exec -i supabase_db_ORVION_FOUNDER psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f -',
             'pwsh -NoProfile -File scripts/check_database_parity_evidence.ps1');Deferred=@(
-            'EXTERNAL: the three Primary values are read LIVE through supabase-primary at the DATABASE execution boundary and RECORDED in reports/evidence/primary-ledger-evidence.json; this run validated that record and did NOT contact Primary')}}
+            'EXTERNAL: the three Founder values are read LIVE through supabase-secondary at the DATABASE execution boundary and RECORDED in reports/evidence/founder-ledger-evidence.json; this run validated that record and did NOT contact Founder')}}
         default{[pscustomobject]@{Local=@();Deferred=@()}}
     }
 }
@@ -2124,19 +2124,22 @@ $script:Capabilities=@{
     'docker'          =@{Class='LOCAL_PROBE';Probe={
         docker info *>$null;if($LASTEXITCODE-ne0){throw 'MISSING_REQUIRED_CAPABILITY:docker:docker_info'}}}
     'supabase-local'  =@{Class='LOCAL_PROBE';Probe={
+        if($env:SUPABASE_PROJECT_ID-and$env:SUPABASE_PROJECT_ID-cne'ORVION_FOUNDER'){throw 'MISSING_REQUIRED_CAPABILITY:supabase-local:project_id_override'}
+        . (Join-Path $Root 'scripts/assert_founder_local.ps1')
+        Assert-FounderLocalTarget -Root $Root | Out-Null
         docker info *>$null;if($LASTEXITCODE-ne0){throw 'MISSING_REQUIRED_CAPABILITY:supabase-local:docker_info'}
         if(!(Test-Path -LiteralPath (Join-Path $Root 'node_modules/.bin/supabase.cmd'))-and
            !(Test-Path -LiteralPath (Join-Path $Root 'node_modules/.bin/supabase'))){
             throw 'MISSING_REQUIRED_CAPABILITY:supabase-local:project_cli_missing'}}}
     # An EXTERNAL_EVIDENCE capability may carry an `Evidence` command: the repository's
     # own validator for the RECORDED evidence that connector left behind. Declaring
-    # `supabase-primary` therefore makes `check_primary_ledger.ps1` mandatory under
+    # `supabase-secondary` therefore makes `check_primary_ledger.ps1` mandatory under
     # Finish, which is what separates DECLARED from PROVEN. What it proves is bounded
     # and stated: the recorded ledger is internally self-consistent, attributable to
     # this history, and equal to the repository's migration set. It is not a live read,
     # and the Note says so rather than letting the green imply one.
-    'supabase-primary'=@{Class='EXTERNAL_EVIDENCE'
-                         Note='recorded Primary evidence, validated by `scripts/check_primary_ledger.ps1` — attributable and current, never a live read'
+    'supabase-secondary'=@{Class='EXTERNAL_EVIDENCE'
+                         Note='recorded Founder evidence, validated by `scripts/check_primary_ledger.ps1` — attributable and current, never a live read'
                          Evidence='pwsh -NoProfile -File scripts/check_primary_ledger.ps1'}
     'postgres-local'  =@{Class='EXTERNAL_EVIDENCE';Note='declared by the contract, unprovable by this process'}
     'n8n'             =@{Class='EXTERNAL_EVIDENCE';Note='declared by the contract, unprovable by this process'}

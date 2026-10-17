@@ -1687,7 +1687,7 @@ if (-not $acrLine.Success) {
 # here rather than reimplemented, so the two can never disagree about what "matches" means -- the
 # PAR-1a mistake of two hand-copied variants of one query.
 # =====================================================================================================
-Write-Host "== Check 19: Primary ledger evidence (RECOVER-1) ==" -ForegroundColor Cyan
+Write-Host "== Check 19: Founder ledger evidence (RECOVER-1) ==" -ForegroundColor Cyan
 $ledgerGuard = Join-Path $PSScriptRoot 'check_primary_ledger.ps1'
 if (-not (Test-Path $ledgerGuard)) {
     Write-Host "  MISSING: scripts/check_primary_ledger.ps1 -- RECOVER-1's guard is gone." -ForegroundColor Red
@@ -1695,9 +1695,9 @@ if (-not (Test-Path $ledgerGuard)) {
 } else {
     & pwsh -NoProfile -File $ledgerGuard
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "  Primary ledger evidence is ABSENT, STALE or DISAGREES -- see above." -ForegroundColor Red
-        Write-Host "  UNKNOWN IS NOT CLEAN. Refresh it by reading Primary's ledger via the" -ForegroundColor DarkGray
-        Write-Host "  supabase-primary MCP; the exact query is recorded in the evidence file." -ForegroundColor DarkGray
+        Write-Host "  Founder ledger evidence is ABSENT, STALE or DISAGREES -- see above." -ForegroundColor Red
+        Write-Host "  UNKNOWN IS NOT CLEAN. Refresh it by reading Founder's ledger via the" -ForegroundColor DarkGray
+        Write-Host "  supabase-secondary MCP; the exact query is recorded in the evidence file." -ForegroundColor DarkGray
         $issues++
     }
 }
@@ -1736,7 +1736,7 @@ if (-not (Test-Path $ciWorkflow)) {
         '**/*.md'                                     = 'Checks 1-6, 10-18, 21, 22 and 23 (every Living/Master document, the disposition record, and every history report)'
         'scripts/check_repository_consistency.ps1'    = 'this script itself'
         'scripts/check_primary_ledger.ps1'            = 'Check 19 executes it'
-        'reports/evidence/primary-ledger-evidence.json' = 'Check 19 reads it'
+        'reports/evidence/founder-ledger-evidence.json' = 'Check 19 reads it'
         'supabase/migrations/**'                      = 'Check 9 (migration count, latest, ledger fingerprint)'
         'supabase/tests/**'                           = 'Check 1 (pgTAP reference resolution) and Check 15 (suite figures)'
         'ai-map.json'                                 = 'Check 7 (ai-map freshness vs manifest)'
@@ -2487,9 +2487,9 @@ if (-not (Test-Path $wsManifestPath)) {
         if (-not $mcpSection) {
             Write-Host "  .workstation/manifest.md has no 'MCP inventory and authentication' section to compare" -ForegroundColor Red; $wsIssues++
         } else {
-            # `github` is deliberately NOT a project server: it is absent from .mcp.json and is
+            # `github-secondary` is deliberately NOT a project server: it is absent from .mcp.json and is
             # registered by prepare.ps1 as workstation-specific, so it is excluded by name.
-            $mcpListed = @([regex]::Matches($mcpSection, '(?m)^\|\s*`(?<id>[A-Za-z0-9][A-Za-z0-9._-]*)`') | ForEach-Object { $_.Groups['id'].Value } | Where-Object { $_ -ne 'github' })
+            $mcpListed = @([regex]::Matches($mcpSection, '(?m)^\|\s*`(?<id>[A-Za-z0-9][A-Za-z0-9._-]*)`') | ForEach-Object { $_.Groups['id'].Value } | Where-Object { $_ -ne 'github-secondary' })
             foreach ($miss in @($wsMcpDeclared | Where-Object { $mcpListed -notcontains $_ })) {
                 Write-Host "  MCP DRIFT: .mcp.json declares '$miss' but .workstation/manifest.md does not list it" -ForegroundColor Red; $wsIssues++
             }
@@ -2544,8 +2544,8 @@ if ($issues -eq 0) {
     # opens a database. Stating that here is what stops a CLEAN result from being quoted as evidence
     # of live parity -- which is exactly how the drift survived.
     Write-Host "  (scope: repository files only -- no database was queried." -ForegroundColor DarkGray
-    Write-Host "   Check 19 verifies the RECORDED Primary ledger reading, not a live one." -ForegroundColor DarkGray
-    Write-Host "   For live local-vs-Primary surface parity run scripts/check_database_parity.ps1)" -ForegroundColor DarkGray
+    Write-Host "   Check 19 verifies the RECORDED Founder ledger reading, not a live one." -ForegroundColor DarkGray
+    Write-Host "   For live local-vs-Founder surface parity run scripts/check_database_parity.ps1)" -ForegroundColor DarkGray
     exit 0
 } else {
     Write-Host "REPOSITORY CONSISTENCY: $issues issue(s) found" -ForegroundColor Red

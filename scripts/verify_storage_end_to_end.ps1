@@ -26,8 +26,15 @@ Write-Host "`n== ORVION storage end-to-end proof ==" -ForegroundColor Cyan
 # ---------------------------------------------------------------------------------------------
 # 0. Local stack coordinates.
 # ---------------------------------------------------------------------------------------------
-$status = (npx supabase status -o json 2>$null) | ConvertFrom-Json
+. (Join-Path $PSScriptRoot 'assert_founder_local.ps1')
+$founderRoot = Assert-FounderLocalTarget -Root (Split-Path $PSScriptRoot -Parent)
+$cli = Join-Path $founderRoot 'node_modules/.bin/supabase.cmd'
+if (-not (Test-Path -LiteralPath $cli)) { $cli = Join-Path $founderRoot 'node_modules/.bin/supabase' }
+$rawStatus = & $cli status -o json --workdir $founderRoot 2>$null
+if ($LASTEXITCODE -ne 0) { throw 'FOUNDER_LOCAL_STATUS_UNREADABLE' }
+$status = $rawStatus | ConvertFrom-Json
 $API = $status.API_URL
+if ($API -notmatch '^http://(127\.0\.0\.1|localhost):57421/?$') { throw 'FOUNDER_LOCAL_API_TARGET_MISMATCH' }
 $SERVICE = $status.SERVICE_ROLE_KEY
 $JWT_SECRET = $status.JWT_SECRET
 if (-not $API -or -not $SERVICE) { throw "local stack is not running -- run 'npx supabase start'" }
@@ -50,7 +57,7 @@ function Psql([string]$sql) {
     # ON_ERROR_STOP is not optional here. Without it a failed teardown statement only prints and the
     # script sails on with a half-built fixture -- which is exactly how the first run of this file
     # reported "fixture seeded" and then found no rows.
-    $sql | docker exec -i supabase_db_ORVION psql -U postgres -d postgres -q -t -A -v ON_ERROR_STOP=1 -f - 2>&1
+    $sql | docker exec -i supabase_db_ORVION_FOUNDER psql -U postgres -d postgres -q -t -A -v ON_ERROR_STOP=1 -f - 2>&1
 }
 
 # Invoke-WebRequest returns .Content as a byte[] for non-text content types (application/pdf here),

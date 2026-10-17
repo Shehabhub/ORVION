@@ -4,9 +4,10 @@ Status: **Authoritative governance operating system for the knowledge/decision/r
 
 **Precedence & scope boundary (no overlap):** `AGENTS.md` is authoritative for **execution conduct** (how work is done, when to continue/stop, standing authorities). This document is authoritative for **knowledge governance** (where information lives and how decisions/documents flow). Where the two touch, AGENTS.md governs conduct and GOVERNANCE.md governs knowledge placement. Neither restates the other. `CR_LIFECYCLE.md` remains authoritative for the Change Request state machine.
 
-Version 1.20.1 · 2026-10-16 · Governs every future human, Claude, Codex, and AI/MCP session.
+Version 1.21 · 2026-10-17 · Governs every future human, Claude, Codex, and AI/MCP session.
 
 **Governance changelog** (governance governs itself — §15):
+- v1.21 (2026-10-17) — SPEC-287, subject to its Human Gate 1. Establish Founder current hosted evidence in the existing RECOVER-1/PAR-6 mechanism; preserve original Platinum evidence as historical source provenance. Repoint the two current engineering-sequence pins to the owner-ratified ADR-0033. MINOR: current ownership changes; no certification authority, receipt format, history exception or lifecycle weakening.
 - v1.20.1 (2026-10-16) — SPEC-284, owner-ratified Human Gate 1. Clarifies the existing certification lifecycle in `CR_LIFECYCLE.md` §§8–9: preserve original Finish evidence per exact candidate SHA, prepare locally before the next Finish independently of owner publication, retain the original checkout, and certify ordered promotions. PATCH: no SSOT reassignment, new CR status, credential boundary or certification authority.
 - v1.20 (2026-10-14) — SPEC-281. §6 rule 10: a line that names its owner holds exactly its ratified text, pinned by SHA-256 and refused by the Gate when it differs; changing one is an authority change that closes its consumers. The three Batch 6 pointer lines of the manifest are pinned. No authority moved.
 - v1.19 (2026-10-12) — SPEC-270. One deterministic generator, `scripts/generate-ai-map.ps1`, now writes both repository-only projections, `ai-map.json` and `repository-index.md`, and Check 7 verifies that both reproduce from their sources. The §2 rows and the authority graph name it. No authority moved.
@@ -85,7 +86,8 @@ Read top-down to answer "what am I allowed to do?"; read a specific layer to ans
 | **Proposed/pending** decisions | `reports/master/MASTER_ARCHITECTURE_DECISIONS.md §B` + evidence/VALIDATED/PENDING | — |
 | Accepted architectural findings/gaps — a finding's **STATUS and EVIDENCE** | `reports/master/MASTER_GAP_REGISTER.md` | ALL other Masters reference finding **IDs**; none may state a finding's status. **Boundary (AUD-03, 2026-08-29):** `MASTER_EXECUTION_PLAN.md` legitimately *narrates* what a package fixed and why it was sequenced where it was — a package narrative cannot be written without describing findings, and that history is what makes the programme continuable. What it must never do is assign a **status** the register disagrees with. That is the harmful half of the duplication, and it is now **measured**, not trusted: `check_repository_consistency.ps1` Check 2 compares finding status ACROSS every `reports/master/*.md` |
 | Finding evidence trail (9 stages) | `reports/evidence/ARCHITECTURE_PROOF_LOG.md` | — |
-| **Recorded reading of Primary's migration ledger** (RECOVER-1) | `reports/evidence/primary-ledger-evidence.json` — the full `version_name` set, its fingerprint, the project ref, the read timestamp, the exact read query, and the commit it was read at. **Evidence class: a RECORDED reading, never a live one** — it cannot prove the ledger came from Primary rather than from the repository (GUARD-1); it proves that *some* Primary reading is on record for this exact migration set and this history. Enforced fail-closed by `check_repository_consistency.ps1` **Check 19** (→ `check_primary_ledger.ps1`), mutation-proven by `test_primary_ledger_guard.ps1`. Refresh it by reading Primary via the `supabase-primary` MCP whenever the migration set changes | `manifest.md` publishes the derived live-state figures and must agree; `check_database_parity.ps1` cross-checks a supplied `-PrimaryFingerprint` against it and fails on contradiction |
+| **Historical certified source reading of Platinum Primary's migration ledger** | `reports/evidence/primary-ledger-evidence.json` — retained unchanged as source provenance; it never satisfies Founder current operational verification | Original certified source history and receipts remain unchanged |
+| **Recorded reading of Founder hosted database** (RECOVER-1 / PAR-6) | `reports/evidence/founder-ledger-evidence.json` — full version/name ledger, recomputed count/digest, ancestor head, recorded URL/connector, exact read query, function and structural surfaces. This is recorded evidence, never a cryptographic proof of remote origin (GUARD-1). Refresh only from an authenticated `supabase-secondary` read bound to `brplkqmbzffpxqgkkdzo`; the existing ledger validator and parity adapter remain the only judgments | The manifest publishes its bounded current claims; Check 19 delegates to the same guard. Historical Platinum evidence cannot satisfy it |
 | Finding lifecycle stage detail | `reports/evidence/{VALIDATED,PENDING,REJECTED}_ARCHITECTURE_DECISIONS.md` | register row shows the current status |
 | External citations | `reports/evidence/INDUSTRY_REFERENCES.md` | every evidence-based finding cites a ref-id |
 | Risk | `reports/master/MASTER_RISK_REGISTER.md` | references finding IDs |
@@ -178,7 +180,8 @@ Normal CR execution and routine checkpoints do not require a session report. CR 
 | `reports/architecture-decision-records.md` | ratified ADRs | Living | ratified decisions | on owner ratification |
 | `reports/master/MASTER_*.md` — **each has its own §2 row, which is the list** | findings/plan/blueprint/health/integration contracts/API surface/**surface disposition** | Living — **except `MASTER_API_CONTRACT.md`, which is Auto-generated: never hand-edit, regenerate** | see §2 rows | every review |
 | `reports/evidence/{VALIDATED,PENDING,REJECTED}_*.md`, `INDUSTRY_REFERENCES.md`, `ARCHITECTURE_PROOF_LOG.md` | decision evidence | Living | finding lifecycle + evidence | every validation |
-| `reports/evidence/primary-ledger-evidence.json` | recorded reading of Primary's migration ledger (RECOVER-1) | Living — **machine-read; never hand-edit a count or hash**, because Check 19 recomputes both from the ledger array and a hand edit is detected as self-inconsistent | that a Primary reading is on record for this migration set and this history | whoever changes the migration set, in the same commit, from a live `supabase-primary` MCP read |
+| `reports/evidence/primary-ledger-evidence.json` | historical certified Platinum source reading | Historical provenance — preserve bytes | source attribution only | never refresh as Founder |
+| `reports/evidence/founder-ledger-evidence.json` | recorded Founder hosted reading | Living, machine-read; refresh from actual Founder reads only | attributable recorded evidence, not a live read or cryptographic attestation | changes to migration/runtime surface require a new authenticated Founder observation |
 | `reports/future-backlog.md` | deferred + triggers | Living | deferred work | reviews |
 | `reports/history/*-2026-07*`, `phase-*`, process reports | historical analysis | **Immutable** | the record of that session | never |
 | `repository-index.md` | file index | Auto-gen | file listing | `scripts/generate-ai-map.ps1`; Check 7 verifies it reproduces |
@@ -203,9 +206,9 @@ Normal CR execution and routine checkpoints do not require a session report. CR 
 
     | File | Line | Value owned by | SHA-256 of the line |
     |---|---|---|---|
-    | `_ORVION_CANONICAL/manifest.md` | `Current Module` | `reports/architecture-decision-records.md` | `6439b6e8bbcd28a38197484f00daa7fd45b0f1ae00b35f50331ca9303f39840b` |
+    | `_ORVION_CANONICAL/manifest.md` | `Current Module` | `reports/architecture-decision-records.md` | `44daebeeb7fa4839194de52b0d8e8d98823e52738ca8c366a78bfd5a52693541` |
     | `_ORVION_CANONICAL/manifest.md` | `Batch 6 surface coverage` | `reports/master/MASTER_SURFACE_DISPOSITION.md` | `166b2f42e10851e6c13be8d578229e72ff22865d6761bfb2a2d8f78296ce8a16` |
-    | `_ORVION_CANONICAL/manifest.md` | `Next capability` | `reports/architecture-decision-records.md` | `316c22cf93727281371b02f88743438d694a46fe0d5b98f1393a8bcafc12c64f` |
+    | `_ORVION_CANONICAL/manifest.md` | `Next capability` | `reports/architecture-decision-records.md` | `d88a3fba4234685b7fe84b3df509e1a183fcbb25226709857e9860b9605effd9` |
 
 ---
 

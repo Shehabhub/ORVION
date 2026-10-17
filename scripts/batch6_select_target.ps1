@@ -75,9 +75,13 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$container = (docker ps --format '{{.Names}}' | Where-Object { $_ -like 'supabase_db_*' } | Select-Object -First 1)
+. (Join-Path $PSScriptRoot 'assert_founder_local.ps1')
+Assert-FounderLocalTarget -Root $RepoRoot | Out-Null
+$container = 'supabase_db_ORVION_FOUNDER'
+$running = @(docker ps --format '{{.Names}}')
+if ($LASTEXITCODE -ne 0 -or $running -cnotcontains $container) { $container = $null }
 if (-not $container) {
-    Write-Host "No supabase_db_* container is running -- start the local stack (npx supabase start)." -ForegroundColor Red
+    Write-Host "Founder supabase_db_ORVION_FOUNDER container is not running -- start the local stack (npx supabase start)." -ForegroundColor Red
     exit 2
 }
 

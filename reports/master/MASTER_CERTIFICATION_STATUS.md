@@ -2,11 +2,24 @@
 
 Status: **Permanent cumulative certification ledger.** Never recreate; evolve. Records what is certified, conditionally certified, or not certified, and the exact conditions to reach unconditional certification. Cross-reference: `MASTER_GAP_REGISTER.md`, `MASTER_DESIGN_CHECKLIST.md`.
 
-Last updated: 2026-10-08 (**Launch readiness now has exactly one gate.** The owner's 2026-10-08 directive (SPEC-248) puts the Pre-Production Readiness Closure gate in `MASTER_EXECUTION_PLAN.md`. This ledger keeps the launch-readiness verdict, points to the gate, and records no finding. No certification state changes.)
+Last updated: 2026-10-17 — Founder applicability is bounded separately; source certifications are preserved.
+
+Previously: 2026-10-08 (**Launch readiness now has exactly one gate.** The owner's 2026-10-08 directive (SPEC-248) puts the Pre-Production Readiness Closure gate in `MASTER_EXECUTION_PLAN.md`. This ledger keeps the launch-readiness verdict, points to the gate, and records no finding. No certification state changes.)
 
 Previously: 2026-08-29 (**GOV-5 — this ledger no longer restates live migration state.** It had recorded "Primary at 90 migrations" as the certified state since 2026-08-20, while Primary stood at 160 — and `reports/README.md` sends every newcomer to this file *first*, so the first document a fresh reader met was seventy migrations out of date. `GOVERNANCE.md §2` gives live state exactly one home; a second copy here was the defect, and refreshing the copy would only have reset the trap. **Live migration/fingerprint/parity state: `_ORVION_CANONICAL/manifest.md`, proven by `scripts/check_database_parity.ps1`.** This file keeps what it genuinely owns — *what is certified, under what conditions, and the dated evidence trail below, which stays append-only and unedited.*)
 
 **Deployment topology (policy, owned here — not live state):** `PlatPlusHub/CRM` deploys to **Primary `vrvtsxexkiiiivlkdxzp` only**; Secondary `brplkqmbzffpxqgkkdzo` belongs to `Shehabhub/ORVION` and is never a CRM target. The two are **intentionally independent and NOT synchronized** (owner-ratified 2026-08-20) — differences are valid and expected, and no cross-project parity claim is made or required. Full detail `MASTER_INTEGRATION_CATALOG.md §0/§4`. Product/application launch remains outside this database-deployment certification.
+
+## Founder applicability — 2026-10-17
+
+The source/customer certifications below are preserved as historical evidence. They do not certify
+Founder runtime by import. SPEC-286's history bootstrap was remotely certified at
+`c362e417eca5496d4235bb0232f7fab9cfd5ac17`. Founder workstation/MCP/local-stack/native-release
+readiness is governed by the current independence CR and ADR-0033, and may be claimed only after
+its final verification and remote certification. Founder hosted surface evidence is owned by
+`reports/evidence/founder-ledger-evidence.json`; live state remains in the manifest. No launch,
+backup, external integration, account-isolation or full production runtime claim is added.
+CTRL-19 remains OPEN.
 
 ## Overall verdict
 

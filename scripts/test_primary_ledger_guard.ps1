@@ -15,7 +15,7 @@
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $guard    = Join-Path $PSScriptRoot 'check_primary_ledger.ps1'
-$realEv   = Join-Path $repoRoot 'reports/evidence/primary-ledger-evidence.json'
+$realEv   = Join-Path $repoRoot 'reports/evidence/founder-ledger-evidence.json'
 $realMig  = Join-Path $repoRoot 'supabase/migrations'
 
 $pass = 0; $fail = 0

@@ -127,8 +127,8 @@ if ($projectMcp.Count -eq 0) {
     }
 }
 # NOT a project MCP: absent from .mcp.json by design, so it stays workstation-specific.
-Ensure-CodexMcp "github" "https://api.githubcopilot.com/mcp/" $null "GITHUB_PAT_TOKEN"
-Write-Host "[NOTE] Remote MCP OAuth and GITHUB_PAT_TOKEN remain external to git."
+Ensure-CodexMcp "github-secondary" "https://api.githubcopilot.com/mcp/" $null "GITHUB_SECONDARY_PAT_TOKEN"
+Write-Host "[NOTE] Remote MCP OAuth and GITHUB_SECONDARY_PAT_TOKEN remain external to git."
 
 Write-Host ""
 Write-Host "== MCP startup timeout =="

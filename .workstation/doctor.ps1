@@ -10,6 +10,15 @@ function Warn($Text) { Write-Host "[WARN] $Text"; $Warnings.Add($Text) }
 function Test-RequiredCommand($Name) { $cmd = Get-Command $Name -ErrorAction SilentlyContinue | Select-Object -First 1; if ($cmd) { Pass "$Name -> $($cmd.Path)" } else { Fail "$Name is not on PATH" } }
 function Test-Version($Label, [scriptblock]$Command) { try { $allOutput = & $Command 2>&1; $succeeded = $?; $out = $allOutput | Select-Object -First 1; if ($succeeded -and $out) { Pass "$Label $out" } else { Fail "$Label version command failed" } } catch { Fail "$Label version command failed: $($_.Exception.Message)" } }
 
+if ($env:SUPABASE_PROJECT_ID -and $env:SUPABASE_PROJECT_ID -cne 'ORVION_FOUNDER') { Fail 'FOUNDER_LOCAL_PROJECT_OVERRIDE' }
+$localTargetValid = $false
+try {
+    . (Join-Path $Root 'scripts/assert_founder_local.ps1')
+    Assert-FounderLocalTarget -Root $Root | Out-Null
+    $localTargetValid = $true
+    Pass 'Founder local working directory and project configuration'
+} catch { Fail $_.Exception.Message }
+
 Write-Host ""; Write-Host "========================================="; Write-Host "ORVION WORKSTATION DOCTOR"; Write-Host "========================================="
 Write-Host ""; Write-Host "[Operating environment]"
 $os = Get-CimInstance Win32_OperatingSystem
@@ -22,7 +31,7 @@ Write-Host ""; Write-Host "[Versions and capability]"
 Test-Version "git" { git --version }; Test-Version "gh" { gh --version }; Test-Version "node" { node --version }; Test-Version "npm" { npm --version }
 Test-Version "python" { python --version }; Test-Version "docker" { docker --version }; Test-Version "docker compose" { docker compose version }
 Test-Version "pwsh" { pwsh --version }; Test-Version "code" { code --version }; Test-Version "claude" { claude --version }; Test-Version "codex" { codex --version }
-if (Test-Path "node_modules\.bin\supabase.cmd") { Test-Version "supabase" { & "node_modules\.bin\supabase.cmd" --version } } else { Fail "project-local Supabase CLI is missing (run npm ci)" }
+if ($localTargetValid -and (Test-Path "node_modules\.bin\supabase.cmd")) { Test-Version "supabase" { & "node_modules\.bin\supabase.cmd" --version } } else { Fail "project-local Supabase CLI is missing (run npm ci)" }
 
 Write-Host ""; Write-Host "[Repository dependencies and configuration]"
 foreach ($f in @("README.md","AGENTS.md","GOVERNANCE.md","package.json","package-lock.json","supabase\config.toml",".mcp.json",".vscode\extensions.json",".claude\awareness.json")) { if (Test-Path $f) { Pass $f } else { Fail "$f missing" } }
@@ -56,16 +65,29 @@ try {
 if (Get-Command claude -ErrorAction SilentlyContinue) { $claudeMcp = (claude mcp list 2>&1 | Out-String); foreach ($name in $projectMcpNames) { if ($claudeMcp -match "(?m)^$([regex]::Escape($name)):") { Pass "Claude MCP $name enumerated" } else { Fail "Claude MCP $name not enumerated" } } }
 if (Get-Command codex -ErrorAction SilentlyContinue) {
     $codexMcp = (codex mcp list 2>&1 | Out-String)
-    foreach ($name in @($projectMcpNames + "github")) { if ($codexMcp -match "(?m)^$([regex]::Escape($name))\s") { Pass "Codex MCP $name enumerated" } else { Fail "Codex MCP $name not enumerated" } }
-    if ($codexMcp -match "supabase-primary.*Not logged in") { Warn "Codex supabase-primary configured; OAuth authentication required" }
+    foreach ($name in @($projectMcpNames + "github-secondary")) {
+        try {
+            $effective = (codex mcp get $name --json 2>$null | Out-String) | ConvertFrom-Json
+            if ($LASTEXITCODE -ne 0 -or -not $effective.enabled) { throw 'not enabled' }
+            if ($name -eq 'github-secondary') {
+                if ($effective.transport.url -cne 'https://api.githubcopilot.com/mcp/') { throw 'wrong GitHub endpoint' }
+            } else {
+                $want = $mcp.mcpServers.$name
+                if ($want.url -and $effective.transport.url -cne $want.url) { throw 'wrong project URL' }
+                if ($want.command -and -not ($name -eq 'context7' -and $effective.transport.url -ceq 'https://mcp.context7.com/mcp/oauth') -and ($effective.transport.command -cne $want.command -or ($effective.transport.args | ConvertTo-Json -Compress) -cne ($want.args | ConvertTo-Json -Compress))) { throw 'wrong local target' }
+            }
+            Pass "Codex MCP $name effective definition matches (authentication requires a real tool read)"
+        } catch { Fail "Codex MCP $name effective target mismatch or disabled; run Founder preparation without overwriting shared definitions; verify OAuth separately" }
+    }
+    if ($codexMcp -match "supabase-secondary.*Not logged in") { Warn "Codex supabase-secondary configured; OAuth authentication required" }
 }
 # prepare.ps1 sets this when it is absent (manifest.md section 3). Checked here so that a passing doctor
 # means a prepare run has nothing left to change, which the idempotence verifier relies on (OPS-6).
 if ([Environment]::GetEnvironmentVariable("MCP_TIMEOUT", "User")) { Pass "MCP_TIMEOUT is set for this user" } else { Fail "MCP_TIMEOUT is not set for this user; run workstation.cmd" }
-if (-not $env:GITHUB_PAT_TOKEN) { Warn "Codex GitHub MCP configured; GITHUB_PAT_TOKEN is not present in this process" } else { Pass "Codex GitHub MCP credential variable is present (value not inspected)" }
+if (-not $env:GITHUB_SECONDARY_PAT_TOKEN) { Warn "Codex GitHub MCP configured; GITHUB_SECONDARY_PAT_TOKEN is not present in this process" } else { Pass "Codex GitHub MCP credential variable is present (value not inspected)" }
 
 Write-Host ""; Write-Host "[Authentication boundaries]"
-gh auth status *> $null; if ($LASTEXITCODE -eq 0) { Pass "GitHub CLI authenticated" } else { Warn "GitHub CLI installed; run gh auth login" }
+gh auth status *> $null; if ($LASTEXITCODE -eq 0) { Pass "GitHub CLI authenticated" } else { Warn "GitHub CLI installed; verify Founder authentication in the separate owner context" }
 claude auth status *> $null; if ($LASTEXITCODE -eq 0) { Pass "Claude Code authenticated" } else { Warn "Claude Code installed; launch claude to authenticate" }
 codex login status *> $null; if ($LASTEXITCODE -eq 0) { Pass "Codex authenticated" } else { Warn "Codex installed; run codex login" }
 
@@ -75,9 +97,11 @@ if ($LASTEXITCODE -ne 0) { Fail "Claude awareness wiring incomplete" }
 
 Write-Host ""; Write-Host "[GitHub repository]"
 $originUrl = git remote get-url origin 2>$null
-if ($originUrl -match '^https://PlatPlusHub@github\.com/PlatPlusHub/CRM(\.git)?$') { Pass "origin is username-qualified for PlatPlusHub" } else { Fail "origin is not the canonical username-qualified URL" }
+if ($originUrl -match '^https://(Shehabhub@)?github\.com/Shehabhub/ORVION(\.git)?$') { Pass "origin identifies Shehabhub/ORVION" } else { Fail "FOUNDER_REPOSITORY_MISMATCH" }
+$pushUrls = @(git remote get-url --push --all origin 2>$null)
+if ($pushUrls.Count -eq 1 -and ($pushUrls[0] -ceq 'DISABLED' -or $pushUrls[0] -match '^https://(?:Shehabhub@)?github\.com/Shehabhub/ORVION(?:\.git)?$')) { Pass 'push target is Founder or explicitly disabled' } else { Fail 'FOUNDER_PUSH_TARGET_MISMATCH' }
 $author = git config user.name 2>$null
-if ($author -eq "PlatPlusHub") { Pass "commit author is PlatPlusHub" } else { Warn "commit author is '$author'; expected PlatPlusHub on the owner workstation" }
+if ($author) { Pass "commit author configured (not authentication evidence)" } else { Fail "Git commit author is not configured" }
 git ls-remote origin HEAD *> $null
 if ($LASTEXITCODE -eq 0) { Pass "GitHub remote reachable" } else { Fail "GitHub remote is not reachable" }
 

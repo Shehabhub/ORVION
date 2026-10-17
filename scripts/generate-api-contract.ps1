@@ -11,7 +11,7 @@
 # Usage: pwsh -File scripts/generate-api-contract.ps1 [-OutFile <path>]
 
 param(
-    [string]$Container = 'supabase_db_ORVION',
+    [string]$Container = 'supabase_db_ORVION_FOUNDER',
     [string]$OutFile = ''
 )
 

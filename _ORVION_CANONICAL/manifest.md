@@ -25,11 +25,11 @@ Current state only. `Last Completed` names the single most recent capability —
 
 Current Phase: **Phase 8 (Offline Conversion) — IN PROGRESS**. Execution order 7→9→8→10 (`32`). Phases 2–7 + 9 COMPLETE. Supabase-native backend (ADR-0014); transport ADR-0023. **Phase 10 is NOT ready** — evidence in `32` under Phase 10; blocker is Phase 8's unbuilt n8n workflow, gated behind the Foundation Completion Programme.
 
-Current Module: Founder ownership recovery — prerequisites and stop boundaries are owned by ADR-0032 in `reports/architecture-decision-records.md`; the product capability sequence is unchanged.
+Current Module: Founder operational independence — readiness and programme sequence are owned by ADR-0033 in `reports/architecture-decision-records.md`; product phase states are unchanged.
 
-Deployment topology (owner-ratified 2026-08-20, permanent): `PlatPlusHub/CRM` deploys to **Primary `vrvtsxexkiiiivlkdxzp` only**. Secondary `brplkqmbzffpxqgkkdzo` is the `Shehabhub/ORVION` environment and is never a CRM target; differences between the two are expected and valid. Detail: `MASTER_INTEGRATION_CATALOG.md §0/§4`.
+Deployment topology: this repository is `Shehabhub/ORVION`, owning Founder Secondary `brplkqmbzffpxqgkkdzo` only. `PlatPlusHub/CRM` owns Platinum Primary `vrvtsxexkiiiivlkdxzp` independently; differences are valid. Authority: `MASTER_INTEGRATION_CATALOG.md §0`.
 
-Live state: Last fully verified 2026-10-14. **repository, local stack and Primary `vrvtsxexkiiiivlkdxzp` all at 253 migrations** (latest `20261013120000`), ledger `b144bdf0f5a31ac66a0f0a723fb009bc`, full-function-surface hash `2cd20c3fea8247598eb9b2bbb559f2ca` (332 functions) identical on both; structural-surface hash `56625ae4118e1ddc85bab99114b17899` (3,136 objects) identical on both — **all ten surfaces identical** (`PAR-5` resolved by `SPEC-207`). Re-read live from Primary 2026-10-14; ledger **read FROM Primary** (GUARD-1). **80 client RPCs**. Suite **157 files / 2994 assertions** (Pass A = Pass B, 2026-10-14).
+Live state: repository holds 253 migrations (latest `20261013120000`), ledger `b144bdf0f5a31ac66a0f0a723fb009bc`. Founder authenticated hosted read 2026-10-17 is recorded in `reports/evidence/founder-ledger-evidence.json`: full-function-surface hash `2cd20c3fea8247598eb9b2bbb559f2ca` (332 functions), structural-surface hash `56625ae4118e1ddc85bab99114b17899` (3,136 objects). This is recorded surface evidence, not full runtime certification. Local behavioral results remain in native Finish receipts; copied Platinum results are historical. **80 client RPCs**. Suite **157 files / 2994 assertions**.
 
 Batch 6 surface coverage: counted only in `MASTER_SURFACE_DISPOSITION.md` (Checks 22 and 24), and every surface still `NOT-RECORDED` is a DUE NOW registry member until `B6-EXIT` (EC-1). Batch 6 is **NOT complete**; exit criteria EC-1…EC-11 and the adversarial method live in `MASTER_EXECUTION_PLAN.md`. The next slice is ranked by `scripts/batch6_select_target.ps1`, which stores nothing. **Its ranking was INVERTED until 2026-09-08 and is now EXPOSURE-ordered**; `Score` is a diagnostic, not the sort key.
 
@@ -45,7 +45,7 @@ Current session blocker: **None.**
 
 **What is open, due, blocked or waiting, and why: the Action registry in `MASTER_EXECUTION_PLAN.md` (`scripts/readiness_population.ps1 -Registry`).** Other open work is owned elsewhere and is never restated as the next action: that plan owns Batch 6 order, the Phase-10 Meta-ecosystem Learn-Before-Designing research and the communications-domain Design Challenge; `MASTER_INTEGRATION_CATALOG.md §2/§2a` owns the preserved n8n workflow build steps.
 
-Next capability: Follow the next unmet founder recovery prerequisite in ADR-0032 (`reports/architecture-decision-records.md`). Ordinary product work waits for that sequence; resumed Batch 6 selection remains owned by `scripts/batch6_select_target.ps1`.
+Next capability: Follow the next unmet engineering prerequisite in ADR-0033 (`reports/architecture-decision-records.md`). Product work waits for that sequence; resumed Batch 6 selection remains owned by `scripts/batch6_select_target.ps1`.
 
 ---
 

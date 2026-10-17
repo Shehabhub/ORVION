@@ -1,3 +1,5 @@
+# Current target: Founder brplkqmbzffpxqgkkdzo via supabase-secondary.
+# Imported Primary incident comments below are historical provenance; parameter spellings remain compatible.
 # ORVION -- RECOVER-1: does the repository hold ATTRIBUTABLE, CURRENT evidence that Primary's
 # migration ledger is the repository's migration ledger?
 #
@@ -60,7 +62,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$EvidencePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'reports/evidence/primary-ledger-evidence.json'),
+    [string]$EvidencePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'reports/evidence/founder-ledger-evidence.json'),
     [string]$MigrationDir = (Join-Path (Split-Path -Parent $PSScriptRoot) 'supabase/migrations'),
     # Set by the caller when this runs inside another guard, so the banner is not printed twice.
     [switch]$Quiet
@@ -71,12 +73,12 @@ $fail = 0
 function Say($msg, $colour = 'Gray') { if (-not $Quiet) { Write-Host $msg -ForegroundColor $colour } }
 function Bad($msg) { Write-Host "  $msg" -ForegroundColor Red; $script:fail++ }
 
-Say "== RECOVER-1: Primary ledger evidence ==" 'Cyan'
+Say "== RECOVER-1: Founder ledger evidence ==" 'Cyan'
 
 # --- 1. The evidence must exist. Absence is the RECOVER-1 state itself. -----------------------
 if (-not (Test-Path $EvidencePath)) {
-    Bad "MISSING: $EvidencePath does not exist. Primary parity is UNKNOWN, and UNKNOWN IS NOT CLEAN."
-    Bad "Remedy: read Primary's ledger via the supabase-primary MCP and write the evidence file."
+    Bad "MISSING: $EvidencePath does not exist. Founder parity is UNKNOWN, and UNKNOWN IS NOT CLEAN."
+    Bad "Remedy: read Founder's ledger via the supabase-secondary MCP and write the evidence file."
     Write-Host "RECOVER-1 LEDGER EVIDENCE: FAILED ($fail issue(s))" -ForegroundColor Red
     exit 1
 }
@@ -88,10 +90,28 @@ catch {
     exit 1
 }
 
-foreach ($f in 'project_ref','read_at','repository_head','migration_count','ledger_fingerprint','ledger') {
+foreach ($f in 'project_ref','read_at','repository_head','migration_count','ledger_fingerprint','ledger','read_project_url','read_connector','read_query') {
     if ($null -eq $ev.$f) { Bad "INCOMPLETE: evidence has no '$f' field." }
 }
 if ($fail -gt 0) { Write-Host "RECOVER-1 LEDGER EVIDENCE: FAILED ($fail issue(s))" -ForegroundColor Red; exit 1 }
+
+# Founder binding supplements, never replaces, RECOVER-1's ledger/history judgments.
+$binding = 'brplkqmbzffpxqgkkdzo'
+if ($ev.project_ref -cne $binding -or $ev.read_project_url -cne "https://$binding.supabase.co" -or $ev.read_connector -cne 'supabase-secondary') {
+    Bad 'WRONG PROJECT: Founder evidence requires a recorded read through supabase-secondary from brplkqmbzffpxqgkkdzo.'
+}
+try {
+    $mcp = Get-Content (Join-Path (Split-Path -Parent $PSScriptRoot) '.mcp.json') -Raw | ConvertFrom-Json
+    $uri = [uri]$mcp.mcpServers.'supabase-secondary'.url
+    $repoRoot = Split-Path -Parent $PSScriptRoot
+    $fetchUrls = @(git -C $repoRoot remote get-url --all origin 2>$null)
+    $pushUrls = @(git -C $repoRoot remote get-url --push --all origin 2>$null)
+    if ($fetchUrls.Count -ne 1 -or $fetchUrls[0] -notmatch '^https://(?:Shehabhub@)?github\.com/Shehabhub/ORVION(?:\.git)?$' -or $pushUrls.Count -ne 1 -or ($pushUrls[0] -cne 'DISABLED' -and $pushUrls[0] -notmatch '^https://(?:Shehabhub@)?github\.com/Shehabhub/ORVION(?:\.git)?$')) { Bad 'FOUNDER_REPOSITORY_MISMATCH: recorded evidence cannot establish a different repository target.' }
+    $refs = @($uri.Query.TrimStart('?').Split('&') | Where-Object { $_.Split('=')[0] -ceq 'project_ref' })
+    if ($refs.Count -ne 1 -or $refs[0] -cne 'project_ref=brplkqmbzffpxqgkkdzo') { Bad 'CONFIGURED PROJECT MISMATCH: one exact project_ref is required.' }
+    if ($uri.Scheme -cne 'https' -or $uri.Host -cne 'mcp.supabase.com' -or $uri.AbsolutePath -cne '/mcp') { Bad 'CONFIGURED PROJECT MISMATCH: refresh the correct project configuration and attributable evidence.' }
+} catch { Bad 'CONFIGURED PROJECT UNREADABLE: .mcp.json cannot establish Founder ownership.' }
+if ($fail -gt 0) { Write-Host "RECOVER-1 LEDGER EVIDENCE: FAILED ($fail issue(s))"; exit 1 }
 
 # --- 2. The evidence must be internally consistent. -------------------------------------------
 # This is what makes a pasted number worthless: the count and the fingerprint are DERIVED from the
@@ -142,18 +162,18 @@ if (-not (Test-Path $MigrationDir)) {
     $onlyRepo    = @($repo   | Where-Object { $ledger -notcontains $_ })
 
     if ($onlyPrimary.Count -gt 0) {
-        Bad "PRIMARY HAS $($onlyPrimary.Count) MIGRATION(S) THE REPOSITORY DOES NOT -- this is RECOVER-1 exactly:"
-        $onlyPrimary | ForEach-Object { Bad "    only on Primary: $_" }
+        Bad "FOUNDER HAS $($onlyPrimary.Count) MIGRATION(S) THE REPOSITORY DOES NOT -- this is RECOVER-1 exactly:"
+        $onlyPrimary | ForEach-Object { Bad "    only on Founder: $_" }
         Bad "Recover them from supabase_migrations.schema_migrations.statements before doing anything else."
     }
     if ($onlyRepo.Count -gt 0) {
-        Bad "THE REPOSITORY HAS $($onlyRepo.Count) MIGRATION(S) PRIMARY HAS NOT RUN (undeployed, or evidence not refreshed):"
+        Bad "THE REPOSITORY HAS $($onlyRepo.Count) MIGRATION(S) FOUNDER HAS NOT RUN (undeployed, or evidence not refreshed):"
         $onlyRepo | ForEach-Object { Bad "    only in repository: $_" }
     }
     if ($onlyPrimary.Count -eq 0 -and $onlyRepo.Count -eq 0) {
-        Say "  Primary's recorded ledger and the repository agree exactly ($($repo.Count) migrations, $calc)" 'Green'
+        Say "  Founder's recorded ledger and the repository agree exactly ($($repo.Count) migrations, $calc)" 'Green'
         Say "  evidence read $($ev.read_at) from project $($ev.project_ref), at commit $($ev.repository_head)" 'DarkGray'
-        Say "  (evidence class: a RECORDED Primary reading, not a live one -- see this script's header)" 'DarkGray'
+        Say "  (evidence class: a RECORDED Founder reading, not a live one -- see this script's header)" 'DarkGray'
     }
 }
 

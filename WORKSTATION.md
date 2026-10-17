@@ -24,12 +24,12 @@ from GitHub," choose GitHub. (The maintenance menu's header shows commits that a
 Open PowerShell on a fresh Windows 11 machine (no USB, no manual download) and run:
 
 ```powershell
-irm https://raw.githubusercontent.com/PlatPlusHub/CRM/main/bootstrap.ps1 | iex
+irm https://raw.githubusercontent.com/Shehabhub/ORVION/main/bootstrap.ps1 | iex
 ```
 
 `bootstrap.ps1` (committed in this repo; the URL just delivers it) does the minimum needed *before* the
-repo exists: ensure Git (install via `winget` if missing), clone this repository — **`PlatPlusHub/CRM`,
-the CRM environment; never `Shehabhub/ORVION`, which is a separate environment** — from GitHub into `~/CRM`,
+repo exists: ensure Git (install via `winget` if missing), clone this repository — **`Shehabhub/ORVION`,
+the Founder environment; Platinum is an independent customer environment** — from GitHub into `~/Documents/GitHub/ORVION`,
 then hand off to the in-repo provisioner `.workstation/prepare.ps1`. **All real setup logic stays in
 the repo** — the bootstrap only downloads the repository and transfers execution to it. Start Docker
 Desktop once when prompted. When `prepare` reports a clean `doctor`, return to `README.md` and develop.
@@ -79,9 +79,48 @@ is permanent).
 
 ## Secrets (not in the repo)
 No MCP secret is committed or needed by `prepare.ps1`. The remote servers authenticate by OAuth inside
-each client, and Codex's `github` server reads its token from the `GITHUB_PAT_TOKEN` environment
+each client, and Codex's `github-secondary` server reads its token from the `GITHUB_SECONDARY_PAT_TOKEN` environment
 variable, whose value stays outside the repository (`.workstation/manifest.md §3`).
 
 ## Known blocker
 - **Claude Mem** worker does not stay healthy on Windows (port 37777). Parked; see
   `.workstation/reports/INCIDENT_CLAUDE_MEM_WINDOWS.md`. Not required for ORVION development.
+
+## Founder targeting and owner release
+
+Founder is `Shehabhub/ORVION` with hosted project `brplkqmbzffpxqgkkdzo`. `.mcp.json`
+owns its project connections; `prepare.ps1` registers missing definitions and refuses an existing
+mismatch. It never retargets a shared definition. `postgres-founder` uses local port 57422;
+`supabase-secondary` is the hosted connector. User-level Primary/Platinum connectors may coexist;
+their presence is not Founder authorization. Doctor checks effective Codex definitions as well as
+enumeration; a green Doctor is software/configuration evidence, not an authenticated tool read.
+For a fresh client verify `github-secondary.get_me`, `supabase-secondary.get_project_url`, and
+an authenticated read-only ledger query before using the connection. Keep tokens out of Git/chat.
+
+The independent local stack is `ORVION_FOUNDER`; its API is on 57421. Use the pinned CLI from
+this repository. From its root, validate inputs and explicitly bind each local operation:
+
+```powershell
+. ./scripts/assert_founder_local.ps1
+$founderRoot = Assert-FounderLocalTarget -Root (Get-Location).Path
+& ./node_modules/.bin/supabase.cmd start --workdir $founderRoot
+# When a local reset is intended, reassert immediately before the operation:
+$founderRoot = Assert-FounderLocalTarget -Root (Get-Location).Path
+& ./node_modules/.bin/supabase.cmd db reset --local --workdir $founderRoot
+```
+
+Contradictory `SUPABASE_WORKDIR`, project-ID and CLI-binary overrides are refused rather than
+cleared. Repository-owned entrypoints bind the validated root; this is not a system-wide wrapper
+around arbitrary CLI use. Decommission binds stop to `--project-id ORVION_FOUNDER`, keeps its
+existing best-effort stop policy, and never uses `--all` or deletes another project's volumes. Never pass `--linked`, `--project-ref` or a hosted `--db-url` for local
+verification. The two-pass database protocol remains `ENGINEERING_METHOD.md §4`.
+
+Release authority and exact commands remain `CR_LIFECYCLE.md §9`: candidate publication uses
+`scripts/publish_candidate.ps1`; owner promotion uses `scripts/promote_main.ps1` from its own clean
+Founder main checkout; `scripts/watch_ci.ps1` derives this root's repository; native `-Certify`
+runs from the original receipt-bearing execution checkout after promotion. Verify Founder fetch
+and push URLs and the actual transport identity before either owner action. The installed
+Platinum Owner-Publish/Owner-Promote commands must never be used for Founder. No second release
+engine or dual coordinator is installed here. CTRL-19 remains OPEN: do not expose publication
+credentials to candidate-controlled execution; stop if the required owner-controlled context is
+unavailable. Installation of standalone external owner launchers is a later approved unit.

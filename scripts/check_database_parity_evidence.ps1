@@ -1,3 +1,5 @@
+# Current target: Founder brplkqmbzffpxqgkkdzo via supabase-secondary.
+# Imported Primary incident comments below are historical provenance; parameter spellings remain compatible.
 # ORVION -- PAR-6: the DATABASE profile's parity verification, satisfied from RECORDED Primary
 # evidence instead of from three values a local process cannot obtain.
 #
@@ -68,13 +70,13 @@
 # exit code (0 CLEAN / 1 DRIFT / 2 UNPROVEN), so nothing is laundered on the way out.
 [CmdletBinding()]
 param(
-    [string]$EvidencePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'reports/evidence/primary-ledger-evidence.json'),
+    [string]$EvidencePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'reports/evidence/founder-ledger-evidence.json'),
     # Primary for this repository, per `MASTER_INTEGRATION_CATALOG.md §0` and the manifest's
     # deployment-topology line. Secondary `brplkqmbzffpxqgkkdzo` belongs to another repository and
     # must never satisfy this repository's parity: evidence naming it is refused by identity, not by
     # hoping the hashes happen to differ. Same hardcoding precedent as Check 8's `$authorizedRefs`.
-    [string]$ExpectedProjectRef = 'vrvtsxexkiiiivlkdxzp',
-    [string]$Container = 'supabase_db_ORVION'
+    [string]$ExpectedProjectRef = 'brplkqmbzffpxqgkkdzo',
+    [string]$Container = 'supabase_db_ORVION_FOUNDER'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -83,7 +85,7 @@ $root = Split-Path -Parent $here
 
 function Bad([string]$msg) { Write-Host "  $msg" -ForegroundColor Red }
 
-Write-Host "== PAR-6: Primary parity evidence -> parity engine ==" -ForegroundColor Cyan
+Write-Host "== PAR-6: Founder parity evidence -> parity engine ==" -ForegroundColor Cyan
 
 # --- 1. The ledger portion is validated by its OWN authority, invoked rather than restated. -------
 # This is what makes the evidence attributable, internally self-consistent and bound to this
@@ -92,14 +94,14 @@ Write-Host "== PAR-6: Primary parity evidence -> parity engine ==" -ForegroundCo
 $ledgerGuard = Join-Path $here 'check_primary_ledger.ps1'
 if (-not (Test-Path $ledgerGuard)) {
     Bad "MISSING: scripts/check_primary_ledger.ps1 -- the evidence cannot be validated."
-    Write-Host "PRIMARY PARITY EVIDENCE: FAILED" -ForegroundColor Red
+    Write-Host "FOUNDER PARITY EVIDENCE: FAILED" -ForegroundColor Red
     exit 1
 }
 & pwsh -NoProfile -File $ledgerGuard -EvidencePath $EvidencePath -Quiet
 if ($LASTEXITCODE -ne 0) {
-    Bad "Primary ledger evidence is not usable (check_primary_ledger.ps1 exit $LASTEXITCODE)."
+    Bad "Founder ledger evidence is not usable (check_primary_ledger.ps1 exit $LASTEXITCODE)."
     Bad "Parity cannot be proven from evidence that is missing, unattributable or out of date."
-    Write-Host "PRIMARY PARITY EVIDENCE: FAILED" -ForegroundColor Red
+    Write-Host "FOUNDER PARITY EVIDENCE: FAILED" -ForegroundColor Red
     exit 1
 }
 Write-Host "  ledger evidence validated by scripts/check_primary_ledger.ps1" -ForegroundColor Green
@@ -107,13 +109,13 @@ Write-Host "  ledger evidence validated by scripts/check_primary_ledger.ps1" -Fo
 # --- 2. The two surface facts the ledger guard does not own. ----------------------------------
 if (-not (Test-Path $EvidencePath)) {
     Bad "MISSING: $EvidencePath"
-    Write-Host "PRIMARY PARITY EVIDENCE: FAILED" -ForegroundColor Red
+    Write-Host "FOUNDER PARITY EVIDENCE: FAILED" -ForegroundColor Red
     exit 1
 }
 try { $ev = Get-Content $EvidencePath -Raw | ConvertFrom-Json }
 catch {
     Bad "UNREADABLE: $EvidencePath is not valid JSON. $($_.Exception.Message)"
-    Write-Host "PRIMARY PARITY EVIDENCE: FAILED" -ForegroundColor Red
+    Write-Host "FOUNDER PARITY EVIDENCE: FAILED" -ForegroundColor Red
     exit 1
 }
 
@@ -139,7 +141,7 @@ foreach ($pair in @(
     $value = $ev.($pair.Field)
     if ([string]::IsNullOrWhiteSpace($value)) {
         Bad "INCOMPLETE: evidence has no '$($pair.Field)'. The $($pair.Label) is UNPROVEN, and UNPROVEN IS NOT CLEAN."
-        Bad "Remedy: re-read Primary through the supabase-primary connector and refresh the evidence file."
+        Bad "Remedy: re-read Founder through the supabase-secondary connector and refresh the evidence file."
         $fail++
     } elseif ($value -notmatch '^[0-9a-f]{32}$') {
         Bad "MALFORMED: '$($pair.Field)' is '$value', which is not a 32-character lowercase md5."
@@ -148,12 +150,12 @@ foreach ($pair in @(
 }
 
 if ($fail -gt 0) {
-    Write-Host "PRIMARY PARITY EVIDENCE: FAILED ($fail issue(s))" -ForegroundColor Red
+    Write-Host "FOUNDER PARITY EVIDENCE: FAILED ($fail issue(s))" -ForegroundColor Red
     exit 1
 }
 
 Write-Host "  evidence names project $($ev.project_ref), read $($ev.read_at) at commit $($ev.repository_head)" -ForegroundColor DarkGray
-Write-Host "  (evidence class: a RECORDED Primary reading, not a live one -- this script never contacts Primary)" -ForegroundColor DarkGray
+Write-Host "  (evidence class: a RECORDED Founder reading, not a live one -- this script never contacts Founder)" -ForegroundColor DarkGray
 
 # --- 3. Hand the recorded values to the ONE comparison engine and propagate its verdict. ---------
 # Everything above is transport and admissibility. The parity judgement itself -- and therefore the
@@ -161,7 +163,7 @@ Write-Host "  (evidence class: a RECORDED Primary reading, not a live one -- thi
 $parity = Join-Path $here 'check_database_parity.ps1'
 if (-not (Test-Path $parity)) {
     Bad "MISSING: scripts/check_database_parity.ps1 -- the parity engine is gone."
-    Write-Host "PRIMARY PARITY EVIDENCE: FAILED" -ForegroundColor Red
+    Write-Host "FOUNDER PARITY EVIDENCE: FAILED" -ForegroundColor Red
     exit 1
 }
 
@@ -174,9 +176,9 @@ $parityExit = $LASTEXITCODE
 
 Write-Host ""
 if ($parityExit -eq 0) {
-    Write-Host "PRIMARY PARITY EVIDENCE: CLEAN -- recorded Primary state agrees with the database this repository generates" -ForegroundColor Green
+    Write-Host "FOUNDER PARITY EVIDENCE: CLEAN -- recorded Founder state agrees with the database this repository generates" -ForegroundColor Green
 } else {
-    Write-Host "PRIMARY PARITY EVIDENCE: parity engine exited $parityExit -- see its verdict above" -ForegroundColor Red
-    Write-Host "  If the repository changed after the evidence was recorded, re-read Primary and refresh the evidence." -ForegroundColor DarkGray
+    Write-Host "FOUNDER PARITY EVIDENCE: parity engine exited $parityExit -- see its verdict above" -ForegroundColor Red
+    Write-Host "  If the repository changed after the evidence was recorded, re-read Founder and refresh the evidence." -ForegroundColor DarkGray
 }
 exit $parityExit

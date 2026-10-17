@@ -17,8 +17,15 @@ function Check($name, $condition, $detail = '') {
 }
 
 Write-Host "`n== ORVION role journeys over HTTP ==" -ForegroundColor Cyan
-$status = (npx supabase status -o json 2>$null) | ConvertFrom-Json
-$API = $status.API_URL; $ANON = $status.ANON_KEY; $SERVICE = $status.SERVICE_ROLE_KEY; $JWT_SECRET = $status.JWT_SECRET
+. (Join-Path $PSScriptRoot 'assert_founder_local.ps1')
+$founderRoot = Assert-FounderLocalTarget -Root (Split-Path $PSScriptRoot -Parent)
+$cli = Join-Path $founderRoot 'node_modules/.bin/supabase.cmd'
+if (-not (Test-Path -LiteralPath $cli)) { $cli = Join-Path $founderRoot 'node_modules/.bin/supabase' }
+$rawStatus = & $cli status -o json --workdir $founderRoot 2>$null
+if ($LASTEXITCODE -ne 0) { throw 'FOUNDER_LOCAL_STATUS_UNREADABLE' }
+$status = $rawStatus | ConvertFrom-Json
+$API = $status.API_URL
+if ($API -notmatch '^http://(127\.0\.0\.1|localhost):57421/?$') { throw 'FOUNDER_LOCAL_API_TARGET_MISMATCH' }; $ANON = $status.ANON_KEY; $SERVICE = $status.SERVICE_ROLE_KEY; $JWT_SECRET = $status.JWT_SECRET
 if (-not $API) { throw "local stack is not running" }
 
 function New-UserJwt([string]$sub, [bool]$aal2) {
@@ -31,7 +38,7 @@ function New-UserJwt([string]$sub, [bool]$aal2) {
     $hmac = [System.Security.Cryptography.HMACSHA256]::new([Text.Encoding]::UTF8.GetBytes($JWT_SECRET))
     "$h.$p." + (B64 ($hmac.ComputeHash([Text.Encoding]::UTF8.GetBytes("$h.$p"))))
 }
-function Psql([string]$sql) { $sql | docker exec -i supabase_db_ORVION psql -U postgres -d postgres -q -t -A -v ON_ERROR_STOP=1 -f - 2>&1 }
+function Psql([string]$sql) { $sql | docker exec -i supabase_db_ORVION_FOUNDER psql -U postgres -d postgres -q -t -A -v ON_ERROR_STOP=1 -f - 2>&1 }
 function Rpc($jwt, $name, $body) {
     Invoke-WebRequest -Uri "$API/rest/v1/rpc/$name" -Method Post -SkipHttpErrorCheck `
         -Headers @{ apikey = $ANON; Authorization = "Bearer $jwt" } -ContentType 'application/json' `
