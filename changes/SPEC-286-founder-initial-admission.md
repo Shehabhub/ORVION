@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -233,6 +233,13 @@ Post-Implementation Proof Obligation: all derived CONTROL/REPOSITORY and Additio
 - Timed Finish and concurrent watcher exited 0 on implementation head `fc6a3e90e1056dc657bfee939cb43fb2366be2a3`; LOCAL_CERTIFY: READY.
 - All five CONTROL suites, repository consistency, git diff --check and both Additional Verification suites executed freshly and passed. No pre-approval fixture result substituted for final execution.
 - Evidence: external `spec-286-implementation-2026-10-17/finish-control.log`, `finish-result.json` and `independent-review.json`. CI remains POST_PUSH and unexecuted; no hosted release or full founder readiness asserted.
+
+
+### Complete — local candidate preparation boundary
+
+- Fresh final Finish succeeded and independent Review confirmed all local Acceptance Criteria and Review Gate items.
+- Complete is local engineering closure only. Exact candidate binding and outside-candidate Trusted range verification follow this commit; no publication, promotion or remote certification is claimed.
+- The next owner release gate remains mandatory. Founder profile/runtime recovery is a separate prerequisite, and CTRL-19 remains OPEN.
 
 ## Verification Notes
 
