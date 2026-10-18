@@ -4,9 +4,9 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
+[ ] In Progress
 [ ] Complete
-[ ] Cancelled
+[x] Cancelled
 
 ## Objective
 
@@ -113,9 +113,9 @@ The list above is not exhaustive; every engineering artifact outside Write Scope
 
 ## Runtime Checkpoint
 
-Resume Step: DONE
-Blocker: None
-Recovery Attempt: 0
+Resume Step: 7
+Blocker: CRITERION_CHECK_FAILED
+Recovery Attempt: 1
 
 ## Required Capabilities
 
@@ -267,9 +267,23 @@ None.
 
 2026-10-17 — Steps 1-6. Step 1: Already Applied for the carried payload; SPEC-287 records Cancelled and all 38 carried paths other than the seven named exclusions are byte-identical to b7eaac0f8d20c8fa37f3c22f5c45346e35933211 (git diff --quiet exit 0). Step 2: Applied, the two E-section expectations now read Founder; no other line changed. Step 3: Applied, both source reads end with the CRLF-to-LF normalization; no assertion changed. Step 4: Applied, the single method occurrence now reads DISABLED. Step 5: Applied, the five Write(...) ask entries removed; ask holds the five Edit rules in order, the 11 deny rules, hooks and comments unchanged. Edited blobs equal the prototype-proven bytes (cold-start b849aa7839291ef2187a000dcbdd67d6806f9e76, Founder environment 33aa0745582bc3bd2153f1ac69cbc17c13c22a36), which inform but do not certify. Step 6: generator run, -Check exit 0, every changed path is in Write Scope. Runtime Checkpoint DONE requests Finish; it claims no Finish, Review or Complete result.
 
+2026-10-17 — Step 7 Finish. Preconditions held: isolated CODEX_HOME config.toml SHA-256 eb4b119fbdc772992f16546dfab255c4f3699ca684468f13804387ab232e2e5d; Founder target assertion passed; commit headroom 5.0 GB with the 10 Platinum containers running, the same co-residence SPEC-287's 38-minute Finish held; no non-Founder container was stopped. Pinned CLI start with --workdir exit 0, API 57421 and DB 57422 local. First timed Finish (finish.log) stopped after 00:00:36 at the anonymous capability with github:PUBLIC_READ:TRANSPORT_UNREADABLE before any suite; tree, HEAD and receipt unchanged. Bounded recovery attempt 1 re-ran it unchanged with the watcher attached (finish-retry1.log): every derived profile and Additional Verification command PASSED and Finish printed LOCAL_CERTIFY: READY in 00:55:32 at a649169 (CONTROL 00:41:06, DATABASE 00:02:45, REPOSITORY 00:00:12, WORKSTATION 00:00:55, CAPABILITY 00:00:01, ADDITIONAL 00:10:12). CI remains POST_PUSH and recorded Founder hosted evidence remains EXTERNAL as declared. Founder stack stopped with --project-id ORVION_FOUNDER --workdir, volumes kept; all non-Founder container IDs, names and states equal the pre-Finish snapshot. Logs: C:/Users/My Lab/Documents/ORVION-Owner-Review/spec-288-implementation-2026-10-17.
+
+2026-10-18 — Completion STOPPED at an authority boundary; official Status remains In Progress. The Complete commit (Status, every criterion and Review Gate item ticked, Confirmed Complete verdict, manifest pointer None, Last Completed, regenerated projections) was refused by the unchanged pre-commit hook with CRITERION_CHECK_FAILED at criterion 1, check: same changes/SPEC-287-founder-operational-independence.md @ea4feb4. The file is byte-identical to that commit (blob 7f046da1b618f59869cd4fd0109e5cf5aac13671 at the commit, in the index and in the working tree). Root cause is a native Gate defect present since c362e417eca5496d4235bb0232f7fab9cfd5ac17 and untouched by SPEC-287: for a whole-file same check in working-tree mode, Test-CriterionCheck compares Read-GitFile output (git show lines joined with LF, which drops the final newline) with [IO.File]::ReadAllText of the working file (which keeps it), so every file ending in a newline differs by one character; reproduced on four files including ASCII-only .mcp.json. Range mode reads both sides through git show and admits the same checks, which is why the disposable rehearsal range Gate read READY; that rehearsal committed its simulated completion without the hook, so this transition was not rehearsed. Every completed contract so far used only keyed-line same checks, which are immune; no control test completes a whole-file same check. The repair lies in scripts/check_agent_continuity.ps1, which this contract's frozen steps do not authorize and its own criteria require to stay byte-identical to b7eaac0, so it cannot be absorbed; --no-verify is forbidden and cancellation is human-only. The completion edits were returned byte-for-byte to HEAD and this accurate blocked checkpoint stays uncommitted, because the native hook refuses an In Progress contract with a Blocker. The working Finish receipt is untouched. Owner decision required; the refused completion text is retained at C:/Users/My Lab/Documents/ORVION-Owner-Review/spec-288-implementation-2026-10-17/refused-completion-attempt.md.
+
+2026-10-18 — Human-directed cancellation under the owner's 2026-10-18 Master Execution Directive (Option A), which grants bounded SPEC-288 recovery authority. In the push-disabled Founder sandbox the unchanged pre-commit hook refused this contract's exact Complete state at criterion 1, because a whole-file check: same compares git show text, which drops the final newline, with the working file; with the evaluator repaired it refused at criterion 4, because this contract freezes scripts/check_agent_continuity.ps1 at b7eaac0f8d20c8fa37f3c22f5c45346e35933211. An In Progress contract can only become Complete or Cancelled, so completion is unreachable without a bypass. Sandbox preflight also found scripts/test_github_public_read.ps1, outside this Write Scope, failing 8 of 76 against the carried Founder-only watcher. Implemented commits f4f2e0c through a64916975725d67a4069d5bfc94c2140cca765bb stay unchanged and reachable; no reset, amend, rebase, squash or force operation occurred. The working Finish receipt at a649169 (LOCAL_CERTIFY: READY in 00:55:32) is retained as evidence; no Confirmed Complete verdict or Complete claim is created. The Founder operational independence certification successor names this file in Supersedes / Depends On and carries the payload forward to one fresh full Finish. Platinum, both hosted databases, credentials, installed launchers and protected receipts are untouched. CTRL-19 OPEN.
+
 ## Verification Notes
 
 None.
+
+### 2026-10-18 00:30 — independent Review (Claude, executing agent; no new architectural decision, ADR-0033 governs)
+
+Verdict: Needs Corrective Change Request
+
+Findings: Re-derived from Git and files, not from the Execution Log (review.log): all 54 Acceptance Criteria checks hold at HEAD (45 same, 6 has, 3 lacks); Write Scope has 45 paths and nothing outside it changed since the cancellation; engineering edits are exactly .claude/awareness.json, ENGINEERING_METHOD.md, scripts/test_cold_start_state_guard.ps1 and scripts/test_founder_environment.ps1, with manifest and projections changed only by lifecycle synchronization; SPEC-287 is byte-identical to its cancellation and 6f09689, b7eaac0, ea4feb4 and c362e41 are all in history; awareness ask holds the five Edit rules in order with deny and hook unchanged; GOVERNANCE.md and its pins are unchanged; remote Founder main is c362e41 and the Platinum checkout is clean at fd118fa. Finish LOCAL_CERTIFY: READY is fresh and bound to these bytes. The six HTTP suites record only verdicts in the Finish log; their own fixture-presence refusal on a later standalone run proves this Finish's suites wrote their fixtures after its db reset, and the concurrency suite independently re-proved its overlaps (review-http-suite-totals.log). Evidence classes stay bounded: CI is POST_PUSH; hosted Founder state is recorded EXTERNAL evidence; owner workstation adoption (the installed Codex profile fails Doctor's postgres-founder check, and Claude's postgres-founder connector awaits owner approval), bare Windows recovery, credential and cross-account isolation, backups and external integrations are not claimed. Residual limitations: scripts/test_github_public_read.ps1 still reads the Platinum-owned public repository PlatPlusHub/orvion-sandbox; the anonymous GitHub transport stalls intermittently in .NET connection setup; the owner's machine-local .claude/settings.json keeps five never-consulted Write rules until removed; HTTP suite totals are not retained by Finish. CTRL-19 remains OPEN.
+
+Recommendation to human: The implemented work and every criterion hold against the repository, but the native hook cannot evaluate this contract's whole-file same checks in working-tree mode, so Complete cannot be committed through the Gate. Decide between cancelling this contract for a successor that repairs the whole-file same comparison in scripts/check_agent_continuity.ps1 with a control test and carries this payload forward, or a successor that carries the payload unchanged with criteria the current Gate can evaluate.
 
 ## Review Gate
 
