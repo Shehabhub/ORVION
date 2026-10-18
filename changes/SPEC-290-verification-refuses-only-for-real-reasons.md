@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -78,7 +78,7 @@ The guard's future-date ceiling and every production date rule stay unchanged. T
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -326,6 +326,18 @@ None.
 ### 2026-10-19 — Gate 1 approval recorded
 
 The owner's execution directive of 2026-10-19 approved frozen Draft SHA256 8BE51AD9A89CADB8C3B69D36A5437B11387083F3297F40046CC74825505B62D9 at baseline 794a6dbb2e462f6c41c6d2155570e316f5490d5a. Immediately before allocation the hash, the Draft blob 7d05be8d48ee6fb3400106a176631a2a4d2213d5, all 15 source anchors, refreshed origin/main and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 8278ee2. No implementation performed before this transition. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
+
+### 2026-10-19 — Implementation checkpoint (Claude)
+
+Outcome: Complete (implementation steps; final verification pending)
+
+- Step 1 Applied: the owner's Gate 1 approval names this exact Draft's SHA-256; remote main was 794a6dbb2e462f6c41c6d2155570e316f5490d5a and every source anchor matched at HEAD; Draft allocated as 8278ee2 and approved as 4331ce6 with APPROVAL_EVIDENCE: PASS.
+- Step 2 Applied: the two evaluator replacements; `scripts/check_agent_continuity.ps1` blob 45dcb5b90a7f1fe120b0b59794f4af23308f6ecb (9 insertions, 2 deletions).
+- Step 3 Applied: the BOM block and 281-CM6 inserted after the named line; `scripts/test_agent_continuity.ps1` blob 975123a464b4f5d51d0c29f298823e03dd4a8618 (20 insertions, 0 deletions).
+- Step 4 Applied: the cancelled-receipt block inserted after the named line; `scripts/test_certification_receipts.ps1` blob c85cf120d4689633a550f45db0be005ef5de9037 (28 insertions, 0 deletions).
+- Step 5 Applied: the two date-guard suite edits; `scripts/test_future_date_guard.ps1` blob 2e2732e82d9c887202b52b830272ab69f21274bb (15 insertions, 2 deletions).
+- Step 6 Applied: the rehearsal bullet and the receipt-authority sentence; `ENGINEERING_METHOD.md` blob bf65d6ffb7f5471057f32feaa9d5dbb7c513efc8, `CR_LIFECYCLE.md` blob a80d15cdf805932623a0a8ea93aaae9740fac870.
+- Step 7 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, `git diff --name-only` names only Write Scope paths. Each file was copied from the reviewed sandbox bytes and its Git blob checked against this contract before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Verification Notes
 
