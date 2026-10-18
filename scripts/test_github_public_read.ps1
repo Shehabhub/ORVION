@@ -93,12 +93,14 @@ try {
     $scripts=Join-Path $work 'scripts';[void][IO.Directory]::CreateDirectory($scripts)
     Copy-Item (Join-Path $PSScriptRoot 'watch_ci.ps1'),(Join-Path $PSScriptRoot 'check_agent_continuity.ps1') -Destination $scripts
     [IO.File]::WriteAllText((Join-Path $scripts 'github_public_read.ps1'),$original)
-    Reply (ConvertTo-Json -Depth 10 -Compress (Row))
-    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -RunId 1 -Attempt 2 -Repo owner/repo -RepoRoot $work 2>&1
+    # The watcher serves Founder only (FOUNDER_REPOSITORY_MISMATCH otherwise), so its runs carry that identity.
+    $founder='Shehabhub/ORVION'; function FRow { $r=Row; $r.repository.full_name=$founder; $r }
+    Reply (ConvertTo-Json -Depth 10 -Compress (FRow))
+    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -RunId 1 -Attempt 2 -Repo $founder -RepoRoot $work 2>&1
     Check 'actual watcher reads requested attempt successfully' ($LASTEXITCODE-eq0-and($o|Out-String)-match'attempt 2.*completed/success') ($o|Out-String)
-    $r=Row;$r.conclusion='failure';$j.run_attempt=2
+    $r=FRow;$r.conclusion='failure';$j.run_attempt=2
     Reply (ConvertTo-Json -Depth 10 -Compress $r);Reply (ConvertTo-Json -Depth 10 -Compress @{total_count=1;jobs=@($j)});Reply '{}' 403
-    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -RunId 1 -Attempt 2 -Repo owner/repo -RepoRoot $work 2>&1
+    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -RunId 1 -Attempt 2 -Repo $founder -RepoRoot $work 2>&1
     Check 'actual watcher names failed step and returns unreadable for inaccessible log' ($LASTEXITCODE-eq2-and($o|Out-String)-match'failed step: failed step'-and($o|Out-String)-match'UNREADABLE log: PUBLIC_READ:LOG_HTTP_403') ($o|Out-String)
     # Polling uses a real local Git history and the authority's unchanged workflow deriver.
     $hooks=Join-Path $work 'hooks';[void][IO.Directory]::CreateDirectory($hooks)
@@ -109,13 +111,13 @@ try {
     [IO.File]::WriteAllText((Join-Path $work 'probe.txt'),'changed');git -C $work add .;git -C $work commit --quiet -m candidate;$head=(git -C $work rev-parse HEAD).Trim()
     $count=$server.Requests.Count
     Reply '{}' 429 "Retry-After: 120`r`n"
-    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -Sha $head -Branch main -Base $base -Repo owner/repo -RepoRoot $work -PollSeconds 0 -SettleSeconds 0 2>&1
+    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -Sha $head -Branch main -Base $base -Repo $founder -RepoRoot $work -PollSeconds 0 -SettleSeconds 0 2>&1
     Check 'actual watcher honors long rate-limit retry by stopping after one unreadable poll' ($LASTEXITCODE-eq2-and($o|Out-String)-match'STOPPED: public API retry-after=120'-and$server.Requests.Count-eq$count+1) ($o|Out-String)
-    $r=Row;$r.head_sha=$head;Reply (Payload @($r));Reply (Payload @($r))
-    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -Sha $head -Branch main -Base $base -Repo owner/repo -RepoRoot $work -PollSeconds 0 -SettleSeconds 0 2>&1
+    $r=FRow;$r.head_sha=$head;Reply (Payload @($r));Reply (Payload @($r))
+    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -Sha $head -Branch main -Base $base -Repo $founder -RepoRoot $work -PollSeconds 0 -SettleSeconds 0 2>&1
     Check 'actual watcher positive poll retains expected-workflow deriver and literal success summary' ($LASTEXITCODE-eq0-and($o|Out-String)-match'every expected workflow ran and succeeded.*-Certify is the verdict') ($o|Out-String)
     $r.conclusion='failure';Reply (Payload @($r));Reply (ConvertTo-Json -Depth 10 -Compress @{total_count=1;jobs=@($j)});Reply '{}' 403
-    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -Sha $head -Branch main -Base $base -Repo owner/repo -RepoRoot $work -PollSeconds 0 -SettleSeconds 0 2>&1
+    $o=& pwsh -NoProfile -File (Join-Path $scripts 'watch_ci.ps1') -Sha $head -Branch main -Base $base -Repo $founder -RepoRoot $work -PollSeconds 0 -SettleSeconds 0 2>&1
     Check 'actual watcher polling diagnostic gap exits unreadable immediately' ($LASTEXITCODE-eq2-and($o|Out-String)-match'STOPPED: diagnostics unreadable') ($o|Out-String)
     $authority=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'check_agent_continuity.ps1'),[ref]$null,[ref]$null)
     foreach($fn in $authority.EndBlock.Statements|Where-Object{$_-is[Management.Automation.Language.FunctionDefinitionAst]-and$_.Name-in@('Profiles','Get-ControlSurface','Test-ControlPath','Implementation-Fingerprint')}){. ([scriptblock]::Create($fn.Extent.Text))}
@@ -155,16 +157,16 @@ try {
     if($Live) {
         # Public GitHub reads only; no test runs, dispatches or mutations. Results are current observations.
         . (Join-Path $PSScriptRoot 'github_public_read.ps1')
-        $r=@(Get-OrvionPublicRuns 'PlatPlusHub/orvion-sandbox' -Sha '78acc077b69246b1506c64f37c475d0f1245a3ad' -Branch orvion-preflight -Event push)
-        Check 'live anonymous sandbox exact run current-attempt read' ($r.Count-eq1-and$r[0].databaseId-eq38876025069-and$r[0].attempt-eq1-and$r[0].conclusion-ceq'success')
-        $r=Get-OrvionPublicCollection 'repos/PlatPlusHub/orvion-sandbox/actions/runs' 'workflow_runs' 1
+        $r=@(Get-OrvionPublicRuns 'Shehabhub/orvion-sandbox' -Sha 'f954e7522f2411db6ba846395fa61847d7039af7' -Branch orvion-preflight -Event push)
+        Check 'live anonymous sandbox exact run current-attempt read' ($r.Count-eq1-and$r[0].databaseId-eq39072571955-and$r[0].attempt-eq1-and$r[0].conclusion-ceq'success')
+        $r=Get-OrvionPublicCollection 'repos/Shehabhub/orvion-sandbox/actions/runs' 'workflow_runs' 1
         Check 'live anonymous sandbox pagination is complete and nonempty' ($r.Count-ge4)
-        $j=@(Get-OrvionPublicJobs 'PlatPlusHub/orvion-sandbox' 38875779719 1)
+        $j=@(Get-OrvionPublicJobs 'Shehabhub/orvion-sandbox' 39072554091 1)
         Check 'live anonymous failed job metadata' ($j.Count-eq1-and$j[0].steps.name-contains'Synthetic outcome only')
-        $log=try { $null=Get-OrvionPublicLog 'PlatPlusHub/orvion-sandbox' 116890370968; 'READABLE' } catch {$_.Exception.Message}
+        $log=try { $null=Get-OrvionPublicLog 'Shehabhub/orvion-sandbox' 117512987802; 'READABLE' } catch {$_.Exception.Message}
         "OBSERVED live job log: $log"
         Check 'live log read or explicit fail-closed inaccessibility' ($log-eq'READABLE'-or$log-match'^PUBLIC_READ:LOG_HTTP_(403|404)$')
-        Check 'live nonexistent API repository inaccessible' (Refuses {Get-OrvionPublicRuns 'PlatPlusHub/orvion-reader-missing-927debc'} 'HTTP_404')
+        Check 'live nonexistent API repository inaccessible' (Refuses {Get-OrvionPublicRuns 'Shehabhub/orvion-reader-missing-927debc'} 'HTTP_404')
         $why='';$ok=try { Test-OrvionPublicGithub (Split-Path $PSScriptRoot -Parent); $true } catch { $why=$_.Exception.Message; $false }
         Check 'live public capability uses anonymous API and configuration-isolated native Git' $ok $why
     }

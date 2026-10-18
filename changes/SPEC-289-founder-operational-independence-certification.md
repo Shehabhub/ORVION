@@ -116,7 +116,7 @@ The list above is not exhaustive; every engineering artifact outside Write Scope
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -321,6 +321,8 @@ Post-Implementation Proof Obligation: One fresh timed and watched native Finish 
 None.
 
 2026-10-18 — Entered In Progress under the owner's Gate 1 execution authority (Master Execution Directive, Option A).
+
+2026-10-18 — Step 1 carried payload Already Applied (unchanged from a649169); Steps 2-5 applied from the Draft text; edited blobs equal the Draft (e2892807, 6dfef76e, bf3f4805); projections regenerated and -Check clean; Runtime Checkpoint DONE requests the fresh timed Finish.
 
 ## Verification Notes
 
