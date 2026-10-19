@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -81,7 +81,7 @@ No GitHub setting, secret, ruleset, workflow or credential is changed by this co
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -694,6 +694,19 @@ None.
 ### 2026-10-19 — Gate 1 approval recorded
 
 The owner's Gate 1 directive of 2026-10-19 (Executive Infrastructure Handoff and Approved Execution) explicitly approves this exact Version 5 Draft, SHA-256 07CC0E9D50ADA694DA7BD8447E919CF04A12ABE48BB3677F27815C8AD3900A0A and Git blob cfc9fc586d31a7396d5fcb8215778973b59aae8f, and no superseded or future revision. Immediately before allocation the hash, the Draft blob cfc9fc586d31a7396d5fcb8215778973b59aae8f, all 19 source anchors, refreshed origin/main b1d996f9eb81ab3dc6252dc3755e609a642e2ece and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 7ae070f. No implementation performed before this transition. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
+
+### 2026-10-19 — Implementation checkpoint (Claude)
+
+Outcome: Complete (implementation steps; final verification pending)
+
+- Step 1 Applied: the owner's Gate 1 approval names this exact Draft's SHA-256; remote main was b1d996f9eb81ab3dc6252dc3755e609a642e2ece and every source anchor matched at HEAD; Draft allocated as 7ae070f and approved as 0575c64 with APPROVAL_EVIDENCE: PASS.
+- Step 2 Applied: `scripts/check_agent_continuity.ps1` edited exactly as the step states; blob affba5409c08d287352fd7d625155a96ad85fbe1 (50 insertions, 0 deletions).
+- Step 3 Applied: `scripts/test_agent_continuity.ps1` edited exactly as the step states; blob 990156e6d77f097344321bd2149d473ffb37a031 (137 insertions, 2 deletions).
+- Step 4 Applied: `scripts/run_timed.ps1` edited exactly as the step states; blob d1fbfc81d41b04b0c8b3a50c4b17cdd19853ca60 (35 insertions, 0 deletions).
+- Step 5 Applied: `scripts/watch_selftest.ps1` edited exactly as the step states; blob b0a838b184a3b0b9d0928cb34e474b045624e4de (46 insertions, 1 deletions).
+- Step 6 Applied: `ENGINEERING_METHOD.md` edited exactly as the step states; blob 30a6c526f37991b978622af90730b5474892b68f (3 insertions, 2 deletions).
+- Step 7 Applied: `changes/TEMPLATE.md` edited exactly as the step states; blob 6494ecfc57e0212e8b1c35dbab46daa7f510f2f9 (19 insertions, 3 deletions).
+- Step 8 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, the staged change names only Write Scope paths. Every edit was applied literally from this contract's steps and its Git blob checked before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Verification Notes
 
