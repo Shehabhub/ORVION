@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -226,6 +226,10 @@ Post-Implementation Proof Obligation: the full control suites and the REPOSITORY
 ## Execution Log
 
 None.
+
+### 2026-10-19 — Gate 1 approval recorded
+
+The owner's delegation directive of 2026-10-19 approved this prepared contract, conditional on its frozen SHA-256 equalling the digest in its Gate 1 packet (7CBEA1264F6F6E8CFB92952ACEFD1C9E8F49F9940A2A3175E114BD8E23CE1D3D), successful rehearsal, complete scope and unchanged assumptions. Immediately before allocation the hash, the Draft blob 650eaa693f63a01678026e6aca07b7728c0d29eb, all 16 source anchors, refreshed origin/main 61f56eea137caa43f29d151e108c7a7bbb815c8f (the promoted predecessor), a clean checkout and an enabled private vulnerability-reporting channel were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 9eed453. No implementation performed before this transition. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Verification Notes
 
