@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -681,11 +681,11 @@ Post-Implementation Proof Obligation: the full control suites, the runner self-t
 
 ## Acceptance Criteria
 
-- [ ] The evaluator, its control suite, the timed runner, the runner self-test, the method and the template hold exactly the reviewed bytes. `check: blob scripts/check_agent_continuity.ps1 affba5409c08d287352fd7d625155a96ad85fbe1` `check: blob scripts/test_agent_continuity.ps1 990156e6d77f097344321bd2149d473ffb37a031` `check: blob scripts/run_timed.ps1 d1fbfc81d41b04b0c8b3a50c4b17cdd19853ca60` `check: blob scripts/watch_selftest.ps1 b0a838b184a3b0b9d0928cb34e474b045624e4de` `check: blob ENGINEERING_METHOD.md 30a6c526f37991b978622af90730b5474892b68f` `check: blob changes/TEMPLATE.md 6494ecfc57e0212e8b1c35dbab46daa7f510f2f9`
-- [ ] Approval of evidence-applicable work requires a Draft Assurance record, and a criterion may check that a path is absent. `check: has scripts/check_agent_continuity.ps1 "APPROVAL_EVIDENCE:INDETERMINATE:Draft Assurance missing"` `check: has scripts/check_agent_continuity.ps1 "'absent'{[regex]::Match("` `check: has changes/TEMPLATE.md "### Draft Assurance"`
-- [ ] Every timed run reports its resource cost on one line before END. `check: has scripts/run_timed.ps1 "RESOURCES: samples={0}"` `check: has scripts/watch_selftest.ps1 "M34 resources never sampled"`
-- [ ] The admission workflow, Agent Control, the watcher, the release authorities, the consistency guard, the lifecycle and governance are unchanged. `check: blob .github/workflows/orvion-acceptance.yml a0fbfcbc5e67d7caacbefa89242019f73cb6fd5c` `check: blob .github/workflows/agent-control.yml 41243b7c9a499df4cf011385a046c53107084ba3` `check: blob scripts/watch_run.ps1 e327c2ff9b8c7acf8851f7153c1e1acb066d4e9b` `check: blob scripts/watch_ci.ps1 0418002dec62f1134fa67243f2b4e53a342a0f0b` `check: blob scripts/publish_candidate.ps1 d168504cc66c3a0759ac3ee9b5e01045a0f46589` `check: blob scripts/promote_main.ps1 bf64aa893faf9d6be7477254bebf80dca04b4d79` `check: blob scripts/check_repository_consistency.ps1 3860573108f9bee5c75ee1dea62cb2b1b3b6b5e6` `check: blob CR_LIFECYCLE.md a80d15cdf805932623a0a8ea93aaae9740fac870` `check: blob GOVERNANCE.md 6be8e820e1b4fed243a9b99a8153ed0be1d14717`
-- [ ] The manifest keeps the owner's Batch 6 hold. `check: has _ORVION_CANONICAL/manifest.md "Batch 6 remains ON HOLD by owner decision (2026-10-18)"`
+- [x] The evaluator, its control suite, the timed runner, the runner self-test, the method and the template hold exactly the reviewed bytes. `check: blob scripts/check_agent_continuity.ps1 affba5409c08d287352fd7d625155a96ad85fbe1` `check: blob scripts/test_agent_continuity.ps1 990156e6d77f097344321bd2149d473ffb37a031` `check: blob scripts/run_timed.ps1 d1fbfc81d41b04b0c8b3a50c4b17cdd19853ca60` `check: blob scripts/watch_selftest.ps1 b0a838b184a3b0b9d0928cb34e474b045624e4de` `check: blob ENGINEERING_METHOD.md 30a6c526f37991b978622af90730b5474892b68f` `check: blob changes/TEMPLATE.md 6494ecfc57e0212e8b1c35dbab46daa7f510f2f9`
+- [x] Approval of evidence-applicable work requires a Draft Assurance record, and a criterion may check that a path is absent. `check: has scripts/check_agent_continuity.ps1 "APPROVAL_EVIDENCE:INDETERMINATE:Draft Assurance missing"` `check: has scripts/check_agent_continuity.ps1 "'absent'{[regex]::Match("` `check: has changes/TEMPLATE.md "### Draft Assurance"`
+- [x] Every timed run reports its resource cost on one line before END. `check: has scripts/run_timed.ps1 "RESOURCES: samples={0}"` `check: has scripts/watch_selftest.ps1 "M34 resources never sampled"`
+- [x] The admission workflow, Agent Control, the watcher, the release authorities, the consistency guard, the lifecycle and governance are unchanged. `check: blob .github/workflows/orvion-acceptance.yml a0fbfcbc5e67d7caacbefa89242019f73cb6fd5c` `check: blob .github/workflows/agent-control.yml 41243b7c9a499df4cf011385a046c53107084ba3` `check: blob scripts/watch_run.ps1 e327c2ff9b8c7acf8851f7153c1e1acb066d4e9b` `check: blob scripts/watch_ci.ps1 0418002dec62f1134fa67243f2b4e53a342a0f0b` `check: blob scripts/publish_candidate.ps1 d168504cc66c3a0759ac3ee9b5e01045a0f46589` `check: blob scripts/promote_main.ps1 bf64aa893faf9d6be7477254bebf80dca04b4d79` `check: blob scripts/check_repository_consistency.ps1 3860573108f9bee5c75ee1dea62cb2b1b3b6b5e6` `check: blob CR_LIFECYCLE.md a80d15cdf805932623a0a8ea93aaae9740fac870` `check: blob GOVERNANCE.md 6be8e820e1b4fed243a9b99a8153ed0be1d14717`
+- [x] The manifest keeps the owner's Batch 6 hold. `check: has _ORVION_CANONICAL/manifest.md "Batch 6 remains ON HOLD by owner decision (2026-10-18)"`
 
 ## Execution Log
 
@@ -708,6 +708,12 @@ Outcome: Complete (implementation steps; final verification pending)
 - Step 7 Applied: `changes/TEMPLATE.md` edited exactly as the step states; blob 6494ecfc57e0212e8b1c35dbab46daa7f510f2f9 (19 insertions, 3 deletions).
 - Step 8 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, the staged change names only Write Scope paths. Every edit was applied literally from this contract's steps and its Git blob checked before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
+### 2026-10-19 — Local completion (Claude)
+
+Outcome: Complete
+
+Step 9 Applied: fresh timed and watched Finish returned LOCAL_CERTIFY: READY (every derived CONTROL and REPOSITORY command and the Additional runner self-test exit 0); independent live-state Review recorded in the preceding commit. No out-of-scope change. Manifest active pointer cleared, Last Completed set to the approved line recording the owner's Batch 6 hold, projections regenerated. Exact-SHA local candidate binding follows this completion commit through the existing Gate. Publication, promotion and post-promotion remote certification remain separate. CTRL-19 remains OPEN.
+
 ## Verification Notes
 
 None.
@@ -726,10 +732,10 @@ Recommendation to human: Set Status to Complete, then bind the exact candidate l
 
 ## Review Gate
 
-- [ ] Exact approved steps and exhaustive scope independently confirmed.
-- [ ] Every acceptance criterion confirmed against final local evidence.
-- [ ] Mandatory profiles, the runner self-test and Git checks pass through fresh Finish.
-- [ ] Admission workflow, release authorities and historical evidence preserved; no GitHub setting changed; CTRL-19 remains OPEN.
+- [x] Exact approved steps and exhaustive scope independently confirmed.
+- [x] Every acceptance criterion confirmed against final local evidence.
+- [x] Mandatory profiles, the runner self-test and Git checks pass through fresh Finish.
+- [x] Admission workflow, release authorities and historical evidence preserved; no GitHub setting changed; CTRL-19 remains OPEN.
 
 ## Notes
 
