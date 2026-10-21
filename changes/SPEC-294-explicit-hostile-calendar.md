@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -73,7 +73,7 @@ Every unlisted path remains outside scope. Batch 6 remains ON HOLD; CTRL-19 rema
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -297,6 +297,15 @@ None.
 ### 2026-10-21 — Gate 1 approval recorded
 
 The live owner approved the exact LF Draft digest and this packet's replacement-tail disposition; the checked external decision record is retained with the manifest. No broader approval is implied. Immediately before allocation the hash, the Draft blob e8a17b8b09848bb16031056413a1b94fdf9dfda0, all 28 source anchors, the baseline HEAD 6ab05e696697d14a5fd90afa532f79b84dc108e0 against refreshed origin/main 434180cc273e6a73423a48a3a00b77a9fdc379aa and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 440b102. No implementation performed before this transition. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
+
+### 2026-10-21 — Implementation checkpoint (Claude)
+
+Outcome: Complete (implementation steps; final verification pending)
+
+- Step 1 Applied: the owner's Gate 1 approval names this exact Draft's SHA-256; the baseline HEAD was 6ab05e696697d14a5fd90afa532f79b84dc108e0 and every source anchor matched there; Draft allocated as 440b102 and approved as ad33d52 with APPROVAL_EVIDENCE: PASS.
+- Step 2 Applied: `scripts/test_future_date_guard.ps1` edited exactly as the step states; blob dc23505d60eb4fe25870d70bfdf709759b61ec55 (14 insertions, 3 deletions).
+- Step 3 Applied: `reports/master/MASTER_GAP_REGISTER.md` edited exactly as the step states; blob 2922354c0aea274a12c6f7b308b752af85a49f78 (4 insertions, 1 deletions).
+- Step 4 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, the staged change names only Write Scope paths. Every edit was applied literally from this contract's steps and its Git blob checked before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Verification Notes
 
