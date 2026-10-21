@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -283,12 +283,12 @@ Post-Implementation Proof Obligation: the exact changed suite and mandatory REPO
 
 ## Acceptance Criteria
 
-- [ ] The changed test has exactly the reviewed bytes. `check: blob scripts/test_future_date_guard.ps1 dc23505d60eb4fe25870d70bfdf709759b61ec55`
-- [ ] The finding is recorded in its existing authority with all prior finding rows, including CTRL-19, unchanged. `check: blob reports/master/MASTER_GAP_REGISTER.md 2922354c0aea274a12c6f7b308b752af85a49f78`
-- [ ] Explicit effective-calendar selection, the original calendar assertion and the real parser negative control coexist. `check: has scripts/test_future_date_guard.ps1 "EXPLICIT-HOSTILE-CALENDAR"` `check: has scripts/test_future_date_guard.ps1 "CurrentCulture.DateTimeFormat.Calendar.GetType().Name"` `check: has scripts/test_future_date_guard.ps1 "the hostile parser rejects a Gregorian year without an invariant provider"`
-- [ ] All original test assertions remain, the complete suite passes, and the hostile fixture cannot pass merely by printing a label; verify preparation mutants and final native Finish evidence independently.
-- [ ] All forbidden baseline files remain unchanged. `check: blob scripts/check_repository_consistency.ps1 3860573108f9bee5c75ee1dea62cb2b1b3b6b5e6` `check: blob scripts/check_agent_continuity.ps1 80e62b2ac7a8d33d52395d7358e075bcbf851430` `check: blob scripts/test_agent_continuity.ps1 090636732ae424fe748b64f15e907a469c559168` `check: blob scripts/run_timed.ps1 d1fbfc81d41b04b0c8b3a50c4b17cdd19853ca60` `check: blob scripts/watch_run.ps1 e327c2ff9b8c7acf8851f7153c1e1acb066d4e9b` `check: blob scripts/watch_ci.ps1 278ef1f4845c6363e5332d225f07a2c89a25da23` `check: blob scripts/github_public_read.ps1 97f5c8894e5772e5a46e792aef927c5055e402b2` `check: blob scripts/publish_candidate.ps1 d168504cc66c3a0759ac3ee9b5e01045a0f46589` `check: blob scripts/promote_main.ps1 bf64aa893faf9d6be7477254bebf80dca04b4d79` `check: blob scripts/generate-ai-map.ps1 da084003b0ea4c8ca653393267c988ad367f00e5` `check: blob scripts/batch6_select_target.ps1 711380536e8a686e5658b394cbceaab1dd0b7ac1` `check: blob .github/workflows/agent-control.yml 41243b7c9a499df4cf011385a046c53107084ba3` `check: blob .github/workflows/orvion-acceptance.yml a0fbfcbc5e67d7caacbefa89242019f73cb6fd5c` `check: blob .github/workflows/repository-consistency.yml 5b34e517dd0f44a7f4faf4cf130c9cdb06eb9645` `check: blob .github/workflows/migration-ci.yml b156cc28979d1c470a890ca361e18d255dcca6b4` `check: blob README.md 9f15270f25194e4ed0bb08613ca185a16b05ea2d` `check: blob AGENTS.md b2412d15cd6fcf710055114fe734ba69178f35cc` `check: blob GOVERNANCE.md 6be8e820e1b4fed243a9b99a8153ed0be1d14717` `check: blob ENGINEERING_METHOD.md 30a6c526f37991b978622af90730b5474892b68f` `check: blob CR_LIFECYCLE.md bcebabb0665901fa1ebf1b7e28ddbbecddeb5f68` `check: blob changes/TEMPLATE.md 6494ecfc57e0212e8b1c35dbab46daa7f510f2f9` `check: blob reports/architecture-decision-records.md 9199c6e6aeeafa637ced0ff5671bcf074818e04e` `check: blob reports/master/MASTER_EXECUTION_PLAN.md e957b949bc330cb637a634644664bf93bd2eb5ce`
-- [ ] The manifest retains this repository's Batch 6 hold and independent direction. `check: has _ORVION_CANONICAL/manifest.md "Batch 6 remains ON HOLD by owner decision (2026-10-18)"`
+- [x] The changed test has exactly the reviewed bytes. `check: blob scripts/test_future_date_guard.ps1 dc23505d60eb4fe25870d70bfdf709759b61ec55`
+- [x] The finding is recorded in its existing authority with all prior finding rows, including CTRL-19, unchanged. `check: blob reports/master/MASTER_GAP_REGISTER.md 2922354c0aea274a12c6f7b308b752af85a49f78`
+- [x] Explicit effective-calendar selection, the original calendar assertion and the real parser negative control coexist. `check: has scripts/test_future_date_guard.ps1 "EXPLICIT-HOSTILE-CALENDAR"` `check: has scripts/test_future_date_guard.ps1 "CurrentCulture.DateTimeFormat.Calendar.GetType().Name"` `check: has scripts/test_future_date_guard.ps1 "the hostile parser rejects a Gregorian year without an invariant provider"`
+- [x] All original test assertions remain, the complete suite passes, and the hostile fixture cannot pass merely by printing a label; verify preparation mutants and final native Finish evidence independently.
+- [x] All forbidden baseline files remain unchanged. `check: blob scripts/check_repository_consistency.ps1 3860573108f9bee5c75ee1dea62cb2b1b3b6b5e6` `check: blob scripts/check_agent_continuity.ps1 80e62b2ac7a8d33d52395d7358e075bcbf851430` `check: blob scripts/test_agent_continuity.ps1 090636732ae424fe748b64f15e907a469c559168` `check: blob scripts/run_timed.ps1 d1fbfc81d41b04b0c8b3a50c4b17cdd19853ca60` `check: blob scripts/watch_run.ps1 e327c2ff9b8c7acf8851f7153c1e1acb066d4e9b` `check: blob scripts/watch_ci.ps1 278ef1f4845c6363e5332d225f07a2c89a25da23` `check: blob scripts/github_public_read.ps1 97f5c8894e5772e5a46e792aef927c5055e402b2` `check: blob scripts/publish_candidate.ps1 d168504cc66c3a0759ac3ee9b5e01045a0f46589` `check: blob scripts/promote_main.ps1 bf64aa893faf9d6be7477254bebf80dca04b4d79` `check: blob scripts/generate-ai-map.ps1 da084003b0ea4c8ca653393267c988ad367f00e5` `check: blob scripts/batch6_select_target.ps1 711380536e8a686e5658b394cbceaab1dd0b7ac1` `check: blob .github/workflows/agent-control.yml 41243b7c9a499df4cf011385a046c53107084ba3` `check: blob .github/workflows/orvion-acceptance.yml a0fbfcbc5e67d7caacbefa89242019f73cb6fd5c` `check: blob .github/workflows/repository-consistency.yml 5b34e517dd0f44a7f4faf4cf130c9cdb06eb9645` `check: blob .github/workflows/migration-ci.yml b156cc28979d1c470a890ca361e18d255dcca6b4` `check: blob README.md 9f15270f25194e4ed0bb08613ca185a16b05ea2d` `check: blob AGENTS.md b2412d15cd6fcf710055114fe734ba69178f35cc` `check: blob GOVERNANCE.md 6be8e820e1b4fed243a9b99a8153ed0be1d14717` `check: blob ENGINEERING_METHOD.md 30a6c526f37991b978622af90730b5474892b68f` `check: blob CR_LIFECYCLE.md bcebabb0665901fa1ebf1b7e28ddbbecddeb5f68` `check: blob changes/TEMPLATE.md 6494ecfc57e0212e8b1c35dbab46daa7f510f2f9` `check: blob reports/architecture-decision-records.md 9199c6e6aeeafa637ced0ff5671bcf074818e04e` `check: blob reports/master/MASTER_EXECUTION_PLAN.md e957b949bc330cb637a634644664bf93bd2eb5ce`
+- [x] The manifest retains this repository's Batch 6 hold and independent direction. `check: has _ORVION_CANONICAL/manifest.md "Batch 6 remains ON HOLD by owner decision (2026-10-18)"`
 
 ## Execution Log
 
@@ -307,6 +307,12 @@ Outcome: Complete (implementation steps; final verification pending)
 - Step 3 Applied: `reports/master/MASTER_GAP_REGISTER.md` edited exactly as the step states; blob 2922354c0aea274a12c6f7b308b752af85a49f78 (4 insertions, 1 deletions).
 - Step 4 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, the staged change names only Write Scope paths. Every edit was applied literally from this contract's steps and its Git blob checked before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
+### 2026-10-21 — Native local completion (Codex)
+
+Outcome: Complete (LOCAL only)
+
+Exact frozen implementation and independent live Review confirmed; all criteria and Review Gate items are satisfied by the fresh receipt and the observed checks. The manifest and native projections are synchronized by the lifecycle helper. Actual Finish output, resource samples and copied native receipt are preserved externally; the original A bound evidence remains intact. Candidate binding, named pending branch and exact-tail hosted release/certification follow this transition and are not claimed here. Batch 6 remains ON HOLD; CTRL-19 remains OPEN. No Contract B work is included.
+
 ## Verification Notes
 
 None.
@@ -319,10 +325,10 @@ Read the committed tree at abaabda0b854e00c9792d1407c3a87df3bb85ba7 independentl
 
 ## Review Gate
 
-- [ ] Exact approved steps, source anchors and exhaustive scope independently confirmed.
-- [ ] Every criterion holds against live evidence, including non-vacuous hostile parsing and unchanged guard semantics.
-- [ ] Fresh native timed/watched Finish passes the actual derived profile and additional changed suite.
-- [ ] Historical evidence, independent routing, native admission and release authorities preserved; no settings changed; Batch 6 ON HOLD and CTRL-19 OPEN.
+- [x] Exact approved steps, source anchors and exhaustive scope independently confirmed.
+- [x] Every criterion holds against live evidence, including non-vacuous hostile parsing and unchanged guard semantics.
+- [x] Fresh native timed/watched Finish passes the actual derived profile and additional changed suite.
+- [x] Historical evidence, independent routing, native admission and release authorities preserved; no settings changed; Batch 6 ON HOLD and CTRL-19 OPEN.
 
 ## Notes
 
