@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -293,6 +293,10 @@ Post-Implementation Proof Obligation: the exact changed suite and mandatory REPO
 ## Execution Log
 
 None.
+
+### 2026-10-21 — Gate 1 approval recorded
+
+The live owner approved the exact LF Draft digest and this packet's replacement-tail disposition; the checked external decision record is retained with the manifest. No broader approval is implied. Immediately before allocation the hash, the Draft blob e8a17b8b09848bb16031056413a1b94fdf9dfda0, all 28 source anchors, the baseline HEAD 6ab05e696697d14a5fd90afa532f79b84dc108e0 against refreshed origin/main 434180cc273e6a73423a48a3a00b77a9fdc379aa and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 440b102. No implementation performed before this transition. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Verification Notes
 
