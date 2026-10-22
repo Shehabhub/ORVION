@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -1764,6 +1764,8 @@ None.
 ## Verification Notes
 
 None.
+
+2026-10-22 - Approval Evidence: owner explicitly approved exact Draft SHA-256 A193C5BA21A707CB228355AE4437B88826FEA515863CF12ED75BA3FC21212737 in the preserved Owner Master Execution Directive (SHA-256 564EF32626E0C5456AE7C3DDAD244691D2425AB6F6F6684F708FFA4149A8E873). Local source scope, native verification, Review/Complete and candidate binding only; publication/promotion are not authorized. Recorded by Codex; no cross-repository authority or inherited delegation.
 
 ## Notes
 
