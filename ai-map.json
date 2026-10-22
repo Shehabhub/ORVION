@@ -10,8 +10,8 @@
   "live_state": {
     "source": "_ORVION_CANONICAL/manifest.md",
     "phase": "**Phase 8 (Offline Conversion) — IN PROGRESS**. Execution order 7→9→8→10 (`32`). Phases 2–7 + 9 COMPLETE. Supabase-native backend (ADR-0014); transport ADR-0023. **Phase 10 is NOT ready** — evidence in `32` under Phase 10; blocker is Phase 8's unbuilt n8n workflow, gated behind the Foundation Completion Programme.",
-    "active_change_request": "`changes/SPEC-296-contract-b-carrying-completion.md`",
-    "last_completed": "**SPEC-294: Explicit hostile calendar — fresh local verification and Review complete; owner publication/promotion and exact-SHA remote certification follow CR_LIFECYCLE.md section 9. Batch 6 remains ON HOLD by owner decision (2026-10-18) until the infrastructure programme completes and the owner authorizes resumption. CTRL-19 remains OPEN.**",
+    "active_change_request": "None.",
+    "last_completed": "**SPEC-296: Contract B carrying completion — inherited implementation preserved; fresh local verification and Review complete. Owner publication/promotion and remote certification remain separately governed. Batch 6 and Phase 8 remain ON HOLD. CTRL-19 remains OPEN.**",
     "next_capability": "Follow the next unmet engineering prerequisite in ADR-0033 (`reports/architecture-decision-records.md`). Product work waits for that sequence; resumed Batch 6 selection remains owned by `scripts/batch6_select_target.ps1`."
   },
   "authority": {
