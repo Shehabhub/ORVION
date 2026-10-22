@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -142,6 +142,9 @@ None.
 ## Verification Notes
 
 None.
+
+
+Approval Evidence: explicit human Gate 1 approved this exact Draft SHA-256 D16F7BCA02EBE64B6F618D4B4DA0D9FCD7FA8F96F8CFD06AA7410B83067B54ED. Preserved owner decision SHA-256 C78CD7F52D83D07F66053EF2191743A26C0216A10B9EB2BE064F2272B350EA18. This approval covers only the stated local carrying lifecycle, fresh native verification, Review/Complete and local candidate binding. No publication, promotion, remote change or unrelated implementation is authorized. Recorded by Codex; local hashes are not actor authentication.
 
 ## Notes
 
