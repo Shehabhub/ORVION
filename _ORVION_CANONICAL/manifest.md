@@ -45,7 +45,7 @@ Current session blocker: **None.**
 
 **What is open, due, blocked or waiting, and why: the Action registry in `MASTER_EXECUTION_PLAN.md` (`scripts/readiness_population.ps1 -Registry`).** Other open work is owned elsewhere and is never restated as the next action: that plan owns Batch 6 order, the Phase-10 Meta-ecosystem Learn-Before-Designing research and the communications-domain Design Challenge; `MASTER_INTEGRATION_CATALOG.md §2/§2a` owns the preserved n8n workflow build steps.
 
-Next capability: Follow the next unmet engineering prerequisite in ADR-0033 (`reports/architecture-decision-records.md`). Product work waits for that sequence; resumed Batch 6 selection remains owned by `scripts/batch6_select_target.ps1`.
+Next capability: **Foundation Completion Programme — Batch 6** resumes when the owner records the programme hold lift that ADR-0034 (`reports/architecture-decision-records.md`) ties to the clean-machine recovery; the next slice is then the first row of `scripts/batch6_select_target.ps1` (local stack), never a copy of it here. Batch 6 runs until EC-1…EC-11 hold, then the readiness gate (`MASTER_EXECUTION_PLAN.md`); then the Phase-8 order in `32` resumes.
 
 ---
 
