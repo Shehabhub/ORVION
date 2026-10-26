@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -191,12 +191,12 @@ Irreversible Action Step: NONE
 
 ## Acceptance Criteria
 
-- [ ] ADR-0034 is recorded exactly as approved; `check: blob reports/architecture-decision-records.md 4c3faa2f72228042a46de292f03e4599f6379ac5`
-- [ ] GOVERNANCE v1.22 records the repointed pin exactly as approved; `check: blob GOVERNANCE.md ac286e08aeedb50f9e2791b0f48673b3855f3827`
-- [ ] The pinned Boot line routes to Batch 6 after the owner's recorded lift; `check: has _ORVION_CANONICAL/manifest.md "resumes when the owner records the programme hold lift that ADR-0034"`
-- [ ] The native evaluator is unchanged; `check: same scripts/check_agent_continuity.ps1 @da919011ee8b0b03cee620e910ff828b8e179f61`
-- [ ] Generated discovery reproduces from its sources through the existing generator, and the pinned line hashes to its GOVERNANCE pin.
-- [ ] Independent Review confirms the record claims no C2 proof, no earned Shared Evidence, no CTRL-19 closure and no Batch 6 start.
+- [x] ADR-0034 is recorded exactly as approved; `check: blob reports/architecture-decision-records.md 4c3faa2f72228042a46de292f03e4599f6379ac5`
+- [x] GOVERNANCE v1.22 records the repointed pin exactly as approved; `check: blob GOVERNANCE.md ac286e08aeedb50f9e2791b0f48673b3855f3827`
+- [x] The pinned Boot line routes to Batch 6 after the owner's recorded lift; `check: has _ORVION_CANONICAL/manifest.md "resumes when the owner records the programme hold lift that ADR-0034"`
+- [x] The native evaluator is unchanged; `check: same scripts/check_agent_continuity.ps1 @da919011ee8b0b03cee620e910ff828b8e179f61`
+- [x] Generated discovery reproduces from its sources through the existing generator, and the pinned line hashes to its GOVERNANCE pin.
+- [x] Independent Review confirms the record claims no C2 proof, no earned Shared Evidence, no CTRL-19 closure and no Batch 6 start.
 
 ## Execution Log
 
@@ -227,15 +227,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft B3C9D78CC275A2A622B781B454999F9EB9C321D7048CB203F5F11F73CE3F1B1E, allocated blob 915a0c56854607cf4b7a2bf0c8608b6aa2e6923f, the three literal outputs (ADR-0034, GOVERNANCE v1.22 pin, pinned Next capability line), regenerated discovery, unchanged native evaluator and declared scope verified. This original root owns fresh receipt 61e512fdaf185eff3a38aae869c7a4c6d8c0eb984d52f62835d09905f10cfb0a, finishHead 1be3032e4fd91699b58a2acb83f410c690043201, profiles CONTROL,REPOSITORY, in a native timed/watched Finish observed READY/END0. The record claims no C2 proof, no earned Shared Evidence, no CTRL-19 closure and no Batch 6 start. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted. Batch6/Phase8 remain ON HOLD until the owner's recorded lift; CTRL-19 remains OPEN.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 61e512fdaf185eff3a38aae869c7a4c6d8c0eb984d52f62835d09905f10cfb0a and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
