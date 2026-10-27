@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -71,7 +71,7 @@ None. ADR-0035 supersedes part of ADR-0034 inside `reports/architecture-decision
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -314,6 +314,20 @@ Before Step 1, check the six baseline Git blobs in Notes, allowing only the nati
 ## Execution Log
 
 None.
+
+
+### 2026-10-27 — Implementation checkpoint (governed automation)
+
+Outcome: Complete (implementation steps; final verification pending)
+
+- Step 1 Applied: native recorded Gate 1 evidence names this exact Draft's SHA-256; the baseline HEAD was 0529a0d0c3422f1dd8ddf2d246e3e7d77adebfb7 and every source anchor matched there; Draft allocated as 589c25d and approved as ea5094f with APPROVAL_EVIDENCE: PASS.
+- Step 2 Applied: `scripts/owner_publish.ps1` edited exactly as the step states; blob b3744e9430f25d2cff5830bacc3d0ba87006bf05 (1 insertions, 1 deletions).
+- Step 3 Applied: `scripts/owner_promote.ps1` edited exactly as the step states; blob ebc7761a2085bb61f08a1fcca2ac1b703c3e4d06 (1 insertions, 1 deletions).
+- Step 4 Applied: `scripts/test_owner_interfaces.ps1` edited exactly as the step states; blob 11623d48eab0e4d9efa0306f31160bd133f7cf19 (20 insertions, 0 deletions).
+- Step 5 Applied: `reports/architecture-decision-records.md` edited exactly as the step states; blob ddf4d2ba5a4dc7a5247d2a3656763260746c1fb0 (12 insertions, 1 deletions).
+- Step 6 Applied: `GOVERNANCE.md` edited exactly as the step states; blob 0f92849d6bd769b88ad0eb959cce4f7c147eb525 (3 insertions, 2 deletions).
+- Step 7 Applied: `_ORVION_CANONICAL/manifest.md` edited exactly as the step states; blob f4620d3fc0c325d27cdd895fc226775ca55a627c (1 insertions, 1 deletions).
+- Step 8 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, the staged change names only Write Scope paths. Every edit was applied literally from this contract's steps and its Git blob checked before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Verification Notes
 

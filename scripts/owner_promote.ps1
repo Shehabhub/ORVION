@@ -93,7 +93,7 @@ function Invoke-Operation {
     if ($lines.Count -ne 1 -or ($lines[0] -split '\s+')[0] -cne $Candidate) { throw 'STOP: Remote main does not match the selected SHA.' }
 }
 try {
-    $logs = if ($EvidenceDirectory) { [IO.Path]::GetFullPath($EvidenceDirectory) } else { Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)) 'ORVION-Owner-Review\owner-operations\Shehabhub_ORVION' }
+    $logs = if ($EvidenceDirectory) { [IO.Path]::GetFullPath($EvidenceDirectory) } else { Join-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) 'ORVION-Owner-Tools\records\owner-operations\Shehabhub_ORVION' }
     [void][IO.Directory]::CreateDirectory($logs)
     $log = Join-Path $logs (('{0}-{1}-{2}.json' -f [DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ'),$operation,[guid]::NewGuid().ToString('N')))
     Save-Result
