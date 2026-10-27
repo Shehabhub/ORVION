@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -300,16 +300,16 @@ Before Step 1, check the six baseline Git blobs in Notes, allowing only the nati
 
 ## Acceptance Criteria
 
-- [ ] Publish default is exactly approved; `check: blob scripts/owner_publish.ps1 b3744e9430f25d2cff5830bacc3d0ba87006bf05`
-- [ ] Promote default is exactly approved; `check: blob scripts/owner_promote.ps1 ebc7761a2085bb61f08a1fcca2ac1b703c3e4d06`
-- [ ] Owning regression cases are exactly approved; `check: blob scripts/test_owner_interfaces.ps1 11623d48eab0e4d9efa0306f31160bd133f7cf19`
-- [ ] ADR supersession and replacement proof are exactly approved; `check: blob reports/architecture-decision-records.md ddf4d2ba5a4dc7a5247d2a3656763260746c1fb0`
-- [ ] Governance version, changelog and pin are exactly approved; `check: blob GOVERNANCE.md 0f92849d6bd769b88ad0eb959cce4f7c147eb525`
-- [ ] Routing names both decision authorities; `check: has _ORVION_CANONICAL/manifest.md "lift that ADR-0034 and ADR-0035"`
-- [ ] Native evaluator remains unchanged; `check: same scripts/check_agent_continuity.ps1 @0529a0d0c3422f1dd8ddf2d246e3e7d77adebfb7`
-- [ ] Owning suite proves both defaults, explicit overrides and existing refusal/release-adapter behavior; independently observed mutations kill the new cases.
-- [ ] Projections reproduce through the existing generator and exact Next capability line hashes to its governance pin.
-- [ ] Review confirms owner-reported C1 only, no completed launcher proof without external evidence, no clean-machine install proof from this evidence, one recorded owner lift citing external criteria 1–5 still required, no CTRL-19 closure and no real release assertion; retained owner authority for this SPEC-299 default/delegation is verified before original approval.
+- [x] Publish default is exactly approved; `check: blob scripts/owner_publish.ps1 b3744e9430f25d2cff5830bacc3d0ba87006bf05`
+- [x] Promote default is exactly approved; `check: blob scripts/owner_promote.ps1 ebc7761a2085bb61f08a1fcca2ac1b703c3e4d06`
+- [x] Owning regression cases are exactly approved; `check: blob scripts/test_owner_interfaces.ps1 11623d48eab0e4d9efa0306f31160bd133f7cf19`
+- [x] ADR supersession and replacement proof are exactly approved; `check: blob reports/architecture-decision-records.md ddf4d2ba5a4dc7a5247d2a3656763260746c1fb0`
+- [x] Governance version, changelog and pin are exactly approved; `check: blob GOVERNANCE.md 0f92849d6bd769b88ad0eb959cce4f7c147eb525`
+- [x] Routing names both decision authorities; `check: has _ORVION_CANONICAL/manifest.md "lift that ADR-0034 and ADR-0035"`
+- [x] Native evaluator remains unchanged; `check: same scripts/check_agent_continuity.ps1 @0529a0d0c3422f1dd8ddf2d246e3e7d77adebfb7`
+- [x] Owning suite proves both defaults, explicit overrides and existing refusal/release-adapter behavior; independently observed mutations kill the new cases.
+- [x] Projections reproduce through the existing generator and exact Next capability line hashes to its governance pin.
+- [x] Review confirms owner-reported C1 only, no completed launcher proof without external evidence, no clean-machine install proof from this evidence, one recorded owner lift citing external criteria 1–5 still required, no CTRL-19 closure and no real release assertion; retained owner authority for this SPEC-299 default/delegation is verified before original approval.
 
 ## Execution Log
 
@@ -343,15 +343,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 90228502DFC0C01777277C2419BD11139F850B69C8C0B1C58AB560F401A85C0C, allocated blob cab3404c69dced49a3d45d72b80598c63c9d6e2a, the six literal outputs (publish and promote default evidence directory beside the checkout in ORVION-Owner-Tools; owning default-path cases binding the full refusal record; ADR-0035 with the ADR-0034 status note; GOVERNANCE v1.23 pin; the pinned Next capability line), regenerated discovery, unchanged native evaluator and declared scope verified. This original root owns fresh receipt 4ccb71b81c181a9551d0978d1855a06a7b0cd208981e398947bc0a630453b5c6, finishHead 35c7dd2ae3591c9823392895b2cb34e528e71adb, profiles CONTROL,REPOSITORY, in a native timed/watched Finish observed READY/END0, which ran the owning interface suite as Additional Verification. Explicit -EvidenceDirectory cases unchanged. The record claims no clean-machine proof, no completed launcher run, no hold lift and no CTRL-19 closure. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted. Batch6/Phase8 remain ON HOLD until the owner's recorded lift; CTRL-19 remains OPEN.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 4ccb71b81c181a9551d0978d1855a06a7b0cd208981e398947bc0a630453b5c6 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
