@@ -4,9 +4,10 @@ Status: **Authoritative governance operating system for the knowledge/decision/r
 
 **Precedence & scope boundary (no overlap):** `AGENTS.md` is authoritative for **execution conduct** (how work is done, when to continue/stop, standing authorities). This document is authoritative for **knowledge governance** (where information lives and how decisions/documents flow). Where the two touch, AGENTS.md governs conduct and GOVERNANCE.md governs knowledge placement. Neither restates the other. `CR_LIFECYCLE.md` remains authoritative for the Change Request state machine.
 
-Version 1.23 · 2026-10-27 · Governs every future human, Claude, Codex, and AI/MCP session.
+Version 1.24 · 2026-11-08 · Governs every future human, Claude, Codex, and AI/MCP session.
 
 **Governance changelog** (governance governs itself — §15):
+- v1.24 (2026-11-08) — SPEC-301, Founder CR under the owner's delegated Gate 1. Repoint the `Next capability` pin to ADR-0036: the owner lifted the programme hold on 2026-11-07, so Batch 6 is active. MINOR: one pinned line and its pin change together; no authority moved, no lifecycle or certification change.
 - v1.23 (2026-10-27) — SPEC-299, Founder CR under the owner's exceptional delegation (DELEGATED Gate 1). Repoint the `Next capability` pin to ADR-0034 with ADR-0035: Batch 6 resumes after the owner's recorded hold lift tied to the recovery proof, without a Windows reinstall. MINOR: one pinned line and its pin change together; no authority moved, no lifecycle or certification change.
 - v1.22 (2026-10-26) — SPEC-298, Founder CR under the owner's exceptional delegation (DELEGATED Gate 1). Repoint the `Next capability` pin to the new ADR-0034 routing: Batch 6 resumes after the owner's recorded hold lift tied to the clean-machine recovery. MINOR: one pinned line and its pin change together; no authority moved, no lifecycle or certification change.
 - v1.21 (2026-10-17) — SPEC-287, subject to its Human Gate 1. Establish Founder current hosted evidence in the existing RECOVER-1/PAR-6 mechanism; preserve original Platinum evidence as historical source provenance. Repoint the two current engineering-sequence pins to the owner-ratified ADR-0033. MINOR: current ownership changes; no certification authority, receipt format, history exception or lifecycle weakening.
@@ -210,7 +211,7 @@ Normal CR execution and routine checkpoints do not require a session report. CR 
     |---|---|---|---|
     | `_ORVION_CANONICAL/manifest.md` | `Current Module` | `reports/architecture-decision-records.md` | `44daebeeb7fa4839194de52b0d8e8d98823e52738ca8c366a78bfd5a52693541` |
     | `_ORVION_CANONICAL/manifest.md` | `Batch 6 surface coverage` | `reports/master/MASTER_SURFACE_DISPOSITION.md` | `166b2f42e10851e6c13be8d578229e72ff22865d6761bfb2a2d8f78296ce8a16` |
-    | `_ORVION_CANONICAL/manifest.md` | `Next capability` | `reports/architecture-decision-records.md` | `6b00b57fceb9617cf21d74bf991e05302b48182ad556a3844863f77eb3bd2159` |
+    | `_ORVION_CANONICAL/manifest.md` | `Next capability` | `reports/architecture-decision-records.md` | `f735930af973706fcfa97ecd3fbf542a43843c2f27a1e37389dc9f5359dfdc31` |
 
 ---
 

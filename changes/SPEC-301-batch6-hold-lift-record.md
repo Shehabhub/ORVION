@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -58,7 +58,7 @@ None. ADR-0036 supersedes nothing; ADR-0035 gains a status note naming it. No Ch
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -208,6 +208,17 @@ Irreversible Action Step: NONE
 ## Execution Log
 
 None.
+
+
+### 2026-11-08 — Implementation checkpoint (governed automation)
+
+Outcome: Complete (implementation steps; final verification pending)
+
+- Step 1 Applied: native recorded Gate 1 evidence names this exact Draft's SHA-256; the baseline HEAD was 18b53c6366579712e0e85e4ce0d8ede9f896c7d2 and every source anchor matched there; Draft allocated as d25d03e and approved as f26b46e with APPROVAL_EVIDENCE: PASS.
+- Step 2 Applied: `reports/architecture-decision-records.md` edited exactly as the step states; blob f68e9b35c272d9092252cb9ae6e917d54701630e (12 insertions, 1 deletions).
+- Step 3 Applied: `GOVERNANCE.md` edited exactly as the step states; blob 5c70175aaf81c60b6df200f0a6f4acd66a2a9c6b (3 insertions, 2 deletions).
+- Step 4 Applied: `_ORVION_CANONICAL/manifest.md` edited exactly as the step states; blob e75e93089a060fdd3573b76f730ecd8fab1a0414 (1 insertions, 1 deletions).
+- Step 5 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, the staged change names only Write Scope paths. Every edit was applied literally from this contract's steps and its Git blob checked before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Verification Notes
 
