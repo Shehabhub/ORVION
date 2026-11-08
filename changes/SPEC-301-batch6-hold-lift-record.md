@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -197,13 +197,13 @@ Irreversible Action Step: NONE
 
 ## Acceptance Criteria
 
-- [ ] ADR-0036 and the ADR-0035 status note are recorded exactly as approved; `check: blob reports/architecture-decision-records.md f68e9b35c272d9092252cb9ae6e917d54701630e`
-- [ ] GOVERNANCE v1.24 records the repointed pin exactly as approved; `check: blob GOVERNANCE.md 5c70175aaf81c60b6df200f0a6f4acd66a2a9c6b`
-- [ ] The pinned Boot line says Batch 6 is active under ADR-0036; `check: has _ORVION_CANONICAL/manifest.md "is active since the owner lifted the programme hold on 2026-11-07 (ADR-0036"`
-- [ ] The native evaluator is unchanged; `check: same scripts/check_agent_continuity.ps1 @18b53c6366579712e0e85e4ce0d8ede9f896c7d2`
-- [ ] The Batch 6 selector is unchanged; `check: same scripts/batch6_select_target.ps1 @18b53c6366579712e0e85e4ce0d8ede9f896c7d2`
-- [ ] Generated discovery reproduces from its sources through the existing generator, and the pinned line hashes to its GOVERNANCE pin.
-- [ ] Independent Review confirms the record claims no clean-machine proof, no launcher run on the 2026-11-06 layout, no earned Shared Evidence, no CTRL-19 closure, no copied Batch 6 target and no release.
+- [x] ADR-0036 and the ADR-0035 status note are recorded exactly as approved; `check: blob reports/architecture-decision-records.md f68e9b35c272d9092252cb9ae6e917d54701630e`
+- [x] GOVERNANCE v1.24 records the repointed pin exactly as approved; `check: blob GOVERNANCE.md 5c70175aaf81c60b6df200f0a6f4acd66a2a9c6b`
+- [x] The pinned Boot line says Batch 6 is active under ADR-0036; `check: has _ORVION_CANONICAL/manifest.md "is active since the owner lifted the programme hold on 2026-11-07 (ADR-0036"`
+- [x] The native evaluator is unchanged; `check: same scripts/check_agent_continuity.ps1 @18b53c6366579712e0e85e4ce0d8ede9f896c7d2`
+- [x] The Batch 6 selector is unchanged; `check: same scripts/batch6_select_target.ps1 @18b53c6366579712e0e85e4ce0d8ede9f896c7d2`
+- [x] Generated discovery reproduces from its sources through the existing generator, and the pinned line hashes to its GOVERNANCE pin.
+- [x] Independent Review confirms the record claims no clean-machine proof, no launcher run on the 2026-11-06 layout, no earned Shared Evidence, no CTRL-19 closure, no copied Batch 6 target and no release.
 
 ## Execution Log
 
@@ -234,15 +234,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 9FA8B010EFDD096821E1D5083930B76DD46190523187AB78CEEAB5ADAFC352D1, allocated blob eb9f4840197461df7dad64897f64c735ec02c7d2, ADR-0036 appended and ADR-0035 status note, GOVERNANCE v1.24 with the new pin equal to the SHA-256 of the exact new Next capability line, the repointed pinned line, regenerated discovery, unchanged native evaluator and Batch 6 selector, and declared scope verified. The record claims no clean-machine proof, no launcher run on the 2026-11-06 layout, no earned Shared Evidence, no CTRL-19 closure, no copied Batch 6 target and no release. This original root owns fresh receipt 04d89985818301c43748756abbc98175d87dfb7c037ee847f4ee497aae28d49c, finishHead 5cb6536844efc881833ef090b4037e05a8f32d58, profiles CONTROL,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted. Correction: the Gate 1 and implementation entries above carry a fixed tool sentence that Batch 6 remains ON HOLD; that is stale, the owner lifted the hold (this contract records it; Workbench tool defect, fixed separately).
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 04d89985818301c43748756abbc98175d87dfb7c037ee847f4ee497aae28d49c and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
