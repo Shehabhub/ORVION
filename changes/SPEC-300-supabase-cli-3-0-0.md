@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -339,6 +339,11 @@ None.
 ## Verification Notes
 
 None.
+
+
+### 2026-11-08 — Gate 1 approval recorded
+
+DELEGATED exact Gate1 under the owner's instruction of 2026-11-08 (~11:20 Cairo, Supabase CLI 3.0.0 first) and standing approval of proposals (~10:20 Cairo); Draft SHA-256 0EF9DC04C18CF4241582CAFAA8FD584C3A562EADC57520B39981A73A20558A54, decision SHA-256 8D0558251E5536F190BD1E807AD92C81FF0E18C180820F8DCE0960EB62B0F746. No fabricated human future-digest approval. Own fresh original native verification/Review/Complete/binding required; sandbox receipt certifies no original. Immediately before allocation the hash, the Draft blob 995de0fc2f4a5ffafd12c326a5c17a4994b7ce2b, all 3 source anchors, the baseline HEAD 05c3cc0f20826a34f0b8b4a71adba3b764b4094d against refreshed origin/main 05c3cc0f20826a34f0b8b4a71adba3b764b4094d and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 412ffa5. No implementation performed before this transition. Batch 6 remains ON HOLD; CTRL-19 remains OPEN.
 
 ## Review Gate
 
