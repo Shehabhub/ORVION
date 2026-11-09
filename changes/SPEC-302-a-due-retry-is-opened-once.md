@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -704,15 +704,15 @@ Post-Implementation Proof Obligation: All of the following on the final bytes, t
 
 ## Acceptance Criteria
 
-- [ ] The migration is the frozen bytes; `check: blob supabase/migrations/20261108120000_a_due_retry_is_opened_once.sql 333baa4296c37421ec126da166f282c72935702d`
-- [ ] Test 158 is the frozen bytes; `check: blob supabase/tests/158_a_due_retry_is_opened_once_test.sql 970d8be98908c82c174ddb684c32eac673027eed`
-- [ ] The disposition record carries `notification_deliveries` AUDITED / ADVERSARIAL and coverage 44 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md a318a9a54dd5078b5f30dbc6d48724de77d48d05`
-- [ ] ND-1 is fixed and deployed in the register; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of this contract"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **158 files / 3010 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @ebe2188375ea8e950dcc30ae1e23a18944e9fa4a`
-- [ ] The originating claim migration remains exact; `check: same supabase/migrations/202607060900_a_delivery_obligation_that_is_attempted_retried_and_abandoned.sql @ebe2188375ea8e950dcc30ae1e23a18944e9fa4a`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the authorized migration and at most the one guarded ledger rename, with no business-data write, after a recorded Step 5 readiness gate and Step 6 Gate-2 record; Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] Mutants M1 and M2 are each killed with installation and restoration proven, and the causal negative is recorded.
+- [x] The migration is the frozen bytes; `check: blob supabase/migrations/20261108120000_a_due_retry_is_opened_once.sql 333baa4296c37421ec126da166f282c72935702d`
+- [x] Test 158 is the frozen bytes; `check: blob supabase/tests/158_a_due_retry_is_opened_once_test.sql 970d8be98908c82c174ddb684c32eac673027eed`
+- [x] The disposition record carries `notification_deliveries` AUDITED / ADVERSARIAL and coverage 44 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md a318a9a54dd5078b5f30dbc6d48724de77d48d05`
+- [x] ND-1 is fixed and deployed in the register; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of this contract"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **158 files / 3010 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @ebe2188375ea8e950dcc30ae1e23a18944e9fa4a`
+- [x] The originating claim migration remains exact; `check: same supabase/migrations/202607060900_a_delivery_obligation_that_is_attempted_retried_and_abandoned.sql @ebe2188375ea8e950dcc30ae1e23a18944e9fa4a`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the authorized migration and at most the one guarded ledger rename, with no business-data write, after a recorded Step 5 readiness gate and Step 6 Gate-2 record; Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] Mutants M1 and M2 are each killed with installation and restoration proven, and the causal negative is recorded.
 
 ## Execution Log
 
@@ -773,15 +773,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence at `99d9895dde81de6c71513eaca09cbb8ebd01cf07`: selected Draft FDF17014D964A7B6726690B8C7CE4144C30E3599067384722F4BC5AF97137768, allocated blob 898ccd2b0f7cc9b4a293ed7d87fcf134d6a2db27; the range `ebe2188..99d9895` touches only Write Scope paths. Each Acceptance Criterion re-checked: the migration blob 333baa4296c37421ec126da166f282c72935702d and test 158 blob 970d8be98908c82c174ddb684c32eac673027eed (both byte-identical to CRM SPEC-298) and the disposition blob a318a9a54dd5078b5f30dbc6d48724de77d48d05 (`notification_deliveries` AUDITED / ADVERSARIAL, 43 → 44 of 78) are the frozen bytes; the register carries ND-1 DEPLOYED to Founder Secondary; the manifest carries `Suite **158 files / 3010 assertions**`; `scripts/check_agent_continuity.ps1` and `202607060900_a_delivery_obligation_that_is_attempted_retried_and_abandoned.sql` are unchanged from `ebe2188`; the Execution Log records the Step 5 readiness gate with the fresh Founder Secondary baseline, the causal negative, mutants M1 and M2 each killed with installation and restoration proven, the Step 6 DELEGATED exact-SHA Gate-2 record, and the Step 7 deployment to `brplkqmbzffpxqgkkdzo` (only the authorized migration and one guarded ledger rename, no business-data write; fresh Founder ledger 254 `7e7a7fcf…`, functions `c9b4d9a1…`/332, structure `2a15deb3…`/3137, equal to local); Primary `vrvtsxexkiiiivlkdxzp` was never contacted. This original root owns fresh receipt f7cd94e9cb867a70ea2ecddd59f3f672fca3b6713dfb7d5191cfacebbff25cca, finishHead 99d9895dde81de6c71513eaca09cbb8ebd01cf07, profiles DATABASE,REPOSITORY, from a native timed/watched Finish (npm offline, 2026-11-09 05:16–05:20 UTC, 3.4 min) observed LOCAL_CERTIFY READY / END 0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt f7cd94e9cb867a70ea2ecddd59f3f672fca3b6713dfb7d5191cfacebbff25cca and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
