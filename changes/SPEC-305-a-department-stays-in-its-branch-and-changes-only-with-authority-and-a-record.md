@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -747,6 +747,11 @@ None.
 ## Verification Notes
 
 None.
+
+
+### 2026-11-11 — Gate 1 approval recorded
+
+DELEGATED exact Gate1 under the owner's instructions of 2026-11-08 (class authorization for Batch 6 releases and standing approval of proposals ~10:20 Cairo; publish, promote and hosted deploy ~12:05 Cairo) and 2026-11-11 (slice 4 run mode 2, run through to both products' publish, promote and remote Certify ~10:50 Cairo; P7 is this ORVION twin of CRM SPEC-301); Draft SHA-256 6F1F4DD20D3CE3BA9660D9F73A6126B2F79CA0E8812FF6461E06C7B939866419, decision SHA-256 01718836879F72925F56E4F77C9DFDED0786FFEC458EFDE68EE41A0824E47253. No fabricated human future-digest approval. Gate 2 (Founder Secondary deploy) is a separate exact-SHA record in Step 9. Immediately before allocation the hash, the Draft blob bec8720923b6c0dde30a8a5e9b3c8c5a2877e716, all 5 source anchors, the baseline HEAD 906edeb943d62dcb6ca438d68f529dcd906ec2bf against refreshed origin/main 906edeb943d62dcb6ca438d68f529dcd906ec2bf and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as da7f5b4. No implementation performed before this transition.
 
 ## Review Gate
 
