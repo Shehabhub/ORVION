@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -102,7 +102,7 @@ None.
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -765,7 +765,46 @@ Post-Implementation Proof Obligation: All of the following on the final bytes, t
 
 ## Execution Log
 
-None.
+### 2026-11-11 — Steps 1–9 applied
+
+- **Lifecycle:** allocate `3393b0b`, Approve `fd7374f` (APPROVAL_EVIDENCE PASS; 8 of 10 criteria Gate-checked), DELEGATED Gate 1 recorded in Verification Notes.
+- **Steps 1–9** by the literal-step replay, every file absent or at its `020f8d1` blob, each result at its pinned blob: migration `3d6987cf6052c4a455a3352d29b11d502cfaa0cd`, test 160 `52a514903559196adc104c41ced2b7ebd4eb2efa`, test 10 `ea4d929d8da576369129bb0ddad8a5bae495bc3f`, test 38 `25e481393523dae92d61feb3b7b0949b4a45624a`, test 79 `fa01969b1adf6c0547274ecc6bcf69681966b09e`, smoke `993bc5509e6776555aee8a97a2e47e49ab751802`, canon 27 `f2c20b57e9c0b6c8a306fe0eccc375e72a4e2701` (all seven byte-identical to CRM SPEC-300), register `222c554183f9f246fae4ea70acabc03e747acdf9`, disposition `6f157b9ee539e4db335f1c4e9a16abf0fd890936`. Uncommitted until Step 13: the pre-commit guard refuses the measured-state items before the deploy.
+
+### 2026-11-11 — Pre-deploy readiness gate (Step 10)
+
+From the main checkout at HEAD `fd7374f`, Steps 1–9 applied and uncommitted, project-local CLI 3.0.0, the Founder local stack after a clean `db reset`, one logged script (08:31–08:34 Cairo); every reading below is line-for-line equal to CRM SPEC-300's Step 10:
+- **Bytes.** Migration SHA-256 `0357e458260a62ae4273aea8759f9f319a06752043f3812c02665a4b525af61b`, md5 `89ac4aeb61f5eeade88a9f63360309c0`, 7635 bytes; test 160 SHA-256 `251c911617b0110c156e25d03b5b25eb9e75ed2a15561c0471774c36c4931832`, md5 `5d00c7b8438c2a6e00b5eb7d9faa43e5`, 10396 bytes; both LF (0 CR) and ASCII. Equal to Consumer Closure.
+- **Causal negative.** `db reset --version 20261109120000`: 255 migrations, ledger `7b2e96f12929492376da52621efe840c`; guard, the three constraints and the new code absent; the emitter (`d10817a7…`) on INSERT only; catalog 71/623. Test 160 FAIL, failed 1, 3–6, 9, 11–13 and 17. Probes: the `aal1` direct INSERT and UPDATE succeed while the RPC refuses; a direct UPDATE re-points, ends and hands over a placement with 0 events; a department of another branch becomes visible; an end before the start is stored. USR-3's half, UBA-1, UBA-3 and UBA-5 reproduced in ORVION.
+- **Fingerprints** (`scripts/parity_surface.sql`). Before (255): functions `b85385fc150c11088ec13f5dcfc0b889`/333, triggers `be5a19f32b8215cb33cc24c7989a9cbf`/320, constraints `96ccb990b5c3b6554b95f2539fbfcd45`/528, indexes `d596c15bc684a9e75a43b582050602ec`/301, `_combined` `04223971cbe8be586da4135ddcfbfe06`/3140. After a clean reset (256, latest `20261111120000`, ledger `7175a9d8726ea68a08c612a4a624b972`): functions `965f9695147a4dcba08ca71cd9f4a4d3`/334, triggers `c4da265b570c72f41c8e2c830053fbfa`/321, constraints `de558c4ca5e359684c0c64d29e3b05c1`/531, indexes `68bebc859d882adfd2dc1d1a51148c06`/302, `_combined` `6ce7270e06e890832c53c505d4976a49`/3146; policies, grants, columns, views, status transitions and RLS unchanged. Guard `md5(prosrc)` `6e75bf9dca6e2112e3ef71c26efe88eb`, emitter `a0e8398f69ff7bea38ed657ba2915a76`, both SECURITY DEFINER, ACL `{postgres=X/postgres}`; both triggers on INSERT and UPDATE; the three constraints and the new code present; catalog 71/624.
+- **Focused tests:** 160 17/17, 10 9/9, 38 21/21, 79 19/19, 118 43/43, each PASS. Probes on the final bytes: every attack refused (42501 at `aal1`, 23503 for the department, 23514 for the end), the UPDATEs record 1, 2 and 3 events and the hand-over 1 for the other user; controls hold.
+- **Mutants**, each proven installed by a changed fingerprint and restored to `guard=1 emit=ins+upd fk=1 chk=1 fn=6e75bf9d` with 17/17: M1 (guard trigger dropped) 160 fails 1, 3–4, 17; M2 (emitter back to INSERT only) 1, 9, 11–13, 17; M3 (department FK dropped) 5, 17; M4 (end CHECK dropped) 6, 17; each with its probe attack returning. M5 (all removed, the `020f8d1` schema) fails 1, 3–6, 9, 11–13, 17 and every probe returns. M1–M4 killed.
+- **Generators, scope and diff.** `MASTER_API_CONTRACT.md` regenerates with the expected moved `user_branch_assignments` row (Step 13 writes it); `generate-ai-map.ps1 -Check` exit 0. Only the nine Step 1–9 paths changed; `git diff --check` clean.
+- **Consistency:** exactly the six expected pre-deploy items, the same as the sandbox: Check 9 ×3 (count, latest, ledger fingerprint), Check 15 ×2 (files, assertions), RECOVER-1 (Founder evidence).
+- **Fresh Founder Secondary baseline**, read-only through the Founder write connector inside `BEGIN TRANSACTION READ ONLY` (06:12 UTC): URL `https://brplkqmbzffpxqgkkdzo.supabase.co` (both Founder connectors agree); ledger 255 `7b2e96f12929492376da52621efe840c`, latest `20261109120000`, target absent by version and by name; guard function, the three constraints and the new code absent; `event_type` 188 rows, maximum `sort_order` 935; catalog 71/623; `user_branch_assignments` triggers `derive_created_by`, `emit_transfer` (INSERT only), `enforce_catalog_codes`; emitter `md5(prosrc)` `d10817a7239b6d50dd5892fbb5bac4ba`, equal to local; 0 tenants, 0 placements, 0 placements whose department belongs to another branch, 0 that end before they start, 0 duplicate department keys. `parity_surface.sql`: every surface equal to the local stack at 255, `_combined` `04223971cbe8be586da4135ddcfbfe06`/3140, equal to the recorded Founder evidence.
+- **Predicted delta:** ledger 256 `7175a9d8…`; functions `965f9695…`/334; triggers `c4da265b…`/321; constraints `de558c4c…`/531; indexes `68bebc85…`/302; `_combined` `6ce7270e…`/3146; guard `6e75bf9d…`, emitter `a0e8398f…`; both triggers on INSERT and UPDATE; catalog 71/624; business counts unchanged. Every value equals CRM Primary after SPEC-300.
+
+### 2026-11-11 — Gate 2 (Step 11), DELEGATED
+
+DELEGATED exact-SHA Gate-2 record for SPEC-304: migration `supabase/migrations/20261111120000_a_placement_changes_only_with_authority_and_a_record.sql`, SHA-256 `0357e458260a62ae4273aea8759f9f319a06752043f3812c02665a4b525af61b`, md5 `89ac4aeb61f5eeade88a9f63360309c0`, 7635 bytes, to Founder Secondary `brplkqmbzffpxqgkkdzo` only, under the owner's instructions of 2026-11-08 (class authorization for Batch 6 releases and standing approval of proposals ~10:20 Cairo; publish, promote and hosted deploy ~12:05 Cairo) and 2026-11-11 (slice 3 hypotheses and probes ~05:50 Cairo; go with the recommendation ~06:28 Cairo; run through to publish, promote and remote Certify ~07:45 Cairo, whose plan ends slice 3 with this twin), recorded outside this repository. Step 10 passed. The migration's top-level statements are one guarded insert of a global `event_type` catalog value, two `create or replace function` and their `revoke`, one `create trigger`, one `drop trigger if exists` and `create trigger` of the existing emitter trigger, one `add constraint unique` on `departments`, and one `alter table` adding one FK and one CHECK: it drops no table or column and deletes or rewrites no business row. Not a human-typed digest. Primary `vrvtsxexkiiiivlkdxzp` is not a target.
+
+### 2026-11-11 — Founder Secondary deploy (Step 12)
+
+- **Re-read immediately before the write** (06:34 UTC, inside `BEGIN READ ONLY`): HEAD `fd7374f`, migration SHA-256 `0357e458…`, md5 `89ac4aeb…`, 7635 bytes, blob `3d6987cf`; URL `https://brplkqmbzffpxqgkkdzo.supabase.co`; ledger 255 `7b2e96f12929492376da52621efe840c`, latest `20261109120000`, target absent by version and by name; guard, the three constraints and the new code absent; `user_branch_assignments` triggers as in Step 10 (`emit_transfer` on INSERT only); `event_type` 188 rows, maximum `sort_order` 935; 0 tenants, 0 placements, 0 whose department belongs to another branch, 0 that end before they start. Exact match.
+- **Transmitted-text proof** in the same read: server-side `md5` of the text sent `89ac4aeb61f5eeade88a9f63360309c0`, equal to the file.
+- **Apply:** `supabase-secondary-write` `get_project_url` named `brplkqmbzffpxqgkkdzo`; `apply_migration` `a_placement_changes_only_with_authority_and_a_record` with the exact file text succeeded. The connector stored one new row, temporary version `20261111063520`, one statement, md5 `89ac4aeb61f5eeade88a9f63360309c0`, 7635 bytes.
+- **Guarded rename:** one `DO` block that required exactly one row after `20261109120000`, the temporary version, the stored md5 equal to the file's and no existing `20261111120000`, then renamed that row to `20261111120000` and required `ROW_COUNT` = 1. Succeeded. No other write; no business row touched.
+- **Detail read** (06:35:46 UTC): guard `md5(prosrc)` `6e75bf9dca6e2112e3ef71c26efe88eb`, emitter `a0e8398f69ff7bea38ed657ba2915a76`, both SECURITY DEFINER, ACL `{postgres=X/postgres}`; `user_branch_assignments` triggers `derive_created_by`, `emit_transfer` (INSERT and UPDATE), `enforce_catalog_codes`, `guard_authority` (INSERT and UPDATE); `departments_tenant_id_branch_id_id_key`, `user_branch_assignments_department_in_branch_fkey` and `user_branch_assignments_ends_after_start_check` present; the new code at `sort_order` 936, global; catalog 71/624; 0 tenants, 0 placements, 0 events.
+- **Fresh read** (result 2026-11-11 06:38:19 UTC, 08:38 Cairo), the exact `read_query` of `reports/evidence/founder-ledger-evidence.json` inside its own `BEGIN READ ONLY`, through `supabase-secondary-write`: ledger 256 `7175a9d8726ea68a08c612a4a624b972`, the new migration exactly once and last; functions (Check L2/P2) `965f9695147a4dcba08ca71cd9f4a4d3`/334; triggers `c4da265b570c72f41c8e2c830053fbfa`/321; constraints `de558c4ca5e359684c0c64d29e3b05c1`/531; indexes `68bebc859d882adfd2dc1d1a51148c06`/302; policies, grants, columns, views, status transitions and RLS unchanged; `_combined` `6ce7270e06e890832c53c505d4976a49`/3146. Every value equals the predicted delta, the local stack after a clean reset and CRM Primary after SPEC-300.
+- Primary `vrvtsxexkiiiivlkdxzp` was not contacted.
+
+### 2026-11-11 — Records (Step 13)
+
+- `reports/evidence/founder-ledger-evidence.json` (schema 3, CRLF) rewritten from the Step 12 readings only: `read_at` 2026-11-11 06:38:19 UTC, `read_via`, `read_query` unchanged, `repository_head` `fd7374ffa26a6be446149f52d9fd97aaceae0d2d`, ledger 256 `7175a9d8…`, functions `965f9695…`/334, structure `6ce7270e…`/3146, `surface_rows`. `check_primary_ledger.ps1` CLEAN; `check_database_parity_evidence.ps1` CLEAN.
+- Manifest `Live state` set from the same readings, **80 client RPCs** unchanged; `supabase/tests` holds 160 files whose `plan(N)` values sum to 3041, so `Suite **160 files / 3041 assertions**`.
+- UBA-1, UBA-3 and UBA-5 register rows and USR-3's placement half replaced with the DEPLOYED text, nothing else changed in the register.
+- `generate-api-contract.ps1` writes the moved `user_branch_assignments` row of `MASTER_API_CONTRACT.md`; `generate-ai-map.ps1` regenerates with no diff; `generate-ai-map.ps1 -Check` exit 0.
+- Guard self-tests: cold-start 42/0, future-date 19/0, primary-ledger 13/0, status-contradiction 33/0. `check_repository_consistency.ps1` CLEAN.
+- Runtime Checkpoint DONE; Status In Progress; one implement commit.
 
 ## Verification Notes
 
