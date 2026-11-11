@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -98,7 +98,7 @@ None.
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -593,7 +593,41 @@ Post-Implementation Proof Obligation: All of the following on the final bytes, t
 
 ## Execution Log
 
-None.
+### 2026-11-11 — Steps 1–5 applied
+
+- **Lifecycle:** allocate `318c9ec`, Approve `f82deb5` (APPROVAL_EVIDENCE PASS; 8 of 10 criteria Gate-checked), DELEGATED Gate 1 recorded in Verification Notes.
+- **Steps 1–5** by the literal-step replay, every file absent or at its `12496f8` blob, each result at its pinned blob: migration `a8bf49fc65755692579727419b4baa191f7933c6`, test 162 `eac192dd08669d6c79ef2fed2190a7b4962e3984`, test 99 `00a89a03ad412ae26c5dd60c6e66d2eb4d414555` (the three equal to CRM SPEC-302's committed blobs), register `faece3d086ddb22c556026141299a7bfe31c067a`, disposition `c33a7f92b86fed2bc8c5c745ea57b15a3f1c9a4c`. Uncommitted until Step 9: the pre-commit guard refuses the measured-state items before the deploy.
+
+### 2026-11-11 — Pre-deploy readiness gate (Step 6)
+
+From the main checkout at HEAD `f82deb5`, Steps 1–5 applied and uncommitted, one logged script (16:02–16:05 Cairo); the identity proof in place of a local re-proof:
+- **Bytes.** Migration SHA-256 `af0e95392ea4b77b482d7524b5b81e02a141cb88bbf9bae3933c3f4d967fa7a0`, md5 `b134eea648d20ff63c4014683cf326c5`, 4483 bytes; test 162 SHA-256 `1b62e1f1f7aa93fd5145addfb2d10a64d95732ca2c5c4135e4798847a997fa58`, md5 `ee930285654a4693abfd5c9ee1832ad3`, 9788 bytes; both LF (0 CR) and ASCII. Equal to Consumer Closure.
+- **Identity.** The Git blobs of the migration, test 162 and test 99 equal CRM SPEC-302's at its implementation commit `b9384f991e5210fc0ba1b185d8ca5237c59b9a81`; `supabase/migrations` (tree `d3e3a44178a2666b7489c4e8dfb742675c6a3b83`) and `supabase/tests` (tree `516143fb34471f0fb82c46ba2e71a25c575cb606`) at the baseline equal CRM's at `03009ec`, and the same three `supabase` paths changed here as there. CRM SPEC-302's Step 6 results therefore hold here and are cited, not re-run: guard `10f82654…`, test 162 19/19 and tests 99, 51 and 76 alone, the probes, mutants M1–M3 killed with restoration proven, the causal negative (162 fails 1, 3–7, 9–10, 16 and 18), and parity 257 `acaa0b41…`/3150 → 258 `48183b9c…`/3152.
+- **The local Founder stack** after a clean reset with the project-local CLI 3.0.0: 258 migrations, latest `20261111140000`; guard `md5(prosrc)` `10f82654759c36635b6d3a20edad5db6`; emitter `5b53fafd89abc36d83825cb1c94fec79`; `parity_surface.sql` functions `1273cd1b48c879d51aedce0e9818f89b`/337, triggers `c83a7f55085f143723054abb9653d0d5`/324, `_combined` `48183b9ce5d79728a1a952f38cbfbbc3`/3152, each equal to CRM's.
+- **Generators, scope and diff.** The API-contract generator's output is identical to `MASTER_API_CONTRACT.md`; `generate-ai-map.ps1 -Check` exit 0. Only the five Step 1–5 paths changed; `git diff --check` clean.
+- **Consistency:** exactly the six expected pre-deploy items, the same as the sandbox: Check 9 ×3 (count, latest, ledger fingerprint), Check 15 ×2 (files, assertions), RECOVER-1 (Founder evidence).
+- **Fresh Founder Secondary baseline**, read-only through `supabase-secondary` (the project URL and the grants surface through `supabase-secondary-write` inside `BEGIN TRANSACTION READ ONLY`, 13:44–13:53 UTC): URL `https://brplkqmbzffpxqgkkdzo.supabase.co`; ledger 257 `ed3211eac78a43cdcf04f44235d5516d`, latest `20261111130000`, target absent by version and by name; the guard function absent; `user_role_assignments` triggers `user_role_assignments_derive_actor` and `user_role_assignments_emit_role_change`; emitter `5b53fafd…`; 0 tenants, 0 role assignments, 0 events. `parity_surface.sql`: functions `5d50b5ba57ec83e66c6ad492a22ff050`/336, triggers `59b4283fc37e2bd9f997b84744139f27`/323, `_combined` `acaa0b419371eb704cc531ad84769485`/3150, equal to the recorded Founder evidence and to CRM Primary's before SPEC-302.
+- **Predicted delta:** ledger 258 `dec3a3db…`; functions `1273cd1b…`/337; triggers `c83a7f55…`/324; `_combined` `48183b9c…`/3152; guard `10f82654…`; the guard trigger BEFORE UPDATE; emitter unchanged; business counts unchanged.
+
+### 2026-11-11 — Gate 2 (Step 7), DELEGATED
+
+DELEGATED exact-SHA Gate-2 record for SPEC-306: migration `supabase/migrations/20261111140000_a_role_grant_changes_only_by_revoke_and_assign.sql`, SHA-256 `af0e95392ea4b77b482d7524b5b81e02a141cb88bbf9bae3933c3f4d967fa7a0`, md5 `b134eea648d20ff63c4014683cf326c5`, 4483 bytes, to Founder Secondary `brplkqmbzffpxqgkkdzo` only, under the owner's instructions of 2026-11-08 (class authorization for Batch 6 releases and standing approval of proposals ~10:20 Cairo; publish, promote and hosted deploy ~12:05 Cairo) and 2026-11-11 (slice 5 run mode 2, run through to both products' publish, promote and remote Certify ~14:48 Cairo), recorded outside this repository. Step 6 passed. The migration's top-level statements are one `create or replace function` with its `revoke` and one `create trigger`: it drops no table or column and deletes or rewrites no business row. Not a human-typed digest. Primary `vrvtsxexkiiiivlkdxzp` is not a target.
+### 2026-11-11 — Founder Secondary deployment (Step 8)
+
+Through the Founder write connector `supabase-secondary-write` from this VS Code session, 14:05–14:07 UTC; Primary `vrvtsxexkiiiivlkdxzp` not contacted:
+- **Immediate re-read, exact match** (inside `BEGIN TRANSACTION READ ONLY`, 14:06:06 UTC). HEAD `f82deb51f1c6eefda041e9e8c4614c224c7d55e1`; migration SHA-256 `af0e95392ea4b77b482d7524b5b81e02a141cb88bbf9bae3933c3f4d967fa7a0`, md5 `b134eea648d20ff63c4014683cf326c5`, 4483 bytes, LF, ASCII; `get_project_url` `https://brplkqmbzffpxqgkkdzo.supabase.co`; ledger 257 `ed3211eac78a43cdcf04f44235d5516d`, latest `20261111130000`, target absent by version and by name; the guard absent; triggers of `user_role_assignments` as in Step 6; 0 tenants, 0 role assignments, 0 events.
+- **Transmitted text** proven server-side in the same read: `md5` `b134eea648d20ff63c4014683cf326c5`, equal to the file. Applied once with `apply_migration` (`a_role_grant_changes_only_by_revoke_and_assign`).
+- **Guarded rename.** The connector stored version `20261111140620`: exactly one new row, one stored statement with md5 `b134eea6…` and 4483 characters, no existing target. One guarded `UPDATE` (row count required 1) renamed it to `20261111140000`.
+- **Fresh reads** (14:06:36 and 14:07:09 UTC, the second with the evidence `read_query`'s expressions). Ledger 258 `dec3a3dbe82e0568e8d98e5418f23436`, latest `20261111140000`, equal to the migration files; functions (`app`, `public`) `1273cd1b48c879d51aedce0e9818f89b`/337; `parity_surface.sql`: functions `1273cd1b48c879d51aedce0e9818f89b`/337, triggers `c83a7f55085f143723054abb9653d0d5`/324, the other eight surfaces unchanged, `_combined` `48183b9ce5d79728a1a952f38cbfbbc3`/3152, each equal to the local Founder stack after a clean reset and to CRM Primary after SPEC-302; `user_role_assignments` triggers `user_role_assignments_derive_actor`, `user_role_assignments_emit_role_change` and `user_role_assignments_guard_change` (BEFORE UPDATE); guard `md5(prosrc)` `10f82654759c36635b6d3a20edad5db6`, SECURITY DEFINER, ACL `{postgres=X/postgres}`; emitter `5b53fafd89abc36d83825cb1c94fec79`, unchanged; catalog 71/625; 0 tenants, 0 role assignments, 0 events. No business row was written.
+
+### 2026-11-11 — Post-deploy records (Step 9)
+
+- `reports/evidence/founder-ledger-evidence.json` (schema 3) from the Step 8 readings only (read 2026-11-11 14:07:09 UTC, `repository_head` `f82deb5`, `read_query` unchanged): 258 entries whose fingerprint recomputes to `dec3a3db…`, functions `1273cd1b…`/337, structure `48183b9c…`/3152, `surface_rows` functions, triggers and `_combined` moved. `scripts/check_primary_ledger.ps1` RECOVER-1 CLEAN; `scripts/check_database_parity_evidence.ps1` FOUNDER PARITY EVIDENCE CLEAN.
+- Manifest `Live state` set from the same readings in its existing form; **80 client RPCs** unchanged. `supabase/tests` holds 162 files whose literal `plan(N)` sum to 3077; `Suite **162 files / 3077 assertions**`.
+- URA-1, URA-2 and URA-3 register rows replaced with the DEPLOYED text, nothing else changed.
+- `ai-map.json` and `repository-index.md` regenerate byte-identical, LF; the API-contract generator's output is identical to `MASTER_API_CONTRACT.md`.
+- Repository consistency CLEAN (exit 0). The four CI-only guard self-tests are not run here: `orvion-acceptance` runs them on the exact candidate SHA before `main` may move to it (Consumer Closure).
+- Runtime Checkpoint DONE; Status Approved → In Progress; one implementation commit.
 
 ## Verification Notes
 
