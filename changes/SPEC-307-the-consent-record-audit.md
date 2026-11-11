@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -363,14 +363,14 @@ Post-Implementation Proof Obligation: all of the following on the final bytes, t
 
 ## Acceptance Criteria
 
-- [ ] Test 163 is the frozen bytes; `check: blob supabase/tests/163_the_consent_record_audit_test.sql b636fc860e16127d63e5beb48fcb87b011743c5e`
-- [ ] The disposition record carries `customer_consents` AUDITED / ADVERSARIAL and coverage 49 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 913b7c4756a5682af41df7c06f3d185abd52eec3`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **163 files / 3086 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @2300d833a1592202348d08950fd69b64c7a0e8ef`
-- [ ] Migration CI remains exact; `check: same .github/workflows/migration-ci.yml @2300d833a1592202348d08950fd69b64c7a0e8ef`
-- [ ] The consent writer's migration remains exact; `check: same supabase/migrations/20260929160000_a_google_ads_call_qualifies_as_a_phone_call.sql @2300d833a1592202348d08950fd69b64c7a0e8ef`
-- [ ] No file under `supabase/migrations/` changed and no database object was created, altered or dropped; Founder Secondary `brplkqmbzffpxqgkkdzo` was not written and Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-303 holds (test 163's blob, the migrations and tests trees), and CRM's mutants M1–M3 were each killed there with installation and restoration proven.
+- [x] Test 163 is the frozen bytes; `check: blob supabase/tests/163_the_consent_record_audit_test.sql b636fc860e16127d63e5beb48fcb87b011743c5e`
+- [x] The disposition record carries `customer_consents` AUDITED / ADVERSARIAL and coverage 49 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 913b7c4756a5682af41df7c06f3d185abd52eec3`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **163 files / 3086 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @2300d833a1592202348d08950fd69b64c7a0e8ef`
+- [x] Migration CI remains exact; `check: same .github/workflows/migration-ci.yml @2300d833a1592202348d08950fd69b64c7a0e8ef`
+- [x] The consent writer's migration remains exact; `check: same supabase/migrations/20260929160000_a_google_ads_call_qualifies_as_a_phone_call.sql @2300d833a1592202348d08950fd69b64c7a0e8ef`
+- [x] No file under `supabase/migrations/` changed and no database object was created, altered or dropped; Founder Secondary `brplkqmbzffpxqgkkdzo` was not written and Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-303 holds (test 163's blob, the migrations and tests trees), and CRM's mutants M1–M3 were each killed there with installation and restoration proven.
 
 ## Execution Log
 
@@ -401,15 +401,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 315A85102A004D087720F735AB23FEFAC46CC6534976FD4367A7FDEE31415971, allocated blob ed7e234ff914b5ee5101df2fae875d1d237979cc, the three literal outputs (test 163 byte-identical to CRM SPEC-303, the disposition record, the manifest suite figure 163 files / 3086 assertions), regenerated discovery, unchanged native evaluator, Migration CI and consent writer migration, and declared scope verified; no migration, no database object changed, Founder Secondary not written and Primary never contacted. This original root owns fresh receipt 67af8e445fac5539368f9c41c0fcffc9a8b5ff7f5bc89e8d20281079e458890d, finishHead 7884156c9c6eac0ee3a0eae6181ef56d35df8f51, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 67af8e445fac5539368f9c41c0fcffc9a8b5ff7f5bc89e8d20281079e458890d and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
