@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -666,18 +666,18 @@ Post-Implementation Proof Obligation: All of the following on the final bytes, t
 
 ## Acceptance Criteria
 
-- [ ] The migration is the frozen bytes; `check: blob supabase/migrations/20261111150000_a_retention_period_changes_only_with_step_up_and_a_record.sql 5fb9f69fe762979395ecbe04d90e1f9b59ee6db3`
-- [ ] Test 164 is the frozen bytes; `check: blob supabase/tests/164_a_retention_period_changes_only_with_step_up_and_a_record_test.sql 494d6a07c911412116bfcb652ad1b8533659782b`
-- [ ] The MEAS-2 inventory names fourteen tables; `check: has supabase/tests/10_grant_model_test.sql "exactly these FOURTEEN tables"`
-- [ ] The smoke count includes the new code; `check: has scripts/verify_database.sql "expected 626 catalog_values"`
-- [ ] Canon 27 registers the new code; `check: has _ORVION_CANONICAL/27_event_catalog.md "## document_retention_policy_changed"`
-- [ ] The disposition record carries `document_retention_policies` AUDITED / ADVERSARIAL and coverage 50 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 1eedb908b17a8ca18809e6be7566c6efade32618`
-- [ ] RET-3 and RET-4 are fixed and deployed in the register; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-308"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **164 files / 3101 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @4246545a92e8b47c5f544e45179eb736f6b13b37`
-- [ ] The retention migration remains exact; `check: same supabase/migrations/202607060500_retention_becomes_a_policy_per_document_type.sql @4246545a92e8b47c5f544e45179eb736f6b13b37`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the authorized migration and at most the one guarded ledger rename, with no business-data write, after a recorded Step 8 readiness gate and Step 9 Gate-2 record; Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-305 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its mutants M1–M4, each killed with installation proven and the restored shape read, and its causal negative hold here.
+- [x] The migration is the frozen bytes; `check: blob supabase/migrations/20261111150000_a_retention_period_changes_only_with_step_up_and_a_record.sql 5fb9f69fe762979395ecbe04d90e1f9b59ee6db3`
+- [x] Test 164 is the frozen bytes; `check: blob supabase/tests/164_a_retention_period_changes_only_with_step_up_and_a_record_test.sql 494d6a07c911412116bfcb652ad1b8533659782b`
+- [x] The MEAS-2 inventory names fourteen tables; `check: has supabase/tests/10_grant_model_test.sql "exactly these FOURTEEN tables"`
+- [x] The smoke count includes the new code; `check: has scripts/verify_database.sql "expected 626 catalog_values"`
+- [x] Canon 27 registers the new code; `check: has _ORVION_CANONICAL/27_event_catalog.md "## document_retention_policy_changed"`
+- [x] The disposition record carries `document_retention_policies` AUDITED / ADVERSARIAL and coverage 50 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 1eedb908b17a8ca18809e6be7566c6efade32618`
+- [x] RET-3 and RET-4 are fixed and deployed in the register; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-308"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **164 files / 3101 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @4246545a92e8b47c5f544e45179eb736f6b13b37`
+- [x] The retention migration remains exact; `check: same supabase/migrations/202607060500_retention_becomes_a_policy_per_document_type.sql @4246545a92e8b47c5f544e45179eb736f6b13b37`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the authorized migration and at most the one guarded ledger rename, with no business-data write, after a recorded Step 8 readiness gate and Step 9 Gate-2 record; Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-305 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its mutants M1–M4, each killed with installation proven and the restored shape read, and its causal negative hold here.
 
 ## Execution Log
 
@@ -731,15 +731,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 66183465E915C674F91CC1135660DBF789473E628C54AF3FB5C1918D408934F4, allocated blob 6f8db3773b589dddf1c9104fcaf6454ae50995ae, the seven literal outputs (migration, test 164, test 10, smoke and canon 27 byte-identical to CRM SPEC-305; register and disposition as frozen), the recorded Step 8 readiness gate with the identity proof, the DELEGATED exact-SHA Gate-2 record, the Founder Secondary deploy of only 20261111150000 to brplkqmbzffpxqgkkdzo with the fresh post-deploy ledger, functions and structure equal to local, the Step 11 records (Founder ledger evidence, manifest Live state and suite 164/3101, RET-3 and RET-4 DEPLOYED, API contract regenerated equal to CRM SPEC-305's), regenerated discovery, unchanged native evaluator and retention migration, and declared scope verified; Primary vrvtsxexkiiiivlkdxzp was never contacted. This original root owns fresh receipt b92febd478ed608fbe9277a9d5f2dde76fd8ba6587fbb5e212dc9613289688cb, finishHead 5f9a991f73235c72a449a8f5e84f5ea78c409139, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt b92febd478ed608fbe9277a9d5f2dde76fd8ba6587fbb5e212dc9613289688cb and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
