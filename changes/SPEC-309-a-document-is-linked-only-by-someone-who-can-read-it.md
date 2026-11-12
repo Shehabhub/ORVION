@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -593,17 +593,17 @@ Post-Implementation Proof Obligation: All of the following on the final bytes, t
 
 ## Acceptance Criteria
 
-- [ ] The migration is the frozen bytes; `check: blob supabase/migrations/20261112150000_a_document_is_linked_only_by_someone_who_can_read_it.sql f61e88618e7092a2eb13d78fb42f08820b2c80f0`
-- [ ] Test 165 is the frozen bytes; `check: blob supabase/tests/165_a_document_is_linked_only_by_someone_who_can_read_it_test.sql 3628685dd2c90e7aa0e8f2979fd36ccc9327177d`
-- [ ] Canon 27 says what `document_linked` now also records; `check: has _ORVION_CANONICAL/27_event_catalog.md "and when a link is moved by UPDATE to another document or target"`
-- [ ] The disposition record carries `document_links` AUDITED / ADVERSARIAL and coverage 51 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md f7ca78f912d6fb54835e4009bf73527e6ba859e7`
-- [ ] DOC-9 and DOC-10 are fixed and deployed in the register; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-309"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **165 files / 3117 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @d5224e3eb4d0daeb6a43bfbe2a65c7e81d87890a`
-- [ ] The document read scope migration remains exact; `check: same supabase/migrations/202607052300_document_read_scope.sql @d5224e3eb4d0daeb6a43bfbe2a65c7e81d87890a`
-- [ ] The generated API contract remains exact; `check: same reports/master/MASTER_API_CONTRACT.md @d5224e3eb4d0daeb6a43bfbe2a65c7e81d87890a`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the authorized migration and at most the one guarded ledger rename, with no business-data write, after a recorded Step 6 readiness gate and Step 7 Gate-2 record; Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-306 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its mutants M1–M4, each killed with installation proven and the restored shape read, and its causal negative hold here.
+- [x] The migration is the frozen bytes; `check: blob supabase/migrations/20261112150000_a_document_is_linked_only_by_someone_who_can_read_it.sql f61e88618e7092a2eb13d78fb42f08820b2c80f0`
+- [x] Test 165 is the frozen bytes; `check: blob supabase/tests/165_a_document_is_linked_only_by_someone_who_can_read_it_test.sql 3628685dd2c90e7aa0e8f2979fd36ccc9327177d`
+- [x] Canon 27 says what `document_linked` now also records; `check: has _ORVION_CANONICAL/27_event_catalog.md "and when a link is moved by UPDATE to another document or target"`
+- [x] The disposition record carries `document_links` AUDITED / ADVERSARIAL and coverage 51 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md f7ca78f912d6fb54835e4009bf73527e6ba859e7`
+- [x] DOC-9 and DOC-10 are fixed and deployed in the register; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-309"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **165 files / 3117 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @d5224e3eb4d0daeb6a43bfbe2a65c7e81d87890a`
+- [x] The document read scope migration remains exact; `check: same supabase/migrations/202607052300_document_read_scope.sql @d5224e3eb4d0daeb6a43bfbe2a65c7e81d87890a`
+- [x] The generated API contract remains exact; `check: same reports/master/MASTER_API_CONTRACT.md @d5224e3eb4d0daeb6a43bfbe2a65c7e81d87890a`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the authorized migration and at most the one guarded ledger rename, with no business-data write, after a recorded Step 6 readiness gate and Step 7 Gate-2 record; Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-306 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its mutants M1–M4, each killed with installation proven and the restored shape read, and its causal negative hold here.
 
 ## Execution Log
 
@@ -657,15 +657,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 0AB8D9C0CDFE4C54360B6E0D910D3D4A7163CAF75D4C5943E9BD89695F170282, allocated blob 6188f6a5b7cd20635cb46f2664d003f003202e12, the five literal outputs (migration and test 165 byte-identical to CRM SPEC-306; canon 27 CRM's text with this contract's id; register and disposition as frozen), the recorded Step 6 readiness gate with the identity proof, the DELEGATED exact-SHA Gate-2 record, the Founder Secondary deploy of only 20261112150000 to brplkqmbzffpxqgkkdzo with the fresh post-deploy ledger, functions and structure equal to local, the Step 9 records (Founder ledger evidence, manifest Live state and suite 165/3117, DOC-9 and DOC-10 DEPLOYED, API contract identical), regenerated discovery, unchanged native evaluator, document read scope migration and API contract, and declared scope verified; Primary vrvtsxexkiiiivlkdxzp was never contacted. This original root owns fresh receipt d017d7d9ed6810aadc6fc82ba057dc90be122d1eadc99f399bc9a7b7921ccaf0, finishHead 986b45fbb776cc54bc749f8f9538adcf0f52f2ea, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt d017d7d9ed6810aadc6fc82ba057dc90be122d1eadc99f399bc9a7b7921ccaf0 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
