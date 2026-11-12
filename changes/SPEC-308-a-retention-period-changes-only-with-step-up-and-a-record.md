@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -99,7 +99,7 @@ None.
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -681,7 +681,41 @@ Post-Implementation Proof Obligation: All of the following on the final bytes, t
 
 ## Execution Log
 
-None.
+### 2026-11-12 — Steps 1–7 applied
+
+- **Lifecycle:** allocate `2f8cb41`, Approve `3ed5675` (APPROVAL_EVIDENCE PASS; 10 of 12 criteria Gate-checked), DELEGATED Gate 1 recorded in Verification Notes.
+- **Steps 1–7** by the literal-step replay, every file absent or at its `4246545` blob, each result at its pinned blob: migration `5fb9f69fe762979395ecbe04d90e1f9b59ee6db3`, test 164 `494d6a07c911412116bfcb652ad1b8533659782b`, test 10 `10c10ed1fbd8fa0d32e1f3daa59dc86cfc53ee8f`, smoke `1584d5e3e632ac6e9b7ba75be9775d724b3f556f`, canon 27 `433cb885bcad27ad194dac6533eaaf9e68574646` (the five equal to CRM SPEC-305's committed blobs), register `c4701338259c691118c523c247a0cd2d5c8531a8`, disposition `1eedb908b17a8ca18809e6be7566c6efade32618`; 0 mismatches. Uncommitted until Step 11: the pre-commit guard refuses the measured-state items before the deploy.
+
+### 2026-11-12 — Pre-deploy readiness gate (Step 8)
+
+From the main checkout at HEAD `3ed5675`, Steps 1–7 applied and uncommitted, one logged script (10:52 Cairo); the identity proof in place of a local re-proof:
+- **Bytes.** Migration SHA-256 `c2a07757a5f6010e55999a78bce551327173dcccffa6904b6863faf841e1c506`, md5 `445914a298cb4e053a71017048fbddfd`, 5531 bytes; test 164 SHA-256 `00cd21e6f05c5b7d24e570de02f26f003610cf4ea80d403ae1aaba639b76d802`, md5 `16bcb93246eb6f121927d05e911f300a`, 8774 bytes; both LF (0 CR) and ASCII. Equal to Consumer Closure.
+- **Identity.** The Git blobs of the migration, test 164, test 10, smoke and canon 27 equal CRM SPEC-305's at its implementation commit `04e2811dbd79c1dc536dbe911b4de6c58ecfbde4`; `supabase/migrations` (tree `340a115ad68a985356f274ea9f1ef8ef303cf7bd`) and `supabase/tests` (tree `903d8139cf275d027abf0a5472d607c4882c34dc`) at the baseline equal CRM's at `4a65685`, and the same three `supabase` paths changed here as there. CRM SPEC-305's Step 8 results therefore hold here and are cited, not re-run: guard `4f51b82e…` and emitter `221826ba…`, test 164 15/15 and tests 10, 97 and 116 alone, the probes, mutants M1–M4 killed with the restored shape equal, the causal negative (164 fails 1, 3, 5–7, 9–10 and 14), and parity 258 `48183b9c…`/3152 → 259 `0e398aea…`/3156.
+- **The local Founder stack** after a clean reset with the project-local CLI 3.0.0: 259 migrations, ledger `cfd3fcd7719bb2b519efd4bf700636ac`; guard `md5(prosrc)` `4f51b82e640f070ad91ed6e61f6dfb48` and emitter `221826baf9571d7b9a34882c9f754be4`, each SECURITY DEFINER, ACL `{postgres=X/postgres}`; catalog 71/626, each equal to CRM's.
+- **Generators, scope and diff.** The API-contract generator's output equals CRM SPEC-305's committed contract (blob `ee763c1958b6363d36cc812506f69871531e4368`); its diff from `MASTER_API_CONTRACT.md` is exactly the `document_retention_policies` row (insert guard `no` → `yes`, update guard `no` → `conditional`), as Consumer Closure states; `generate-ai-map.ps1 -Check` exit 0. Only the seven Step 1–7 paths changed; `git diff --check` clean.
+- **Consistency:** exactly the six expected pre-deploy items, the same as the sandbox: 258 vs 259 migrations, latest, ledger fingerprint, 163 vs 164 files, 3086 vs 3101 assertions, RECOVER-1 (Founder evidence).
+- **Fresh Founder Secondary baseline**, read-only through `supabase-secondary` (the project URL and the grants surface through `supabase-secondary-write` inside `BEGIN TRANSACTION READ ONLY`, 08:41 UTC): URL `https://brplkqmbzffpxqgkkdzo.supabase.co`; ledger 258 `dec3a3dbe82e0568e8d98e5418f23436`, latest `20261111140000`, target absent by version and by name; both functions absent; the new code absent; `document_retention_policies` triggers `document_retention_policies_derive_created_by`, `document_retention_policies_enforce_catalog_codes`, `document_retention_policies_enforce_subscription_write_gate`, `document_retention_policies_set_updated_at`; catalog 71/625; 0 tenants, 0 retention policies, 0 documents, 0 versions, 0 events. `parity_surface.sql`: functions `1273cd1b48c879d51aedce0e9818f89b`/337, triggers `c83a7f55085f143723054abb9653d0d5`/324, `_combined` `48183b9ce5d79728a1a952f38cbfbbc3`/3152, equal to the recorded Founder evidence and to CRM Primary's before SPEC-305.
+- **Predicted delta:** ledger 259 `cfd3fcd7…`; functions `e11c0124…`/339; triggers `b5c21e21…`/326; `_combined` `0e398aea…`/3156; guard `4f51b82e…`; emitter `221826ba…`; the two new triggers; catalog 71/626; business counts unchanged.
+
+### 2026-11-12 — Gate 2 (Step 9), DELEGATED
+
+DELEGATED exact-SHA Gate-2 record for SPEC-308: migration `supabase/migrations/20261111150000_a_retention_period_changes_only_with_step_up_and_a_record.sql`, SHA-256 `c2a07757a5f6010e55999a78bce551327173dcccffa6904b6863faf841e1c506`, md5 `445914a298cb4e053a71017048fbddfd`, 5531 bytes, to Founder Secondary `brplkqmbzffpxqgkkdzo` only, under the owner's instructions of 2026-11-08 (class authorization for Batch 6 releases and standing approval of proposals ~10:20 Cairo; publish, promote and hosted deploy ~12:05 Cairo), 2026-11-11 (slice 7 in run mode 2 ~19:27 Cairo; decision 8 ~19:50 Cairo, the twin lane) and 2026-11-12 (release until slice 7 is finished ~08:00 Cairo), recorded outside this repository. Step 8 passed. The migration's top-level statements are one `insert` of one catalog value, two `create or replace function` each with its `revoke`, and two `create trigger`: it drops no table or column and deletes or rewrites no business row. Not a human-typed digest. Primary `vrvtsxexkiiiivlkdxzp` is not a target.
+
+### 2026-11-12 — Founder Secondary deployment (Step 10)
+
+Through the Founder write connector `supabase-secondary-write` from this VS Code session, after its `get_project_url` named `https://brplkqmbzffpxqgkkdzo.supabase.co`, 08:53–08:54 UTC; Primary `vrvtsxexkiiiivlkdxzp` not contacted:
+- **Immediate re-read, exact match** (inside `BEGIN TRANSACTION READ ONLY`, 08:53:41 UTC). HEAD `3ed5675697b57912b227923b4ee6f4a4508a5307`; migration SHA-256 `c2a07757a5f6010e55999a78bce551327173dcccffa6904b6863faf841e1c506`, md5 `445914a298cb4e053a71017048fbddfd`, 5531 bytes, LF, ASCII; ledger 258 `dec3a3dbe82e0568e8d98e5418f23436`, latest `20261111140000`, target absent by version and by name; both functions absent; triggers of `document_retention_policies` as in Step 8; 0 tenants, 0 retention policies, 0 documents, 0 versions, 0 events.
+- **Transmitted text** proven server-side in the same read: `md5` `445914a298cb4e053a71017048fbddfd`, equal to the file. Applied once with `apply_migration` (`a_retention_period_changes_only_with_step_up_and_a_record`).
+- **Guarded rename.** The connector stored version `20261112085400`: exactly one new row, one stored statement with md5 `445914a2…` and 5531 bytes, no existing target. One guarded `UPDATE` (row count required 1) renamed it to `20261111150000`.
+- **Fresh reads** (08:54:36 UTC). Ledger 259 `cfd3fcd7719bb2b519efd4bf700636ac`, latest `20261111150000`, equal to the migration files; `parity_surface.sql`: functions `e11c0124eec937fa08c1f7fe567b1249`/339, triggers `b5c21e213844e603ed5e1a6f9b0be455`/326, the other eight surfaces unchanged, `_combined` `0e398aeac8e622fabeda83ac1900bf9d`/3156, each equal to the local stack after a clean reset and to CRM Primary's after SPEC-305; guard `md5(prosrc)` `4f51b82e640f070ad91ed6e61f6dfb48` and emitter `221826baf9571d7b9a34882c9f754be4`, each SECURITY DEFINER, ACL `{postgres=X/postgres}`; triggers `document_retention_policies_guard_write` and `document_retention_policies_emit_change` added to the four; catalog 71/626 with `document_retention_policy_changed` at 938; 0 tenants, 0 retention policies, 0 documents, 0 versions, 0 events. No business row was written.
+
+### 2026-11-12 — Post-deploy records (Step 11)
+
+- `reports/evidence/founder-ledger-evidence.json` (schema 3) from the Step 10 readings only (read 2026-11-12 08:54:36 UTC, `repository_head` `3ed5675`): 259 entries whose fingerprint recomputes to `cfd3fcd7…`, functions `e11c0124…`/339, structure `0e398aea…`/3156, the triggers and `_combined` surface rows; `read_query` unchanged. `scripts/check_primary_ledger.ps1` (RECOVER-1 CLEAN) and `scripts/check_database_parity_evidence.ps1` (FOUNDER PARITY EVIDENCE CLEAN) pass.
+- Manifest `Live state` set from the same readings in its existing form; **80 client RPCs** unchanged. `supabase/tests` holds 164 files whose literal `plan(N)` sum to 3101; `Suite **164 files / 3101 assertions**`.
+- RET-3 and RET-4 register rows replaced with the DEPLOYED text, nothing else changed.
+- `MASTER_API_CONTRACT.md` regenerated: exactly the `document_retention_policies` row moves (insert guard `yes`, update guard `conditional`), blob `ee763c1958b6363d36cc812506f69871531e4368`, equal to CRM SPEC-305's; `ai-map.json` and `repository-index.md` regenerate byte-identical, LF. `scripts/check_repository_consistency.ps1`: CLEAN.
+- Runtime Checkpoint DONE; Status Approved → In Progress; one implementation commit.
 
 ## Verification Notes
 
