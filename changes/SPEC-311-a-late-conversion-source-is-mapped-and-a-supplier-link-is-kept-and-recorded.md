@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -1098,20 +1098,20 @@ Before Step 10: the identity proof and the fresh Founder Secondary baseline of S
 
 ## Acceptance Criteria
 
-- [ ] The events migration is the frozen bytes; `check: blob supabase/migrations/20261114160000_a_conversion_source_event_is_mapped_even_when_it_commits_late.sql 03bb907860a50895db5135d8d92778d397c5a8a6`
-- [ ] The link migration is the frozen bytes; `check: blob supabase/migrations/20261114170000_an_internal_supplier_link_is_appended_and_recorded_on_every_door.sql 05dba10af68f95fbd3e7ff107998fc7fdea40e02`
-- [ ] Test 169 is the frozen bytes; `check: blob supabase/tests/169_a_conversion_source_event_is_mapped_even_when_it_commits_late_test.sql b96649cac86917ef99cfe457abc84e4f76ebf4fb`
-- [ ] Test 170 is the frozen bytes; `check: blob supabase/tests/170_an_internal_supplier_link_is_appended_and_recorded_on_every_door_test.sql d4e2901ff0bffe38168a2d484b2f6e5efc88d4cb`
-- [ ] Canon 27 says what `internal_supplier_linked` records; `check: has _ORVION_CANONICAL/27_event_catalog.md "Created by every internal supplier link"`
-- [ ] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 57 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 945a806b3eefbfdd1cb16272b0086566e713e522`
-- [ ] The three register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-311"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **170 files / 3172 assertions**"`
-- [ ] The API contract is unchanged; `check: same reports/master/MASTER_API_CONTRACT.md @463a82d3d5ca317115aa4e019a816470ce955b2c`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @463a82d3d5ca317115aa4e019a816470ce955b2c`
-- [ ] The event write path's table remains exact; `check: same supabase/migrations/202607042600_create_event_and_notification_tables.sql @463a82d3d5ca317115aa4e019a816470ce955b2c`
-- [ ] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @463a82d3d5ca317115aa4e019a816470ce955b2c`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the two authorized migrations, with at most one guarded ledger rename for each and no business-data write, after a recorded Step 8 readiness gate and Step 9 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-308 is proven (payload blobs, canon 27 with this repository's ids, migrations and tests trees, Founder Secondary's pre-change structure), so its nine mutants, each killed with installation proven and the restored shape read, its two causal negatives and its two-session harness, before and after, hold here.
+- [x] The events migration is the frozen bytes; `check: blob supabase/migrations/20261114160000_a_conversion_source_event_is_mapped_even_when_it_commits_late.sql 03bb907860a50895db5135d8d92778d397c5a8a6`
+- [x] The link migration is the frozen bytes; `check: blob supabase/migrations/20261114170000_an_internal_supplier_link_is_appended_and_recorded_on_every_door.sql 05dba10af68f95fbd3e7ff107998fc7fdea40e02`
+- [x] Test 169 is the frozen bytes; `check: blob supabase/tests/169_a_conversion_source_event_is_mapped_even_when_it_commits_late_test.sql b96649cac86917ef99cfe457abc84e4f76ebf4fb`
+- [x] Test 170 is the frozen bytes; `check: blob supabase/tests/170_an_internal_supplier_link_is_appended_and_recorded_on_every_door_test.sql d4e2901ff0bffe38168a2d484b2f6e5efc88d4cb`
+- [x] Canon 27 says what `internal_supplier_linked` records; `check: has _ORVION_CANONICAL/27_event_catalog.md "Created by every internal supplier link"`
+- [x] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 57 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 945a806b3eefbfdd1cb16272b0086566e713e522`
+- [x] The three register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-311"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **170 files / 3172 assertions**"`
+- [x] The API contract is unchanged; `check: same reports/master/MASTER_API_CONTRACT.md @463a82d3d5ca317115aa4e019a816470ce955b2c`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @463a82d3d5ca317115aa4e019a816470ce955b2c`
+- [x] The event write path's table remains exact; `check: same supabase/migrations/202607042600_create_event_and_notification_tables.sql @463a82d3d5ca317115aa4e019a816470ce955b2c`
+- [x] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @463a82d3d5ca317115aa4e019a816470ce955b2c`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the two authorized migrations, with at most one guarded ledger rename for each and no business-data write, after a recorded Step 8 readiness gate and Step 9 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-308 is proven (payload blobs, canon 27 with this repository's ids, migrations and tests trees, Founder Secondary's pre-change structure), so its nine mutants, each killed with installation proven and the restored shape read, its two causal negatives and its two-session harness, before and after, hold here.
 
 ## Execution Log
 
@@ -1164,15 +1164,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 017D2A8BD395DBBB5E7919F0D91F063679508D56CCB5414D5C79C7099A3EC846, allocated blob 1b2d9cfd9f4e3e7ac8b077277167545608c71eb2, the seven literal outputs (two migrations and tests 169-170 byte-identical to CRM SPEC-308, canon 27 CRM's text with this repository's ids, register and disposition as frozen), the recorded Step 8 readiness gate with the identity proof, the DELEGATED exact-SHA Gate-2 record, the Founder Secondary deploy of only 20261114160000 and 20261114170000 to brplkqmbzffpxqgkkdzo in one sitting with the fresh post-deploy ledger, functions and structure equal to local, the Step 11 records (Founder ledger evidence, manifest Live state and the suite figure, the three register rows DEPLOYED), the API contract unchanged, regenerated discovery, unchanged native evaluator, and declared scope verified; Primary vrvtsxexkiiiivlkdxzp was never contacted. This original root owns fresh receipt 831e0ba79e8b7798698cf12b46c8b5e687247b03b42fe1165ab8327f741ba499, finishHead 9a6859975d121a4099d452058bf059ab6934e24b, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 831e0ba79e8b7798698cf12b46c8b5e687247b03b42fe1165ab8327f741ba499 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
