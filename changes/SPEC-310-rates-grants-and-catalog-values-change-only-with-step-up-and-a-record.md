@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -122,7 +122,7 @@ None.
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -1289,7 +1289,41 @@ Post-Implementation Proof Obligation: all of the following on the final bytes, t
 
 ## Execution Log
 
-None.
+### 2026-11-14 — Steps 1–17 applied
+
+- **Lifecycle:** allocate `beeb333`, Approve `33a845f` (APPROVAL_EVIDENCE PASS; 13 of 15 criteria Gate-checked), DELEGATED Gate 1 recorded in Verification Notes.
+- **Steps 1–17** by the literal-step replay, each result at its pinned blob: migrations `2bd89afb09e54e94b067557baf03bfc62cdc30ee`, `fe62f40f4df3636db6693837564e84fc7a246a23`, `e0678f33c8e458b74af66f8e93ae1b7fc3300504`; tests 166 `ea86cc11ed685a1306cd6ad19eef21d6961a5f00`, 167 `286d02370f03aa8f9dc63df55ab60e626d1cf15c`, 168 `2fd246de59157743388bc55f7e94172e17899a7a`; moved tests 10 `942107d11b89dfa2a6c515f39995f26219e9f624`, 64 `0200e8aee0003948ba129a4bd57a3564b7006bd8`, 92 `ece170cfd15da7c102001687313d681cbef2917f`, 96 `dfa0b23e384fe29ec369008f4a60b419dc9a3b28`, 99 `3924adcf334844d94595721823f13082d82b67b2`, 101 `9d5f3784082bac2db3f047701c49116c76bb1d74`, 155 `d48cccf93cc1b20aa24bf3385704e1e8b712f0eb` (the thirteen equal to CRM SPEC-307's committed blobs); generator `9deb675ea845d5bc636d03af0a72ad19cd7f9de6`; canon 27 `a5f68d08cbda78c243cccef1fff7914f908528c6`; register `e67f7f2096e82fcccea0b37b647c06bb41585b10`; disposition `eb89497107750800ec9941e3b944387f11e03640`; 0 mismatches. Uncommitted until Step 21: the pre-commit guard refuses the measured-state items before the deploy.
+
+### 2026-11-14 — Pre-deploy readiness gate (Step 18)
+
+From the main checkout at HEAD `33a845f`, Steps 1–17 applied and uncommitted, the local Founder stack recreated by the rig, one logged script (13:06–13:07 Cairo); the identity proof in place of a local re-proof:
+- **Bytes**, all LF (0 CR) and ASCII, equal to Consumer Closure. Migration `20261114120000` SHA-256 `f698a40717c89b5c866b74253cb5fff5d3d96fb5d682793b5fdbfb7c3bf14d69`, md5 `7499a1a5ac159a63a9e660d5a600b444`, 3810 bytes; `20261114130000` SHA-256 `412e8ccfb185abf6862a2f108b3f8e3300eddad40c4be490bc203a4ec3d74dbe`, md5 `2a2ae979a9b852391e49b68bc903e841`, 3646 bytes; `20261114140000` SHA-256 `00f1b6eb9b15115323c08613c7a1da705aeb7a9373b13cbef0ac2cfe5cdf1f1b`, md5 `c7db4d745876f18a8ec9617c2bf65275`, 2374 bytes. Test 166 SHA-256 `b0c53221bc95f88caa8a8b255479fb3384674bdb79703eb104533d23926698c7`, 8597 bytes; 167 `241e1a745cefb2a3c9d446a58f056e5610eb01719ba88c1f9d646b0b17bf890a`, 6621 bytes; 168 `456abbb4d4f7227265bd54abc92f7cb4ca78f684975d3237388233ef4dab6668`, 6173 bytes.
+- **Identity.** The thirteen `supabase/` blobs equal CRM SPEC-307's at its implementation commit `3220f8b85002611cde32b848d94fc0e4f7d579d8`; the generator is this repository's baseline with exactly the two-line repair CRM's is CRM's baseline with; canon 27 equals CRM's bytes (LF) with `SPEC-309` for `SPEC-306` and `SPEC-310` for `SPEC-307`; `supabase/migrations` (tree `41624e0df89e39df065f21088859a82db428635e`) and `supabase/tests` (tree `c3861ac3fea362d962a1ee87162b7888a2f1a0b5`) at the baseline equal CRM's at `b44cad9`, and the same thirteen `supabase` paths changed here as there; the disposition's 78 surface statuses equal CRM's. CRM SPEC-307's Step 18 results therefore hold here and are cited, not re-run: the six functions (`b32615cf…`, `ae95d491…`, `6d25488b…`, `d2991210…`, `4fb7bbe5…`, `2fc6f66b…`) SECURITY DEFINER `{postgres=X/postgres}`, the thirteen triggers, tests 166–168 12/10/11 and the seven moved tests alone, the probes, thirteen mutants killed with the restored shape equal, three causal negatives, and parity 260 `4a7b00b1…`/3160 → 263 `f87d6fee…`/3169.
+- **The local Founder stack** after a clean reset with the project-local CLI (31 s): 263 migrations, ledger `5df6fd8c73bbe79255e09e30bdc78378`; `parity_surface.sql` functions `0b3b9c82bb521f6744950201471196a6`/346, triggers `d241997ceaab37c02327503b4e2587cb`/332, the other eight surfaces unchanged, `_combined` `f87d6fee4ce1857bc3f35672c7ef8a4e`/3169, each equal to CRM's.
+- **Generators, scope and diff.** The API-contract generator's output equals CRM SPEC-307's committed contract (blob `3ffd2a9820db24d1eaef20f61d27ca245ac8bc81`): exactly the three rows of Consumer Closure move; `generate-ai-map.ps1 -Check` exit 0. Only the seventeen Step 1–17 paths changed; `git diff --check` clean.
+- **Consistency:** exactly the six expected pre-deploy items, the same as the sandbox: 260 vs 263 migrations, latest, ledger fingerprint, 165 vs 168 files, 3117 vs 3151 assertions, RECOVER-1 (Founder evidence).
+- **Fresh Founder Secondary baseline**, read-only through `supabase-secondary` (10:56:49 UTC by the server clock; the grants surface through `supabase-secondary-write` inside `BEGIN TRANSACTION READ ONLY`, ~10:57 UTC): URL `https://brplkqmbzffpxqgkkdzo.supabase.co`; ledger 260 `5f6e412ee282edaf1e16346c3d5b5805`, latest `20261112150000`, the three targets absent by version and by name; of the six functions only `app.emit_permission_change` `eef52c22b36f52254d780b27201b8b1c`, SECURITY DEFINER, `{postgres=X/postgres}`; the nine triggers of the three tables; `exchange_rate_set` at 61; catalog 71/626; 0 tenants, 0 rates, 0 grants, 0 events. `parity_surface.sql`: functions `73b0bbffade0a788aff53c10266a97dc`/341, triggers `8f39469bf723f0ea53cccb3c96fb65fd`/328, `_combined` `4a7b00b15007fbdb9072203d1f46ad19`/3160, each of the ten surfaces equal to the recorded Founder evidence and to CRM Primary's before SPEC-307.
+- **Predicted delta:** ledger 263 `5df6fd8c…`; functions `0b3b9c82…`/346; triggers `d241997c…`/332; `_combined` `f87d6fee…`/3169; the six function hashes above; the four new triggers; catalog 71/626 unchanged; business counts unchanged.
+
+### 2026-11-14 — Gate 2 (Step 19), DELEGATED
+
+DELEGATED exact-SHA Gate-2 record for SPEC-310, to Founder Secondary `brplkqmbzffpxqgkkdzo` only, in version order: `supabase/migrations/20261114120000_an_exchange_rate_is_set_with_step_up_and_keeps_its_meaning_once_cited.sql`, SHA-256 `f698a40717c89b5c866b74253cb5fff5d3d96fb5d682793b5fdbfb7c3bf14d69`, md5 `7499a1a5ac159a63a9e660d5a600b444`, 3810 bytes; `supabase/migrations/20261114130000_a_permission_grant_changes_only_with_step_up_and_every_move_is_recorded.sql`, SHA-256 `412e8ccfb185abf6862a2f108b3f8e3300eddad40c4be490bc203a4ec3d74dbe`, md5 `2a2ae979a9b852391e49b68bc903e841`, 3646 bytes; `supabase/migrations/20261114140000_a_tenant_catalog_value_extends_only_open_families_and_keeps_its_code.sql`, SHA-256 `00f1b6eb9b15115323c08613c7a1da705aeb7a9373b13cbef0ac2cfe5cdf1f1b`, md5 `c7db4d745876f18a8ec9617c2bf65275`, 2374 bytes; under the owner's instructions of 2026-11-08 (class authorization for Batch 6 releases and standing approval of proposals ~10:20 Cairo; publish, promote and hosted deploy ~12:05 Cairo), 2026-11-11 (Batch 6 decisions 1-9 ~19:50 Cairo; decision 8, the twin lane), 2026-11-12 (priority order waiving no gate ~12:20 Cairo) and 2026-11-14 (one contract per product and slice 9 in run mode 2, whose Lane includes this twin, ~11:30 Cairo; no credential rotation ~12:30 Cairo), recorded outside this repository. Step 18 passed. The migrations' top-level statements are six `create or replace function`, five `revoke execute` and four `create trigger`: they drop no table or column and delete or rewrite no business row. Not a human-typed digest. Primary `vrvtsxexkiiiivlkdxzp` is not a target.
+
+### 2026-11-14 — Founder Secondary deployment (Step 20)
+
+Through the Founder write connector `supabase-secondary-write` from this VS Code session, after its `get_project_url` named `https://brplkqmbzffpxqgkkdzo.supabase.co`, 11:07–13:16 UTC by the server clock, in version order; Primary `vrvtsxexkiiiivlkdxzp` not contacted:
+- **Immediate re-read before each, exact match** (inside `BEGIN TRANSACTION READ ONLY`). HEAD `33a845fbe82b428159bda114227ce0b17c70934c`; the three files' SHA-256 as in Step 18. Before `20261114120000` (11:07:45 UTC): ledger 260 `5f6e412ee282edaf1e16346c3d5b5805`, the three targets absent by version and by name, functions and triggers as in Step 18. Before `20261114130000` (13:13:43 UTC): ledger 261 `5d6a9e9ad773a3546fe1b63c1191d4b4`, equal to the migration files through `20261114120000`, its two functions and two triggers present. Before `20261114140000` (13:14:34 UTC): ledger 262 `8226bb2dc7987e394749de14c73f9243`, equal to the files through `20261114130000`. Each time 0 tenants, 0 rates, 0 grants, 626 catalog values, 0 events.
+- **Transmitted text** proven server-side in the same read, each equal to its file: md5 `7499a1a5ac159a63a9e660d5a600b444`, `2a2ae979a9b852391e49b68bc903e841`, `c7db4d745876f18a8ec9617c2bf65275`. Each applied once with `apply_migration` under its own name.
+- **Guarded renames.** The connector stored versions `20261114110759`, `20261114131400` and `20261114131443`: each time exactly one new row other than this contract's own versions, one stored statement with the file's md5 and byte count (3810, 3646, 2374), no existing target. One guarded `UPDATE` each (row count required 1) renamed them to `20261114120000`, `20261114130000` and `20261114140000`.
+- **Fresh reads** (13:16:35–13:18:51 UTC). Ledger 263 `5df6fd8c73bbe79255e09e30bdc78378`, latest `20261114140000`, equal to the migration files; `parity_surface.sql`: functions `0b3b9c82bb521f6744950201471196a6`/346, triggers `d241997ceaab37c02327503b4e2587cb`/332, the other eight surfaces unchanged, `_combined` `f87d6fee4ce1857bc3f35672c7ef8a4e`/3169, each equal to the local stack after a clean reset and to CRM Primary's after SPEC-307; the six functions' `md5(prosrc)` equal to Step 18 (`b32615cf…`, `ae95d491…`, `6d25488b…`, `d2991210…`, `4fb7bbe5…`, `2fc6f66b…`), each SECURITY DEFINER, ACL `{postgres=X/postgres}`; the thirteen triggers of the three tables, with `exchange_rates_guard_write`, `exchange_rates_emit_set`, `user_permission_grants_guard_authority` and `catalog_values_guard_write` added; `exchange_rate_set` at 61; catalog 71/626; 0 tenants, 0 rates, 0 grants, 0 events. No business row was written.
+
+### 2026-11-14 — Post-deploy records (Step 21)
+
+- `reports/evidence/founder-ledger-evidence.json` (schema 3) from the Step 20 readings only (read 2026-11-14 13:18:51 UTC, `repository_head` `33a845f`): 263 entries whose fingerprint recomputes to `5df6fd8c…`, functions `0b3b9c82…`/346, structure `f87d6fee…`/3169, the functions, triggers and `_combined` surface rows; `read_query` unchanged. `scripts/check_primary_ledger.ps1` (RECOVER-1 CLEAN) and `scripts/check_database_parity_evidence.ps1` (FOUNDER PARITY EVIDENCE CLEAN) pass.
+- Manifest `Live state` set from the same readings in its existing form; **80 client RPCs** unchanged. `supabase/tests` holds 168 files whose literal `plan(N)` sum to 3151; `Suite **168 files / 3151 assertions**`.
+- The seven register rows (FX-5, FX-6, USR-3, RBAC-7, CAT-7, CAT-8, CAT-9) replaced with the DEPLOYED text, 2 + 2 + 3 spans, nothing else changed.
+- `MASTER_API_CONTRACT.md` regenerated (80 RPC endpoints): exactly the three rows of Consumer Closure changed (`catalog_values`, `exchange_rates`, `user_permission_grants`: no/no → yes/conditional), blob `3ffd2a9820db24d1eaef20f61d27ca245ac8bc81`, equal to CRM SPEC-307's; `ai-map.json` and `repository-index.md` regenerate byte-identical, LF. `scripts/check_repository_consistency.ps1`: CLEAN.
+- Runtime Checkpoint DONE; Status Approved → In Progress; one implementation commit.
 
 ## Verification Notes
 
