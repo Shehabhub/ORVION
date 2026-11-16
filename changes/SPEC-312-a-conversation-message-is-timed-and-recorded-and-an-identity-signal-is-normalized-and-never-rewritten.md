@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -866,19 +866,19 @@ Before Step 10: the identity proof and the fresh Founder Secondary baseline of S
 
 ## Acceptance Criteria
 
-- [ ] The message migration is the frozen bytes; `check: blob supabase/migrations/20261115180000_a_conversation_message_is_timed_and_recorded_on_every_door.sql 0a0feaaca957fe7593dc68c677775299d20324b8`
-- [ ] The signal migration is the frozen bytes; `check: blob supabase/migrations/20261115180100_a_customer_identity_signal_is_normalized_and_never_rewritten.sql 56daf0d42f6b21d7bdb4956d540ee67dd3328c17`
-- [ ] Test 171 is the frozen bytes; `check: blob supabase/tests/171_a_conversation_message_is_timed_and_recorded_on_every_door_test.sql 169dd0faab469bf43117c50974277a27bb1b3a2d`
-- [ ] Test 172 is the frozen bytes; `check: blob supabase/tests/172_a_customer_identity_signal_is_normalized_and_never_rewritten_test.sql 8336f5c1d946c0b7b8b179499bbf57c558918345`
-- [ ] Canon 27 says what a conversation message records; `check: has _ORVION_CANONICAL/27_event_catalog.md "Created by every outbound conversation message"`
-- [ ] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 60 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 8d8f9110fc828b65d4168a52562a945da643a7f1`
-- [ ] The four register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-312"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **172 files / 3193 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @8e544c6668ab69377c92ecb107a3b3322dbcfe33`
-- [ ] The message sender's origin migration remains exact; `check: same supabase/migrations/202607057000_capability_on_the_insert_path_and_a_message_that_cannot_be_forged.sql @8e544c6668ab69377c92ecb107a3b3322dbcfe33`
-- [ ] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @8e544c6668ab69377c92ecb107a3b3322dbcfe33`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the two authorized migrations, with at most one guarded ledger rename for each and no business-data write, after a recorded Step 8 readiness gate and Step 9 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-309 is proven (payload blobs, canon 27 with this repository's ids, migrations and tests trees, Founder Secondary's pre-change structure), so its ten mutants, each killed with installation proven and the restored shape read, its two causal negatives and its probes, before and after, hold here.
+- [x] The message migration is the frozen bytes; `check: blob supabase/migrations/20261115180000_a_conversation_message_is_timed_and_recorded_on_every_door.sql 0a0feaaca957fe7593dc68c677775299d20324b8`
+- [x] The signal migration is the frozen bytes; `check: blob supabase/migrations/20261115180100_a_customer_identity_signal_is_normalized_and_never_rewritten.sql 56daf0d42f6b21d7bdb4956d540ee67dd3328c17`
+- [x] Test 171 is the frozen bytes; `check: blob supabase/tests/171_a_conversation_message_is_timed_and_recorded_on_every_door_test.sql 169dd0faab469bf43117c50974277a27bb1b3a2d`
+- [x] Test 172 is the frozen bytes; `check: blob supabase/tests/172_a_customer_identity_signal_is_normalized_and_never_rewritten_test.sql 8336f5c1d946c0b7b8b179499bbf57c558918345`
+- [x] Canon 27 says what a conversation message records; `check: has _ORVION_CANONICAL/27_event_catalog.md "Created by every outbound conversation message"`
+- [x] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 60 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 8d8f9110fc828b65d4168a52562a945da643a7f1`
+- [x] The four register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-312"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **172 files / 3193 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @8e544c6668ab69377c92ecb107a3b3322dbcfe33`
+- [x] The message sender's origin migration remains exact; `check: same supabase/migrations/202607057000_capability_on_the_insert_path_and_a_message_that_cannot_be_forged.sql @8e544c6668ab69377c92ecb107a3b3322dbcfe33`
+- [x] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @8e544c6668ab69377c92ecb107a3b3322dbcfe33`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the two authorized migrations, with at most one guarded ledger rename for each and no business-data write, after a recorded Step 8 readiness gate and Step 9 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-309 is proven (payload blobs, canon 27 with this repository's ids, migrations and tests trees, Founder Secondary's pre-change structure), so its ten mutants, each killed with installation proven and the restored shape read, its two causal negatives and its probes, before and after, hold here.
 
 ## Execution Log
 
@@ -932,15 +932,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 9A48C37AA98E79926ED7853865486C74EECADB2255C1ED52467A515222860B2B, allocated blob d648bd73fde140dc7532d77a86738f761b41dcab, the seven literal outputs (two migrations and tests 171-172 byte-identical to CRM SPEC-309, canon 27 CRM's text with this repository's ids, register and disposition as frozen), the recorded Step 8 readiness gate with the identity proof, the DELEGATED exact-SHA Gate-2 record, the Founder Secondary deploy of only 20261115180000 and 20261115180100 to brplkqmbzffpxqgkkdzo in one sitting with the fresh post-deploy ledger, functions and structure equal to local, the Step 11 records (Founder ledger evidence, manifest Live state and the suite figure, the four register rows DEPLOYED), the API contract regenerated with only its two moved rows, regenerated discovery, unchanged native evaluator, and declared scope verified; Primary vrvtsxexkiiiivlkdxzp was never contacted. This original root owns fresh receipt 573f42e37b7b228bf037810b19f0398aad3a35b9805f47983705c3b9db87076d, finishHead 8183bc724f602e82f8e03d14f5b006985de2e01a, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 573f42e37b7b228bf037810b19f0398aad3a35b9805f47983705c3b9db87076d and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
