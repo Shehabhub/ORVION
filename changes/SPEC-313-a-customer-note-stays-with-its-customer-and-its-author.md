@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -717,17 +717,17 @@ Before Step 8: the identity proof and the fresh Founder Secondary baseline of St
 
 ## Acceptance Criteria
 
-- [ ] The note migration is the frozen bytes; `check: blob supabase/migrations/20261116120000_a_customer_note_stays_with_its_customer_and_its_author.sql 5e1697af620f5a7a8bdfc9aba8e297eed763e5aa`
-- [ ] Test 173 is the frozen bytes; `check: blob supabase/tests/173_a_customer_note_stays_with_its_customer_and_its_author_test.sql dc3de264a29203d9484d2a7cd420014e49807a97`
-- [ ] Test 174 is the frozen bytes; `check: blob supabase/tests/174_a_holiday_is_written_only_by_a_tenant_settings_holder_test.sql dde6e68f92a1e1c1b90a8962669f284005e87eb9`
-- [ ] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 63 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 6e77fb0acdcd4a4519d54b7d51b8810d91478cba`
-- [ ] The two register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-313"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **174 files / 3218 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @f4a797c4fbb0ba62b95766984638df16d82cc2d9`
-- [ ] The note RPC's origin migration remains exact; `check: same supabase/migrations/202607051100_master_data_write_paths.sql @f4a797c4fbb0ba62b95766984638df16d82cc2d9`
-- [ ] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @f4a797c4fbb0ba62b95766984638df16d82cc2d9`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the one authorized migration, with at most one guarded ledger rename and no business-data write, after a recorded Step 6 readiness gate and Step 7 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-310 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its ten mutants, each killed with installation proven and the restored shape read, its causal negative and its probes, before and after, hold here.
+- [x] The note migration is the frozen bytes; `check: blob supabase/migrations/20261116120000_a_customer_note_stays_with_its_customer_and_its_author.sql 5e1697af620f5a7a8bdfc9aba8e297eed763e5aa`
+- [x] Test 173 is the frozen bytes; `check: blob supabase/tests/173_a_customer_note_stays_with_its_customer_and_its_author_test.sql dc3de264a29203d9484d2a7cd420014e49807a97`
+- [x] Test 174 is the frozen bytes; `check: blob supabase/tests/174_a_holiday_is_written_only_by_a_tenant_settings_holder_test.sql dde6e68f92a1e1c1b90a8962669f284005e87eb9`
+- [x] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 63 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 6e77fb0acdcd4a4519d54b7d51b8810d91478cba`
+- [x] The two register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-313"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **174 files / 3218 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @f4a797c4fbb0ba62b95766984638df16d82cc2d9`
+- [x] The note RPC's origin migration remains exact; `check: same supabase/migrations/202607051100_master_data_write_paths.sql @f4a797c4fbb0ba62b95766984638df16d82cc2d9`
+- [x] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @f4a797c4fbb0ba62b95766984638df16d82cc2d9`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the one authorized migration, with at most one guarded ledger rename and no business-data write, after a recorded Step 6 readiness gate and Step 7 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-310 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its ten mutants, each killed with installation proven and the restored shape read, its causal negative and its probes, before and after, hold here.
 
 ## Execution Log
 
@@ -779,15 +779,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft F792B51D6D09270D386791F63FFFC6743E347B33F027CCCAE6ACCDAC585B9422, allocated blob 1f95a640e5593e8e36425992bc722848c1d6bc8b, the five literal outputs (one migration and tests 173-174 byte-identical to CRM SPEC-310, register and disposition as frozen), the recorded Step 6 readiness gate with the identity proof, the DELEGATED exact-SHA Gate-2 record, the Founder Secondary deploy of only 20261116120000 to brplkqmbzffpxqgkkdzo in one sitting with the fresh post-deploy ledger, functions and structure equal to local, the Step 9 records (Founder ledger evidence, manifest Live state and the suite figure, the two register rows DEPLOYED), the API contract regenerated and unchanged, regenerated discovery, unchanged native evaluator, and declared scope verified; Primary vrvtsxexkiiiivlkdxzp was never contacted. This original root owns fresh receipt eb2f1576ddc78c5462c11a74d728fd0dfe2b4b3f5a8ee164e9326acf1e047d48, finishHead 31bd077a844cb36aee1535e5d9d11e756fa6c2db, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt eb2f1576ddc78c5462c11a74d728fd0dfe2b4b3f5a8ee164e9326acf1e047d48 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
