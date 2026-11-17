@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -153,7 +153,7 @@ None.
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -1132,7 +1132,33 @@ Before Step 9: the identity proof and the fresh Founder Secondary baseline of St
 
 ## Execution Log
 
-None.
+### 2026-11-17 — Steps 1–6 applied
+
+- **Lifecycle:** allocate `5c2a94b`, Approve `c4faeae` (APPROVAL_EVIDENCE PASS; 10 of 12 criteria Gate-checked), DELEGATED Gate 1 recorded in Verification Notes.
+- **Steps 1–6** by the literal-step replay, each result at its pinned blob: migration `cac36174e8c9bbd4423192815da9c65611dd03e7`; tests 175 `11afba06cdc320d6353b5cd88a72d1cb64d65732`, 176 `1a091b7848ead9adc544c1ab92ec8dd89af29284` and 177 `b58da8e600750ad93e1544b28426a59a2d977e95` (CRM SPEC-311's committed blobs); register `be011b70bb213d42764f595b8874e054646eab95`; disposition `eddacb1d6c4e4c90ed5a97ffddd651611620ed21`; 0 mismatches. Uncommitted until Step 10: the pre-commit guard refuses the measured-state items before the deploy.
+
+### 2026-11-17 — Pre-deploy readiness gate (Step 7)
+
+From the main checkout at HEAD `c4faeae`, Steps 1–6 applied and uncommitted, project-local CLI 3.0.0, the local stack recreated by the rig, one logged script (15:45–15:46 Cairo):
+- **Bytes**, all LF (0 CR) and ASCII, equal to Consumer Closure: migration `20261117120000` SHA-256 `6044446a9577034e6fc8420baeb505ba050bd94d23c3b61f44387255395705af`, md5 `d55cb5f785dc927b524502f8405c7d0a`, 13566 bytes; test 175 SHA-256 `ec0ee5cae44b02b65ed313e655b24529bb4f6f07f9c3f270362090e1cca1705e`, md5 `14ca893aae8dfee1aee07bb8fc3f41a9`, 9769 bytes; 176 `f317780db9bab7437cfc377aa819245a17ba10c9affaa0aed7e22ab8c285908c`, md5 `d8b709fde24ee2cfec7a29d05d56c43d`, 11298 bytes; 177 `ab26fe697b958df8d82c500872f48238811f4bdbe6dbe4a28f48a53b89fec46e`, md5 `dba6097fd6dc92f094ac56ab0f344b29`, 7384 bytes.
+- **Identity with CRM SPEC-311** (implementation `455bc4a` in CRM): the four `supabase/` files' Git blobs equal CRM's; at the baseline, `supabase/migrations` (`95e80ba0`), `supabase/tests` (`dfaaf776`), `scripts/verify_database.sql` (`1584d5e3`) and `MASTER_API_CONTRACT.md` (`f426c1a5`) equal CRM's at `ad3a7d4`; the same four `supabase/` paths changed here as in CRM SPEC-311; the disposition's 78 surface statuses equal CRM's. CRM SPEC-311's Step 7 results on these bytes are therefore cited, not re-run: the causal negative at 268 (175 FAIL [4–9], 176 FAIL [2, 4–5, 7, 10, 13–14], 177 PASS), tests 175 14/14, 176 15/15 and 177 11/11, the probes before and after, thirteen mutants and the two causal negatives killed with the restored shapes equal, parity 268 `22978d05…`/3177 → 269 `20caafd5…`/3177.
+- **Local stack** after a clean reset by this repository's CLI (exit 0, 32 s; read 13:49:32 UTC, `runtime/original-local-parity.txt`): ledger 269 `ff29e9c5acf7d70b25862941f548cf97`, latest `20261117120000`; `md5(prosrc)` `app.platform_resolve_storage_finding` `28bf1ec800bb7f27d6cb47981a12c09a` and `app.guard_lead_lifecycle` `2868d2e6c834a3ca219091f21249bb35`, each SECURITY DEFINER with its ACL, `app.guard_write_capability` `f6e54cb431904e54822a4f8adc675c22` unchanged; the `attribution_clicks` policy `scope_isolation` for SELECT, the only one; the 18 triggers of the four tables (leads 12, name list md5 `4a0c88bcf1709fe70520e29bd8484445`); catalog 71/626; `parity_surface.sql` functions `f7427d65b5f8ee6d9f0a360ec5717b59`/350, policies `faa0844a8f07b77634e025f4b72a4320`/125, the other eight surfaces unchanged, `_combined` `20caafd5b6cde6e9002e209b0a3a3102`/3177, equal to CRM's local stack and CRM Primary after SPEC-311.
+- **Generators, scope and diff.** The API-contract generator's output differs from the baseline in one line (`attribution_clicks`, its read policy renamed `scope_isolation`) and equals CRM SPEC-311's committed contract, which Step 10 writes; `generate-ai-map.ps1 -Check` exit 0. Only the six Step 1–6 paths changed; `git diff --check` clean.
+- **Consistency:** exactly the six expected pre-deploy items, the same as the sandbox: 268 vs 269 migrations, latest, ledger fingerprint, 174 vs 177 files, 3218 vs 3258 assertions, RECOVER-1 (Founder evidence).
+- **Fresh Founder Secondary baseline**, read-only (13:11:26 UTC by the server clock, through the Founder write connector inside `BEGIN TRANSACTION READ ONLY`): URL `https://brplkqmbzffpxqgkkdzo.supabase.co`; ledger 268 `b19e6f48e19b3b51ccdae01d26186fef`, latest `20261116120000`, ordered version list md5 `90adf663c200901a4ac6837a38c43821`, the target absent by version and by name; `app.platform_resolve_storage_finding` `b13fbf0502883486adac2753d7f2d9d4`, `app.guard_lead_lifecycle` `d8f4637a1a87f4d96194ce1effdfc337` and `app.guard_write_capability` `cdfb01a887ec225fb985ef13757aaa13` (as on CRM Primary: the stored text differs from the local copy only in comments and line endings, and the migration does not touch it), each SECURITY DEFINER with its local ACL; the 18 triggers of the four tables (leads name list md5 `4a0c88bc…`, equal to local); the `attribution_clicks` policy `tenant_isolation` for ALL, the only one; catalog 71/626; 0 rows in each of the nine business tables. `parity_surface.sql`: every surface equal to CRM Primary's before SPEC-311, `_combined` `22978d051e6586ecd1772b144993b6b8`/3177.
+- **Predicted delta:** ledger 269 `ff29e9c5…`; functions `f7427d65…`/350; policies `faa0844a…`/125; `_combined` `20caafd5…`/3177; the resolver `28bf1ec8…` and the lead guard `2868d2e6…`; `app.guard_write_capability` unchanged on Founder Secondary; the `attribution_clicks` policy `scope_isolation` for SELECT; the 18 triggers unchanged; catalog 71/626 unchanged; business counts unchanged.
+
+### 2026-11-17 — Gate 2 (Step 8), DELEGATED
+
+DELEGATED exact-SHA Gate-2 record for SPEC-314, to Founder Secondary `brplkqmbzffpxqgkkdzo` only, in one sitting: `supabase/migrations/20261117120000_a_held_document_keeps_its_finding_and_a_click_stays_in_scope.sql`, SHA-256 `6044446a9577034e6fc8420baeb505ba050bd94d23c3b61f44387255395705af`, md5 `d55cb5f785dc927b524502f8405c7d0a`, 13566 bytes; under the owner's instructions of 2026-11-08 (class authorization for Batch 6 releases and standing approval of proposals ~10:20 Cairo; publish, promote and hosted deploy ~12:05 Cairo), 2026-11-11 (Batch 6 decisions 1-9 ~19:50 Cairo, decision 8 the twin lane), 2026-11-12 (priority order waiving no gate ~12:20 Cairo), 2026-11-14 (one contract per product ~11:30 Cairo; no credential rotation ~12:30 Cairo; BP-32's one-sitting deploy approved in principle ~16:20 Cairo) and 2026-11-17 (slice 13 runs through in run mode 2, 09:41 Cairo, whose Lane includes this ORVION twin of CRM SPEC-311), recorded outside this repository. Step 7 passed on 2026-11-17; Step 9 re-reads the Founder baseline, HEAD and the hashes immediately before the write. The migration's top-level statements are two `create or replace function`, one `drop policy` and one `create policy` that replaces it under a new name: they drop no table or column and delete or rewrite no business row. Not a human-typed digest. Primary `vrvtsxexkiiiivlkdxzp` is not a target.
+
+### 2026-11-17 — Post-deploy records (Step 9)
+
+- `reports/evidence/founder-ledger-evidence.json` from the Step 9 readings only (read 2026-11-17 13:55:50 UTC, window 13:53:49-13:55:50 UTC): 269 entries, fingerprint `ff29e9c5acf7d70b25862941f548cf97` (the new ledger hashed to it before the write), functions `f7427d65b5f8ee6d9f0a360ec5717b59`/350, policies `faa0844a8f07b77634e025f4b72a4320`/125, triggers `764c62c6b405673cfea362c053bb9315`/337, structure `20caafd5b6cde6e9002e209b0a3a3102`/3177, repository head `c4faeae`; `check_primary_ledger.ps1` and `check_database_parity_evidence.ps1` CLEAN.
+- `_ORVION_CANONICAL/manifest.md` Live state at 269 migrations (latest `20261117120000`) with the same hashes; the client RPC figure unchanged at 80; suite 177 files / 3258 assertions, counted from the test files.
+- `MASTER_GAP_REGISTER.md`: the three rows (ATTR-5, ATTR-6, RET-5) now DEPLOYED; nothing else changed.
+- `MASTER_API_CONTRACT.md` regenerated from the local stack (80 RPCs): exactly the one `attribution_clicks` policy row moved (`tenant_isolation` → `scope_isolation`), equal to the Step 7 verified contract and CRM SPEC-311's committed blob `67d91549`; `ai-map.json` and `repository-index.md` regenerated byte-identical, `-Check` exit 0.
+- Runtime Checkpoint DONE; Status Approved → In Progress; one implementation commit.
 
 ## Verification Notes
 
