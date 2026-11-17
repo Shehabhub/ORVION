@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -1117,18 +1117,18 @@ Before Step 9: the identity proof and the fresh Founder Secondary baseline of St
 
 ## Acceptance Criteria
 
-- [ ] The migration is the frozen bytes; `check: blob supabase/migrations/20261117120000_a_held_document_keeps_its_finding_and_a_click_stays_in_scope.sql cac36174e8c9bbd4423192815da9c65611dd03e7`
-- [ ] Test 175 is the frozen bytes; `check: blob supabase/tests/175_a_held_document_keeps_its_retention_finding_open_test.sql 11afba06cdc320d6353b5cd88a72d1cb64d65732`
-- [ ] Test 176 is the frozen bytes; `check: blob supabase/tests/176_a_click_is_read_through_its_lead_and_anchors_only_its_lead_test.sql 1a091b7848ead9adc544c1ab92ec8dd89af29284`
-- [ ] Test 177 is the frozen bytes; `check: blob supabase/tests/177_branch_hours_are_written_only_by_a_tenant_settings_holder_test.sql b58da8e600750ad93e1544b28426a59a2d977e95`
-- [ ] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 66 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md eddacb1d6c4e4c90ed5a97ffddd651611620ed21`
-- [ ] The three register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-314"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **177 files / 3258 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @6d0218231d1eef1340c940aaa795928fc1a26ee3`
-- [ ] The storage executor's origin migration remains exact; `check: same supabase/migrations/202607055300_storage_executor_contract.sql @6d0218231d1eef1340c940aaa795928fc1a26ee3`
-- [ ] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @6d0218231d1eef1340c940aaa795928fc1a26ee3`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the one authorized migration, with at most one guarded ledger rename and no business-data write, after a recorded Step 7 readiness gate and Step 8 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-311 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its thirteen mutants, each killed with installation proven and the restored shape read, its two causal negatives and its probes, before and after, hold here.
+- [x] The migration is the frozen bytes; `check: blob supabase/migrations/20261117120000_a_held_document_keeps_its_finding_and_a_click_stays_in_scope.sql cac36174e8c9bbd4423192815da9c65611dd03e7`
+- [x] Test 175 is the frozen bytes; `check: blob supabase/tests/175_a_held_document_keeps_its_retention_finding_open_test.sql 11afba06cdc320d6353b5cd88a72d1cb64d65732`
+- [x] Test 176 is the frozen bytes; `check: blob supabase/tests/176_a_click_is_read_through_its_lead_and_anchors_only_its_lead_test.sql 1a091b7848ead9adc544c1ab92ec8dd89af29284`
+- [x] Test 177 is the frozen bytes; `check: blob supabase/tests/177_branch_hours_are_written_only_by_a_tenant_settings_holder_test.sql b58da8e600750ad93e1544b28426a59a2d977e95`
+- [x] The disposition record carries the three surfaces AUDITED / ADVERSARIAL and coverage 66 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md eddacb1d6c4e4c90ed5a97ffddd651611620ed21`
+- [x] The three register rows are fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-314"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **177 files / 3258 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @6d0218231d1eef1340c940aaa795928fc1a26ee3`
+- [x] The storage executor's origin migration remains exact; `check: same supabase/migrations/202607055300_storage_executor_contract.sql @6d0218231d1eef1340c940aaa795928fc1a26ee3`
+- [x] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @6d0218231d1eef1340c940aaa795928fc1a26ee3`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the one authorized migration, with at most one guarded ledger rename and no business-data write, after a recorded Step 7 readiness gate and Step 8 Gate-2 record. Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-311 is proven (payload blobs, migrations and tests trees, Founder Secondary's pre-change structure), so its thirteen mutants, each killed with installation proven and the restored shape read, its two causal negatives and its probes, before and after, hold here.
 
 ## Execution Log
 
@@ -1176,15 +1176,18 @@ Independent current Git evidence: selected Draft 7E84D4F97DA7BF2CA7D0006DC5B6CF1
 
 Correction to the Execution Log above: the entry headed "Post-deploy records (Step 9)" records Step 10 of this contract (its "Step 9 readings" are the fresh reads of the Step 9 deployment), and the Step 9 deployment itself has no entry there, so it is recorded here. Founder Secondary deployment (Step 9), to brplkqmbzffpxqgkkdzo only, through the Founder write connector (get_project_url named brplkqmbzffpxqgkkdzo), in one sitting (15:50-15:55 Cairo). The first read-only re-read (13:50:49 UTC; ledger 268, latest 20261116120000, fingerprint b19e6f48e19b3b51ccdae01d26186fef, the target absent) refused the transmitted text, whose md5 32e02d507de9e24ee89a2669cd71dc35 differed from the file's (a transcription error); nothing was applied. The second re-read (13:52:49 UTC) was equal to the Step 7 baseline with the transmitted md5 equal to the file's (d55cb5f785dc927b524502f8405c7d0a); apply_migration with the exact LF file text succeeded; the ledger row was read (one statement, the file's md5, 13566 bytes); the guarded rename from the connector's timestamp 20261117135323 to the file version changed one row. HEAD c4faeae and the migration hash equal Gate 2. Fresh reads after the deploy (13:53:49 UTC): ledger 269, latest 20261117120000, fingerprint ff29e9c5acf7d70b25862941f548cf97; app.platform_resolve_storage_finding 28bf1ec800bb7f27d6cb47981a12c09a and app.guard_lead_lifecycle 2868d2e6c834a3ca219091f21249bb35, each SECURITY DEFINER with its ACL unchanged; app.guard_write_capability cdfb01a887ec225fb985ef13757aaa13 unchanged; the attribution_clicks policy scope_isolation for SELECT, tenant_isolation gone; the 18 triggers unchanged; catalog 71/626; every business count 0. parity_surface.sql: functions f7427d65b5f8ee6d9f0a360ec5717b59/350, policies faa0844a8f07b77634e025f4b72a4320/125, the other eight unchanged, _combined 20caafd5b6cde6e9002e209b0a3a3102/3177, equal to the predicted delta, to the local stack after a clean reset and to CRM Primary after SPEC-311. Evidence parts 13:55:50 UTC. Primary was not contacted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt eb9f0d23b716cb09e5c723fbfea29a9f5c03fec0be1d73499a1852394e9dae16 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
