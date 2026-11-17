@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -1137,6 +1137,11 @@ None.
 ## Verification Notes
 
 None.
+
+
+### 2026-11-17 — Gate 1 approval recorded
+
+DELEGATED exact Gate1 under the owner's instructions of 2026-11-08 (class authorization for Batch 6 releases and standing approval of proposals ~10:20 Cairo; publish, promote and hosted deploy ~12:05 Cairo), 2026-11-11 (Batch 6 decisions 1-9 ~19:50 Cairo, whose decision 8 is the twin lane), 2026-11-12 (priority order waiving no gate ~12:20 Cairo), 2026-11-14 (one contract per product ~11:30 Cairo; no credential rotation ~12:30 Cairo; BP-32 approved in principle ~16:20 Cairo) and 2026-11-17 (slice 13 runs through in run mode 2 09:41 Cairo, whose Lane includes this ORVION twin of CRM SPEC-311); Draft SHA-256 7E84D4F97DA7BF2CA7D0006DC5B6CF1A7C7AA440AB414B1F4572B5FAEF83B654, decision SHA-256 4BE16889F71A7E0651A80944101DC39B5F64647D0DA74FC434F22F403CFD0F3F. No fabricated human future-digest approval. Gate 2 (Founder Secondary deploy) is a separate exact-SHA record in Step 8. Immediately before allocation the hash, the Draft blob 1309d2aeeceb8f3387a76539cd2a08bef437d51d, all 2 source anchors, the baseline HEAD 6d0218231d1eef1340c940aaa795928fc1a26ee3 against refreshed origin/main 6d0218231d1eef1340c940aaa795928fc1a26ee3 and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 5c2a94b. No implementation performed before this transition.
 
 ## Review Gate
 
