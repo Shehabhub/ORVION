@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -133,7 +133,7 @@ None.
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -889,7 +889,17 @@ Before Step 8: the local identity and structural checks of Step 6, which adopt t
 
 ## Execution Log
 
-None.
+### 2026-11-18 — Pre-deploy readiness gate (Step 6)
+
+Native Founder readiness passed at approval HEAD 9e9345ebe088277b70488db029c49a8d2a7fc0c6. The five frozen files match. Migration and both test bytes equal CRM SPEC-315 and the five baseline identities hold. The ORVION local stack reset with its pinned CLI to ledger 270 with fingerprint 8e1aa53db1892b3904020e1a2f0fc1d5 and all ten fingerprinted surfaces ending 1c644a06de383670fd78e5db9b506b71/3186. Its API contract equals the baseline and only the six declared pre-deploy consistency items remain. The authenticated Founder read confirmed the exact project, ledger 269 ff29e9c5acf7d70b25862941f548cf97, no target or guard, 67 triggers on the eight target tables, unchanged reference and zero business counts, and ten surfaces ending 20caafd5b6cde6e9002e209b0a3a3102/3177. Step 8 predicts one migration row, one function, eight triggers and unchanged other surfaces and counts. Step 6 evidence SHA-256 274E1D7750EEB5994E5A1672718E24BD1E7E9D08E67C2D1EDA68D9FE377B41C1.
+
+### 2026-11-18 — Gate 2 exact-SHA authorization (Step 7)
+
+DELEGATED by Codex under DEC-02 and DEC-25, the 2026-11-08 Batch 6 hosted deploy class, the 2026-11-18 owner run-through and the S17-only reassignment. Step 6 passed at ORVION HEAD 9e9345ebe088277b70488db029c49a8d2a7fc0c6. This covers only migration 20261118120000, SHA-256 F52A5CE9D0F051329A21E948C437F40A73AE71D56713760D5B9D730EF072A2C4, MD5 96555450FF89541E3EE97F1D85AA8353, 6130 bytes, on Founder Secondary brplkqmbzffpxqgkkdzo. The migration creates one trigger function and eight triggers. It drops no table or column and deletes or rewrites no business data. Step 8 must revalidate project URL, HEAD, ledger, counts, triggers and the server-side transmission MD5 before one deploy. This is a delegated record.
+
+### 2026-11-18 — Founder deployment and records (Steps 8–9)
+
+In one sitting, the re-read matched the Step 6 approval HEAD, Founder URL, live ledger, business and reference counts, trigger inventory and exact server-side MD5 96555450ff89541e3ee97f1d85aa8353. The single approved migration 20261118120000 was applied to Founder Secondary. Guarded normalization changed only its provider ledger version 20261118214345 to 20261118120000. The post-deploy read confirmed ledger 270 8e1aa53db1892b3904020e1a2f0fc1d5, the target exactly once, eight new triggers and the exact private guard, all ten local surfaces ending 1c644a06de383670fd78e5db9b506b71/3186 and stable counts. Full authenticated read evidence SHA-256 428108050D442635E9490528F07B3D197D670ACB34D1DF3791648D45DBA03A77. Refreshed Founder evidence, manifest, 181 test files / 3333 assertions and REF-2 deployment status. The API generator and discovery are checked before the implementation commit. Native Finish follows on the committed checkout.
 
 ## Verification Notes
 
