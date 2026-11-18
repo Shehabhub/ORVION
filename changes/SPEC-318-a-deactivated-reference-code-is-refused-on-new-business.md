@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -875,17 +875,17 @@ Before Step 8: the local identity and structural checks of Step 6, which adopt t
 
 ## Acceptance Criteria
 
-- [ ] The migration is the frozen bytes; `check: blob supabase/migrations/20261118120000_a_deactivated_reference_code_is_refused_on_new_business.sql fa2377dddeb2ead916d7a31c7bd45123856d72ef`
-- [ ] Test 181 is the frozen bytes; `check: blob supabase/tests/181_a_deactivated_reference_code_is_refused_on_new_business_test.sql 4213124a397b71c8f2edeec12aa896ac7b3422c7`
-- [ ] Test 180 is the frozen bytes; `check: blob supabase/tests/180_plans_languages_and_conversion_cursor_test.sql a0b959e1beb9f9668e61859a592f87f186003e79`
-- [ ] The disposition record carries the three surfaces AUDITED / ADVERSARIAL, the languages row on the new rule and coverage 78 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 97d3934df8db0f810525f9e123113071efc1194e`
-- [ ] The REF-2 register row is fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-318"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **181 files / 3333 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @9f19b827729907cb423d22d5cbdf428ae091cf21`
-- [ ] The catalog rule's origin migration remains exact; `check: same supabase/migrations/202607050400_enforce_catalog_codes_at_write.sql @9f19b827729907cb423d22d5cbdf428ae091cf21`
-- [ ] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @9f19b827729907cb423d22d5cbdf428ae091cf21`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the one authorized migration, with at most one guarded ledger rename and no business-data write, after a recorded Step 6 readiness gate and Step 7 Gate-2 record. Platinum Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] Baseline and payload identity with CRM SPEC-315 is proven and binds the 17 mutants, the restored shape, both causal negatives and before/after probes to the same product SQL here.
+- [x] The migration is the frozen bytes; `check: blob supabase/migrations/20261118120000_a_deactivated_reference_code_is_refused_on_new_business.sql fa2377dddeb2ead916d7a31c7bd45123856d72ef`
+- [x] Test 181 is the frozen bytes; `check: blob supabase/tests/181_a_deactivated_reference_code_is_refused_on_new_business_test.sql 4213124a397b71c8f2edeec12aa896ac7b3422c7`
+- [x] Test 180 is the frozen bytes; `check: blob supabase/tests/180_plans_languages_and_conversion_cursor_test.sql a0b959e1beb9f9668e61859a592f87f186003e79`
+- [x] The disposition record carries the three surfaces AUDITED / ADVERSARIAL, the languages row on the new rule and coverage 78 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md 97d3934df8db0f810525f9e123113071efc1194e`
+- [x] The REF-2 register row is fixed and deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-318"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **181 files / 3333 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @9f19b827729907cb423d22d5cbdf428ae091cf21`
+- [x] The catalog rule's origin migration remains exact; `check: same supabase/migrations/202607050400_enforce_catalog_codes_at_write.sql @9f19b827729907cb423d22d5cbdf428ae091cf21`
+- [x] The smoke catalog count remains exact; `check: same scripts/verify_database.sql @9f19b827729907cb423d22d5cbdf428ae091cf21`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the one authorized migration, with at most one guarded ledger rename and no business-data write, after a recorded Step 6 readiness gate and Step 7 Gate-2 record. Platinum Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] Baseline and payload identity with CRM SPEC-315 is proven and binds the 17 mutants, the restored shape, both causal negatives and before/after probes to the same product SQL here.
 
 ## Execution Log
 
@@ -921,15 +921,18 @@ The final migration, tests 181 and 180 and disposition match their approved Git 
 
 The contract has no superseded dependency. Binding, release and remote verification follow their native gates.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt b4b2b64df2359173815a0ff18049471baef4a837a9a2b7901d64ea1016ff04ae and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
