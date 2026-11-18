@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -443,17 +443,17 @@ Post-Implementation Proof Obligation: all of the following on the final bytes, t
 
 ## Acceptance Criteria
 
-- [ ] Test 179 is the frozen bytes; `check: blob supabase/tests/179_the_role_matrix_is_written_by_no_member_and_an_inactive_role_or_permission_grants_nothing_test.sql 37c661d051d0184c8a25cacddd843a7b0e7db219`
-- [ ] The disposition record carries `role_permissions`, `permissions` and `roles` AUDITED / ADVERSARIAL and coverage 72 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md ed5fb2b0e2aa5af22b3480499327f2d3e4f4fbe3`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **179 files / 3282 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
-- [ ] Migration CI remains exact; `check: same .github/workflows/migration-ci.yml @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
-- [ ] The identity and access tables' migration remains exact; `check: same supabase/migrations/202607041700_create_identity_and_access_tables.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
-- [ ] The MFA requirement migration remains exact; `check: same supabase/migrations/202607044100_mfa_requirement_enforcement.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
-- [ ] The per-user grants migration remains exact; `check: same supabase/migrations/202607059800_capability_grants_are_per_user_not_only_per_role.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
-- [ ] The role-assignment start migration remains exact; `check: same supabase/migrations/202607060700_a_role_assignment_that_has_not_started_grants_nothing.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
-- [ ] No file under `supabase/migrations/` changed and no database object was created, altered or dropped; Founder Secondary `brplkqmbzffpxqgkkdzo` was not written and Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-313 holds (test 179's blob, the migrations and tests trees), and CRM's mutants M1–M16 were each killed there with installation and restoration proven.
+- [x] Test 179 is the frozen bytes; `check: blob supabase/tests/179_the_role_matrix_is_written_by_no_member_and_an_inactive_role_or_permission_grants_nothing_test.sql 37c661d051d0184c8a25cacddd843a7b0e7db219`
+- [x] The disposition record carries `role_permissions`, `permissions` and `roles` AUDITED / ADVERSARIAL and coverage 72 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md ed5fb2b0e2aa5af22b3480499327f2d3e4f4fbe3`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **179 files / 3282 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
+- [x] Migration CI remains exact; `check: same .github/workflows/migration-ci.yml @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
+- [x] The identity and access tables' migration remains exact; `check: same supabase/migrations/202607041700_create_identity_and_access_tables.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
+- [x] The MFA requirement migration remains exact; `check: same supabase/migrations/202607044100_mfa_requirement_enforcement.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
+- [x] The per-user grants migration remains exact; `check: same supabase/migrations/202607059800_capability_grants_are_per_user_not_only_per_role.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
+- [x] The role-assignment start migration remains exact; `check: same supabase/migrations/202607060700_a_role_assignment_that_has_not_started_grants_nothing.sql @dbc7ab2754ebc58dc682faf3e73bb1c3b435c7b3`
+- [x] No file under `supabase/migrations/` changed and no database object was created, altered or dropped; Founder Secondary `brplkqmbzffpxqgkkdzo` was not written and Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-313 holds (test 179's blob, the migrations and tests trees), and CRM's mutants M1–M16 were each killed there with installation and restoration proven.
 
 ## Execution Log
 
@@ -484,15 +484,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 9053422EC42F7F0F42228F1442D63741D6D8BC28D9738DF59C297D5A2B61225A, allocated blob 54101bf23665bb51cee0a24cd9d2d407d9033551, the three literal outputs (test 179 byte-identical to CRM SPEC-313, the disposition record, the manifest suite figure 179 files / 3282 assertions), regenerated discovery, the API contract identical to its generator, unchanged native evaluator, Migration CI and the role, permission and authority-reader migrations, and declared scope verified; no migration, no database object changed, Founder Secondary not written and Primary never contacted. This original root owns fresh receipt f51b2e497de5b82fb7a1b7a8ee620aab5db142ad5ee0688d8362d9feacdc3527, finishHead fef3e99895f74d790f9a8a9046f66ba0a4c14aa2, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt f51b2e497de5b82fb7a1b7a8ee620aab5db142ad5ee0688d8362d9feacdc3527 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
