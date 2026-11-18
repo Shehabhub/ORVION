@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -362,16 +362,16 @@ Post-Implementation Proof Obligation: all of the following on the final bytes, t
 
 ## Acceptance Criteria
 
-- [ ] Test 178 is the frozen bytes; `check: blob supabase/tests/178_the_price_list_is_read_by_every_member_and_a_meter_only_by_its_tenant_test.sql f2351dbaf7bcaaca26fd5b3cdf0f55ea7beeae8c`
-- [ ] The disposition record carries `catalog_types`, `feature_entitlements` and `usage_counters` AUDITED / ADVERSARIAL and coverage 69 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md b3803c6a3da9f9eb2f2ece6a88caabc834d96ac8`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **178 files / 3268 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
-- [ ] Migration CI remains exact; `check: same .github/workflows/migration-ci.yml @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
-- [ ] The catalog migration remains exact; `check: same supabase/migrations/202607041300_create_system_catalog_tables.sql @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
-- [ ] The subscription tables' migration remains exact; `check: same supabase/migrations/202607042700_create_subscription_tables.sql @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
-- [ ] The plan-gating migration remains exact; `check: same supabase/migrations/202607052500_plan_gating.sql @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
-- [ ] No file under `supabase/migrations/` changed and no database object was created, altered or dropped; Founder Secondary `brplkqmbzffpxqgkkdzo` was not written and Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] The identity with CRM SPEC-312 holds (test 178's blob, the migrations and tests trees), and CRM's mutants M1–M11 were each killed there with installation and restoration proven.
+- [x] Test 178 is the frozen bytes; `check: blob supabase/tests/178_the_price_list_is_read_by_every_member_and_a_meter_only_by_its_tenant_test.sql f2351dbaf7bcaaca26fd5b3cdf0f55ea7beeae8c`
+- [x] The disposition record carries `catalog_types`, `feature_entitlements` and `usage_counters` AUDITED / ADVERSARIAL and coverage 69 of 78; `check: blob reports/master/MASTER_SURFACE_DISPOSITION.md b3803c6a3da9f9eb2f2ece6a88caabc834d96ac8`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **178 files / 3268 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
+- [x] Migration CI remains exact; `check: same .github/workflows/migration-ci.yml @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
+- [x] The catalog migration remains exact; `check: same supabase/migrations/202607041300_create_system_catalog_tables.sql @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
+- [x] The subscription tables' migration remains exact; `check: same supabase/migrations/202607042700_create_subscription_tables.sql @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
+- [x] The plan-gating migration remains exact; `check: same supabase/migrations/202607052500_plan_gating.sql @26b7993e6286d78d0f5c4d52a90812ea54a32db4`
+- [x] No file under `supabase/migrations/` changed and no database object was created, altered or dropped; Founder Secondary `brplkqmbzffpxqgkkdzo` was not written and Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] The identity with CRM SPEC-312 holds (test 178's blob, the migrations and tests trees), and CRM's mutants M1–M11 were each killed there with installation and restoration proven.
 
 ## Execution Log
 
@@ -402,15 +402,18 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 64286A9EC22EE8B14402474DE795F7E09906088787C7C0A969F9D16819ED5027, allocated blob 4210cc868d4223517b7ae66dab633967b83e5845, the three literal outputs (test 178 byte-identical to CRM SPEC-312, the disposition record, the manifest suite figure 178 files / 3268 assertions), regenerated discovery, the API contract identical to its generator, unchanged native evaluator, Migration CI and the catalog, subscription and plan-gating migrations, and declared scope verified; no migration, no database object changed, Founder Secondary not written and Primary never contacted. This original root owns fresh receipt 85cac78979403e5d8cbdbf5a9e49eaf6f4139ec2be05ed874b48be3c31912783, finishHead 45f56ce65d357313396115b8ab7c87d0954b8334, profiles DATABASE,REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 85cac78979403e5d8cbdbf5a9e49eaf6f4139ec2be05ed874b48be3c31912783 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
