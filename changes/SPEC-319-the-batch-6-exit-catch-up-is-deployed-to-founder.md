@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -5816,50 +5816,50 @@ Before Step 42: the local identity and structural checks of Step 40, which adopt
 
 ## Acceptance Criteria
 
-- [ ] Migration 1 is the frozen bytes; `check: blob supabase/migrations/20261119054533_use_customer_preference_catalog_on_registration.sql 648f35f2ba93a9c69c42b989f1be6e8ddb6152eb`
-- [ ] Migration 2 is the frozen bytes; `check: blob supabase/migrations/20261119112137_guard_task_terminal_status_at_entry.sql e4864c7bf2c4dc9c9ce07f79e9c0e4a389d98a5d`
-- [ ] Migration 3 is the frozen bytes; `check: blob supabase/migrations/20261119203357_archive_authority_applies_at_entry.sql ec8e125c0b20c282cacaad51d1a05a429039aaaf`
-- [ ] Migration 4 is the frozen bytes; `check: blob supabase/migrations/20261120122927_branch_write_authority_matches_the_rpc.sql ea92b491bf33a69377921ba84d76daf11abd8770`
-- [ ] Migration 5 is the frozen bytes; `check: blob supabase/migrations/20261121100000_entry_and_step_up_hold_at_the_table_door.sql fc317dda36df2d5540bad2ba6afcabbf9d2e8867`
-- [ ] Migration 6 is the frozen bytes; `check: blob supabase/migrations/20261121110000_a_refund_a_conversation_and_a_settlement_are_recorded_on_every_door.sql 52bb1f1577f4346b439a1c33c47b233de5d4935d`
-- [ ] Migration 7 is the frozen bytes; `check: blob supabase/migrations/20261122100000_a_ledger_entry_balances_in_one_currency_and_a_payment_carries_value.sql 606ce8ad8a5d8bf928cb11b920fbae0e79714a9b`
-- [ ] Test 182 is the frozen bytes; `check: blob supabase/tests/182_archive_authority_applies_at_entry_test.sql 5ffffdeb43e3ae777957cafbb35fac99fdbc2e48`
-- [ ] Test 183 is the frozen bytes; `check: blob supabase/tests/183_entry_and_step_up_hold_at_the_table_door_test.sql d11dea50c36e8dcc1e418251125358ad0377e87b`
-- [ ] Test 184 is the frozen bytes; `check: blob supabase/tests/184_refund_conversation_and_settlement_are_recorded_on_every_door_test.sql be2fc2e45076505879939d0a8accc0fa0f28656b`
-- [ ] Test 185 is the frozen bytes; `check: blob supabase/tests/185_a_ledger_entry_balances_in_one_currency_and_a_payment_carries_value_test.sql 67a626e1efa1d1f69109bd107bb8cfe3ae6141af`
-- [ ] Test 186 is the frozen bytes; `check: blob supabase/tests/186_every_permission_is_enforced_and_every_table_states_its_isolation_basis_test.sql 167a93e4abbb497b2856c323b193a449480489e3`
-- [ ] Test 187 is the frozen bytes; `check: blob supabase/tests/187_every_ceiling_is_a_named_membership_and_no_mechanism_is_orphaned_test.sql 4b7acb723de2ecea6b5ea08190af4b5161566ad3`
-- [ ] Test 188 is the frozen bytes; `check: blob supabase/tests/188_every_business_key_is_unique_and_every_event_type_is_registered_test.sql fb389022d81120ed9578fcd721447ed146f6023d`
-- [ ] Test 189 is the frozen bytes; `check: blob supabase/tests/189_a_contact_method_change_is_refused_at_the_update_door_test.sql 85f9d02296a20357411b5df659b9eeab9bb3d36e`
-- [ ] Test 190 is the frozen bytes; `check: blob supabase/tests/190_constraint_refusals_test.sql 8ae13da46d8ced91c652dfcaec13dba2f7546f3f`
-- [ ] Test 191 is the frozen bytes; `check: blob supabase/tests/191_trigger_enforcer_refusals_test.sql e75f8c0425431f68ddb85e1e17f03611b07c3008`
-- [ ] Test 192 is the frozen bytes; `check: blob supabase/tests/192_a_customer_lock_is_taken_before_its_judgement_test.sql 00d4d776f17ad411f4499ad454d446e0ac772623`
-- [ ] Test 193 is the frozen bytes; `check: blob supabase/tests/193_structural_control_presence_test.sql 472b404c67b1656b5c0013bbbb86f1b7a2e33b4a`
-- [ ] Test 194 is the frozen bytes; `check: blob supabase/tests/194_door_evidence_and_sale_dates_open_pins_test.sql 0390d2a92ead6a69ff20e2276332adfc9a036c4c`
-- [ ] Test 195 is the frozen bytes; `check: blob supabase/tests/195_every_tenant_function_refuses_a_caller_with_no_active_tenant_test.sql e18dadc093b8ec000e75242f92bc204a58c289fd`
-- [ ] Test 196 is the frozen bytes; `check: blob supabase/tests/196_each_function_refusal_is_reached_by_a_call_test.sql ed6542eebeee21869968c6a113ad22430f504450`
-- [ ] Test 197 is the frozen bytes; `check: blob supabase/tests/197_each_prepared_state_refusal_is_reached_test.sql 05dc8925972f07f939a2520a8213615b6e7b5ac5`
-- [ ] Test 198 is the frozen bytes; `check: blob supabase/tests/198_each_trigger_refusal_is_reached_test.sql 4865e7f8d5d7859d333965f83af04e07f2c5fa3f`
-- [ ] Test 54 is the frozen bytes; `check: blob supabase/tests/54_transition_permission_parity_test.sql c4b1b3e8549fd8820ae39eeda99c3e9edcb1dda7`
-- [ ] Test 58 is the frozen bytes; `check: blob supabase/tests/58_write_grants_and_config_capability_test.sql 68f4e874e55af952e5e2e8034dd334e347ea935c`
-- [ ] Test 79 is the frozen bytes; `check: blob supabase/tests/79_customer_data_integrity_test.sql efe552ad654dbfcfa1d7921b564799e9bc271f7d`
-- [ ] Test 96 is the frozen bytes; `check: blob supabase/tests/96_invoice_void_and_eta_boundary_test.sql 72e2107b07178f352a634606fcbd7173bdf39a23`
-- [ ] Test 101 is the frozen bytes; `check: blob supabase/tests/101_marketing_metrics_and_fx_adjustment_surface_test.sql 2b86d7be04a4a337d387ff60da68789caa9c9ca6`
-- [ ] Test 106 is the frozen bytes; `check: blob supabase/tests/106_otp_challenge_subject_authority_test.sql 02adabd5182f9515a5c1ff17bbaf6431fb083519`
-- [ ] Test 130 is the frozen bytes; `check: blob supabase/tests/130_branch_door_audit_test.sql 1100910b9540ce32e32d691bb215f11fa74bdecd`
-- [ ] Test 134 is the frozen bytes; `check: blob supabase/tests/134_task_queue_authority_test.sql a8c0ef7d4a916bfbcef68668691b4028a0d8c27a`
-- [ ] Test 140 is the frozen bytes; `check: blob supabase/tests/140_payment_is_recorded_on_every_door_test.sql d132e48e82f068588148df658d9eeedc4d2b15d7`
-- [ ] Test 145 is the frozen bytes; `check: blob supabase/tests/145_a_journal_line_is_written_only_with_its_entry_test.sql 926f2eac4f1c96b5a5814a9c134115d34343e253`
-- [ ] Test 155 is the frozen bytes; `check: blob supabase/tests/155_an_allocation_spends_its_own_payment_on_its_own_invoice_test.sql f85481f019a59ea756ba93a056140cc3576fc423`
-- [ ] The plan carries CRM's rows with In ORVION notes; `check: blob reports/master/MASTER_EXECUTION_PLAN.md 9daac0e7c21aa73445b3e0c99412621177e5db05`
-- [ ] The register rows are deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-319"`
-- [ ] The disposition rows are deployed; `check: has reports/master/MASTER_SURFACE_DISPOSITION.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-319"`
-- [ ] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **198 files / 3960 assertions**"`
-- [ ] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @367cdf3da293745a573c6c7df0bbc3fd962322a5`
-- [ ] The smoke script remains exact; `check: same scripts/verify_database.sql @367cdf3da293745a573c6c7df0bbc3fd962322a5`
-- [ ] The parity query remains exact; `check: same scripts/parity_surface.sql @367cdf3da293745a573c6c7df0bbc3fd962322a5`
-- [ ] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the seven authorized migrations, serially, with at most one guarded ledger rename each and no business-data write, after a recorded Step 40 readiness gate and Step 41 Gate-2 record. Platinum Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
-- [ ] Baseline and payload identity with CRM `15bff27` is proven and binds CRM's probes, mutants and causal negatives to the same product SQL here.
+- [x] Migration 1 is the frozen bytes; `check: blob supabase/migrations/20261119054533_use_customer_preference_catalog_on_registration.sql 648f35f2ba93a9c69c42b989f1be6e8ddb6152eb`
+- [x] Migration 2 is the frozen bytes; `check: blob supabase/migrations/20261119112137_guard_task_terminal_status_at_entry.sql e4864c7bf2c4dc9c9ce07f79e9c0e4a389d98a5d`
+- [x] Migration 3 is the frozen bytes; `check: blob supabase/migrations/20261119203357_archive_authority_applies_at_entry.sql ec8e125c0b20c282cacaad51d1a05a429039aaaf`
+- [x] Migration 4 is the frozen bytes; `check: blob supabase/migrations/20261120122927_branch_write_authority_matches_the_rpc.sql ea92b491bf33a69377921ba84d76daf11abd8770`
+- [x] Migration 5 is the frozen bytes; `check: blob supabase/migrations/20261121100000_entry_and_step_up_hold_at_the_table_door.sql fc317dda36df2d5540bad2ba6afcabbf9d2e8867`
+- [x] Migration 6 is the frozen bytes; `check: blob supabase/migrations/20261121110000_a_refund_a_conversation_and_a_settlement_are_recorded_on_every_door.sql 52bb1f1577f4346b439a1c33c47b233de5d4935d`
+- [x] Migration 7 is the frozen bytes; `check: blob supabase/migrations/20261122100000_a_ledger_entry_balances_in_one_currency_and_a_payment_carries_value.sql 606ce8ad8a5d8bf928cb11b920fbae0e79714a9b`
+- [x] Test 182 is the frozen bytes; `check: blob supabase/tests/182_archive_authority_applies_at_entry_test.sql 5ffffdeb43e3ae777957cafbb35fac99fdbc2e48`
+- [x] Test 183 is the frozen bytes; `check: blob supabase/tests/183_entry_and_step_up_hold_at_the_table_door_test.sql d11dea50c36e8dcc1e418251125358ad0377e87b`
+- [x] Test 184 is the frozen bytes; `check: blob supabase/tests/184_refund_conversation_and_settlement_are_recorded_on_every_door_test.sql be2fc2e45076505879939d0a8accc0fa0f28656b`
+- [x] Test 185 is the frozen bytes; `check: blob supabase/tests/185_a_ledger_entry_balances_in_one_currency_and_a_payment_carries_value_test.sql 67a626e1efa1d1f69109bd107bb8cfe3ae6141af`
+- [x] Test 186 is the frozen bytes; `check: blob supabase/tests/186_every_permission_is_enforced_and_every_table_states_its_isolation_basis_test.sql 167a93e4abbb497b2856c323b193a449480489e3`
+- [x] Test 187 is the frozen bytes; `check: blob supabase/tests/187_every_ceiling_is_a_named_membership_and_no_mechanism_is_orphaned_test.sql 4b7acb723de2ecea6b5ea08190af4b5161566ad3`
+- [x] Test 188 is the frozen bytes; `check: blob supabase/tests/188_every_business_key_is_unique_and_every_event_type_is_registered_test.sql fb389022d81120ed9578fcd721447ed146f6023d`
+- [x] Test 189 is the frozen bytes; `check: blob supabase/tests/189_a_contact_method_change_is_refused_at_the_update_door_test.sql 85f9d02296a20357411b5df659b9eeab9bb3d36e`
+- [x] Test 190 is the frozen bytes; `check: blob supabase/tests/190_constraint_refusals_test.sql 8ae13da46d8ced91c652dfcaec13dba2f7546f3f`
+- [x] Test 191 is the frozen bytes; `check: blob supabase/tests/191_trigger_enforcer_refusals_test.sql e75f8c0425431f68ddb85e1e17f03611b07c3008`
+- [x] Test 192 is the frozen bytes; `check: blob supabase/tests/192_a_customer_lock_is_taken_before_its_judgement_test.sql 00d4d776f17ad411f4499ad454d446e0ac772623`
+- [x] Test 193 is the frozen bytes; `check: blob supabase/tests/193_structural_control_presence_test.sql 472b404c67b1656b5c0013bbbb86f1b7a2e33b4a`
+- [x] Test 194 is the frozen bytes; `check: blob supabase/tests/194_door_evidence_and_sale_dates_open_pins_test.sql 0390d2a92ead6a69ff20e2276332adfc9a036c4c`
+- [x] Test 195 is the frozen bytes; `check: blob supabase/tests/195_every_tenant_function_refuses_a_caller_with_no_active_tenant_test.sql e18dadc093b8ec000e75242f92bc204a58c289fd`
+- [x] Test 196 is the frozen bytes; `check: blob supabase/tests/196_each_function_refusal_is_reached_by_a_call_test.sql ed6542eebeee21869968c6a113ad22430f504450`
+- [x] Test 197 is the frozen bytes; `check: blob supabase/tests/197_each_prepared_state_refusal_is_reached_test.sql 05dc8925972f07f939a2520a8213615b6e7b5ac5`
+- [x] Test 198 is the frozen bytes; `check: blob supabase/tests/198_each_trigger_refusal_is_reached_test.sql 4865e7f8d5d7859d333965f83af04e07f2c5fa3f`
+- [x] Test 54 is the frozen bytes; `check: blob supabase/tests/54_transition_permission_parity_test.sql c4b1b3e8549fd8820ae39eeda99c3e9edcb1dda7`
+- [x] Test 58 is the frozen bytes; `check: blob supabase/tests/58_write_grants_and_config_capability_test.sql 68f4e874e55af952e5e2e8034dd334e347ea935c`
+- [x] Test 79 is the frozen bytes; `check: blob supabase/tests/79_customer_data_integrity_test.sql efe552ad654dbfcfa1d7921b564799e9bc271f7d`
+- [x] Test 96 is the frozen bytes; `check: blob supabase/tests/96_invoice_void_and_eta_boundary_test.sql 72e2107b07178f352a634606fcbd7173bdf39a23`
+- [x] Test 101 is the frozen bytes; `check: blob supabase/tests/101_marketing_metrics_and_fx_adjustment_surface_test.sql 2b86d7be04a4a337d387ff60da68789caa9c9ca6`
+- [x] Test 106 is the frozen bytes; `check: blob supabase/tests/106_otp_challenge_subject_authority_test.sql 02adabd5182f9515a5c1ff17bbaf6431fb083519`
+- [x] Test 130 is the frozen bytes; `check: blob supabase/tests/130_branch_door_audit_test.sql 1100910b9540ce32e32d691bb215f11fa74bdecd`
+- [x] Test 134 is the frozen bytes; `check: blob supabase/tests/134_task_queue_authority_test.sql a8c0ef7d4a916bfbcef68668691b4028a0d8c27a`
+- [x] Test 140 is the frozen bytes; `check: blob supabase/tests/140_payment_is_recorded_on_every_door_test.sql d132e48e82f068588148df658d9eeedc4d2b15d7`
+- [x] Test 145 is the frozen bytes; `check: blob supabase/tests/145_a_journal_line_is_written_only_with_its_entry_test.sql 926f2eac4f1c96b5a5814a9c134115d34343e253`
+- [x] Test 155 is the frozen bytes; `check: blob supabase/tests/155_an_allocation_spends_its_own_payment_on_its_own_invoice_test.sql f85481f019a59ea756ba93a056140cc3576fc423`
+- [x] The plan carries CRM's rows with In ORVION notes; `check: blob reports/master/MASTER_EXECUTION_PLAN.md 9daac0e7c21aa73445b3e0c99412621177e5db05`
+- [x] The register rows are deployed; `check: has reports/master/MASTER_GAP_REGISTER.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-319"`
+- [x] The disposition rows are deployed; `check: has reports/master/MASTER_SURFACE_DISPOSITION.md "DEPLOYED to Founder Secondary under the exact-SHA Gate-2 record of SPEC-319"`
+- [x] The manifest suite figure equals the files; `check: has _ORVION_CANONICAL/manifest.md "Suite **198 files / 3960 assertions**"`
+- [x] Native evaluator remains exact; `check: same scripts/check_agent_continuity.ps1 @367cdf3da293745a573c6c7df0bbc3fd962322a5`
+- [x] The smoke script remains exact; `check: same scripts/verify_database.sql @367cdf3da293745a573c6c7df0bbc3fd962322a5`
+- [x] The parity query remains exact; `check: same scripts/parity_surface.sql @367cdf3da293745a573c6c7df0bbc3fd962322a5`
+- [x] Founder Secondary `brplkqmbzffpxqgkkdzo` received only the seven authorized migrations, serially, with at most one guarded ledger rename each and no business-data write, after a recorded Step 40 readiness gate and Step 41 Gate-2 record. Platinum Primary `vrvtsxexkiiiivlkdxzp` was never contacted.
+- [x] Baseline and payload identity with CRM `15bff27` is proven and binds CRM's probes, mutants and causal negatives to the same product SQL here.
 
 ## Execution Log
 
@@ -5911,15 +5911,18 @@ Founder Secondary brplkqmbzffpxqgkkdzo received only the seven authorized migrat
 
 The contract has no superseded dependency. Binding, release and remote verification follow their native gates.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt 39fad55763845f8c69a10e8a1a9d36f63eb3d34772ad0357eb66daca63f531af and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
-- [ ] No file outside Write Scope was modified, created, or deleted.
-- [ ] No section was added, removed, or restructured outside the approved steps.
-- [ ] Every Acceptance Criteria item is confirmed true.
-- [ ] Any step that could not be resolved deterministically was reported, not guessed.
-- [ ] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
-- [ ] The repository is in a clean, releasable state.
+- [x] Every change matches the Implementation Steps exactly, or was correctly recorded as Already Applied per its verification check.
+- [x] No file outside Write Scope was modified, created, or deleted.
+- [x] No section was added, removed, or restructured outside the approved steps.
+- [x] Every Acceptance Criteria item is confirmed true.
+- [x] Any step that could not be resolved deterministically was reported, not guessed.
+- [x] If this Change Request's Supersedes / Depends On section names another file, that file's Status has been updated accordingly.
+- [x] The repository is in a clean, releasable state.
 
 ## Notes
 
