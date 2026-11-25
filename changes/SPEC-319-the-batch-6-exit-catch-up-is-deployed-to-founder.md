@@ -2,8 +2,8 @@
 
 ## Status
 
-[x] Draft
-[ ] Approved
+[ ] Draft
+[x] Approved
 [ ] In Progress
 [ ] Complete
 [ ] Cancelled
@@ -5868,6 +5868,11 @@ None.
 ## Verification Notes
 
 None.
+
+
+### 2026-11-25 — Gate 1 approval recorded
+
+DELEGATED Gate 1 for ORVION SPEC-319 under DEC-02 and DEC-25, in the owner's AFK Mode with the constitution deciding in the owner's absence (owner words of 2026-11-21, 2026-11-22 OD-9, 2026-11-23 and 2026-11-24 "continue ... to finish all plan"). Gate 1 record SHA-256 E53E24A3C7D0194DCC106E4DF880A9F37E77E02C5282A7D6988CFC6B82ECFF43, Draft 16FFAE0818792FB86414D84508683C7A89FA748FA5AE0C84D02A92BDB287BC8E, sandbox b93f13dcc67ed92b66dcdea3d96a5065c39723fa. Founder Gate 2 is separate. Immediately before allocation the hash, the Draft blob 3449d2e826292bfe50ea3d1c13c385696c036649, all 15 source anchors, the baseline HEAD 367cdf3da293745a573c6c7df0bbc3fd962322a5 against refreshed origin/main 367cdf3da293745a573c6c7df0bbc3fd962322a5 and a clean checkout were revalidated, and the pre-commit allocator admitted the identity; Draft allocated as 3473b11. No implementation performed before this transition.
 
 ## Review Gate
 
