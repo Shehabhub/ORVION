@@ -112,7 +112,7 @@ call it -- see section 6 for what that does and does not establish.
 | `record_customer_consent` | p_customer_id uuid, p_purpose_code text, p_consent_status_code text, p_channel_code tex... | `uuid` | invoker | CREATE_CUSTOMER | customer_consents | - | 3 | yes |
 | `record_lead_interaction` | p_lead_id uuid, p_interaction_type_code text, p_summary text, p_metadata jsonb | `uuid` | invoker | inline has_permission check | lead_interactions | leads | 5 | yes |
 | `record_offline_conversion` | p_conversion_event_type_code text, p_lead_id uuid, p_booking_id uuid, p_booking_item_id... | `uuid` | invoker | MANAGE_MARKETING_CAMPAIGN | offline_conversions | - | 6 | yes |
-| `record_payment` | p_invoice_id uuid, p_amount numeric, p_payment_method_code text, p_paid_at timestamp wi... | `uuid` | invoker | RECORD_PAYMENT | payment_allocations, payments | invoices | 7 | yes |
+| `record_payment` | p_invoice_id uuid, p_amount numeric, p_payment_method_code text, p_paid_at timestamp wi... | `uuid` | invoker | RECORD_PAYMENT | payment_allocations, payments | - | 7 | yes |
 | `record_refund` | p_customer_id uuid, p_amount numeric, p_currency_code text, p_refund_reason_code text, ... | `uuid` | invoker | RECORD_REFUND | refunds | - | 6 | yes |
 | `record_supplier_payment` | p_supplier_id uuid, p_amount numeric, p_currency_code text, p_payment_method_code text,... | `uuid` | invoker | RECORD_PAYMENT | payments | - | 5 | yes |
 | `record_trusted_device` | p_device_identifier text | `uuid` | invoker | - | trusted_devices | - | 1 | yes |
@@ -166,8 +166,8 @@ or archive flag changes -- so a DESCRIPTIVE edit passes it. That is SEC-2, and i
 | `booking_items` | `-IU-` | yes | conditional | scope_isolation |
 | `bookings` | `SIU-` | yes | conditional | scope_isolation |
 | `branch_business_hours` | `SIU-` | yes | conditional | tenant_isolation |
-| `branches` | `SIU-` | no | no | scope_delete, scope_insert, scope_read, scope_update |
-| `campaign_daily_metrics` | `SIU-` | no | no | scope_isolation |
+| `branches` | `SIU-` | yes | conditional | scope_delete, scope_insert, scope_read, scope_update |
+| `campaign_daily_metrics` | `SIU-` | yes | conditional | scope_isolation |
 | `catalog_types` | `S---` | no | no | read_all_authenticated |
 | `catalog_values` | `SIU-` | yes | conditional | catalog_read, catalog_tenant_delete, catalog_tenant_insert, catalog_tenant_update |
 | `chart_of_accounts` | `SIU-` | yes | conditional | scope_delete, scope_insert, scope_read, scope_update |
@@ -189,7 +189,7 @@ or archive flag changes -- so a DESCRIPTIVE edit passes it. That is SEC-2, and i
 | `document_versions` | `SIU-` | yes | conditional | scope_isolation |
 | `documents` | `SIU-` | yes | conditional | scope_isolation |
 | `events` | `S---` | no | no | audit_insert, audit_read |
-| `exchange_rate_adjustments` | `SI--` | no | no | scope_insert, scope_read |
+| `exchange_rate_adjustments` | `SI--` | yes | conditional | scope_insert, scope_read |
 | `exchange_rates` | `SIU-` | yes | conditional | scope_delete, scope_insert, scope_read, scope_update |
 | `feature_entitlements` | `S---` | no | no | read_all_authenticated |
 | `financial_accounts` | `SIU-` | yes | conditional | tenant_isolation |

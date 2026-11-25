@@ -128,7 +128,7 @@ None.
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -5863,7 +5863,26 @@ Before Step 42: the local identity and structural checks of Step 40, which adopt
 
 ## Execution Log
 
-None.
+### 2026-11-25 — Pre-deploy readiness gate (Step 40)
+
+Native Founder readiness passed at Approve HEAD 336e042586fd5cf34912171bd52e31f23e03fbfa with Steps 1–39 applied and uncommitted (39 paths). The five pinned baseline identities equal CRM 6b28051; every path and Git blob under supabase/migrations (277) and supabase/tests (198) equals CRM 15bff27, with the seven migration hashes and lengths exact. The local stack reset with the pinned CLI to ledger 277 7d224a770526c87f171b9525b0817701 with surfaces equal to CRM 15bff27 evidence (functions ca519b79e522cff13cd309456f618a14/358, combined 0bb1e5b10e0bde5bd344f706366150ee/3204). The generated API contract equals CRM blob 62af74be28b058e41b6b6bcfbe43457f15acfd33 and only the six declared pre-deploy consistency items remain. The authenticated Founder read confirmed https://brplkqmbzffpxqgkkdzo.supabase.co, ledger 270 8e1aa53db1892b3904020e1a2f0fc1d5 with all seven targets absent, all ten surfaces equal to the recorded evidence (combined 1c644a06de383670fd78e5db9b506b71/3186) and zero business rows with unchanged reference counts. Expected delta: ledger 277 7d224a770526c87f171b9525b0817701, surfaces equal to the local 277 values, counts unchanged. Readiness log SHA-256 57F02257F2D88CB1618A302CBAEB4EE53934B86D9670FF07A54A474A3814C199; Founder read SHA-256 98B520EFBADBF7877086B324C0F4ADC2DCF265AB8A3CCD475AA3DB31026ACBF0.
+
+### 2026-11-25 — Gate 2 exact-SHA authorization (Step 41)
+
+DELEGATED by Claude main (claude-opus-5-5) under DEC-02, the owner's AFK instruction of 2026-11-24 23:27 Cairo to finish the whole plan (SHA-256 C155D6191185693D3DBBA01471540EA16A2C6BB0C6B835FFC08B82E792B968DE), the owner's delegation that the constitution decides in the owner's absence (SHA-256 DB34F67C2AF82D9A9751597247ABEEBD74B4BBB1CC6F47291D2572FE080EEAB0) and the owner's instruction to continue until the Batch 6 Finish (SHA-256 7D2A8B8F0F209C8538B0D87F133C440DBB620C2577DEAECF8F3D312584C94759). Step 40 passed. This covers only SPEC-319's seven migrations, in ledger order, on Founder Secondary brplkqmbzffpxqgkkdzo:
+
+- 20261119054533_use_customer_preference_catalog_on_registration.sql, SHA-256 5C29B9C824BD744A54E544D23C75B9A14CF3643FB8190ED74670E84128AF329D, MD5 94CF43A4CB664343D8BE39F5C7FF066D, 4418 bytes
+- 20261119112137_guard_task_terminal_status_at_entry.sql, SHA-256 E75AE87F4C32EC4D6795ABA68DECB0E8590C6A5706AFF89DDFCA236B3CDB9D4B, MD5 5134389A8B82410EC858573982FCC247, 633 bytes
+- 20261119203357_archive_authority_applies_at_entry.sql, SHA-256 8D781F1C9053AE82988F560ABB599175579E7272731D89DEA072B5D459FEA09F, MD5 904A8F4D882705E4AFA994D5B9A148AA, 2823 bytes
+- 20261120122927_branch_write_authority_matches_the_rpc.sql, SHA-256 4ABC64F420ABC6EA35AC6F59571FB4F423DBDE93729A5DF4193E82061344CBB5, MD5 4C710C23130D618CEC77A5FFB3E368EB, 15401 bytes
+- 20261121100000_entry_and_step_up_hold_at_the_table_door.sql, SHA-256 7183ED4A01A9AF15AFB24EEAB8812B8F064F0F5C80A089B08D83F2D0C97E7BB0, MD5 954DF5EB745B4F0B6AB6F06EAFE314B7, 19097 bytes
+- 20261121110000_a_refund_a_conversation_and_a_settlement_are_recorded_on_every_door.sql, SHA-256 C73CF263E190D520D3B80BBE4D2D51CC861F878D068CABD991FDB330AC054D6C, MD5 28B4A3013130FE9337D1FE8D67D9C342, 22430 bytes
+- 20261122100000_a_ledger_entry_balances_in_one_currency_and_a_payment_carries_value.sql, SHA-256 6C9A8B488812FAACBA4D4EB234E66650259AE9B35C3CDE5A6AAFC90C7DA48532, MD5 24B7C94F8C1C5E058F50CFB2F843E827, 5642 bytes
+They create or replace functions, triggers, constraints and grants. None drops a table or column, and none deletes or rewrites a business row when applied: the only UPDATE statements are inside function bodies that run on later calls. Step 42 must re-read HEAD, hashes, project URL, ledger, target absence and counts, and prove each transmitted md5 server-side before each apply. Platinum Primary vrvtsxexkiiiivlkdxzp is never contacted. This is a delegated record, not an owner statement.
+
+### 2026-11-25 — Founder deployment and records (Steps 42–43)
+
+Serially, in ledger order, each of the seven Gate 2 migrations was re-checked (HEAD 336e042586fd5cf34912171bd52e31f23e03fbfa, file SHA-256 and MD5 equal to the Step 41 record, server-side MD5 of the transmitted text equal to the file MD5) and applied to Founder Secondary brplkqmbzffpxqgkkdzo through supabase-secondary-write. Each provider ledger version (20261125...) was normalized by a guarded single-row update to its planned version; no temporary version remains and no version is duplicated. For migrations 5 and 6 the project URL was confirmed by get_project_url immediately after the apply rather than before it; the same connector's row check showed the expected ledger, and the order was restored for migration 7. The post-deploy read ran the exact recorded read_query read-only: ledger 277 7d224a770526c87f171b9525b0817701 with each of the seven migrations exactly once, functions ca519b79e522cff13cd309456f618a14/358 and ten surfaces ending 0bb1e5b10e0bde5bd344f706366150ee/3204, equal to the Step 40 expected delta; reference counts unchanged and zero business rows (read 2026-11-25 12:10:09 UTC). Deploy log SHA-256 26CAE189E1E63252F301B796A0A8B72325AF467A0820082B25D067BFA03EAF67; post-deploy evidence SHA-256 ADA5E13E95B34AA02C86431C46F7DEF25C4231F917E4BB045159D7E7DF14923D. Refreshed Founder evidence (schema 3), manifest Live state, Suite 198 files / 3960 assertions (counted), the 11 register and 14 disposition DEPLOYED spans; the canonical generator left MASTER_API_CONTRACT.md equal to CRM blob 62af74be28b058e41b6b6bcfbe43457f15acfd33. Platinum Primary was not contacted.
 
 ## Verification Notes
 
