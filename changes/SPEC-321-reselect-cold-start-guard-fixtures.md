@@ -4,8 +4,8 @@
 
 [ ] Draft
 [ ] Approved
-[x] In Progress
-[ ] Complete
+[ ] In Progress
+[x] Complete
 [ ] Cancelled
 
 ## Objective
@@ -217,12 +217,12 @@ Post-Implementation Proof Obligation: The native Finish runs all five hosted gua
 
 ## Acceptance Criteria
 
-- [ ] The cold-start guard suite selects its C fixtures by shape, proves the selected row exists and plants its F3 witness. `check: blob scripts/test_cold_start_state_guard.ps1 e39939894bd246d1c7b2b26d579ee99226f12644`
-- [ ] The repository guard is preserved. `check: same scripts/check_repository_consistency.ps1 @c59910e52757ca799ae23137a63fb0324fc42ae7`
-- [ ] The native evaluator is preserved. `check: same scripts/check_agent_continuity.ps1 @c59910e52757ca799ae23137a63fb0324fc42ae7`
-- [ ] The other hosted guard suites are preserved. `check: same scripts/readiness_selftest.ps1 @c59910e52757ca799ae23137a63fb0324fc42ae7`
-- [ ] The hosted guard workflow is preserved. `check: same .github/workflows/repository-consistency.yml @c59910e52757ca799ae23137a63fb0324fc42ae7`
-- [ ] All five hosted guard suites pass in the native Finish.
+- [x] The cold-start guard suite selects its C fixtures by shape, proves the selected row exists and plants its F3 witness. `check: blob scripts/test_cold_start_state_guard.ps1 e39939894bd246d1c7b2b26d579ee99226f12644`
+- [x] The repository guard is preserved. `check: same scripts/check_repository_consistency.ps1 @c59910e52757ca799ae23137a63fb0324fc42ae7`
+- [x] The native evaluator is preserved. `check: same scripts/check_agent_continuity.ps1 @c59910e52757ca799ae23137a63fb0324fc42ae7`
+- [x] The other hosted guard suites are preserved. `check: same scripts/readiness_selftest.ps1 @c59910e52757ca799ae23137a63fb0324fc42ae7`
+- [x] The hosted guard workflow is preserved. `check: same .github/workflows/repository-consistency.yml @c59910e52757ca799ae23137a63fb0324fc42ae7`
+- [x] All five hosted guard suites pass in the native Finish.
 
 ## Execution Log
 
@@ -251,12 +251,15 @@ Verdict: Confirmed Complete
 
 Independent current Git evidence: selected Draft 982C221E8FAD2C4B7365F379135599F4F3926AA10CE771928D9425AD086EC115, allocated blob 2e949e8533bdd092ba1a80f1c55efdb88d4bbbcb, the one literal output (scripts/test_cold_start_state_guard.ps1 equal to its frozen blob: C1 and C2 select their register row by shape behind a precondition, F3 plants PAY-9 at the probed REACHED B6-EXIT boundary, every assertion kept), the repository guard, native evaluator, readiness self-test and the three workflows unchanged from the baseline, regenerated discovery only, and the declared scope verified; the Finish ran the five hosted guard suites as Additional Verification. This original root owns fresh receipt ce9accd95392372923b556fb04901c195203f32f1c0e6e1e487573225535d6d9, finishHead 983be60cc135e33fb777d91155b2dbe83caeef9d, profiles REPOSITORY, in a native timed/watched Finish observed READY/END0. Native Complete/range/binder still own full receipt/criterion validation. No publication or hosted result asserted.
 
+
+Local original native verification and truthful Review complete. Preserve this root's receipt ce9accd95392372923b556fb04901c195203f32f1c0e6e1e487573225535d6d9 and selected bytes. Candidate binding follows Complete; publication/promotion remain separately governed.
+
 ## Review Gate
 
-- [ ] Every change matches the accepted implementation steps.
-- [ ] All changed paths are within Write Scope.
-- [ ] Every acceptance criterion is confirmed by local evidence.
-- [ ] Native Finish evidence and independent Review are present.
+- [x] Every change matches the accepted implementation steps.
+- [x] All changed paths are within Write Scope.
+- [x] Every acceptance criterion is confirmed by local evidence.
+- [x] Native Finish evidence and independent Review are present.
 
 ## Notes
 
