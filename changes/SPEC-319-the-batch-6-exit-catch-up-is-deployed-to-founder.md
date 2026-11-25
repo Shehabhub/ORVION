@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -5883,6 +5883,11 @@ They create or replace functions, triggers, constraints and grants. None drops a
 ### 2026-11-25 — Founder deployment and records (Steps 42–43)
 
 Serially, in ledger order, each of the seven Gate 2 migrations was re-checked (HEAD 336e042586fd5cf34912171bd52e31f23e03fbfa, file SHA-256 and MD5 equal to the Step 41 record, server-side MD5 of the transmitted text equal to the file MD5) and applied to Founder Secondary brplkqmbzffpxqgkkdzo through supabase-secondary-write. Each provider ledger version (20261125...) was normalized by a guarded single-row update to its planned version; no temporary version remains and no version is duplicated. For migrations 5 and 6 the project URL was confirmed by get_project_url immediately after the apply rather than before it; the same connector's row check showed the expected ledger, and the order was restored for migration 7. The post-deploy read ran the exact recorded read_query read-only: ledger 277 7d224a770526c87f171b9525b0817701 with each of the seven migrations exactly once, functions ca519b79e522cff13cd309456f618a14/358 and ten surfaces ending 0bb1e5b10e0bde5bd344f706366150ee/3204, equal to the Step 40 expected delta; reference counts unchanged and zero business rows (read 2026-11-25 12:10:09 UTC). Deploy log SHA-256 26CAE189E1E63252F301B796A0A8B72325AF467A0820082B25D067BFA03EAF67; post-deploy evidence SHA-256 ADA5E13E95B34AA02C86431C46F7DEF25C4231F917E4BB045159D7E7DF14923D. Refreshed Founder evidence (schema 3), manifest Live state, Suite 198 files / 3960 assertions (counted), the 11 register and 14 disposition DEPLOYED spans; the canonical generator left MASTER_API_CONTRACT.md equal to CRM blob 62af74be28b058e41b6b6bcfbe43457f15acfd33. Platinum Primary was not contacted.
+
+
+### 2026-11-25 — Status correction before Complete
+
+The hand implementation commit 7f284b6777c4bf3606b4679e7a7ed93570a6adce recorded Resume Step DONE but left the status at Approved; the governed implement stage moves it to In Progress. This commit makes only that transition, so Complete follows the legal Approved, In Progress, Complete order. No scoped implementation file changed, so the certification fingerprint is unchanged.
 
 ## Verification Notes
 
