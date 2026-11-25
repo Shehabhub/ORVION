@@ -3,8 +3,8 @@
 ## Status
 
 [ ] Draft
-[x] Approved
-[ ] In Progress
+[ ] Approved
+[x] In Progress
 [ ] Complete
 [ ] Cancelled
 
@@ -57,7 +57,7 @@ Other product code, schema, tests, records, roles, CI and all external writes ar
 
 ## Runtime Checkpoint
 
-Resume Step: 1
+Resume Step: DONE
 Blocker: None
 Recovery Attempt: 0
 
@@ -227,6 +227,15 @@ Post-Implementation Proof Obligation: The native Finish runs all five hosted gua
 ## Execution Log
 
 None.
+
+
+### 2026-11-25 — Implementation checkpoint (governed automation)
+
+Outcome: Complete (implementation steps; final verification pending)
+
+- Step 1 Applied: native recorded Gate 1 evidence names this exact Draft's SHA-256; the baseline HEAD was c59910e52757ca799ae23137a63fb0324fc42ae7 and every source anchor matched there; Draft allocated as 8c5bdfb and approved as 05f6998 with APPROVAL_EVIDENCE: PASS.
+- Step 2 Applied: `scripts/test_cold_start_state_guard.ps1` edited exactly as the step states; blob e39939894bd246d1c7b2b26d579ee99226f12644 (21 insertions, 10 deletions).
+- Step 3 Applied: generator rerun, `generate-ai-map.ps1 -Check` exit 0, the staged change names only Write Scope paths. Every edit was applied literally from this contract's steps and its Git blob checked before commit. Fresh timed and watched Finish, independent Review, Complete and candidate binding remain.
 
 ## Verification Notes
 
